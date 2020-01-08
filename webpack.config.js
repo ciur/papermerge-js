@@ -58,7 +58,7 @@ module.exports = {
             './src/js/webassets.js',
             './src/sass/webassets.scss',
         ],
-        all: [
+        papermerge: [
             './src/js/app.js',
             './src/sass/app.scss',
         ]
