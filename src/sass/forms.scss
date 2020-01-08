@@ -1,0 +1,394 @@
+@import "./theme";
+@import "./responsive";
+
+// multiselect dropdown for users and groups
+// will be displayed horizontally
+.input-group {
+    display: flex;
+    width: 100%;
+    input {
+        width: 100%;
+    }
+}
+
+.search_main {
+    button {
+        display: flex;
+        padding: 0.2rem 1rem;
+        @include respond(phone) {
+            padding: 0.2rem 0.25rem;
+        }
+        margin: 0;
+        border: 0;
+        background-color: #efefef;
+        i.icon-search {
+            width: 1.5rem;
+            height: 1.5rem;
+            @include respond(phone) {
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+    }
+    input {
+        margin: 0;
+        border: 0;
+    }
+}
+
+form {
+    position: relative;
+
+    input.search_secondary {
+        width: 12rem;
+        border: none;
+        transition: width 0.4s ease-in-out;
+    }
+
+    input.search_secondary_placeholder {
+        border: none;
+        background-color: $breadcrumb_bg_color;
+        color: white;
+    }
+
+    i.icon-search-light {
+        position: absolute;
+        right: 0;
+        top: 0.2rem;
+    }   
+
+    input.search_secondary:focus {
+        width: 20rem;
+        background-color: $search_secondary_bg_color2;
+        color: $search_secondary_text_color2;
+    };
+}
+
+
+form {
+    margin: 0.25rem;
+    .form-row {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        padding: 0.5rem 0;
+        input {
+            flex: 1;
+        }
+    }
+    &.labels-above > .form-row {
+        flex-direction: column;
+    }
+}
+
+#user_form {
+    padding: 0rem 1rem;
+
+    .field-is_staff, .field-is_superuser, .field-is_active {
+        display: none;
+    }
+
+    #id_password {
+        display: none;
+    }
+    .field-username {
+        div {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+
+
+
+form#userpreferencemodel_form {
+    padding: 1rem;
+}
+
+form.labels-above {
+    p {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+fieldset.module {
+    border: none;
+    margin: 0.25rem;
+    padding: 0;
+}
+
+fieldset.module.vertical {
+    .form-row {
+        div {
+            display: flex;
+            flex-direction: column;
+
+            div.horizontal {
+                flex-direction: row;
+            }
+        }
+    }
+}
+
+.help {
+    ul {
+        padding: 1.5rem;
+        background-color: lighten($action_green, 55%);
+        li {
+            list-style-type: circle;
+        }
+    }
+}
+
+select, input {
+    background-color: $clean_color;
+    border: {
+        color: darken($neuter_color, 30%);
+        width: 1px;
+        style: solid;
+    }
+}
+
+input {
+    padding: 0.2rem 0.3rem;
+}
+
+select {
+    padding: 0.7rem 0.25rem;   
+}
+
+input.password {
+    padding: 0.5rem 1rem;
+    // padding on the left side due to eye icon
+    padding-left: 1.5rem;
+}
+
+
+button, .btn {
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0.7rem;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+a.btn:hover {
+    text-decoration: none;   
+}
+
+input.action, button.action, .btn.action {
+    color: $clean_color;
+    background-color: $action_green;
+    min-width: 8rem;
+}
+
+.btn.huge {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.5rem 1.8rem;
+    @include respond(phone) {
+        font-size: 1.2rem;
+        padding: 0.2rem 1.2rem;
+    }
+}
+
+.btn.large {
+    font-size: 1.2rem;
+    padding: 0.5rem 1.8rem;
+    @include respond(phone) {
+        font-size: 1.2rem;
+        padding: 0.2rem 1.2rem;
+    }
+}
+
+
+button.neuter, .btn-neuter {
+    background-color: $clean_color;
+    font-size: 1.2rem;
+    border: {
+        color: darken($neuter_color, 30%);
+        width: 1px;
+        style: solid;
+    }
+}
+
+button.btn-reverse {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: white;
+    border: white 1px solid;
+}
+
+button.btn-reverse:hover {
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+ .btn-lock {
+    background-image: url(../img/icons/lock.svg);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 2rem;
+    @include respond(phone) {
+        background-size: 1.5rem;
+    }
+}
+
+#modals-container {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 100%;
+
+    #access_form {
+        width: 45vw;
+
+        .flex-table {
+            .ft-row {
+
+            }
+
+            .ft-row.disabled {
+                color: #999;
+            }
+
+            .ft-row.selected {
+                background-color: $result_list_hover_bg_color;
+                outline: 1px solid $result_list_hover_border_color;
+            }
+        }
+    }
+
+    .modal {
+        background-color: $clean_color;
+        position: absolute;
+        padding: 1rem 1rem 0.5rem 1rem;
+        width: 25vw;
+        @include respond(tab-port) {
+            width: 50vw;
+        }
+        @include respond(phone) {
+            width: 85vw;
+        }
+
+        .modal-header {
+            h1 {
+                font-weight: 600;
+                font-size: 1rem;
+                color: $action_green;
+            }
+        }
+
+        .modal-body {
+            padding: 2rem 0rem;
+
+            formset {
+                border: 1px solid #eee;
+                margin-top: 1rem;
+                padding: 1rem;
+            }
+        }
+
+        .modal-footer {
+            border-top: 1px solid $light_line;
+        }
+        box-shadow: 1px 1px 5px 3px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.flex-table {
+    display: flex;
+    flex-direction: column;
+
+    .ft-col {
+        padding: 0.25rem;
+    }
+
+    .border-right {
+       border-right: 1px solid $table_border_color; 
+    }
+
+    .border-left {
+       border-left: 1px solid $table_border_color; 
+    }
+
+    .border-top {
+       border-top: 1px solid $table_border_color; 
+    }
+
+    .border-bottom  {
+       border-bottom: 1px solid $table_border_color; 
+    }
+
+    .ft-header {
+        .ft-row {
+            display: flex;
+            flex-direction: row;
+            color: $main_link_color;
+            border-bottom: 1px solid $table_border_header_bottom_color;
+            border-top: 2px solid $table_border_header_top_color;
+
+            .ft-col {
+                background-color: $table_header_bg_color;
+            }
+        }
+    }
+
+    .ft-body {
+        display: flex;
+        flex-direction: column;
+        .row1.ft-row {
+            display: flex;
+            flex-direction: row;
+        }
+        .row2.ft-row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .row2.ft-row:hover, .row1.ft-row:hover {
+            background-color: $table_highlight_bg_color;
+        }
+
+        .ft-row {
+            border-bottom: 1px solid $light_line;
+         }
+
+         // last row, at the bottom 'touches' paginator, which
+         // has a top-border.
+         .ft-row:last-child {
+            border-bottom: none;
+         }
+
+        .ft-col {
+            padding: 0.25rem;
+            i {
+                width: 2rem;
+                min-width: 2rem;
+                height: 2rem;
+                background-size:100% 100%;
+                display: inline-block;
+            }
+            i.yellow-folder {
+                background-image: url(../img/folder.svg);
+            }
+            i.file {
+                background-image: url(../img/file.svg);
+            }
+            i.file-empty {
+                background-image: url(../img/file_empty.svg);
+            }
+        }
+
+    }
+}
+
+.errorlist {
+    margin: 0;
+    padding: 0;
+}

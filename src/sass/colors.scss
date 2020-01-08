@@ -1,0 +1,252 @@
+
+$ocean_blue: #03a9f4;
+$action_green: #15b57b;
+$error_red: #ff0000;
+$light_line: #d7d7d7;
+
+$main_color: #075296;
+$top_header_color: #075296;
+$clean_color: white;
+$neuter_color: #f3f3f3;
+
+// dark blue
+$opening_main_color: #075296;
+$light_gray_bg: #f4f4f4;
+
+$result_list_hover_bg_color: #e6f5ff;
+$result_list_hover_border_color: #A6DAFF;
+
+$success_color: $action_green;
+$fail_color: $error_red;
+$fail_color_faded: #ffbdbd;
+
+// main_text_color shoud look good on $clean_color backround
+$main_text_color: #272626; // almost black
+$faded_text_color: lighten($main_text_color, 40%);
+$main_link_color: #05a;
+$clean_link_color: white;
+
+$border_color: #0a507a;
+
+$spinner_main_color: $ocean_blue;
+$spinner_reverse_color: white;
+
+$radius: 0;
+$button_radius: 0;
+$form_input_border_color: #ccc;
+$form_input_border_width: 1px;
+$form_input_padding: 0.5rem;
+
+
+$card_bg_color: $clean_color;
+
+$gray_1: #ffffff;
+$blue_1: #e6f5ff;
+$green_1: #cefece;
+$red_1: #ffc8c8;
+
+$gray_2: darken($gray_1, 10%);
+$gray_3: darken($gray_1, 20%);
+$gray_4: darken($gray_1, 30%);
+$gray_5: darken($gray_1, 40%);
+$gray_6: darken($gray_1, 50%);
+$gray_7: darken($gray_1, 60%);
+$gray_8: darken($gray_1, 70%);
+$gray_9: darken($gray_1, 80%);
+
+$blue_2: darken($blue_1, 10%);
+$blue_3: darken($blue_1, 20%);
+$blue_4: darken($blue_1, 30%);
+$blue_5: darken($blue_1, 40%);
+$blue_6: darken($blue_1, 50%);
+$blue_7: darken($blue_1, 60%);
+$blue_8: darken($blue_1, 70%);
+$blue_9: darken($blue_1, 80%);
+
+$red_2: darken($red_1, 10%);
+$red_3: darken($red_1, 20%);
+$red_4: darken($red_1, 30%);
+$red_5: darken($red_1, 40%);
+$red_6: darken($red_1, 50%);
+$red_7: darken($red_1, 60%);
+$red_8: darken($red_1, 70%);
+$red_9: darken($red_1, 80%);
+
+$green_2: darken($green_1, 10%);
+$green_3: darken($green_1, 20%);
+$green_4: darken($green_1, 30%);
+$green_5: darken($green_1, 40%);
+$green_6: darken($green_1, 50%);
+$green_7: darken($green_1, 60%);
+$green_8: darken($green_1, 70%);
+$green_9: darken($green_1, 80%);
+
+$color_a1: $gray_1;
+$color_a2: $gray_2;
+$color_a3: $gray_3;
+$color_a4: $gray_4;
+$color_a5: $gray_5;
+$color_a6: $gray_6;
+$color_a7: $gray_7;
+$color_a8: $gray_8;
+$color_a9: $gray_9;
+
+$color_b1: $blue_1;
+$color_b2: $blue_2;
+$color_b3: $blue_3;
+$color_b4: $blue_4;
+$color_b5: $blue_5;
+$color_b6: $blue_6;
+$color_b7: $blue_7;
+$color_b8: $blue_8;
+$color_b9: $blue_9;
+
+$color_c1: $green_1;
+$color_c2: $green_2;
+$color_c3: $green_3;
+$color_c4: $green_4;
+$color_c5: $green_5;
+$color_c6: $green_6;
+$color_c7: $green_7;
+$color_c8: $green_8;
+$color_c9: $green_9;
+
+$color_d1: $red_1;
+$color_d2: $red_2;
+$color_d3: $red_3;
+$color_d4: $red_4;
+$color_d5: $red_5;
+$color_d6: $red_6;
+$color_d7: $red_7;
+$color_d8: $red_8;
+$color_d9: $red_9;
+
+.gray_1 { background-color: $gray_1; }
+.gray_2 { background-color: $gray_2; }
+.gray_3 { background-color: $gray_3; }
+.gray_4 { background-color: $gray_4; }
+.gray_5 { background-color: $gray_5; }
+.gray_6 { background-color: $gray_6; }
+.gray_7 { background-color: $gray_7; }
+.gray_8 { background-color: $gray_8; }
+.gray_9 { background-color: $gray_9; }
+
+.blue_1 { background-color: $blue_1; }
+.blue_2 { background-color: $blue_2; }
+.blue_3 { background-color: $blue_3; }
+.blue_4 { background-color: $blue_4; }
+.blue_5 { background-color: $blue_5; }
+.blue_6 { background-color: $blue_6; }
+.blue_7 { background-color: $blue_7; }
+.blue_8 { background-color: $blue_8; }
+.blue_9 { background-color: $blue_9; }
+
+.green_1 { background-color: $green_1; }
+.green_2 { background-color: $green_2; }
+.green_3 { background-color: $green_3; }
+.green_4 { background-color: $green_4; }
+.green_5 { background-color: $green_5; }
+.green_6 { background-color: $green_6; }
+.green_7 { background-color: $green_7; }
+.green_8 { background-color: $green_8; }
+.green_9 { background-color: $green_9; }
+
+
+.red_1 { background-color: $red_1; }
+.red_2 { background-color: $red_2; }
+.red_3 { background-color: $red_3; }
+.red_4 { background-color: $red_4; }
+.red_5 { background-color: $red_5; }
+.red_6 { background-color: $red_6; }
+.red_7 { background-color: $red_7; }
+.red_8 { background-color: $red_8; }
+.red_9 { background-color: $red_9; }
+
+
+.errornote, .errorlist {
+    color: $error_red;
+}
+
+.c-main {
+    color: $main_color;
+}
+
+.c-clean {
+    color: $clean_color;
+}
+
+.c-faded-text {
+    color: $faded_text_color;
+}
+
+.bg-opening-c {
+    background-color: $opening_main_color;
+}
+
+.bg-c-main {
+    background-color: $opening_main_color;
+    color: $clean_color;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+.bg-light-gray {
+    background-color: $gray_1;
+}
+
+.bg-c-gray {
+    background-color: $gray_2;
+}
+
+.bg-c-dark-gray {
+    background-color: $gray_3;
+}
+
+.bg-c-neuter {
+    background-color: $neuter_color;
+}
+
+.bg-c-clean {
+    background-color: $clean_color;
+    color: $main_text_color;
+}
+
+.bg-c-action-green {
+    background-color: $action_green;
+}
+
+.bg-c-success {
+    background-color: $success_color;
+}
+
+.bg-c-success-faded {
+    background-color: #d5f6d6;   
+}
+
+.bg-c-fail {
+    background-color: $fail_color;
+}
+
+.bg-c-fail-faded {
+    background-color: #ffbdbd;
+}
+
+.border-ocean-blue {
+    border-color: $ocean_blue;
+}
+
+.hover-danger {
+    &:hover {
+        background-color: red;
+        color: white;
+    }
+}
+
+.hover-green {
+    &:hover {
+        background-color: green;
+        color: white;
+    }
+}

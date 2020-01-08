@@ -1,0 +1,671 @@
+@import "./reset";
+@import "./theme";
+@import "./typo";
+@import "./forms";
+@import "./spinners";
+@import "./responsive";
+
+a {
+    color: $main_link_color;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+#top-left-logo {
+    .icon-hamburger {
+        margin: 0rem 2rem;
+        @include respond(phone) {
+            margin: 0rem 0.5rem;
+        }
+    }
+    .icon-hamburger.close_menu {
+        background-image: url(/oxygen-assets/static/icons/close-white-fg.svg);
+    }
+    .logo {
+        max-width: 2.8rem;
+
+        @include respond(phone) {
+            max-width: 2.2rem;
+        }
+    }
+}
+
+#top-right-menu-wrapper {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
+    .icon-3dots {
+        margin-left: 1rem;
+        width: 1.3rem;
+        height: 1.3rem;
+        background-image: url(../img/icons/3dots.svg);
+        background-size: 100% 100%;
+        display: none;
+        @include respond(phone) {
+            display: block;   
+        }
+        @include respond(tab-land) {
+            display: block;   
+        }
+    }
+
+    .icon-3dots.close_menu {
+        background-image: url(/oxygen-assets/static/icons/close-white-fg.svg);
+    }
+
+    .icon-user {
+        width: 1.3rem;
+        height: 1.3rem;
+        background-image: url(../img/icons/user.svg);
+        background-size: 100% 100%;
+        display: none;
+        @include respond(phone) {
+            display: block;   
+        }
+        @include respond(tab-land) {
+            display: block;   
+        }
+    }
+
+    .menu-label {
+        @include respond(phone) {
+            display: none;
+        }
+    }
+}
+
+#top-right-menu-wrapper.shown {
+    .icon-user {
+        width: 1.3rem;
+        height: 1.3rem;
+        display: none;
+        @include respond(phone) {
+            display: block;   
+        }
+        @include respond(tab-land) {
+            display: block;   
+        }
+        background-image: url(/oxygen-assets/static/icons/close-white-fg.svg);
+        background-size: 100% 100%;
+    }
+}
+
+#top-right-menu {
+    display: none;
+    position: absolute;
+    top: 2rem;
+    right: 0;
+    color: black;
+    background-color: white;
+    box-shadow: -1px 5px 6px rgba(0,0,0,0.3);
+    z-index: 100;
+}
+
+.noborder {
+    border: none !important;
+}
+
+a.reverse {
+    color: $clean_link_color;
+}
+
+select.reverse {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: $clean_link_color;
+}
+
+h1 a, h2 a, h3 a {
+    color: $main_text_color;
+    text-decoration: underline;
+    font-weight: 300;
+}
+
+label {
+    margin: 0rem;
+}
+
+.thumbnail {
+    max-width: 2rem;
+}
+
+.hidden {
+    // entirely removed from DOM tree
+    display: none;
+}
+
+.invisible {
+    // takes space, but it is not visile
+    visibility: hidden;
+}
+
+.width100, .w100p, .expansive {
+    width: 100%;
+}
+
+.width95 {
+    width: 95%;
+}
+
+.width50 {
+    width: 50%;
+}
+
+.width33 {
+    width: 33%;
+}
+
+.width30 {
+    width: 30%;
+}
+
+.width25 {
+    width: 25%;
+}
+
+.width10 {
+    width: 10%;
+}
+
+.width5 {
+    width: 5%;
+}
+
+.width_22p {
+    width: 22.5%;  // 22.5 = (100 - 10)/4 
+}
+
+.third {
+    width: 33%;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.border-right {
+    border-right: 1px solid $border_color;
+}
+
+.border-left {
+    border-left: 1px solid $border_color;
+}
+
+.vertical-reverse {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+// responsive horizontal...
+// on wide screen is horizontal, on small screens changes
+// to vertical flex
+.r-horizontal {
+    display: flex;
+    flex-direction: row;
+    @include respond(phone) {
+        flex-direction: column;
+    }
+
+    @include respond(tab-port) {
+        flex-direction: column;
+    }
+}
+
+.r-horizontal-reverse {
+    display: flex;
+    flex-direction: row;
+    @include respond(phone) {
+        flex-direction: column-reverse;
+    }
+
+    @include respond(tab-port) {
+        flex-direction: column-reverse;
+    }
+}
+
+ul.vertical {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+
+    li {
+        margin: 0.25rem 0.5rem;
+    }
+}
+
+ul.horizontal {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+
+    li {
+        margin: 0.5rem 0.25rem;
+        a {
+            padding: .4rem .6rem;
+        }
+    }
+}
+
+.absolute {
+    position: absolute;
+}
+
+.right {
+    right: 0;
+}
+
+.right-sm {
+    right: 0.5rem;  // used by password input
+}
+
+.left {
+    left: 0;
+}
+
+.relative {
+    position: relative;
+}
+
+.card {
+    background-color: $card_bg_color;
+    border: 1px solid $light_line;
+
+    .header {
+        ul {
+            display: flex;
+            flex-direction: row;
+            margin: 0.2rem 0rem;
+            justify-content: right;
+            li {
+                margin-right: 0.25rem;
+                a {
+                    margin: 0;
+                    padding: 0;
+                }
+
+            }
+        }
+    }
+
+    .details {
+        margin: 1rem;
+        padding: 0.2rem;
+        border: 1px solid $light_line;
+        overflow: auto;
+        max-height: 15rem;
+
+        li.file {
+            border-bottom: 1px solid $light_line;
+            //background-image: linear-gradient(#edfaf1, #edfaf1);
+            background-size: 90% 100%;
+            background-repeat: no-repeat;
+        }
+    }
+}
+
+.width-sm {
+   width: 6rem; 
+}
+
+.width-sm {
+   width: 6rem; 
+}
+
+.width-md {
+   width: 8rem; 
+}
+
+.width-lg {
+   width: 15rem; 
+}
+
+.width-xl {
+   width: 20rem; 
+}
+
+.shadow {
+    box-shadow: 0 0 0.7em #6f6f6f;
+}
+
+.shadow-xs {
+    box-shadow: 0 0 0.25em #d2d2d2;   
+}
+
+.font-small {
+    font-size: 0.9rem;
+}
+
+.border-thin {
+    border-width: 1px;
+    border-style: solid;
+}
+
+.border-gray {
+    border-color: #ccc;
+}
+
+.center {
+    text-align: center;
+}
+
+.fl {
+    display: flex;
+}
+
+.flex {
+    flex: 1;
+}
+
+.fl-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.fl-j-center {
+    justify-content: center;
+}
+
+.fl-end {
+    justify-content: flex-end;
+}
+
+.fl-start {
+    justify-content: flex-start;
+}
+
+.fl-i-center {
+    align-items: center;
+}
+
+.fl-wrap {
+    flex-wrap: wrap;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.fl-j-space-between {
+    justify-content: space-between;
+}
+
+.bar-thin {
+    height: 0.2rem;  
+}
+
+.progress {
+    width: 100%;
+}
+
+.continental {
+    margin: 0 auto;
+    width: 70%;
+    max-width: 70%;
+
+    @include respond(tab-port) {
+        width: 85%;
+        max-width: 85%;
+    }
+    @include respond(tab-land) {
+        width: 85%;
+        max-width: 85%;
+    }
+    @include respond(phone) {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+
+.continental-account {
+    margin: 0 auto;
+    width: 40vw;
+    padding: 3rem;
+
+    @include respond(tab-port) {
+        width: 80%;
+    }
+    @include respond(tab-land) {
+        width: 80%;
+    }
+    @include respond(phone) {
+        width: 95%;
+        padding: 1rem;
+    }
+}
+
+.continental-app {
+    margin: 0 auto;
+    width: 80%;
+
+    @include respond(tab-port) {
+        width: 90%;
+    }
+    @include respond(tab-land) {
+        width: 95%;
+    }
+    @include respond(phone) {
+        width: 100%;
+    }
+}
+
+#logo {
+    img {
+        width: 5rem;
+    }
+    @include respond(phone) {
+        img {
+            width: 2rem;
+        }
+    }
+}
+
+body, input, button, textarea {
+    font: {
+        family: "Lato", sans-serif;
+        weight: 400;
+    }    
+}
+
+body {
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body.static-page, body.doc {
+    main {
+        background-color: $clean_color;
+        color: $main_text_color;
+        p {
+            padding: 0.5rem 0;
+        }
+    }
+}
+
+body {
+    header {
+        flex: 0 1 0;
+        border-bottom: 1px solid rgba(255,255,255,0.3);
+    }
+    main {
+        /* https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/; */
+        flex: 12 1 0;
+    }
+    footer {
+        flex: 1 1 0;
+    }
+}
+
+body.app {
+    display: flex;
+    flex-direction: column;
+    main {
+        display: flex;
+        /* boss specific */
+        main.horizontal {
+        }
+    }
+}
+
+body > header {
+    justify-content: space-around;
+    align-items: center;
+    background-color: $top_header_color;
+}
+
+body > footer {
+    a {
+        color: $clean_link_color;
+    }
+
+    background-color: darken($main_color, 10%);
+}
+
+body.login > footer,  body.register > footer {
+    background-color: transparent;
+}
+
+.document {
+    ul {
+        li {
+            list-style-image: none;
+            list-style-type: circle;
+        }
+    }
+    .headerlink {
+        opacity: 0;
+        transition:opacity 200ms ease-in-out;
+
+        &:hover {
+            opacity: 1
+        }
+    }
+}
+
+
+.input-feedback {
+    display: none;
+}
+
+.input-feedback.fail {
+    display: block;
+    color: red;
+    right: 0;
+    z-index: 1;
+    position: absolute;
+    @include respond(phone) {
+        position: relative;
+    }
+}
+
+.breadcrumbs {
+    background-color: $breadcrumb_bg_color;
+    color: $breadcrumb_text_color;
+    min-height: 2.5rem;
+    border-bottom: 1px solid #ccc;
+    a {
+        padding: 0rem 0.25rem;
+        color: $breadcrumb_text_color;
+    }
+}
+
+#centralbar {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+#upload_feedback {
+    position: fixed;
+    bottom: 1rem;
+    right: 0;
+    left: 0;
+    max-width: 50%;
+    margin: 0 auto;
+}
+
+.dropdown {
+    display: flex;
+    position: relative;
+
+    & > * {
+        padding-right: 0.5rem;
+    }
+
+    i.user:before {
+        content: "\e971";
+    }
+
+    button {
+        border: none;
+        cursor: pointer;
+        outline: none;
+        color: white;
+    }
+}
+
+.desktop_small {
+    @include respond(phone) {
+        display: none;
+    }
+}
+
+.hidden-on-phone, .desktop {
+    @include respond(phone) {
+        display: none;
+    }
+    @include respond(tab-port) {
+        display: none;
+    }
+    @include respond(tab-land) {
+        display: none;
+    }
+}
+
+.visible-on-phone, .phone {
+    display: none;
+
+    @include respond(phone) {
+        display: block;
+    }
+    @include respond(tab-port) {
+        display: block;
+    }
+    @include respond(tab-land) {
+        display: block;
+    }
+}
+
+#viewer-ctrl {
+    background-color: #dbdbdb;
+    border-bottom: 1px solid #c7c5c5;
+}
+
+ul.messagelist {
+    position: absolute;
+    top: 0;
+    left: 2rem;
+    background-color: white;
+    padding: 2rem;
+}
+
+#userprofile-group {
+    h2 {
+        display: none;
+    }
+    h3 {
+        display: none;
+    }
+    #userprofile-empty {
+        display: none;
+    }
+}

@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Forms</h1>
+    <h2>Basic</h2>
+    <div class="demo_box">
+        <form>
+            <input type="text">
+            <input type="submit" value="Search">
+        </form>
+    </div>
+    <div class="demo_code">
+        <code>
+            <pre>
+&lt;form&gt;
+    &lt;input type=&quot;text&quot;&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Search&quot;&gt;
+&lt;/form&gt;
+            </pre>
+        </code>
+    </div>    
+
+    <h2>Form with Labels</h2>
+    <div class="demo_box">
+        <form>
+            <div class="form-row">
+                <div>
+                    <label>First Name:</label>
+                    <input type="text">
+                </div>
+            </div>
+            <div class="form-row">
+                <div>
+                    <label>Last Name:</label>
+                    <input type="text">
+                </div>
+            </div>
+            <input type="submit" value="OK" class="btn action">
+        </form>
+    </div>
+    <div class="demo_code">
+        <code>
+            <pre>
+&lt;form&gt;
+    &lt;div class=&quot;form-row&quot;&gt;
+        &lt;div&gt;
+            &lt;label&gt;First Name:&lt;/label&gt;
+            &lt;input type=&quot;text&quot;&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-row&quot;&gt;
+        &lt;div&gt;
+            &lt;label&gt;Last Name:&lt;/label&gt;
+            &lt;input type=&quot;text&quot;&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;OK&quot; class=&quot;btn action&quot;&gt;
+&lt;/form&gt;
+            </pre>
+        </code>
+    </div>
+
+
+    <h2>Search Forms</h2>
+        <h3>Per folder Search</h3>
+<p>
+    Search box visible only when users at least one folder or is in 
+    document view (in which case it will be search within document)
+</p>
+    <div class="demo_box">
+        <ul class="horizontal-between breadcrumb_bg_color breadcrumb_text_color">
+            <li>
+                Documents > Folder1 > Folder2
+            </li>
+            <li>
+                <form>
+                    <input type="text" placeholder="Search within folder..." class="search_secondary">
+                </form>
+            </li>
+        </ul>
+    </div>
+    <div class="demo_code">
+    <code>
+        <pre>
+  &lt;ul class=&quot;horizontal-between breadcrumb_bg_color breadcrumb_text_color&quot;&gt;
+      &lt;li&gt;
+          Documents &gt; Folder1 &gt; Folder2
+      &lt;/li&gt;
+      &lt;li&gt;
+          &lt;form&gt;
+              &lt;input type=&quot;text&quot; placeholder=&quot;Search within folder...&quot; class=&quot;search_secondary&quot;&gt;
+          &lt;/form&gt;
+      &lt;/li&gt;
+  &lt;/ul&gt;          
+        </pre>
+    </code>
+    </div>
+
+    <h3>General Search</h3>
+    <ul class="horizontal-between">
+        <li>
+            LogoHere
+        </li>
+        <li>
+            <form>
+                <input type="text" placeholder="search...">
+                <input type="submit"  value="Go">
+            </form>
+        </li>
+        <li>
+            Storage Info Here
+        </li>
+    </ul>
+    <div class="demo_code">
+    <code>
+        <pre>
+&lt;ul class=&quot;horizontal-between&quot;&gt;
+    &lt;li&gt;
+        LogoHere
+    &lt;/li&gt;
+    &lt;li&gt;
+        &lt;form&gt;
+            &lt;input type=&quot;text&quot; placeholder=&quot;search...&quot;&gt;
+            &lt;input type=&quot;submit&quot;  value=&quot;Go&quot;&gt;
+        &lt;/form&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+        Storage Info Here
+    &lt;/li&gt;
+&lt;/ul&gt;
+        </pre>
+    </code>
+    </div>
+{% endblock %}

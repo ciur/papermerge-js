@@ -1,0 +1,45 @@
+@import "./responsive";
+@import "./colors";
+
+nav#left-sidebar {
+    background-color: $sidebar_bg_color;
+    color: $sidebar_color;
+    border-right: 1px solid white;
+
+    ul {
+        align-items: flex-start;
+
+        li.col-left {
+            padding-right: 1rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        li.col-right {
+            padding-left: 1rem;
+        }
+    }
+}
+
+nav#left-sidebar.desktop {
+    padding: 1rem;
+}
+
+nav#left-sidebar.phone {
+    display: none;
+    position: absolute;
+    z-index: 101;
+    padding: 1rem;
+
+    ul {
+        align-items: flex-start;
+        li {
+            margin: 0;
+            width: 100%;
+
+            button {
+                margin: 0.5rem 0;
+                width: 100%;
+            }
+        }
+    }
+}

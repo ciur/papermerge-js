@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Colors</h1>
+    <div>
+        Color A (color_a1, color_a2, color_a3,..., color_a8)
+        <ul class="horizontal">
+        {% for color in grays %}
+            <li class="square {{color}}">{{color}}</li>
+        {% endfor %}
+        </ul>
+        Color B (color_b1, color_b2, color_b3,..., color_b8)
+        <ul class="horizontal">
+        {% for color in blues %}
+            <li class="square {{color}}">{{color}}</li>
+        {% endfor %}
+        </ul>
+        Color C (color_c1, color_c2, color_c3,..., color_c8)
+        <ul class="horizontal">
+        {% for color in greens %}
+            <li class="square {{color}}">{{color}}</li>
+        {% endfor %}
+        </ul>
+        Color D (color_d1, color_d2, color_d3,..., color_d8)
+        <ul class="horizontal">
+        {% for color in reds %}
+            <li class="square {{color}}">{{color}}</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

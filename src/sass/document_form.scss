@@ -1,0 +1,214 @@
+@import "./responsive";
+@import "./theme";
+
+#document_details {
+    padding: 1rem;
+
+    @include respond(tab-port) {
+        position: absolute;
+        right: 0;
+        z-index: 100;
+        padding: 1rem;
+        background-color: white;
+        box-shadow: 0 0 0.7em #6f6f6f;
+        max-width: 30vw;
+    }
+
+    @include respond(phone) {
+        position: absolute;
+        right: 0;
+        z-index: 100;
+        padding: 1rem;
+        background-color: white;
+        box-shadow: 0 0 0.7em #6f6f6f;
+        max-width: 80vw;
+    }
+
+}
+
+.page-thumbnails {
+    .inline-related {
+        padding: 1rem 0.5rem;
+    }
+    .page_thumbnail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        img {
+            border: none;
+            padding: 0;
+        }
+    }
+    fieldset.module.aligned {
+        position: relative;
+
+        .field-number {
+            position: absolute;
+            bottom: 0;
+            z-index: 100;
+            left: 0;
+            background-color: $gray_7;
+            div {
+                padding: 0 0.25rem;
+                input {
+                    color: white;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
+.actual-pages {
+    .actual_page {
+        background-color: $gray_7;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0px 4px 6px 1px rgba(0, 0, 0, 0.5);
+        min-height: 400px;
+
+        svg {
+            position: absolute;
+        }
+
+    }
+    fieldset.module.aligned {
+        position: relative;
+
+        .field-number {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            background-color: $gray_9;
+            div {
+                padding: 0.5rem 1rem;
+                @include respond(phone) {
+                    padding: 0rem 0.25rem;
+                }
+                input {
+                    color: white;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
+.document.page {
+    background-color: #ccc;
+}
+
+.page_hocr {
+    display: none;
+}
+
+
+// styles page previwes in right panel
+// in document form
+form#document_form {
+
+    h1 {
+        font-size: 1rem;
+    }
+
+    fieldset.document {
+        border: none;
+        display: flex;
+        // display page preview first, and under it - display page
+        // number
+        flex-direction: column-reverse;
+
+        .form-row {
+            padding: 0;
+            input {
+                border: none;
+                width: 1rem;
+                padding: 0;
+                background-color: inherit;
+
+            }
+        }
+        margin-bottom: 1rem;
+    }
+
+    .page-thumbnails {
+        width: 10rem;
+        height: 100vh;
+        overflow: scroll;
+        border-right: 1px solid $light_line;
+        @include respond(tab-port) {
+        }
+        @include respond(tab-land) {
+        }
+        fieldset.module {
+            @include respond(tab-port) {
+                padding: 0.2rem;
+            }
+        }
+        fieldset.document {
+            align-items: center;
+            img {
+                border: 1px solid #ccc;
+                width: 7rem;
+                @include respond(tab-port) {
+                    width: 4rem;
+                }
+                @include respond(phone) {
+                    width: 3rem;
+                }
+
+            }
+            .page_thumbnail.current {
+                img {
+                    outline: 3px solid $blue_7;
+                    border: 1px solid $blue_7;
+                }
+            }
+        }
+        //#page_set-empty {
+        //    display: none;
+        //}
+    }
+
+    .actual-pages {
+        flex: 1;
+        height: 100vh;
+        overflow: scroll;
+        background-color: $light_gray_bg;
+        fieldset.document {
+            img {
+                box-shadow: 0px 4px 6px 1px rgba(0, 0, 0, 0.5);
+            }
+        }
+        //#page_set-empty {
+        //    display: none;
+        //}
+    }
+
+    .document_details {
+        flex: 0 0 20%;
+        textarea, select, ul {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+        .field-parent, .field-title, .field-tasks, h2 {
+            display: none;
+        }
+        .field-is_private {
+            display: none;
+        }
+        .field-groups, .field-node_permissions, .field-date, .field-page_count {
+            display: none;
+        }
+        .field-language {
+            input {
+                width: 100%;
+            }
+        }
+    }
+
+}
+

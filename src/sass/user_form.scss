@@ -1,0 +1,32 @@
+@import "./theme";
+
+#user_form, #group_form {
+    h2 {
+        display: none;
+    }
+
+    .selector {
+        
+        input {
+            margin: 0.5rem 0rem;
+        }
+
+        select {
+            margin: 0.2rem 0rem;
+        }
+
+        background-color: $selector_bg_color;
+        padding: 1rem;
+        margin: 1rem 0rem;
+
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        align-items: baseline;
+
+        .selector-chooser {
+            margin: 0rem 2rem;
+        }
+    }
+
+}

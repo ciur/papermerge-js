@@ -1,0 +1,38 @@
+@import "./colors";
+@import "./responsive";
+
+#preload-spinner {
+    width: 60px;
+    height: 60px;
+    @include respond(phone) {
+        width: 40px;
+        height: 40px;
+    }
+    border: 2px solid $spinner_main_color;
+    border-top:3px solid $spinner_reverse_color;
+    border-radius: 100%;
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+    margin: auto;
+    animation: spin 1s infinite linear;
+}
+
+.spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid $spinner_main_color;
+    border-top: 2px solid $spinner_reverse_color;
+    border-radius: 100%;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    from{
+        transform: rotate(0deg);
+    }to{
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,40 @@
+@import "./colors";
+
+$demo_box_border:  $color_a2;
+$demo_code_bg: $color_a2;
+
+$sidebar_bg_color: $blue_8;
+$sidebar_color: white;
+
+
+$breadcrumb_bg_color: $white;
+$breadcrumb_text_color: $blue_8;
+
+$search_secondary_bg_color1: $color_b7;
+$search_secondary_bg_color2: $color_a1;
+$search_secondary_text_color1: $color_a2;
+$search_secondary_text_color2: $color_a9;
+
+
+$thumbnail_highlight: $color_b3;
+
+
+$table_border_color: $gray_2;
+$table_border_header_bottom_color: $gray_3;
+$table_border_header_top_color: $gray_2;
+$table_header_bg_color: $gray_2;
+$table_highlight_bg_color: $blue_1;
+$table_row1_bg_color: $gray_1;
+$table_row2_bg_color: $gray_1;
+
+$selector_bg_color: $blue_1;
+
+.breadcrumb_bg_color {
+    background-color: $breadcrumb_bg_color;
+}
+
+.breadcrumb_text_color {
+    color: $breadcrumb_text_color;
+}
+
+

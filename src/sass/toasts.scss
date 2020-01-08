@@ -1,0 +1,34 @@
+.bottom-right {
+    bottom: 1rem;
+    right: 1rem;    
+}
+
+.bottom-center {
+    bottom: 0.5rem;
+}
+
+.top-right {
+    top: 1rem;
+    right: 1rem;
+}
+
+.toasts {
+    position: fixed;
+    z-index: 100;
+}
+
+.toast.error {
+    color: red;
+}
+
+.toast {
+    background-color: rgba(255, 255, 255, 1) !important;
+
+    .toast-header {
+        background-color: rgba(255, 255, 255, 1) !important;
+    }
+
+    .toast-body {
+        background-color: rgba(255, 255, 255, 1) !important;
+    }
+}

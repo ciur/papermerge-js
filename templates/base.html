@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+         <meta charset="utf-8" />
+         <meta name="viewport"  content="width=device-width, initial-scale=1.0">
+         <title>Web Assets</title>
+         <link rel=stylesheet type=text/css href="/webassets/static/css/webassets.css" />
+         <link rel="icon" type="image/png" href="/webassets/static/img/favicon.png" />
+         <script type="text/javascript" src="/webassets/static/js/webassets.js"></script>
+    </head>
+    <body class="bg-c-neuter">
+        
+        <div class="continental bg-c-clean horizontal">
+            <nav id="sidebar" class="padding-lg">
+                <ul>
+                    <li><a href="/" class="reverse">Index</a></li>
+                    <li><a href="/reference/colors.html" class="reverse">Colors</a></li>
+                    <li><a href="/reference/layouts.html" class="reverse">Layouts</a></li>
+                    <li><a href="/reference/forms.html" class="reverse">Froms</a></li>
+                </ul>
+            </nav>
+            <div id="centralbar" class="padding-lg w100p">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>
