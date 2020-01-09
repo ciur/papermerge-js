@@ -1,0 +1,28 @@
+/*A simpler version of document_change_form specifics view*/
+
+#centralbar {
+    position: relative;
+    width: 100%;
+    flex-grow: 12;
+}
+
+.horizontal-between {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+#viewer-ctrl {
+    background-color: green;
+}
+
+.actual-pages {
+    .image {
+        width: 1800px;
+        height: 900px;
+        background-color: #ccc;
+    }
+}

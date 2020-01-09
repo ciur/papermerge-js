@@ -1,0 +1,62 @@
+@import "./colors";
+@import "./responsive";
+
+
+#topnav-wrapper {
+    display: flex;
+    flex-direction: row;
+
+    .icon-hamburger {
+        display: none;
+    }
+}
+
+#topnav {
+    display: flex;
+    flex-direction: row;
+
+    @include respond(phone) {
+        flex-direction: column;
+    }
+}
+
+header.topmenu {
+    background-color: $blue;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    a {
+        color: white;
+    }
+}
+
+@include respond(phone) {
+    #topnav-wrapper {
+        #topnav {
+            position: fixed;
+            top: 3rem;
+            right: 0;
+            background-color: white;
+            z-index: 100;
+        }
+        #topnav >  li {
+            display: none;
+        }
+        #topnav.responsive > li {
+            display: block ;
+            border-left: 3px solid $blue;
+
+            a {
+                color: $blue;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            padding: 0.75rem 2rem;
+            margin: 0;
+        }
+        .icon-hamburger  {
+            display: block;
+        }
+    }
+
+}

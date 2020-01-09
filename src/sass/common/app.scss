@@ -1,52 +1,12 @@
-
-@import "~bootstrap/scss/functions"; // required
-@import "~bootstrap/scss/variables";  // required
-@import "~bootstrap/scss/mixins"; // required
-@import "~bootstrap/scss/_reboot"; 
-@import "~bootstrap/scss/_buttons";
-@import "~bootstrap/scss/_dropdown";
-@import "~bootstrap/scss/_close";
-@import "~bootstrap/scss/utilities/_spacing";
-@import "~bootstrap/scss/_toasts";
-
-@import "bootstrap-select/sass/bootstrap-select";
-
-@import "./common/reset";
-@import "./common/colors";
-@import "./common/flex";
-@import "./common/responsive";
-@import "./common/icons";
-@import "./common/page";
-@import "./common/cookie_policy";
-@import "./common/topmenu";
-@import "./common/document_change_form";
-
-
-@import "./layout.scss";
-@import "./icons.scss";
-@import "./flex.scss";
-@import "./fonts.scss";
-@import "./reset.scss";
-@import "./colors.scss";
-@import "./typo.scss";
-@import "./forms.scss";
-@import "./document_form.scss";
-@import "./spinners.scss";
-@import "./changelists.scss";
-@import "./main.scss";
 @import "./reset";
 @import "./colors";
-@import "./spinners";
-@import "./typo";
-@import "./toasts";
-@import "./tooltip";
-@import "./paginator";
-@import "./box";
-@import "./user_form";
-@import "./sidebar";
-
-@import "./custom_bootstrap";
-
+@import "./flex";
+@import "./responsive";
+@import "./icons";
+@import "./page";
+@import "./cookie_policy";
+@import "./topmenu";
+@import "./document_change_form";
 
 
 .wrap {
