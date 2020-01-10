@@ -2741,14 +2741,14 @@ i.icon-hamburger {
   width: 1.5rem;
   height: 1.5rem;
   display: block;
-  background-image: url(/oxygen-assets/static/icons/hamburger.svg);
+  background-image: url(/assets/img/icons/hamburger.svg);
   background-size: 100% 100%; }
 
 i.icon-close {
   width: 1.5rem;
   height: 1.5rem;
   display: block;
-  background-image: url(/oxygen-assets/static/icons/close-white-fg.svg);
+  background-image: url(/assets/img/icons/close-white-fg.svg);
   background-size: 100% 100%; }
 
 /**
@@ -6093,7 +6093,7 @@ a {
       margin: 0rem 0.5rem; } }
 
 #top-left-logo .icon-hamburger.close_menu {
-  background-image: url(/oxygen-assets/static/icons/close-white-fg.svg); }
+  background-image: url(/assets/img/icons/close-white-fg.svg); }
 
 #top-left-logo .logo {
   max-width: 2.8rem; }
@@ -6119,11 +6119,11 @@ a {
       #top-right-menu-wrapper .icon-3dots {
         display: block; } }
   #top-right-menu-wrapper .icon-3dots.close_menu {
-    background-image: url(/oxygen-assets/static/icons/close-white-fg.svg); }
+    background-image: url(/assets/img/icons/close-white-fg.svg); }
   #top-right-menu-wrapper .icon-user {
     width: 1.3rem;
     height: 1.3rem;
-    background-image: url(../img/icons/user.svg);
+    background-image: url(/assets/img/icons/user.svg);
     background-size: 100% 100%;
     display: none; }
     @media (max-width: 37.5em) {
@@ -6140,7 +6140,7 @@ a {
   width: 1.3rem;
   height: 1.3rem;
   display: none;
-  background-image: url(/oxygen-assets/static/icons/close-white-fg.svg);
+  background-image: url(/assets/img/icons/close-white-fg.svg);
   background-size: 100% 100%; }
   @media (max-width: 37.5em) {
     #top-right-menu-wrapper.shown .icon-user {
