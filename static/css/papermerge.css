@@ -2741,7 +2741,7 @@ i.icon-hamburger {
   width: 1.5rem;
   height: 1.5rem;
   display: block;
-  background-image: url(/assets/img/icons/hamburger.svg);
+  background-image: url(/assets/img/icons/hamburger-black.svg);
   background-size: 100% 100%; }
 
 i.icon-close {
@@ -3965,7 +3965,7 @@ h1, h2, h3, h4 {
   padding: 0.2rem 1rem;
   margin: 0;
   border: 0;
-  background-color: #efefef; }
+  background-color: #e5e5e5; }
   @media (max-width: 37.5em) {
     .search_main button {
       padding: 0.2rem 0.25rem; } }
@@ -5624,7 +5624,7 @@ h1, h2, h3, h4 {
   padding: 0.2rem 1rem;
   margin: 0;
   border: 0;
-  background-color: #efefef; }
+  background-color: #e5e5e5; }
   @media (max-width: 37.5em) {
     .search_main button {
       padding: 0.2rem 0.25rem; } }
@@ -6123,7 +6123,7 @@ a {
   #top-right-menu-wrapper .icon-user {
     width: 1.3rem;
     height: 1.3rem;
-    background-image: url(/assets/img/icons/user.svg);
+    background-image: url(/assets/img/icons/user_black.svg);
     background-size: 100% 100%;
     display: none; }
     @media (max-width: 37.5em) {
@@ -6132,6 +6132,8 @@ a {
     @media (max-width: 75em) {
       #top-right-menu-wrapper .icon-user {
         display: block; } }
+  #top-right-menu-wrapper a.reverse {
+    color: black; }
   @media (max-width: 37.5em) {
     #top-right-menu-wrapper .menu-label {
       display: none; } }
@@ -6469,7 +6471,7 @@ body.app {
 body > header {
   justify-content: space-around;
   align-items: center;
-  background-color: #075296; }
+  background-color: #f0f0f0; }
 
 body > footer {
   background-color: #053765; }
@@ -7954,7 +7956,7 @@ h1, h2, h3, h4 {
   color: white; }
 
 nav#left-sidebar {
-  background-color: #004d80;
+  background-color: #323435;
   color: white;
   border-right: 1px solid white; }
   nav#left-sidebar ul {
