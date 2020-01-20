@@ -8034,6 +8034,16 @@ nav#left-sidebar.phone {
       width: 100%;
       max-width: 100%; } }
 
+text::-moz-selection {
+  color: black;
+  background-color: green;
+  font-weight: bold; }
+
+text::selection {
+  color: black;
+  background-color: green;
+  font-weight: bold; }
+
 .padding-xs {
   padding: .25rem; }
 

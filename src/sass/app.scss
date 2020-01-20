@@ -68,6 +68,11 @@
     }
 }
 
+text::selection {
+    color: black;
+    background-color: green;
+    font-weight: bold;
+}
 
 .padding-xs { padding: .25rem; }
 .padding-sm { padding: .5rem; }
