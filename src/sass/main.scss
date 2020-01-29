@@ -20,7 +20,7 @@ a {
         }
     }
     .icon-hamburger.close_menu {
-        background-image: url(/assets/img/icons/close-white-fg.svg);
+        background-image: url(/static/img/icons/close-white-fg.svg);
     }
     .logo {
         max-width: 2.8rem;
@@ -52,13 +52,13 @@ a {
     }
 
     .icon-3dots.close_menu {
-        background-image: url(/assets/img/icons/close-white-fg.svg);
+        background-image: url(/static/img/icons/close-white-fg.svg);
     }
 
     .icon-user {
         width: 1.3rem;
         height: 1.3rem;
-        background-image: url(/assets/img/icons/user_black.svg);
+        background-image: url(/static/img/icons/user_black.svg);
         background-size: 100% 100%;
         display: none;
         @include respond(phone) {
@@ -91,7 +91,7 @@ a {
         @include respond(tab-land) {
             display: block;   
         }
-        background-image: url(/assets/img/icons/close-white-fg.svg);
+        background-image: url(/static/img/icons/close-white-fg.svg);
         background-size: 100% 100%;
     }
 }
