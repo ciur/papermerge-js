@@ -47,6 +47,10 @@ export class MgPage {
         console.log(`MgPage ${doc_id} ${page_num}`)
     }
 
+    get doc_id() {
+        return this._doc_id;
+    }
+
     get page_num() {
         return this._page_num;
     }

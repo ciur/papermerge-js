@@ -206,8 +206,27 @@ export function build_changeform_actions() {
       return true;
     },
     action: function(selection, clipboard, current_node) {
-      console.log(selection);
-      console.log("log delete-page");
+      let delete_page_form,
+      confirmation = confirm("Are you sure?"),
+      url, params, pages = [], doc_id;
+
+      if (!confirmation) {
+        return;
+      }
+
+      for (let page of selection.all()) {
+        doc_id = page.doc_id;
+        pages.push(page.page_num);
+      }
+
+      url = `/api/document/${doc_id}/pages?`;
+
+      params = $.param({'pages': pages});
+
+      $.ajax({
+        url:  url + params,
+        method: 'DELETE'
+      });
     }
   });
 
