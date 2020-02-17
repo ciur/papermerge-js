@@ -1,17 +1,3 @@
-/***********************************************************************
-#                                                                       #
-# Copyright (C) 2019 Eugen Ciur <eugen@digilette.com>                   #
-# All Rights Reserved                                                   #
-#                                                                       #
-# This is unpublished proprietary source code of Eugen Ciur.            #
-#                                                                       #
-# You may not copy, modify, sublicense or distribute the Program except #
-# if expressly allowed by Eugen Ciur.                                   #
-#                                                                       #
-# The copyright notice above does not evidence any intended publication #
-# of such source code.                                                  #
-#                                                                       #
-************************************************************************/
 import {RenameChangeForm} from "../forms/rename_change_form";
 import {find_by_id} from "../utils";
 import $ from "jquery";
