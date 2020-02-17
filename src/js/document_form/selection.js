@@ -78,7 +78,7 @@ export class MgSelection {
           $this.removeClass("checked");
         }
 
-        mg_page = DgPage.create_from_dom($this);  
+        mg_page = MgPage.create_from_dom($this);  
 
         if (new_state) { // is checked
           event.data.selection.add(mg_page);    

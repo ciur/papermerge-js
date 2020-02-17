@@ -44,10 +44,18 @@ export class MgPage {
     constructor(doc_id, page_num) {
         this._doc_id = doc_id;
         this._page_num = page_num;
+        console.log(`MgPage ${doc_id} ${page_num}`)
     }
 
     get get_page() {
         return this._page_num;
+    }
+
+    static create_from_dom(dom_elem) {
+      let page_num = $(dom_elem).find(".document.page").data("page_num");
+      let doc_id = $(dom_elem).find(".document.page").data("doc_id");
+
+      return new MgPage(doc_id, page_num);
     }
 }
 
