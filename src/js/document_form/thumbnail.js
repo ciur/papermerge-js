@@ -8,6 +8,12 @@ export class DgThumbnail {
       return "click";
     }
 
+    // event name
+    static get DBLCLICK() {
+      return "dblclick";
+    }
+
+
     constructor(dom_ref, dom_data_ref, doc_id, page_num) {
         this._dom_ref = dom_ref;
         this._dom_data_ref = dom_data_ref;
@@ -34,8 +40,29 @@ export class DgThumbnail {
         let that = this;
 
         this._dom_ref.onclick = function() {
+            // single click of dblclick?
+            if (that.timer) {
+                // This way, if click is already set to fire,
+                // it will clear itself to avoid duplicate 'Single' alerts.
+                clearTimeout(that.timer);
+            }
+            that.timer = setTimeout(
+                function() { 
+                    that._events.notify(
+                        DgThumbnail.CLICK,
+                        that._page_num
+                    );
+                },
+                250
+            );
+  
+        }
+        this._dom_ref.ondblclick = function() {
+            if (that.timer) {
+                clearTimeout(that.timer);    
+            }
             that._events.notify(
-                DgThumbnail.CLICK,
+                DgThumbnail.DBLCLICK,
                 that._page_num
             );
         }
@@ -44,6 +71,14 @@ export class DgThumbnail {
     onclick(handler, context) {
         this._events.subscribe(
             DgThumbnail.CLICK,
+            handler,
+            context
+        );
+    }
+
+    ondblclick(handler, context) {
+        this._events.subscribe(
+            DgThumbnail.DBLCLICK,
             handler,
             context
         );

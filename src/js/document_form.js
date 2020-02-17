@@ -96,8 +96,13 @@ class DgDocument {
         this._page_list.scroll_to(page_num);
     }
 
-    on_thumbnail_click(page_num) {
+    on_thumbnail_dblclick(page_num) {
+        console.log(`Page ${page_num} dblclick`);
         this.scroll_to(page_num);
+    }
+
+    on_thumbnail_click(page_num) {
+        console.log(`Page ${page_num} click`);
     }
 
     on_zoom_change(new_zoom_val) {
@@ -106,6 +111,11 @@ class DgDocument {
 
     configEvents() {
         let that = this;
+
+        this._thumbnail_list.ondblclick(
+            this.on_thumbnail_dblclick,
+            this
+        );
 
         this._thumbnail_list.onclick(
             this.on_thumbnail_click,
