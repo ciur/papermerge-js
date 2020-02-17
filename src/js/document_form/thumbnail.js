@@ -22,7 +22,9 @@ export class DgThumbnail {
 
     // if two consecutive clicks occur in less than CLICK_TIMEOUT miliseconds
     // they will be classified as "double click".
-    CLICK_TIMEOUT = 250; // ms
+    static get CLICK_TIMEOUT() {
+        return 250; // miliseconds
+    }
 
     constructor(dom_ref, dom_data_ref, doc_id, page_num) {
         this._dom_ref = dom_ref;
@@ -63,7 +65,7 @@ export class DgThumbnail {
                         that._page_num
                     );
                 },
-                250
+                DgThumbnail.CLICK_TIMEOUT
             );
   
         }
