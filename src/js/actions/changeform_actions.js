@@ -5,6 +5,16 @@ import {DgSelection} from "../selection";
 import {DgClipboard} from "../clipboard";
 import {DgNode} from "../node";
 
+/*
+  Dropdown menu for document form.
+  Menu includes following items:
+    * rename - renames the document title
+    * page:
+        # delete - deletes one or multiple (selected) pages
+        # cut - cuts one or multiple selected pages
+        # paste - paste pages (which were cut from different document)
+*/
+
 
 export class DgChangeFormAction {
   /*
