@@ -3,6 +3,13 @@ import {DgEvents} from "../events";
 import {is_visible, build_elem} from "./common";
 
 export class DgThumbnail {
+    /**
+    On single clicks - thumbnails are included/removed to selection.
+    On double clicks - view will scroll to tumbnail's page.
+
+    Thus, single clicks are about managing selection of thumbnails/pages, while
+    double clicks are about scrolling pages.
+    **/
     // event name
     static get CLICK() {
       return "click";
@@ -13,6 +20,9 @@ export class DgThumbnail {
       return "dblclick";
     }
 
+    // if two consecutive clicks occur in less than CLICK_TIMEOUT miliseconds
+    // they will be classified as "double click".
+    CLICK_TIMEOUT = 250; // ms
 
     constructor(dom_ref, dom_data_ref, doc_id, page_num) {
         this._dom_ref = dom_ref;
@@ -40,7 +50,7 @@ export class DgThumbnail {
         let that = this;
 
         this._dom_ref.onclick = function() {
-            // single click of dblclick?
+            // single click or dblclick?
             if (that.timer) {
                 // This way, if click is already set to fire,
                 // it will clear itself to avoid duplicate 'Single' alerts.
