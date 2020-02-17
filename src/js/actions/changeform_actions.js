@@ -206,6 +206,7 @@ export function build_changeform_actions() {
       return true;
     },
     action: function(selection, clipboard, current_node) {
+      console.log(selection);
       console.log("log delete-page");
     }
   });

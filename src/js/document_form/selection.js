@@ -34,7 +34,7 @@ export class MgSelection {
       let pos;
 
       pos = this._list.findIndex(
-         item => item.id == mg_page.id
+         item => item.page_num == mg_page.page_num
       );
       // add mg_page only if it is not already in the list.
       if (pos < 0) {
@@ -54,7 +54,7 @@ export class MgSelection {
       let pos;
 
       pos = this._list.findIndex(
-        item => item.id == mg_page.id
+        item => item.page_num == mg_page.page_num
       );
 
       if (pos >= 0) {
