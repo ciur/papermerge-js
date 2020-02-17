@@ -180,7 +180,10 @@ export function build_changeform_actions() {
   }
 
   let actions = new DgChangeFormActions(),
-      rename_action;
+      rename_action,
+      delete_page_action,
+      cut_page_action,
+      paste_page_action;
 
   rename_action = new DgChangeFormAction({
     // Achtung! #rename id is same for rename action
@@ -195,5 +198,44 @@ export function build_changeform_actions() {
     }
   });
 
+  delete_page_action = new DgChangeFormAction({
+    // Achtung! #rename id is same for rename action
+    // in changeform view and changelist view.
+    id: "#delete-page",
+    enabled: function(selection, clipboard) {
+      return true;
+    },
+    action: function(selection, clipboard, current_node) {
+      console.log("log delete-page");
+    }
+  });
+
+  cut_page_action = new DgChangeFormAction({
+    // Achtung! #rename id is same for rename action
+    // in changeform view and changelist view.
+    id: "#cut-page",
+    enabled: function(selection, clipboard) {
+      return true;
+    },
+    action: function(selection, clipboard, current_node) {
+      console.log("log cut-page");
+    }
+  });
+
+  paste_page_action = new DgChangeFormAction({
+    // Achtung! #rename id is same for rename action
+    // in changeform view and changelist view.
+    id: "#paste-page",
+    enabled: function(selection, clipboard) {
+      return true;
+    },
+    action: function(selection, clipboard, current_node) {
+      console.log("log paste-page");
+    }
+  });
+
   actions.add(rename_action);
+  actions.add(delete_page_action);
+  actions.add(cut_page_action);
+  actions.add(paste_page_action);
 }
