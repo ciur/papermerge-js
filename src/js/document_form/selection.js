@@ -1,4 +1,5 @@
 import {DgEvents} from "../events";
+import {MgPage} from "./page";
 
 
 export class MgSelection {

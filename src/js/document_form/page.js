@@ -37,8 +37,26 @@ function build_text_overlay(
     );        
 }
 
+export class MgPage {
+    /**
+    Class deals with selection of pages in thumbnail list.
+    **/
+    constructor(doc_id, page_num) {
+        this._doc_id = doc_id;
+        this._page_num = page_num;
+    }
+
+    get get_page() {
+        return this._page_num;
+    }
+}
+
 
 export class DgPage {
+    /***
+        Class deals with OCR layer, scrolling, image loading,
+        resizing of the page.
+    ***/
     constructor(dom_ref, dom_data_ref, doc_id, page_num, zoom_val) {
         // .actual_page
         this._dom_ref = dom_ref;
