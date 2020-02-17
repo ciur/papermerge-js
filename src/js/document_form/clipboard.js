@@ -39,7 +39,7 @@ export class MgClipboard {
       function(data) {
         that._list = data.clipboard;
         that.notify_subscribers(
-          DgClipboard.CHANGE,
+          MgClipboard.CHANGE,
           that._list
         )
       });

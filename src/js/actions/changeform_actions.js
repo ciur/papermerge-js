@@ -1,8 +1,8 @@
 import {RenameChangeForm} from "../forms/rename_change_form";
 import {find_by_id} from "../utils";
 import $ from "jquery";
-import {MgSelection} from "selection";
-import {MgClipboard} from "clipboard";
+import {MgSelection} from "../document_form/selection";
+import {MgClipboard} from "../document_form/clipboard";
 import {DgNode} from "../node";
 
 /*
@@ -149,13 +149,13 @@ export class DgChangeFormActions {
   configEvents() {
 
     this._selection.subscribe_event(
-      DgSelection.CHANGE,
+      MgSelection.CHANGE,
       this.on_change_selection,
       this // context
     );
 
     this._clipboard.subscribe_event(
-      DgClipboard.CHANGE,
+      MgClipboard.CHANGE,
       this.on_change_clipboard,
       this //context
     );
