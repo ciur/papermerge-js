@@ -1,8 +1,8 @@
 import {RenameChangeForm} from "../forms/rename_change_form";
 import {find_by_id} from "../utils";
 import $ from "jquery";
-import {DgSelection} from "../selection";
-import {DgClipboard} from "../clipboard";
+import {MgSelection} from "selection";
+import {MgClipboard} from "clipboard";
 import {DgNode} from "../node";
 
 /*
@@ -83,11 +83,11 @@ export class DgChangeFormActions {
     id = $("input[name=document_id]").val();
 
     this._actions = []
-    this._selection = new DgSelection();
+    this._selection = new MgSelection();
     // user can cut some items in one folder and
     // paste them in another folder. Cut/Pasted items are placed (taken)
     // to/from DgClipboard
-    this._clipboard = new DgClipboard();
+    this._clipboard = new MgClipboard();
     this._current_node = new DgNode(id, title);
     this.configEvents();
   }
