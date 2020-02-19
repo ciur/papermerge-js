@@ -379,7 +379,6 @@ export class DgPage {
 
     on_zoom(zoom_val) {
         if (this.is_visible()) {
-            console.log(`page ${this.page_num} zoom.`)
             if (this.zoom_changed(zoom_val) || this.viewer_resized()) {
                 this.resize_img(zoom_val);
                 this.resize_hocr(zoom_val);

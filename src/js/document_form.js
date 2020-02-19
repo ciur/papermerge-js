@@ -97,7 +97,6 @@ class DgDocument {
     }
 
     on_thumbnail_dblclick(page_num) {
-        console.log(`Page ${page_num} dblclick`);
         this.scroll_to(page_num);
     }
 
