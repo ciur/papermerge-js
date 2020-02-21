@@ -30,11 +30,21 @@ export class MgSelection {
       this._events.notify(event_name);
     }
 
+    contains(item) {
+      let pos;
+
+      pos = this._list.findIndex(
+        x => x.page_id == item.page_id
+      )
+
+      return pos >= 0;
+    }
+
     add(mg_page) {
       let pos;
 
       pos = this._list.findIndex(
-         item => item.page_num == mg_page.page_num
+         item => item.page_id == mg_page.page_id
       );
       // add mg_page only if it is not already in the list.
       if (pos < 0) {

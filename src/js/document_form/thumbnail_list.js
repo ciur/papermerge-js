@@ -38,10 +38,10 @@ export class DgThumbnailList {
     delete_selected(selection) {
         // selection is instance of 
         // document_form.selection.MgSelection
-        let thumb;
+        let thumbs_to_delete;
 
-        thumb = this._list.filter(
-            thumb => thumb.page_id == page
+        thumbs_to_delete = this._list.filter(
+            thumb => selection.contains(thumb)
         )
     }
 
