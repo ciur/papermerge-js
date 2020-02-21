@@ -47,6 +47,15 @@ export class DgPageList {
     delete_selected(selection) {
         // selection is instance of
         // document_form.selection.MgSelection
+        let pages_to_delete;
+
+        pages_to_delete = this._list.filter(
+            page => selection.contains(page)
+        )
+
+        for(let page of pages_to_delete) {
+            $(page.dom_ref).remove();
+        }
     }
 
     load(step) {

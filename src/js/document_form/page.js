@@ -96,6 +96,10 @@ export class DgPage {
         this._orig_page_size = undefined;
     }
 
+    get dom_ref() {
+        return this._dom_ref;
+    }
+
     get page_id() {
         return this._page_id;
     }

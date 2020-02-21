@@ -37,6 +37,10 @@ export class DgThumbnail {
         this._config_events();
     }
 
+    get dom_ref() {
+        return this._dom_ref;
+    }
+
     get page_id() {
         return this._page_id;
     }

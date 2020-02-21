@@ -43,6 +43,9 @@ export class DgThumbnailList {
         thumbs_to_delete = this._list.filter(
             thumb => selection.contains(thumb)
         )
+        for(let thumb of thumbs_to_delete) {
+            $(thumb.dom_ref).remove();
+        }
     }
 
     mark_highlight(page_num) {
