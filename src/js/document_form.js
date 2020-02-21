@@ -1,9 +1,9 @@
 import $ from "jquery";
 import _ from "underscore";
 import {DgTextOverlay} from "./text_overlay";
-import {DgThumbnailList} from "./document_form/thumbnail_list";
+import {MgThumbnailList} from "./document_form/thumbnail_list";
 import {DgZoom} from "./document_form/zoom";
-import {DgPageList} from "./document_form/page_list";
+import {MgPageList} from "./document_form/page_list";
 import {csrfSafeMethod, getCookie, is_visible, build_elem} from "./document_form/common";
 import {get_win_param} from "./document_form/common";
 import {DgMainSpinner} from "./spinner";
@@ -63,9 +63,9 @@ export function add_switch_2_document_form() {
 
 class MgDocument {
     constructor(page_num, text_arr) {
-        this._thumbnail_list = new DgThumbnailList(); 
+        this._thumbnail_list = new MgThumbnailList(); 
         this._zoom = new DgZoom();
-        this._page_list = new DgPageList(this._zoom);
+        this._page_list = new MgPageList(this._zoom);
         this._page_num;
         this._text_arr = text_arr; 
 

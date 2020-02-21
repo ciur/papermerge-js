@@ -1,9 +1,11 @@
 import $ from "jquery";
 import {DgPage} from "./page";
+import {MgLister} from "./lister";
 
 
-export class DgPageList {
+export class MgPageList extends MgLister {
     constructor(zoom) {
+        super();
         this._container_selector = ".actual-pages";
         this._selector = ".actual-pages .actual_page";
         this._list = [];
@@ -41,37 +43,6 @@ export class DgPageList {
 
         if (arr.length > 0) {
             arr[0].scroll_to();
-        }
-    }
-
-    delete_selected(selection) {
-        // selection is instance of
-        // document_form.selection.MgSelection
-        let pages_to_delete;
-
-        pages_to_delete = this._list.filter(
-            page => selection.contains(page)
-        )
-
-        for(let page of pages_to_delete) {
-            $(page.dom_ref).remove();
-        }
-
-        // remove elements from list itself
-        this.purge_list(selection);
-    }
-
-
-    purge_list(selection) {
-        let item, pos;
-
-        for(let sel in selection) {
-            pos = this._list.findIndex(
-                x => x.page_id == sel.page_id
-            )
-            if (pos >= 0) {
-                this._list.splice(pos, 1);
-            }
         }
     }
 
