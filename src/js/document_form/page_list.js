@@ -56,6 +56,23 @@ export class DgPageList {
         for(let page of pages_to_delete) {
             $(page.dom_ref).remove();
         }
+
+        // remove elements from list itself
+        this.purge_list(selection);
+    }
+
+
+    purge_list(selection) {
+        let item, pos;
+
+        for(let sel in selection) {
+            pos = this._list.findIndex(
+                x => x.page_id == sel.page_id
+            )
+            if (pos >= 0) {
+                this._list.splice(pos, 1);
+            }
+        }
     }
 
     load(step) {
