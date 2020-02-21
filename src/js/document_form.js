@@ -138,11 +138,14 @@ class MgDocument {
       /**
       Actions dropdown menu of changeform view.
       */
-      let actions = new MgChangeFormActions(),
-          rename_action,
-          delete_page_action,
-          cut_page_action,
-          paste_page_action;
+      let actions = new MgChangeFormActions(
+            this._thumbnail_list,
+            this._page_list
+        ),
+        rename_action,
+        delete_page_action,
+        cut_page_action,
+        paste_page_action;
 
       rename_action = new MgChangeFormAction({
         // Achtung! #rename id is same for rename action
@@ -164,7 +167,13 @@ class MgDocument {
         enabled: function(selection, clipboard) {
           return true;
         },
-        action: function(selection, clipboard, current_node) {
+        action: function(
+            selection,
+            clipboard,
+            current_node,
+            thumbnail_list,
+            page_list
+        ) {
           let delete_page_form,
           confirmation = confirm("Are you sure?"),
           url, params, pages = [], doc_id;
@@ -228,7 +237,7 @@ export function add_load_on_scroll() {
         step,
         page_num = get_win_param('page'),
         text_arr = get_win_param('text'),
-        dg_document;
+        mg_document;
 
     csrftoken = getCookie('csrftoken');
 

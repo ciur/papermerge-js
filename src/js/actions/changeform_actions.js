@@ -64,8 +64,21 @@ export class MgChangeFormAction {
     }
   }
 
-  action(selection, clipboard, current_node) {
-    this._action(selection, clipboard, current_node);
+  action(
+    selection,
+    clipboard,
+    current_node,
+    thumbnail_list,
+    page_list
+
+    ) {
+    this._action(
+      selection,
+      clipboard,
+      current_node,
+      thumbnail_list,
+      page_list
+    );
   }
 }
 
@@ -75,7 +88,7 @@ export class MgChangeFormActions {
     Actions dropdown menu operates on a selection of one or many
     items (document or folder).
   */
-  constructor(config) {
+  constructor(thumbnail_list, page_list) {
     let title, id;
 
     title = $("input[name=document_title]").val();
@@ -88,6 +101,8 @@ export class MgChangeFormActions {
     // to/from DgClipboard
     this._clipboard = new MgClipboard();
     this._current_node = new DgNode(id, title);
+    this._thumbnail_list = thumbnail_list;
+    this._page_list = page_list;
     this.configEvents();
   }
 
@@ -102,7 +117,9 @@ export class MgChangeFormActions {
           action: action,
           selection: this._selection,
           clipboard: this._clipboard,
-          current_node: this._current_node
+          current_node: this._current_node,
+          thumbnail_list: this._thumbnail_list,
+          page_list: this._page_list
         },
         this.on_click
       );
@@ -133,6 +150,8 @@ export class MgChangeFormActions {
     let selection = event.data.selection;
     let clipboard = event.data.clipboard;
     let current_node = event.data.current_node;
+    let thumbnail_list = event.data.thumbnail_list;
+    let page_list = event.data.page_list;
 
     if (!action.is_enabled) {
       return;
@@ -141,7 +160,9 @@ export class MgChangeFormActions {
     action.action(
       selection,
       clipboard,
-      current_node
+      current_node,
+      thumbnail_list,
+      page_list
     );
   }
 
