@@ -41,14 +41,19 @@ export class MgPage {
     /**
     Class deals with selection of pages in thumbnail list.
     **/
-    constructor(doc_id, page_num) {
+    constructor(doc_id, page_id, page_num) {
         this._doc_id = doc_id;
+        this._page_id = page_id;
+        // page order in the document (e.g. 3 = 3rd page)
         this._page_num = page_num;
-        console.log(`MgPage ${doc_id} ${page_num}`)
     }
 
     get doc_id() {
         return this._doc_id;
+    }
+
+    get page_id() {
+        return this._page_id;
     }
 
     get page_num() {
@@ -58,8 +63,9 @@ export class MgPage {
     static create_from_dom(dom_elem) {
       let page_num = $(dom_elem).find(".document.page").data("page_num");
       let doc_id = $(dom_elem).find(".document.page").data("doc_id");
+      let page_id = $(dom_elem).find(".document.page").data("page_id");
 
-      return new MgPage(doc_id, page_num);
+      return new MgPage(doc_id, page_id, page_num);
     }
 }
 

@@ -44,8 +44,12 @@ export class DgPageList {
         }
     }
 
+    delete_selected(selection) {
+        // selection is instance of
+        // document_form.selection.MgSelection
+    }
+
     load(step) {
-        console.log(`Loading ${this.pages.length} pages`)
         for (let page of this._list) {
             page.on_scroll(step);
         }

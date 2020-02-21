@@ -35,6 +35,16 @@ export class DgThumbnailList {
        } 
     }
 
+    delete_selected(selection) {
+        // selection is instance of 
+        // document_form.selection.MgSelection
+        let thumb;
+
+        thumb = this._list.filter(
+            thumb => thumb.page_id == page
+        )
+    }
+
     mark_highlight(page_num) {
         let arr = [];
 

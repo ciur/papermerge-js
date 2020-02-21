@@ -195,6 +195,9 @@ class MgDocument {
             url:  url + params,
             method: 'DELETE'
           });
+
+          thumbnail_list.delete_selected(selection);
+          page_list.delete_selected(selection);
         }
       });
 
