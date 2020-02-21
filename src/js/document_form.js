@@ -61,7 +61,7 @@ export function add_switch_2_document_form() {
     add_switch_logic("#sw-right-panel");
 }
 
-class DgDocument {
+class MgDocument {
     constructor(page_num, text_arr) {
         this._thumbnail_list = new DgThumbnailList(); 
         this._zoom = new DgZoom();
@@ -250,5 +250,5 @@ export function add_load_on_scroll() {
         text_arr = text_arr.split('+');
     }
 
-    dg_document = new DgDocument(page_num, text_arr);
+    mg_document = new MgDocument(page_num, text_arr);
 }
