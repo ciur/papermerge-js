@@ -1,4 +1,3 @@
-import {RenameChangeForm} from "../forms/rename_change_form";
 import {find_by_id} from "../utils";
 import $ from "jquery";
 import {MgSelection} from "../document_form/selection";
@@ -16,7 +15,7 @@ import {DgNode} from "../node";
 */
 
 
-export class DgChangeFormAction {
+export class MgChangeFormAction {
   /*
     An abstraction of action item in (actions) dropdown menu from
     changelist and changeform view.
@@ -70,7 +69,7 @@ export class DgChangeFormAction {
   }
 }
 
-export class DgChangeFormActions {
+export class MgChangeFormActions {
   /*
     An abstraction of actions dropdown menu in changelist view.
     Actions dropdown menu operates on a selection of one or many
@@ -167,95 +166,3 @@ export class DgChangeFormActions {
 }
 
 
-
-export function build_changeform_actions() {
-  /**
-  Actions dropdown menu of changeform view.
-  */
-
-  if ( !find_by_id("changeform_actions")  ) {
-    // there is no point to do anything is actions
-    // dropdown is not in the view.
-    return;
-  }
-
-  let actions = new DgChangeFormActions(),
-      rename_action,
-      delete_page_action,
-      cut_page_action,
-      paste_page_action;
-
-  rename_action = new DgChangeFormAction({
-    // Achtung! #rename id is same for rename action
-    // in changeform view and changelist view.
-    id: "#rename",
-    enabled: function(selection, clipboard) {
-      return true;
-    },
-    action: function(selection, clipboard, current_node) {
-      let rename_form = new RenameChangeForm(current_node);
-      rename_form.show();
-    }
-  });
-
-  delete_page_action = new DgChangeFormAction({
-    // Achtung! #rename id is same for rename action
-    // in changeform view and changelist view.
-    id: "#delete-page",
-    enabled: function(selection, clipboard) {
-      return true;
-    },
-    action: function(selection, clipboard, current_node) {
-      let delete_page_form,
-      confirmation = confirm("Are you sure?"),
-      url, params, pages = [], doc_id;
-
-      if (!confirmation) {
-        return;
-      }
-
-      for (let page of selection.all()) {
-        doc_id = page.doc_id;
-        pages.push(page.page_num);
-      }
-
-      url = `/api/document/${doc_id}/pages?`;
-
-      params = $.param({'pages': pages});
-
-      $.ajax({
-        url:  url + params,
-        method: 'DELETE'
-      });
-    }
-  });
-
-  cut_page_action = new DgChangeFormAction({
-    // Achtung! #rename id is same for rename action
-    // in changeform view and changelist view.
-    id: "#cut-page",
-    enabled: function(selection, clipboard) {
-      return true;
-    },
-    action: function(selection, clipboard, current_node) {
-      console.log("log cut-page");
-    }
-  });
-
-  paste_page_action = new DgChangeFormAction({
-    // Achtung! #rename id is same for rename action
-    // in changeform view and changelist view.
-    id: "#paste-page",
-    enabled: function(selection, clipboard) {
-      return true;
-    },
-    action: function(selection, clipboard, current_node) {
-      console.log("log paste-page");
-    }
-  });
-
-  actions.add(rename_action);
-  actions.add(delete_page_action);
-  actions.add(cut_page_action);
-  actions.add(paste_page_action);
-}

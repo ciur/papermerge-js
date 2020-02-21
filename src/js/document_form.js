@@ -7,6 +7,8 @@ import {DgPageList} from "./document_form/page_list";
 import {csrfSafeMethod, getCookie, is_visible, build_elem} from "./document_form/common";
 import {get_win_param} from "./document_form/common";
 import {DgMainSpinner} from "./spinner";
+import {RenameChangeForm} from "./forms/rename_change_form";
+import {MgChangeFormActions, MgChangeFormAction} from "./actions/changeform_actions";
 
 
 function add_switch_logic(switch_selector) {
@@ -70,6 +72,7 @@ class DgDocument {
         this._thumbnail_list.load();
         this._page_list.load(this.zoom.get_value());
         this._spinner = new DgMainSpinner();
+        this._actions = this.build_actions();
 
         this.configEvents();
         
@@ -130,6 +133,93 @@ class DgDocument {
             that.page_list.on_zoom(zoom_val);
         });
     }
+
+    build_actions() {
+      /**
+      Actions dropdown menu of changeform view.
+      */
+      let actions = new MgChangeFormActions(),
+          rename_action,
+          delete_page_action,
+          cut_page_action,
+          paste_page_action;
+
+      rename_action = new MgChangeFormAction({
+        // Achtung! #rename id is same for rename action
+        // in changeform view and changelist view.
+        id: "#rename",
+        enabled: function(selection, clipboard) {
+          return true;
+        },
+        action: function(selection, clipboard, current_node) {
+          let rename_form = new RenameChangeForm(current_node);
+          rename_form.show();
+        }
+      });
+
+      delete_page_action = new MgChangeFormAction({
+        // Achtung! #rename id is same for rename action
+        // in changeform view and changelist view.
+        id: "#delete-page",
+        enabled: function(selection, clipboard) {
+          return true;
+        },
+        action: function(selection, clipboard, current_node) {
+          let delete_page_form,
+          confirmation = confirm("Are you sure?"),
+          url, params, pages = [], doc_id;
+
+          if (!confirmation) {
+            return;
+          }
+
+          for (let page of selection.all()) {
+            doc_id = page.doc_id;
+            pages.push(page.page_num);
+          }
+
+          url = `/api/document/${doc_id}/pages?`;
+
+          params = $.param({'pages': pages});
+
+          $.ajax({
+            url:  url + params,
+            method: 'DELETE'
+          });
+        }
+      });
+
+      cut_page_action = new MgChangeFormAction({
+        // Achtung! #rename id is same for rename action
+        // in changeform view and changelist view.
+        id: "#cut-page",
+        enabled: function(selection, clipboard) {
+          return true;
+        },
+        action: function(selection, clipboard, current_node) {
+          console.log("log cut-page");
+        }
+      });
+
+      paste_page_action = new MgChangeFormAction({
+        // Achtung! #rename id is same for rename action
+        // in changeform view and changelist view.
+        id: "#paste-page",
+        enabled: function(selection, clipboard) {
+          return true;
+        },
+        action: function(selection, clipboard, current_node) {
+          console.log("log paste-page");
+        }
+      });
+
+      actions.add(rename_action);
+      actions.add(delete_page_action);
+      actions.add(cut_page_action);
+      actions.add(paste_page_action);
+
+      return actions;
+    }
 }
     
 
@@ -150,10 +240,12 @@ export function add_load_on_scroll() {
         }
     });
 
+    // when opening the document land on this page
     if (page_num) {
         page_num = parseInt(page_num);
     }
 
+    // when opening the document highlight this text
     if (text_arr) {
         text_arr = text_arr.split('+');
     }

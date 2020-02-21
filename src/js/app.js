@@ -11,7 +11,6 @@ import {add_load_on_scroll} from "./document_form";
 import {registration} from "./register";
 import {decorate_passwords} from "./password";
 import {build_changelist_actions} from "./actions/changelist_actions";
-import {build_changeform_actions} from "./actions/changeform_actions";
 import {DgPageScroll} from "./document_form/page_scroll";
 
 import {TopRightMenu} from "./top_right_menu";
@@ -61,6 +60,7 @@ let App = function() {
 
   on_document_form(add_zoom_2_document_form);
   on_document_form(add_switch_2_document_form);
+  // creates a new DgDocument instance
   on_document_form(add_load_on_scroll);
   //$('.toast').toast({'autohide': true, 'delay': 5000});
   $('.toast').toast({'autohide': false});
@@ -78,7 +78,6 @@ let App = function() {
   
 
   build_changelist_actions();
-  build_changeform_actions();
   node_doubleclick(".dblclick");
   // make node's titles (in document's changelist grid/list mode)
   shorten_title();
