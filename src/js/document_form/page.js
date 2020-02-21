@@ -75,17 +75,29 @@ export class DgPage {
         Class deals with OCR layer, scrolling, image loading,
         resizing of the page.
     ***/
-    constructor(dom_ref, dom_data_ref, doc_id, page_num, zoom_val) {
+    constructor(
+        dom_ref,
+        dom_data_ref,
+        doc_id,
+        page_id,
+        page_num,
+        zoom_val
+    ) {
         // .actual_page
         this._dom_ref = dom_ref;
         this._dom_data_ref = dom_data_ref;
         this._dom_img = undefined;
         this._dom_hocr = undefined;
         this._zoom_val = zoom_val;
+        this._page_id = page_id;
         this._page_num = page_num;
         this._doc_id = doc_id;
         // will be known/updated after HOCR for Step(1) is downloaded.
         this._orig_page_size = undefined;
+    }
+
+    get page_id() {
+        return this._page_id;
     }
 
     get page_num() {

@@ -26,14 +26,19 @@ export class DgThumbnail {
         return 250; // miliseconds
     }
 
-    constructor(dom_ref, dom_data_ref, doc_id, page_num) {
+    constructor(dom_ref, dom_data_ref, doc_id, page_id, page_num) {
         this._dom_ref = dom_ref;
         this._dom_data_ref = dom_data_ref;
         this._step = 4;
         this._page_num = page_num;
+        this._page_id = page_id;
         this._doc_id = doc_id;
         this._events = new DgEvents();
         this._config_events();
+    }
+
+    get page_id() {
+        return this._page_id;
     }
 
     get page_num() {

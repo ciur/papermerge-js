@@ -64,7 +64,7 @@ export class DgPageList {
         dom_arr.forEach(function(dom_page_item, index, arr){
             let dom_data = dom_page_item.querySelector(
                 '.document.page'
-            ), doc_id, page_num;
+            ), doc_id, page_num, page_id;
 
             if (!dom_data) {
                 console.log("page dom data not found");
@@ -73,11 +73,13 @@ export class DgPageList {
 
             doc_id = dom_data.getAttribute('data-doc_id');
             page_num = dom_data.getAttribute('data-page_num');
+            page_id = dom_data.getAttribute('data-page_id')
 
             that._list.push(new DgPage(
                 dom_page_item,
                 dom_data,
                 doc_id,
+                page_id,
                 page_num
             )); 
         });
