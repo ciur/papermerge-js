@@ -165,7 +165,7 @@ class MgDocument {
         // in changeform view and changelist view.
         id: "#delete-page",
         enabled: function(selection, clipboard) {
-          return true;
+          return selection.length > 0;
         },
         action: function(
             selection,
@@ -206,7 +206,7 @@ class MgDocument {
         // in changeform view and changelist view.
         id: "#cut-page",
         enabled: function(selection, clipboard) {
-          return true;
+          return selection.length > 0;
         },
         action: function(selection, clipboard, current_node) {
           console.log("log cut-page");

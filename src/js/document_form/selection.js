@@ -71,6 +71,11 @@ export class MgSelection {
         this._list.splice(pos, 1);  
       }
     }
+
+    get length() {
+      return this._list.length;
+    }
+    
     _on_page_click(event) {
         let $this = $(this);
         let mg_page;
