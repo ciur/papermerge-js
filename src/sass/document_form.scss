@@ -38,6 +38,13 @@
             border: none;
             padding: 0;
         }
+        &.checked {
+             background-color: $result_list_hover_bg_color;
+             outline: 1px solid $result_list_hover_border_color;
+        }
+        input[type=checkbox] {
+            display: none;
+        }
     }
     fieldset.module.aligned {
         position: relative;
