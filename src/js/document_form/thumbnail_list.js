@@ -37,17 +37,48 @@ export class MgThumbnailList extends MgLister {
        } 
     }
 
-    mark_highlight(page_num) {
+    get_thumb(page_num) {
         let arr = [];
 
         arr = this._list.filter(thumb => thumb.page_num == page_num);
+      
         if (arr.length > 0) {
-            arr[0].mark_highlight();
+            return arr[0];
+        }
+
+        return false;
+    }
+
+    swap_thumbs(thumb_1, thumb_2) {
+        let clone_1, clone_2;
+
+        clone_1 = $(thumb_1.dom_ref).clone();
+        clone_2 = $(thumb_2.dom_ref).clone();
+        thumb_1.dom_ref.replaceWith(clone_2[0]);
+        thumb_2.dom_ref.replaceWith(clone_1[0]);
+    }
+
+    mark_highlight(page_num) {
+        let thumb;
+
+        thumb = this.get_thumb(page_num);
+        if (thumb) {
+            thumb.mark_highlight();
         }
     }
 
     on_thumb_move_up(page_num, doc_id, page_id) {
-        console.log(`thumb ${page_num} moved up`);
+        let thumb_1, thumb_2;
+        
+        if (page_num < 2) {
+            // one page document, discard, do nothing.
+            // or maybe first page
+            return false;
+        }
+        thumb_1 = this.get_thumb(page_num);
+        thumb_2 = this.get_thumb(page_num - 1); // because page_num >=2
+
+        this.swap_thumbs(thumb_1, thumb_2);
         this.notify(
             MgThumbnail.MOVE_UP,
             page_num,
@@ -57,7 +88,17 @@ export class MgThumbnailList extends MgLister {
     }
 
     on_thumb_move_down(page_num, doc_id, page_id) {
-        console.log(`thumb ${page_num} moved down`);
+        let thumb_1, thumb_2;
+
+        if (page_num > this._list.length - 1) {
+            return false;
+        }
+
+        thumb_1 = this.get_thumb(page_num);
+        thumb_2 = this.get_thumb(page_num + 1); // because page_num >=2
+
+        this.swap_thumbs(thumb_1, thumb_2);
+
         this.notify(
             MgThumbnail.MOVE_DOWN,
             page_num,
