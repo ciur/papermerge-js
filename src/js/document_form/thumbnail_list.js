@@ -46,11 +46,19 @@ export class MgThumbnailList extends MgLister {
         }
     }
 
+    on_thumb_move_up(page_num) {
+        console.log(`thumb ${page_num} moved up`);
+    }
+
+    on_thumb_move_down(page_num) {
+        console.log(`thumb ${page_num} moved down`);
+    }
+
     _add_thumbnails() {
         let dom_arr = Array.from(
             document.querySelectorAll(this._selector)
         );
-        let that = this;
+        let that = this, thumb;
         
         dom_arr.forEach(function(dom_page_item, index, arr){
             let dom_data = dom_page_item.querySelector(
@@ -65,15 +73,24 @@ export class MgThumbnailList extends MgLister {
             doc_id = dom_data.getAttribute('data-doc_id');
             page_num = dom_data.getAttribute('data-page_num');
             page_id = dom_data.getAttribute('data-page_id');
-            that._list.push(
-                new DgThumbnail(
-                    dom_page_item,
-                    dom_data,
-                    doc_id,
-                    page_id,
-                    page_num
-                )
-            ); 
+            thumb = new DgThumbnail(
+                dom_page_item,
+                dom_data,
+                doc_id,
+                page_id,
+                page_num
+            );
+            thumb.subscribe(
+                DgThumbnail.MOVE_UP,
+                that.on_thumb_move_up,
+                that
+            );
+            thumb.subscribe(
+                DgThumbnail.MOVE_DOWN,
+                that.on_thumb_move_down,
+                that
+            );
+            that._list.push(thumb); 
         });
     }
 
