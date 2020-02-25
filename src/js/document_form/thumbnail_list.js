@@ -1,5 +1,5 @@
 import $ from "jquery";
-import {DgThumbnail} from "./thumbnail";
+import {MgThumbnail} from "./thumbnail";
 import {MgLister} from "./lister";
 
 
@@ -46,12 +46,24 @@ export class MgThumbnailList extends MgLister {
         }
     }
 
-    on_thumb_move_up(page_num) {
+    on_thumb_move_up(page_num, doc_id, page_id) {
         console.log(`thumb ${page_num} moved up`);
+        this.notify(
+            MgThumbnail.MOVE_UP,
+            page_num,
+            doc_id,
+            page_id
+        );
     }
 
-    on_thumb_move_down(page_num) {
+    on_thumb_move_down(page_num, doc_id, page_id) {
         console.log(`thumb ${page_num} moved down`);
+        this.notify(
+            MgThumbnail.MOVE_DOWN,
+            page_num,
+            doc_id,
+            page_id
+        );
     }
 
     _add_thumbnails() {

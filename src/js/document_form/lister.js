@@ -1,5 +1,6 @@
+import {DgEvents} from "../events";
 
-export class MgLister {
+export class MgLister extends DgEvents {
     /**
         Lister is a common class for MgPageList and MgThumbList.
 
@@ -7,6 +8,10 @@ export class MgLister {
         If user triggers delete pages action, boths lists needs to be updated
         accordingly. Same of cut & paste actions.
     */
+
+    constructor() {
+        super();
+    }
 
     delete_selected(selection) {
         // selection is instance of 

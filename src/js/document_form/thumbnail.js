@@ -2,7 +2,7 @@ import $ from "jquery";
 import {DgEvents} from "../events";
 import {is_visible, build_elem} from "./common";
 
-export class DgThumbnail extends DgEvents {
+export class MgThumbnail extends DgEvents {
     /**
     On single clicks - thumbnails are included/removed to selection.
     On double clicks - view will scroll to tumbnail's page.
@@ -49,6 +49,10 @@ export class DgThumbnail extends DgEvents {
         return this._dom_ref;
     }
 
+    get doc_id() {
+        return this._doc_id;
+    }
+
     get page_id() {
         return this._page_id;
     }
@@ -72,15 +76,19 @@ export class DgThumbnail extends DgEvents {
             e.preventDefault();
             that.notify(
                 DgThumbnail.MOVE_UP,
-                that._page_num
+                that._page_num,
+                that.doc_id,
+                that.page_id
             );
         });
 
         $(this._dom_ref).find(".arrow-down-control").click(function(e){
             e.preventDefault();
             that.notify(
-                DgThumbnail.MOVE_DOWN,
-                that._page_num
+                MgThumbnail.MOVE_DOWN,
+                that._page_num,
+                that.doc_id,
+                that.page_id
             );
         });
 
@@ -94,11 +102,11 @@ export class DgThumbnail extends DgEvents {
             that.timer = setTimeout(
                 function() { 
                     that.notify(
-                        DgThumbnail.CLICK,
+                        MgThumbnail.CLICK,
                         that._page_num
                     );
                 },
-                DgThumbnail.CLICK_TIMEOUT
+                MgThumbnail.CLICK_TIMEOUT
             );
   
         }
@@ -107,7 +115,7 @@ export class DgThumbnail extends DgEvents {
                 clearTimeout(that.timer);    
             }
             that.notify(
-                DgThumbnail.DBLCLICK,
+                MgThumbnail.DBLCLICK,
                 that._page_num
             );
         }
@@ -115,7 +123,7 @@ export class DgThumbnail extends DgEvents {
 
     onclick(handler, context) {
         this.subscribe(
-            DgThumbnail.CLICK,
+            MgThumbnail.CLICK,
             handler,
             context
         );
@@ -123,7 +131,7 @@ export class DgThumbnail extends DgEvents {
 
     ondblclick(handler, context) {
         this.subscribe(
-            DgThumbnail.DBLCLICK,
+            MgThumbnail.DBLCLICK,
             handler,
             context
         );
