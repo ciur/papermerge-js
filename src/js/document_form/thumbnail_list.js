@@ -85,7 +85,7 @@ export class MgThumbnailList extends MgLister {
             doc_id = dom_data.getAttribute('data-doc_id');
             page_num = dom_data.getAttribute('data-page_num');
             page_id = dom_data.getAttribute('data-page_id');
-            thumb = new DgThumbnail(
+            thumb = new MgThumbnail(
                 dom_page_item,
                 dom_data,
                 doc_id,
@@ -93,12 +93,12 @@ export class MgThumbnailList extends MgLister {
                 page_num
             );
             thumb.subscribe(
-                DgThumbnail.MOVE_UP,
+                MgThumbnail.MOVE_UP,
                 that.on_thumb_move_up,
                 that
             );
             thumb.subscribe(
-                DgThumbnail.MOVE_DOWN,
+                MgThumbnail.MOVE_DOWN,
                 that.on_thumb_move_down,
                 that
             );

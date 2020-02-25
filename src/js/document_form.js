@@ -2,6 +2,7 @@ import $ from "jquery";
 import _ from "underscore";
 import {DgTextOverlay} from "./text_overlay";
 import {MgThumbnailList} from "./document_form/thumbnail_list";
+import {MgThumbnail} from "./document_form/thumbnail";
 import {DgZoom} from "./document_form/zoom";
 import {MgPageList} from "./document_form/page_list";
 import {csrfSafeMethod, getCookie, is_visible, build_elem} from "./document_form/common";
@@ -111,6 +112,14 @@ class MgDocument {
         this.page_list.on_zoom(new_zoom_val);
     }
 
+    on_page_move_up(page_num, doc_id, page_id) {
+        console.log(`on_page_move_up ${page_num} ${doc_id} ${page_id}`);
+    }
+
+    on_page_move_down(page_num, doc_id, page_id) {
+        console.log(`on_page_move_down ${page_num} ${doc_id} ${page_id}`);
+    }
+
     configEvents() {
         let that = this;
 
@@ -122,6 +131,18 @@ class MgDocument {
         this._thumbnail_list.onclick(
             this.on_thumbnail_click,
             this
+        );
+
+        this._thumbnail_list.subscribe(
+            MgThumbnail.MOVE_UP,
+            that.on_page_move_up,
+            that
+        );
+
+        this._thumbnail_list.subscribe(
+            MgThumbnail.MOVE_DOWN,
+            that.on_page_move_down,
+            that
         );
 
         this.zoom.subscribe("zoom", this.on_zoom_change, this);

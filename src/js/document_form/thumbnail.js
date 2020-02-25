@@ -75,7 +75,7 @@ export class MgThumbnail extends DgEvents {
         $(this._dom_ref).find(".arrow-up-control").click(function(e){
             e.preventDefault();
             that.notify(
-                DgThumbnail.MOVE_UP,
+                MgThumbnail.MOVE_UP,
                 that._page_num,
                 that.doc_id,
                 that.page_id
