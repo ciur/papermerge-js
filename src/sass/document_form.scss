@@ -38,6 +38,16 @@
             visibility: visible;
         }
     }
+    .page_thumbnail.last:hover {
+        a.icon-arrow-down {
+            display: none;
+        }
+    }
+    .page_thumbnail.first:hover {
+        a.icon-arrow-up {
+            display: none;
+        }
+    }
     .page_thumbnail {
         display: flex;
         flex-direction: column;
