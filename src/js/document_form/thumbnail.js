@@ -15,16 +15,25 @@ export class DgThumbnail {
       return "click";
     }
 
+
     // event name
     static get DBLCLICK() {
       return "dblclick";
     }
 
+    static get MOVE_UP() {
+      return "move_up";
+    }
+
+    static get MOVE_DOWN() {
+      return "move_down";
+    }
     // if two consecutive clicks occur in less than CLICK_TIMEOUT miliseconds
     // they will be classified as "double click".
     static get CLICK_TIMEOUT() {
         return 250; // miliseconds
     }
+
 
     constructor(dom_ref, dom_data_ref, doc_id, page_id, page_num) {
         this._dom_ref = dom_ref;
@@ -59,6 +68,22 @@ export class DgThumbnail {
 
     _config_events() {
         let that = this;
+
+        $(this._dom_ref).find(".arrow-up-control").click(function(e){
+            e.preventDefault();
+            that._events.notify(
+                DgThumbnail.MOVE_UP,
+                that._page_num
+            );
+        });
+
+        $(this._dom_ref).find(".arrow-down-control").click(function(e){
+            e.preventDefault();
+            that._events.notify(
+                DgThumbnail.MOVE_DOWN,
+                that._page_num
+            );
+        });
 
         this._dom_ref.onclick = function() {
             // single click or dblclick?
