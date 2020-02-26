@@ -2,7 +2,6 @@ import $ from "jquery";
 import {DgPage} from "./page";
 import {MgLister} from "./lister";
 
-
 export class MgPageList extends MgLister {
     constructor(zoom) {
         super();
@@ -89,6 +88,48 @@ export class MgPageList extends MgLister {
             // is visible (within view area)
             page.on_zoom(new_zoom_val);
         }
+    }
+
+    get_page(page_num) {
+        let arr = [];
+
+        arr = this._list.filter(page => page.page_num == page_num);
+        
+        if (arr.length > 0) {
+            return arr[0];
+        }
+
+        return false;
+    }
+
+    swap_pages(page_1, page_2) {
+        let clone_1,
+            clone_2,
+            dom_data_1,
+            dom_data_2;
+
+        clone_1 = $(page_1.dom_ref).clone();
+        clone_2 = $(page_2.dom_ref).clone();
+        page_1.replace_with(clone_2[0]);
+        page_2.replace_with(clone_1[0]);
+    }
+
+    on_page_move_down(page_num, doc_id, page_id) {
+        let page_1, page_2;
+
+        page_1 = this.get_page(page_num);
+        page_2 = this.get_page(page_num + 1);
+
+        this.swap_pages(page_1, page_2);
+    }
+
+    on_page_move_up(page_num, doc_id, page_id) {
+        let page_1, page_2;
+
+        page_1 = this.get_page(page_num);
+        page_2 = this.get_page(page_num - 1);
+
+        this.swap_pages(page_1, page_2);
     }
 
     _config_events() {

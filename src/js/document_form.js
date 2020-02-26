@@ -117,14 +117,15 @@ class MgDocument {
     }
 
     on_page_move_up(page_num, doc_id, page_id) {
-        console.log(`on_page_move_up ${page_num} ${doc_id} ${page_id}`);
         this.actions.clear_selection();
         this._thumbnail_list.clear_selections();
+        this._page_list.on_page_move_up(page_num, doc_id, page_id);
     }
 
     on_page_move_down(page_num, doc_id, page_id) {
-        console.log(`on_page_move_down ${page_num} ${doc_id} ${page_id}`);
-        this.actions.clear_selection();        
+        this.actions.clear_selection();
+        this._thumbnail_list.clear_selections();
+        this._page_list.on_page_move_down(page_num, doc_id, page_id);
     }
 
     configEvents() {

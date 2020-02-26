@@ -127,6 +127,10 @@ export class DgPage {
         return this._page_num;
     }
 
+    replace_with(dom_ref) {
+        this._dom_ref.replaceWith(dom_ref);
+    }
+
     highlight_text(text_arr) {
         this._highlight_text_arr = text_arr;
     }
