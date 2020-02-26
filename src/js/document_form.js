@@ -86,6 +86,10 @@ class MgDocument {
         }
     }
 
+    get actions() {
+        return this._actions;
+    }
+
     get zoom() {
         return this._zoom;
     }
@@ -114,10 +118,13 @@ class MgDocument {
 
     on_page_move_up(page_num, doc_id, page_id) {
         console.log(`on_page_move_up ${page_num} ${doc_id} ${page_id}`);
+        this.actions.clear_selection();
+        this._thumbnail_list.clear_selections();
     }
 
     on_page_move_down(page_num, doc_id, page_id) {
         console.log(`on_page_move_down ${page_num} ${doc_id} ${page_id}`);
+        this.actions.clear_selection();        
     }
 
     configEvents() {

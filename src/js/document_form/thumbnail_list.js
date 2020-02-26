@@ -37,6 +37,12 @@ export class MgThumbnailList extends MgLister {
        } 
     }
 
+    clear_selections() {
+        for (let thumb of this._list) {
+            thumb.clear_selection();
+        }    
+    }
+
     get_thumb(page_num) {
         let arr = [];
 
@@ -88,6 +94,9 @@ export class MgThumbnailList extends MgLister {
     }
 
     mark_highlight(page_num) {
+        /**
+            Mark thumbnail as current page in the view.
+        **/
         let thumb;
 
         thumb = this.get_thumb(page_num);

@@ -30,6 +30,14 @@ export class MgSelection {
       this._events.notify(event_name);
     }
 
+    clear() {
+      this._list = [];
+      this.notify_subscribers(
+        MgSelection.CHANGE,
+        this._list
+      );
+    }
+
     contains(item) {
       let pos;
 

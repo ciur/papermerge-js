@@ -128,6 +128,13 @@ export class MgThumbnail extends DgEvents {
         $(this._dom_ref).removeClass('current');   
     }
 
+    clear_selection() {
+        let checkbox;
+        checkbox = $(this._dom_ref).find("[type=checkbox]").first();
+        checkbox.prop("checked", false);
+        $(this._dom_ref).removeClass('checked');
+    }
+
     _config_events() {
         let that = this;
 
@@ -160,6 +167,7 @@ export class MgThumbnail extends DgEvents {
             }
             that.timer = setTimeout(
                 function() { 
+                    console.log('!click!');
                     that.notify(
                         MgThumbnail.CLICK,
                         that._page_num

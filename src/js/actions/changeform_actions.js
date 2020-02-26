@@ -106,6 +106,14 @@ export class MgChangeFormActions {
     this.configEvents();
   }
 
+  get selection() {
+    return this._selection;
+  }
+
+  clear_selection() {
+    this.selection.clear();
+  }
+
   add(action) {
     this._attach_events(action);
     this._actions.push(action)
