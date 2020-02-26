@@ -129,6 +129,9 @@ export class DgPage {
 
     replace_with(dom_ref) {
         this._dom_ref.replaceWith(dom_ref);
+        this._dom_ref = dom_ref;
+        this._dom_img = $(this._dom_ref).find("img").get(0);
+        this._dom_data_ref = $(this._dom_ref).find(".document.page").get(0);
     }
 
     highlight_text(text_arr) {

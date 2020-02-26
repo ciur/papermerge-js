@@ -243,6 +243,13 @@ form#document_form {
         //#page_set-empty {
         //    display: none;
         //}
+        .page_number {
+            input {
+                color: white;
+                font-size: 1.4rem;
+                font-weight: bold;
+            }
+        }
     }
 
     .document_details {

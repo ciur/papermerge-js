@@ -185,8 +185,6 @@ export class DgTextOverlay {
             $(older_svg).remove();
         }
 
-
-
         this.dom_parent.insertBefore(
             svg_container,
             this.dom_img
