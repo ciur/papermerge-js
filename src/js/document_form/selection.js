@@ -32,6 +32,7 @@ export class MgSelection {
 
     clear() {
       this._list = [];
+      this._configEvents();
       this.notify_subscribers(
         MgSelection.CHANGE,
         this._list
@@ -119,6 +120,7 @@ export class MgSelection {
       // listens on clicks on file and folders
       // and adds/removes them from list
       // when selection count changed - sends an event
+      $(".page_thumbnail").unbind('click');
       $(".page_thumbnail").click(
         {
             selection: this,

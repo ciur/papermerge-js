@@ -93,6 +93,9 @@ export class MgThumbnail extends DgEvents {
         this._page_id = dom_data['page_id'];
         this._dom_data_ref = dom_data_ref;
         // reconfigure events for this thumbnail
+        dom_data_ref.setAttribute(
+            'data-page_order', this._page_num
+        )
         this._config_events();
     }
 
