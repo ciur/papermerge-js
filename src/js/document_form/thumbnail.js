@@ -33,6 +33,35 @@ export class MgThumbnail extends DgEvents {
         return 250; // miliseconds
     }
 
+    static get_data_ref_from_dom(dom_ref) {
+        let dom_data_ref = dom_ref.querySelector(
+            '.document.page'
+        );
+
+        if (!dom_data_ref) {
+            console.log("thumb dom data not found");
+            return;
+        }
+
+        return dom_data_ref;
+    }
+
+    static get_data_from_dom(dom_ref) {
+        let dom_data = dom_ref.querySelector(
+            '.document.page'
+        ), data = {};
+
+        if (!dom_data) {
+            console.log("thumb dom data not found");
+            return;
+        }
+
+        data['doc_id'] = dom_data.getAttribute('data-doc_id');
+        data['page_num'] = dom_data.getAttribute('data-page_num');
+        data['page_id'] = dom_data.getAttribute('data-page_id');
+
+        return data;
+    }
 
     constructor(dom_ref, dom_data_ref, doc_id, page_id, page_num) {
         super();
@@ -43,6 +72,23 @@ export class MgThumbnail extends DgEvents {
         this._page_id = page_id;
         this._doc_id = doc_id;
         this._config_events();
+    }
+
+    replace_with(dom_ref) {
+        let dom_data = MgThumbnail.get_data_from_dom(dom_ref),
+            dom_data_ref = MgThumbnail.get_data_ref_from_dom(dom_ref);
+
+        this._dom_ref.replaceWith(dom_ref);
+        this._dom_ref = dom_ref;
+
+        if (!dom_data) {
+            console.log("dom_data empty");
+            return;
+        }
+
+        this._page_num = dom_data['page_num'];
+        this._page_id = dom_data['page_id'];
+        this._dom_data_ref = dom_data_ref;
     }
 
     get dom_ref() {
@@ -59,6 +105,14 @@ export class MgThumbnail extends DgEvents {
 
     get page_num() {
         return this._page_num;
+    }
+
+    add_class(css_class) {
+        $(this.dom_ref).addClass(css_class);
+    }
+
+    remove_class(css_class) {
+        $(this.dom_ref).removeClass(css_class);
     }
 
     mark_highlight() {

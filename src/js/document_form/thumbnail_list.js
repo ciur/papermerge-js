@@ -50,12 +50,41 @@ export class MgThumbnailList extends MgLister {
     }
 
     swap_thumbs(thumb_1, thumb_2) {
-        let clone_1, clone_2;
+        let clone_1,
+            clone_2,
+            dom_data_1,
+            dom_data_2;
 
         clone_1 = $(thumb_1.dom_ref).clone();
         clone_2 = $(thumb_2.dom_ref).clone();
-        thumb_1.dom_ref.replaceWith(clone_2[0]);
-        thumb_2.dom_ref.replaceWith(clone_1[0]);
+        thumb_1.replace_with(clone_2[0]);
+        thumb_2.replace_with(clone_1[0]);
+
+        this.update_css_class(thumb_1);
+        this.update_css_class(thumb_2);
+    }
+
+    update_css_class(thumb) {
+
+       if (this.is_first(thumb)) {
+           thumb.add_class('first');
+       } else {
+           thumb.remove_class('first');
+       }
+
+       if (this.is_last(thumb)) {
+           thumb.add_class('last');
+       } else {
+           thumb.remove_class('last');
+       } 
+    }
+
+    is_first(thumb) {
+        return thumb.page_num == 1;
+    }
+
+    is_last(thumb) {
+        return thumb.page_num == this._list.length;
     }
 
     mark_highlight(page_num) {
@@ -114,24 +143,24 @@ export class MgThumbnailList extends MgLister {
         let that = this, thumb;
         
         dom_arr.forEach(function(dom_page_item, index, arr){
-            let dom_data = dom_page_item.querySelector(
-                '.document.page'
-            ), doc_id, page_num, page_id;
+            let dom_data, dom_data_ref;
+
+            dom_data = MgThumbnail.get_data_from_dom(dom_page_item);
+            dom_data_ref = MgThumbnail.get_data_ref_from_dom(
+                dom_page_item
+            );
 
             if (!dom_data) {
                 console.log("thumb dom data not found");
                 return;
             }
 
-            doc_id = dom_data.getAttribute('data-doc_id');
-            page_num = dom_data.getAttribute('data-page_num');
-            page_id = dom_data.getAttribute('data-page_id');
             thumb = new MgThumbnail(
                 dom_page_item,
-                dom_data,
-                doc_id,
-                page_id,
-                page_num
+                dom_data_ref,
+                dom_data['doc_id'],
+                dom_data['page_id'],
+                dom_data['page_num']
             );
             thumb.subscribe(
                 MgThumbnail.MOVE_UP,
