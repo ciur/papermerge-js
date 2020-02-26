@@ -59,6 +59,7 @@ export class MgThumbnail extends DgEvents {
         data['doc_id'] = dom_data.getAttribute('data-doc_id');
         data['page_num'] = dom_data.getAttribute('data-page_num');
         data['page_id'] = dom_data.getAttribute('data-page_id');
+        data['page_order'] = dom_data.getAttribute('data-page_order');
 
         return data;
     }

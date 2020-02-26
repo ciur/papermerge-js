@@ -173,7 +173,8 @@ class MgDocument {
         rename_action,
         delete_page_action,
         cut_page_action,
-        paste_page_action;
+        paste_page_action,
+        apply_reorder_changes;
 
       rename_action = new MgChangeFormAction({
         // Achtung! #rename id is same for rename action
@@ -193,7 +194,18 @@ class MgDocument {
         // in changeform view and changelist view.
         id: "#delete-page",
         enabled: function(selection, clipboard) {
-          return selection.length > 0;
+            let order_changed = false;
+
+            // User cannot delete pages if he changed their
+            // order and changes are pending. He/She must 
+            // apply reorder changes!
+            for(let page of selection.all()) {
+                if (page.page_num != page.page_order) {
+                    return false;
+                }
+            }
+
+            return selection.length > 0;
         },
         action: function(
             selection,
@@ -253,10 +265,41 @@ class MgDocument {
         }
       });
 
+      apply_reorder_changes = new MgChangeFormAction({
+        id: "#apply-reorder-changes",
+        enabled: function(
+            selection,
+            clipboard,
+            current_node,
+            thumbnail_list,
+            page_list
+        ) {
+            // if any page has page_num != page_order
+            // it means page was reordered => there pending
+            // changes.
+            if (!thumbnail_list) {
+                return false;
+            }
+            for(let thumb of thumbnail_list.all()) {
+                let data = MgThumbnail.get_data_from_dom(thumb.dom_ref);
+
+                if (data['page_num'] != data['page_order']) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+        action: function(selection, clipboard, current_node) {
+          console.log("log apply reorder changes");
+        }
+      });
+
       actions.add(rename_action);
       actions.add(delete_page_action);
       actions.add(cut_page_action);
       actions.add(paste_page_action);
+      actions.add(apply_reorder_changes);
 
       return actions;
     }

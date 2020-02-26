@@ -56,8 +56,22 @@ export class MgChangeFormAction {
     $(this._id).addClass("disabled");
   }
 
-  toggle(selection, clipboard) {
-    if (this._enabled_cond(selection, clipboard)) {
+  toggle(
+    selection,
+    clipboard,
+    current_node,
+    thumbnail_list,
+    page_list
+    ) {
+    if (
+      this._enabled_cond(
+        selection,
+        clipboard,
+        current_node,
+        thumbnail_list,
+        page_list
+      )
+    ) {
       this.enable();
     } else {
       this.disable();
@@ -141,7 +155,13 @@ export class MgChangeFormActions {
       Theoretically this._selection and selection should be same.
     */
     for (let action of this._actions) {
-      action.toggle(this._selection, this._clipboard);
+      action.toggle(
+        this._selection,
+        this._clipboard,
+        this._current_node,
+        this._thumbnail_list,
+        this._page_list
+      );
     }
   }
 

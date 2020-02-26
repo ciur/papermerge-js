@@ -19,6 +19,10 @@ export class MgThumbnailList extends MgLister {
         }
     }
 
+    all() {
+        return this._list;
+    }
+
     ondblclick(handler, context) {
         for (let thumb of this._list) {
             thumb.ondblclick(handler, context);

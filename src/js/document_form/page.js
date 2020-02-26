@@ -40,10 +40,22 @@ function build_text_overlay(
 export class MgPage {
     /**
     Class deals with selection of pages in thumbnail list.
+
+    doc id - server side database id of the associated doc
+    page id - server side database id of the page
+    page_num - page number when document is displayed in
+        the view. It never changes.
+    page_order - which is initially = page_num will change
+    as user changes the order of the document.
     **/
-    constructor(doc_id, page_id, page_order) {
+    constructor(doc_id, page_id, page_num, page_order) {
         this._doc_id = doc_id;
         this._page_id = page_id;
+        // page number is fixed, it does not change.
+        // when loading document initially, page_num == page_order
+        // if user moves up/down documents => page order changes
+        // but page_num no!
+        this._page_num = page_num;
         // page order in the document
         // as opposite to page number (which is fixed),
         // page order changes as user moves page up/down
@@ -62,12 +74,17 @@ export class MgPage {
         return this._page_order;
     }
 
+    get page_num() {
+        return this._page_num;
+    }
+
     static create_from_dom(dom_elem) {
       let page_order = $(dom_elem).find(".document.page").data("page_order");
       let doc_id = $(dom_elem).find(".document.page").data("doc_id");
       let page_id = $(dom_elem).find(".document.page").data("page_id");
+      let page_num = $(dom_elem).find(".document.page").data("page_num");
 
-      return new MgPage(doc_id, page_id, page_order);
+      return new MgPage(doc_id, page_id, page_num, page_order);
     }
 }
 
