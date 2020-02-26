@@ -85,10 +85,15 @@ export class MgThumbnail extends DgEvents {
             console.log("dom_data empty");
             return;
         }
-
-        this._page_num = dom_data['page_num'];
+        // Do not carry on page_num attribute
+        // it is a bug to do so.
+        // When page order changes - page number attributes
+        // changes as well.
+        //this._page_num = dom_data['page_num'];
         this._page_id = dom_data['page_id'];
         this._dom_data_ref = dom_data_ref;
+        // reconfigure events for this thumbnail
+        this._config_events();
     }
 
     get dom_ref() {

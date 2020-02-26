@@ -98,6 +98,15 @@ export class MgThumbnailList extends MgLister {
 
     on_thumb_move_up(page_num, doc_id, page_id) {
         let thumb_1, thumb_2;
+
+        if (page_num) {
+            page_num = parseInt(page_num, 10);
+        }
+
+        if (!page_num) {
+            console.warning("page_num not a number");
+            return;
+        }
         
         if (page_num < 2) {
             // one page document, discard, do nothing.
@@ -118,6 +127,15 @@ export class MgThumbnailList extends MgLister {
 
     on_thumb_move_down(page_num, doc_id, page_id) {
         let thumb_1, thumb_2;
+
+        if (page_num) {
+            page_num = parseInt(page_num, 10);
+        }
+
+        if (!page_num) {
+            console.warning("page_num not a number");
+            return;
+        }
 
         if (page_num > this._list.length - 1) {
             return false;
