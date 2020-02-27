@@ -127,11 +127,13 @@ export class DgPage {
         return this._page_num;
     }
 
-    replace_with(dom_ref) {
+    replace_with(dom_ref, page_num) {
         this._dom_ref.replaceWith(dom_ref);
         this._dom_ref = dom_ref;
         this._dom_img = $(this._dom_ref).find("img").get(0);
         this._dom_data_ref = $(this._dom_ref).find(".document.page").get(0);
+        this._dom_hocr = $(this._dom_ref).find(".page_hocr").get(0);
+        this._page_num = page_num;
     }
 
     highlight_text(text_arr) {
@@ -156,8 +158,7 @@ export class DgPage {
     }
 
     set_zoom_val(zoom_val) {
-        console.log(`new zoom val=${zoom_val}`);
-
+        //console.log(`new zoom val=${zoom_val}`);
         this._zoom_val = zoom_val;
     }
 
@@ -382,22 +383,18 @@ export class DgPage {
 
     on_scroll(zoom_val) {
         if (this.is_visible()) {
-            console.log(`page ${this.page_num} is visible.`);
-
             if (!this.is_img_loaded()) {
-                console.log(`loading page ${this.page_num}...`);
                 this.load_img(zoom_val);
                 // when load_img completes asyncroniously to load
                 // image - it triggers load_hocr function.
-                this.set_zoom_val(zoom_val);
-            } else if (this.zoom_changed(zoom_val) || this.viewer_resized()) {
-                console.log(`resizing page ${this.page_num}...`);
+            } else if (this.zoom_changed(zoom_val)) {
                 this.resize_img(zoom_val);
                 // resize happens syncroniously.
                 // It means that is ok to call resize_hocr syncr as well.                
                 this.resize_hocr(zoom_val);
                 this.set_zoom_val(zoom_val);
             }
+            this.set_zoom_val(zoom_val);
         }
     }
 
@@ -410,9 +407,12 @@ export class DgPage {
             width = parseInt(width);
         }
 
-        ret = width != old_width;
-        console.log(`viewer resized ${ret}`);
+        if (old_width) {
+            old_width = parseInt(old_width);
+        }
 
+        ret = width != old_width;
+        //console.log(`width=${width} old_width=${old_width} ret=${ret}`);
         return ret;
     }
 
@@ -420,8 +420,7 @@ export class DgPage {
         let ret;
         
         ret = new_zoom_val != this.get_zoom_val();
-        console.log(`zoom changed ${ret}`);
-
+        //console.log(`new zoom val = ${new_zoom_val} this.zoom_val = ${this.get_zoom_val()} ret=${ret}`);
         return ret;
     }
 

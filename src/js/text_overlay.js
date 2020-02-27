@@ -89,6 +89,10 @@ export class DgTextOverlay {
         let bb = svg_item.getBBox();
         let w, h, tx, ty, ratio;
 
+        if (!this.orig_img_rect) {
+            return;
+        }
+
         ratio = parseInt(this.width) / this.orig_img_rect.width;
 
         if (Number.isNumeric(bb.width) && bb.width > 0) {

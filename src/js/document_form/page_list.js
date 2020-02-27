@@ -82,7 +82,6 @@ export class MgPageList extends MgLister {
     }
 
     on_zoom(new_zoom_val) {
-        console.log("page_list.on_zoom");
         for (let page of this.pages) {
             // will apply zoom only if page
             // is visible (within view area)
@@ -110,8 +109,8 @@ export class MgPageList extends MgLister {
 
         clone_1 = $(page_1.dom_ref).clone();
         clone_2 = $(page_2.dom_ref).clone();
-        page_1.replace_with(clone_2[0]);
-        page_2.replace_with(clone_1[0]);
+        page_1.replace_with(clone_2[0], page_2.page_num);
+        page_2.replace_with(clone_1[0], page_1.page_num);
     }
 
     on_page_move_down(page_num, doc_id, page_id) {
