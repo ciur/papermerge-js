@@ -291,8 +291,38 @@ class MgDocument {
 
             return false;
         },
-        action: function(selection, clipboard, current_node) {
-          console.log("log apply reorder changes");
+        action: function(
+            selection, 
+            clipboard,
+            current_node,
+            thumbnail_list,
+            page_list
+        ) {
+            let confirmation = confirm("Are you sure?"),
+            url, params, pages = [], doc_id, data;
+
+            if (!confirmation) {
+              return;
+            }
+
+            for (let thumb of thumbnail_list.all()) {
+                data = MgThumbnail.get_data_from_dom(thumb.dom_ref);
+                doc_id = thumb.doc_id;
+                pages.push({
+                    'page_num': data['page_num'],
+                    'page_order': data['page_order'],
+                });
+            }
+
+            url = `/api/document/${doc_id}/pages`;
+
+            $.post({
+                url: url,
+                type: 'POST',
+                data: JSON.stringify(pages),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+            });
         }
       });
 
