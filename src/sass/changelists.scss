@@ -133,6 +133,7 @@
         }
        .title {
             text-align: center;
+            opacity: 1;
        }
        &:hover {
             background-color: $result_list_hover_bg_color;
