@@ -250,7 +250,22 @@ class MgDocument {
           return selection.length > 0;
         },
         action: function(selection, clipboard, current_node) {
-          console.log("log cut-page");
+          let url, pages = [], doc_id;
+
+          for (let page of selection.all()) {
+            doc_id = page.doc_id;
+            pages.push(page.page_num);
+          }
+
+          url = `/api/document/${doc_id}/pages/cut`;
+
+          $.post({
+              url: url,
+              type: 'POST',
+              data: JSON.stringify(pages),
+              dataType: "json",
+              contentType: "application/json; charset=utf-8",
+          });
         }
       });
 
