@@ -1,15 +1,4 @@
-
-@import "~bootstrap/scss/functions"; // required
-@import "~bootstrap/scss/variables";  // required
-@import "~bootstrap/scss/mixins"; // required
-@import "~bootstrap/scss/_reboot"; 
-@import "~bootstrap/scss/_buttons";
-@import "~bootstrap/scss/_dropdown";
-@import "~bootstrap/scss/_close";
-@import "~bootstrap/scss/utilities/_spacing";
-@import "~bootstrap/scss/_toasts";
-
-@import "bootstrap-select/sass/bootstrap-select";
+@import "~bootstrap/scss/bootstrap";
 
 @import "./common/reset";
 @import "./common/colors";
