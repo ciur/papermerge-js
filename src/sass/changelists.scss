@@ -134,6 +134,7 @@
        .title {
             text-align: center;
             opacity: 1;
+            z-index: 0;
        }
        &:hover {
             background-color: $result_list_hover_bg_color;
@@ -192,6 +193,7 @@
 
 .dropdown-submenu{
     position: relative;
+    z-index: 100;
 }
 .dropdown-submenu a::after{
     transform: rotate(-90deg);
