@@ -1,6 +1,5 @@
 import {dglReady} from "./utils";
 import {DgUploader} from "./uploader/uploader";
-import {dropdown_multilevel} from "./dropdown";
 import {show_add_new_folder, node_doubleclick, shorten_title} from "./changelist";
 import {document_preloader} from "./changelist";
 
@@ -52,7 +51,6 @@ let App = function() {
       )
     ;
 
-  let dropdown = dropdown_multilevel();
   let dom_actual_pages = document.querySelector('.actual-pages');
 
   // submits a form to the server to create a new folder
