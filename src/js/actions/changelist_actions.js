@@ -129,6 +129,7 @@ export function build_changelist_actions() {
       cut_action,
       delete_action,
       paste_action,
+      paste_pages_action,
       rename_action,
       download_action,
       access_action;
@@ -202,6 +203,17 @@ export function build_changelist_actions() {
     }
   });
 
+  paste_pages_action = new DgChangeListAction({
+    id: "#paste_pages",
+    initial_state: true, // enabled by default
+    enabled: function(selection, clipboard) {
+      return true;
+    },
+    action: function(selection, clipboard, current_node) {
+      console.log(`Pasting pages...current_node_id=${current_node}`);
+    }
+  });
+
   rename_action = new DgChangeListAction({
     // Achtung! #rename id is same for rename action
     // in changeform view and changelist view.
@@ -248,6 +260,7 @@ export function build_changelist_actions() {
   actions.add(cut_action);
   actions.add(delete_action);
   actions.add(paste_action);
+  actions.add(paste_pages_action);
   actions.add(rename_action);
   actions.add(download_action);
   actions.add(access_action);
