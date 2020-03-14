@@ -277,7 +277,16 @@ class MgDocument {
           return true;
         },
         action: function(selection, clipboard, current_node) {
-          console.log("log paste-page");
+            let url;
+
+            url = `/api/document/${current_node.id}/pages/paste`;
+
+            $.post({
+              url: url,
+              type: 'POST',
+              dataType: "json",
+              contentType: "application/json; charset=utf-8",
+            });
         }
       });
 
