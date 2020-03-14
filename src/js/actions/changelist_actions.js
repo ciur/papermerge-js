@@ -6,6 +6,7 @@ import {DgClipboard} from "../clipboard";
 import {get_current_parent_id} from "../node";
 import {CutForm} from "../forms/cut_form";
 import {PasteForm} from "../forms/paste_form";
+import {PastePagesForm} from "../forms/paste_pages_form";
 import {DeleteForm} from "../forms/delete_form";
 import {RenameForm} from "../forms/rename_form";
 import {AccessForm} from "../forms/access_form";
@@ -38,6 +39,9 @@ export class DgChangeListActions {
     // paste them in another folder. Cut/Pasted items are placed (taken)
     // to/from DgClipboard
     this._clipboard = new DgClipboard();
+    // get_current_parent_id() always returns undefined.... to be
+    // removed
+    // parent id is loaded from papermerge/boss/templates/_forms.js.html
     this._current_node = get_current_parent_id();
     this.configEvents();
   }
@@ -210,7 +214,11 @@ export function build_changelist_actions() {
       return true;
     },
     action: function(selection, clipboard, current_node) {
-      console.log(`Pasting pages...current_node_id=${current_node}`);
+      let paste_pages_form;
+
+      paste_pages_form = new PastePagesForm();
+
+      paste_pages_form.submit();
     }
   });
 
