@@ -292,13 +292,20 @@ class MgDocument {
           return selection.length == 1;
         },
         action: function(selection, clipboard, current_node) {
-            let url;
+            let url, page_num = -1;
+
+            for (let page of selection.all()) {
+                if (page.page_num) {
+                    page_num = page.page_num;
+                }
+            }
 
             url = `/api/document/${current_node.id}/pages/paste`;
 
             $.post({
               url: url,
               type: 'POST',
+              data: JSON.stringify({'before': page_num}),
               dataType: "json",
               contentType: "application/json; charset=utf-8",
             });
@@ -311,13 +318,20 @@ class MgDocument {
           return selection.length == 1;
         },
         action: function(selection, clipboard, current_node) {
-            let url;
+            let url, page_num = -1;
+
+            for (let page of selection.all()) {
+                if (page.page_num) {
+                    page_num = page.page_num;
+                }
+            }
 
             url = `/api/document/${current_node.id}/pages/paste`;
 
             $.post({
               url: url,
               type: 'POST',
+              data: JSON.stringify({'after': page_num}),
               dataType: "json",
               contentType: "application/json; charset=utf-8",
             });
