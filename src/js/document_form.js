@@ -175,6 +175,8 @@ class MgDocument {
         delete_page_action,
         cut_page_action,
         paste_page_action,
+        paste_page_before_action,
+        paste_page_after_action,
         apply_reorder_changes;
 
       rename_action = new MgChangeFormAction({
@@ -191,8 +193,6 @@ class MgDocument {
       });
 
       delete_page_action = new MgChangeFormAction({
-        // Achtung! #rename id is same for rename action
-        // in changeform view and changelist view.
         id: "#delete-page",
         enabled: function(selection, clipboard) {
             let order_changed = false;
@@ -243,8 +243,6 @@ class MgDocument {
       });
 
       cut_page_action = new MgChangeFormAction({
-        // Achtung! #rename id is same for rename action
-        // in changeform view and changelist view.
         id: "#cut-page",
         enabled: function(selection, clipboard) {
           return selection.length > 0;
@@ -270,11 +268,47 @@ class MgDocument {
       });
 
       paste_page_action = new MgChangeFormAction({
-        // Achtung! #rename id is same for rename action
-        // in changeform view and changelist view.
         id: "#paste-page",
         enabled: function(selection, clipboard) {
           return true;
+        },
+        action: function(selection, clipboard, current_node) {
+            let url;
+
+            url = `/api/document/${current_node.id}/pages/paste`;
+
+            $.post({
+              url: url,
+              type: 'POST',
+              dataType: "json",
+              contentType: "application/json; charset=utf-8",
+            });
+        }
+      });
+
+      paste_page_before_action = new MgChangeFormAction({
+        id: "#paste-page-before",
+        enabled: function(selection, clipboard) {
+          return selection.length == 1;
+        },
+        action: function(selection, clipboard, current_node) {
+            let url;
+
+            url = `/api/document/${current_node.id}/pages/paste`;
+
+            $.post({
+              url: url,
+              type: 'POST',
+              dataType: "json",
+              contentType: "application/json; charset=utf-8",
+            });
+        }
+      });
+
+      paste_page_after_action = new MgChangeFormAction({
+        id: "#paste-page-after",
+        enabled: function(selection, clipboard) {
+          return selection.length == 1;
         },
         action: function(selection, clipboard, current_node) {
             let url;
@@ -354,6 +388,8 @@ class MgDocument {
       actions.add(delete_page_action);
       actions.add(cut_page_action);
       actions.add(paste_page_action);
+      actions.add(paste_page_before_action);
+      actions.add(paste_page_after_action);
       actions.add(apply_reorder_changes);
 
       return actions;
