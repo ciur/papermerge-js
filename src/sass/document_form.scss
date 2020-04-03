@@ -54,6 +54,12 @@
         align-items: center;
         padding: 0.5rem;
 
+        .page_number {
+            input {
+                width: 2rem;
+            }
+        }
+
         a.icon-arrow-up {
             width: 1.5rem;
             height: 1.5rem;
@@ -182,7 +188,7 @@ form#document_form {
             padding: 0;
             input {
                 border: none;
-                width: 1rem;
+                // width: 1rem;
                 padding: 0;
                 background-color: inherit;
 
@@ -243,11 +249,14 @@ form#document_form {
         //#page_set-empty {
         //    display: none;
         //}
-        .page_number {
-            input {
-                color: white;
-                font-size: 1.4rem;
-                font-weight: bold;
+        .actual_page {
+            .page_number {
+                input {
+                    color: white;
+                    font-size: 1.4rem;
+                    font-weight: bold;
+                    width: 2.5rem;
+                }
             }
         }
     }
