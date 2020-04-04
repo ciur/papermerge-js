@@ -264,9 +264,10 @@ button.btn-reverse:hover {
         }
     }
 
-    .modal {
+    form.modal {
         background-color: $clean_color;
-        position: absolute;
+        position: relative;
+        height: auto;
         padding: 1rem 1rem 0.5rem 1rem;
         width: 25vw;
         @include respond(tab-port) {
