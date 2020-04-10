@@ -2114,29 +2114,30 @@ button.btn-reverse:hover {
     #modals-container #access_form .flex-table .ft-row.selected {
       background-color: #e6f5ff;
       outline: 1px solid #A6DAFF; }
-  #modals-container .modal {
+  #modals-container form.modal {
     background-color: white;
-    position: absolute;
+    position: relative;
+    height: auto;
     padding: 1rem 1rem 0.5rem 1rem;
     width: 25vw;
     box-shadow: 1px 1px 5px 3px rgba(0, 0, 0, 0.3); }
     @media (max-width: 56.25em) {
-      #modals-container .modal {
+      #modals-container form.modal {
         width: 50vw; } }
     @media (max-width: 37.5em) {
-      #modals-container .modal {
+      #modals-container form.modal {
         width: 85vw; } }
-    #modals-container .modal .modal-header h1 {
+    #modals-container form.modal .modal-header h1 {
       font-weight: 600;
       font-size: 1rem;
       color: #15b57b; }
-    #modals-container .modal .modal-body {
+    #modals-container form.modal .modal-body {
       padding: 2rem 0rem; }
-      #modals-container .modal .modal-body formset {
+      #modals-container form.modal .modal-body formset {
         border: 1px solid #eee;
         margin-top: 1rem;
         padding: 1rem; }
-    #modals-container .modal .modal-footer {
+    #modals-container form.modal .modal-footer {
       border-top: 1px solid #d7d7d7; }
 
 .flex-table {
@@ -2677,7 +2678,9 @@ button.btn-reverse:hover {
         width: 5rem;
         height: 5rem; } }
   #result_list .node_grid .title {
-    text-align: center; }
+    text-align: center;
+    opacity: 1;
+    z-index: 0; }
   #result_list .node_grid:hover {
     background-color: #e6f5ff;
     border: 1px solid #e6f5ff; }
@@ -2719,6 +2722,35 @@ button.btn-reverse:hover {
   border-radius: 100%;
   -webkit-animation: spin 1s infinite linear;
           animation: spin 1s infinite linear; }
+
+.dropdown-submenu {
+  position: relative;
+  z-index: 100; }
+
+.dropdown-submenu a::after {
+  transform: rotate(-90deg);
+  position: absolute;
+  right: 3px;
+  top: 40%; }
+
+.dropdown-submenu:hover .dropdown-menu, .dropdown-submenu:focus .dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute !important; }
+
+.dropdown-submenu-left:hover .dropdown-menu, .dropdown-submenu-left:focus .dropdown-menu {
+  right: 100%;
+  width: 6rem; }
+
+.dropdown-submenu-right:hover .dropdown-menu, .dropdown-submenu-right:focus .dropdown-menu {
+  left: 100%;
+  width: 13rem; }
+
+@media (max-width: 992px) {
+  .dropdown-menu {
+    width: 50%; }
+  .dropdown-menu .dropdown-submenu {
+    width: auto; } }
 
 p, ol, h1, h2, h3, h4, pre {
   margin: 0;
@@ -3454,29 +3486,30 @@ button.btn-reverse:hover {
     #modals-container #access_form .flex-table .ft-row.selected {
       background-color: #e6f5ff;
       outline: 1px solid #A6DAFF; }
-  #modals-container .modal {
+  #modals-container form.modal {
     background-color: white;
-    position: absolute;
+    position: relative;
+    height: auto;
     padding: 1rem 1rem 0.5rem 1rem;
     width: 25vw;
     box-shadow: 1px 1px 5px 3px rgba(0, 0, 0, 0.3); }
     @media (max-width: 56.25em) {
-      #modals-container .modal {
+      #modals-container form.modal {
         width: 50vw; } }
     @media (max-width: 37.5em) {
-      #modals-container .modal {
+      #modals-container form.modal {
         width: 85vw; } }
-    #modals-container .modal .modal-header h1 {
+    #modals-container form.modal .modal-header h1 {
       font-weight: 600;
       font-size: 1rem;
       color: #15b57b; }
-    #modals-container .modal .modal-body {
+    #modals-container form.modal .modal-body {
       padding: 2rem 0rem; }
-      #modals-container .modal .modal-body formset {
+      #modals-container form.modal .modal-body formset {
         border: 1px solid #eee;
         margin-top: 1rem;
         padding: 1rem; }
-    #modals-container .modal .modal-footer {
+    #modals-container form.modal .modal-footer {
       border-top: 1px solid #d7d7d7; }
 
 .flex-table {

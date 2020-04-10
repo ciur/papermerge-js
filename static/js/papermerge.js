@@ -20510,22 +20510,19 @@ class DgAbstractAction {
 /*!**********************************************!*\
   !*** ./src/js/actions/changeform_actions.js ***!
   \**********************************************/
-/*! exports provided: DgChangeFormAction, DgChangeFormActions, build_changeform_actions */
+/*! exports provided: MgChangeFormAction, MgChangeFormActions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgChangeFormAction", function() { return DgChangeFormAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgChangeFormActions", function() { return DgChangeFormActions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "build_changeform_actions", function() { return build_changeform_actions; });
-/* harmony import */ var _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../forms/rename_change_form */ "./src/js/forms/rename_change_form.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _selection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../selection */ "./src/js/selection.js");
-/* harmony import */ var _clipboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../clipboard */ "./src/js/clipboard.js");
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../node */ "./src/js/node.js");
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgChangeFormAction", function() { return MgChangeFormAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgChangeFormActions", function() { return MgChangeFormActions; });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _document_form_selection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../document_form/selection */ "./src/js/document_form/selection.js");
+/* harmony import */ var _document_form_clipboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../document_form/clipboard */ "./src/js/document_form/clipboard.js");
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../node */ "./src/js/node.js");
 
 
 
@@ -20541,7 +20538,7 @@ __webpack_require__.r(__webpack_exports__);
         # paste - paste pages (which were cut from different document)
 */
 
-class DgChangeFormAction {
+class MgChangeFormAction {
   /*
     An abstraction of action item in (actions) dropdown menu from
     changelist and changeform view.
@@ -20573,46 +20570,56 @@ class DgChangeFormAction {
 
   enable() {
     this._is_enabled = true;
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()(this._id).removeClass("disabled");
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(this._id).removeClass("disabled");
   }
 
   disable() {
     console.log(`${this._id} disabled`);
     this._is_enabled = false;
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()(this._id).addClass("disabled");
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(this._id).addClass("disabled");
   }
 
-  toggle(selection, clipboard) {
-    if (this._enabled_cond(selection, clipboard)) {
+  toggle(selection, clipboard, current_node, thumbnail_list, page_list) {
+    if (this._enabled_cond(selection, clipboard, current_node, thumbnail_list, page_list)) {
       this.enable();
     } else {
       this.disable();
     }
   }
 
-  action(selection, clipboard, current_node) {
-    this._action(selection, clipboard, current_node);
+  action(selection, clipboard, current_node, thumbnail_list, page_list) {
+    this._action(selection, clipboard, current_node, thumbnail_list, page_list);
   }
 
 }
-class DgChangeFormActions {
+class MgChangeFormActions {
   /*
     An abstraction of actions dropdown menu in changelist view.
     Actions dropdown menu operates on a selection of one or many
     items (document or folder).
   */
-  constructor(config) {
+  constructor(thumbnail_list, page_list) {
     let title, id;
-    title = jquery__WEBPACK_IMPORTED_MODULE_2___default()("input[name=document_title]").val();
-    id = jquery__WEBPACK_IMPORTED_MODULE_2___default()("input[name=document_id]").val();
+    title = jquery__WEBPACK_IMPORTED_MODULE_1___default()("input[name=document_title]").val();
+    id = jquery__WEBPACK_IMPORTED_MODULE_1___default()("input[name=document_id]").val();
     this._actions = [];
-    this._selection = new _selection__WEBPACK_IMPORTED_MODULE_3__["DgSelection"](); // user can cut some items in one folder and
+    this._selection = new _document_form_selection__WEBPACK_IMPORTED_MODULE_2__["MgSelection"](); // user can cut some items in one folder and
     // paste them in another folder. Cut/Pasted items are placed (taken)
     // to/from DgClipboard
 
-    this._clipboard = new _clipboard__WEBPACK_IMPORTED_MODULE_4__["DgClipboard"]();
-    this._current_node = new _node__WEBPACK_IMPORTED_MODULE_5__["DgNode"](id, title);
+    this._clipboard = new _document_form_clipboard__WEBPACK_IMPORTED_MODULE_3__["MgClipboard"]();
+    this._current_node = new _node__WEBPACK_IMPORTED_MODULE_4__["DgNode"](id, title);
+    this._thumbnail_list = thumbnail_list;
+    this._page_list = page_list;
     this.configEvents();
+  }
+
+  get selection() {
+    return this._selection;
+  }
+
+  clear_selection() {
+    this.selection.clear();
   }
 
   add(action) {
@@ -20622,11 +20629,13 @@ class DgChangeFormActions {
   }
 
   _attach_events(action) {
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()(action.id).click({
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(action.id).click({
       action: action,
       selection: this._selection,
       clipboard: this._clipboard,
-      current_node: this._current_node
+      current_node: this._current_node,
+      thumbnail_list: this._thumbnail_list,
+      page_list: this._page_list
     }, this.on_click);
   }
 
@@ -20637,7 +20646,7 @@ class DgChangeFormActions {
        Theoretically this._selection and selection should be same.
     */
     for (let action of this._actions) {
-      action.toggle(this._selection, this._clipboard);
+      action.toggle(this._selection, this._clipboard, this._current_node, this._thumbnail_list, this._page_list);
     }
   }
 
@@ -20654,19 +20663,21 @@ class DgChangeFormActions {
     let selection = event.data.selection;
     let clipboard = event.data.clipboard;
     let current_node = event.data.current_node;
+    let thumbnail_list = event.data.thumbnail_list;
+    let page_list = event.data.page_list;
 
     if (!action.is_enabled) {
       return;
     }
 
-    action.action(selection, clipboard, current_node);
+    action.action(selection, clipboard, current_node, thumbnail_list, page_list);
   }
 
   configEvents() {
-    this._selection.subscribe_event(_selection__WEBPACK_IMPORTED_MODULE_3__["DgSelection"].CHANGE, this.on_change_selection, this // context
+    this._selection.subscribe_event(_document_form_selection__WEBPACK_IMPORTED_MODULE_2__["MgSelection"].CHANGE, this.on_change_selection, this // context
     );
 
-    this._clipboard.subscribe_event(_clipboard__WEBPACK_IMPORTED_MODULE_4__["DgClipboard"].CHANGE, this.on_change_clipboard, this //context
+    this._clipboard.subscribe_event(_document_form_clipboard__WEBPACK_IMPORTED_MODULE_3__["MgClipboard"].CHANGE, this.on_change_clipboard, this //context
     );
 
     for (let action of this._actions) {
@@ -20674,32 +20685,6 @@ class DgChangeFormActions {
     }
   }
 
-}
-function build_changeform_actions() {
-  /**
-  Actions dropdown menu of changeform view.
-  */
-  if (!Object(_utils__WEBPACK_IMPORTED_MODULE_1__["find_by_id"])("changeform_actions")) {
-    // there is no point to do anything is actions
-    // dropdown is not in the view.
-    return;
-  }
-
-  let actions = new DgChangeFormActions(),
-      rename_action;
-  rename_action = new DgChangeFormAction({
-    // Achtung! #rename id is same for rename action
-    // in changeform view and changelist view.
-    id: "#rename",
-    enabled: function (selection, clipboard) {
-      return true;
-    },
-    action: function (selection, clipboard, current_node) {
-      let rename_form = new _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_0__["RenameChangeForm"](current_node);
-      rename_form.show();
-    }
-  });
-  actions.add(rename_action);
 }
 
 /***/ }),
@@ -20725,9 +20710,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../node */ "./src/js/node.js");
 /* harmony import */ var _forms_cut_form__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../forms/cut_form */ "./src/js/forms/cut_form.js");
 /* harmony import */ var _forms_paste_form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../forms/paste_form */ "./src/js/forms/paste_form.js");
-/* harmony import */ var _forms_delete_form__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../forms/delete_form */ "./src/js/forms/delete_form.js");
-/* harmony import */ var _forms_rename_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../forms/rename_form */ "./src/js/forms/rename_form.js");
-/* harmony import */ var _forms_access_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../forms/access_form */ "./src/js/forms/access_form.js");
+/* harmony import */ var _forms_paste_pages_form__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../forms/paste_pages_form */ "./src/js/forms/paste_pages_form.js");
+/* harmony import */ var _forms_delete_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../forms/delete_form */ "./src/js/forms/delete_form.js");
+/* harmony import */ var _forms_rename_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../forms/rename_form */ "./src/js/forms/rename_form.js");
+/* harmony import */ var _forms_access_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../forms/access_form */ "./src/js/forms/access_form.js");
+
 
 
 
@@ -20765,7 +20752,10 @@ class DgChangeListActions {
     // paste them in another folder. Cut/Pasted items are placed (taken)
     // to/from DgClipboard
 
-    this._clipboard = new _clipboard__WEBPACK_IMPORTED_MODULE_4__["DgClipboard"]();
+    this._clipboard = new _clipboard__WEBPACK_IMPORTED_MODULE_4__["DgClipboard"](); // get_current_parent_id() always returns undefined.... to be
+    // removed
+    // parent id is loaded from papermerge/boss/templates/_forms.js.html
+
     this._current_node = Object(_node__WEBPACK_IMPORTED_MODULE_5__["get_current_parent_id"])();
     this.configEvents();
   }
@@ -20842,6 +20832,7 @@ function build_changelist_actions() {
       cut_action,
       delete_action,
       paste_action,
+      paste_pages_action,
       rename_action,
       download_action,
       access_action;
@@ -20875,7 +20866,7 @@ function build_changelist_actions() {
         return;
       }
 
-      delete_form = new _forms_delete_form__WEBPACK_IMPORTED_MODULE_8__["DeleteForm"](selection.all(), current_node);
+      delete_form = new _forms_delete_form__WEBPACK_IMPORTED_MODULE_9__["DeleteForm"](selection.all(), current_node);
       delete_form.submit();
     },
     confirm: true
@@ -20897,6 +20888,19 @@ function build_changelist_actions() {
       paste_form.submit();
     }
   });
+  paste_pages_action = new DgChangeListAction({
+    id: "#paste_pages",
+    initial_state: true,
+    // enabled by default
+    enabled: function (selection, clipboard) {
+      return true;
+    },
+    action: function (selection, clipboard, current_node) {
+      let paste_pages_form;
+      paste_pages_form = new _forms_paste_pages_form__WEBPACK_IMPORTED_MODULE_8__["PastePagesForm"]();
+      paste_pages_form.submit();
+    }
+  });
   rename_action = new DgChangeListAction({
     // Achtung! #rename id is same for rename action
     // in changeform view and changelist view.
@@ -20907,7 +20911,7 @@ function build_changelist_actions() {
     action: function (selection, clipboard, current_node) {
       let rename_form, node;
       node = selection.first();
-      rename_form = new _forms_rename_form__WEBPACK_IMPORTED_MODULE_9__["RenameForm"](node, current_node);
+      rename_form = new _forms_rename_form__WEBPACK_IMPORTED_MODULE_10__["RenameForm"](node, current_node);
       rename_form.show();
     }
   });
@@ -20930,13 +20934,14 @@ function build_changelist_actions() {
       // in case of access_action, only node is used - and it
       // refers to the selected node.
 
-      access_form = new _forms_access_form__WEBPACK_IMPORTED_MODULE_10__["AccessForm"](node, current_node);
+      access_form = new _forms_access_form__WEBPACK_IMPORTED_MODULE_11__["AccessForm"](node, current_node);
       access_form.show();
     }
   });
   actions.add(cut_action);
   actions.add(delete_action);
   actions.add(paste_action);
+  actions.add(paste_pages_action);
   actions.add(rename_action);
   actions.add(download_action);
   actions.add(access_action);
@@ -21048,27 +21053,23 @@ class DgPermissionActions {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
 /* harmony import */ var _uploader_uploader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uploader/uploader */ "./src/js/uploader/uploader.js");
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dropdown */ "./src/js/dropdown.js");
-/* harmony import */ var _changelist__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./changelist */ "./src/js/changelist.js");
-/* harmony import */ var _document_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./document_form */ "./src/js/document_form.js");
-/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./register */ "./src/js/register.js");
-/* harmony import */ var _password__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./password */ "./src/js/password.js");
-/* harmony import */ var _actions_changelist_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./actions/changelist_actions */ "./src/js/actions/changelist_actions.js");
-/* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
-/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
-/* harmony import */ var _top_right_menu__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./top_right_menu */ "./src/js/top_right_menu.js");
-/* harmony import */ var _side_menu_left__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./side_menu/left */ "./src/js/side_menu/left.js");
-/* harmony import */ var _side_menu_right__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./side_menu/right */ "./src/js/side_menu/right.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/js/dist/dropdown */ "./node_modules/bootstrap/js/dist/dropdown.js");
-/* harmony import */ var bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_16__);
-
-
+/* harmony import */ var _changelist__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./changelist */ "./src/js/changelist.js");
+/* harmony import */ var _document_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./document_form */ "./src/js/document_form.js");
+/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./register */ "./src/js/register.js");
+/* harmony import */ var _password__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./password */ "./src/js/password.js");
+/* harmony import */ var _actions_changelist_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./actions/changelist_actions */ "./src/js/actions/changelist_actions.js");
+/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
+/* harmony import */ var _top_right_menu__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./top_right_menu */ "./src/js/top_right_menu.js");
+/* harmony import */ var _side_menu_left__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./side_menu/left */ "./src/js/side_menu/left.js");
+/* harmony import */ var _side_menu_right__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./side_menu/right */ "./src/js/side_menu/right.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/dropdown */ "./node_modules/bootstrap/js/dist/dropdown.js");
+/* harmony import */ var bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_dropdown__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_14__);
 
 
 
@@ -21089,7 +21090,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let on_document_form = function (func) {
-  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_13___default()("#document_form");
+  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_11___default()("#document_form");
 
   if ($document_form.length == 0) {
     return;
@@ -21099,40 +21100,39 @@ let on_document_form = function (func) {
 };
 
 let App = function () {
-  let upload_feedback_sw = jquery__WEBPACK_IMPORTED_MODULE_13___default()('upload-feedback-switch'),
+  let upload_feedback_sw = jquery__WEBPACK_IMPORTED_MODULE_11___default()('upload-feedback-switch'),
       uploader = new _uploader_uploader__WEBPACK_IMPORTED_MODULE_1__["DgUploader"](),
-      top_right_menu = new _top_right_menu__WEBPACK_IMPORTED_MODULE_10__["TopRightMenu"]("#top-right-menu-wrapper", "#top-right-menu", ".top-right-menu-trigger"),
-      left_menu = new _side_menu_left__WEBPACK_IMPORTED_MODULE_11__["LeftMenu"]("#left-sidebar.phone", "#top-left-logo  .icon-hamburger"),
-      right_menu = new _side_menu_right__WEBPACK_IMPORTED_MODULE_12__["RightMenu"]("#document_details", "#top-right-menu-wrapper .icon-3dots");
-  let dropdown = Object(_dropdown__WEBPACK_IMPORTED_MODULE_2__["dropdown_multilevel"])();
+      top_right_menu = new _top_right_menu__WEBPACK_IMPORTED_MODULE_8__["TopRightMenu"]("#top-right-menu-wrapper", "#top-right-menu", ".top-right-menu-trigger"),
+      left_menu = new _side_menu_left__WEBPACK_IMPORTED_MODULE_9__["LeftMenu"]("#left-sidebar.phone", "#top-left-logo  .icon-hamburger"),
+      right_menu = new _side_menu_right__WEBPACK_IMPORTED_MODULE_10__["RightMenu"]("#document_details", "#top-right-menu-wrapper .icon-3dots");
   let dom_actual_pages = document.querySelector('.actual-pages'); // submits a form to the server to create a new folder
 
-  Object(_changelist__WEBPACK_IMPORTED_MODULE_3__["show_add_new_folder"])("button#new-folder");
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_4__["add_zoom_2_document_form"]);
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_4__["add_switch_2_document_form"]);
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_4__["add_load_on_scroll"]); //$('.toast').toast({'autohide': true, 'delay': 5000});
+  Object(_changelist__WEBPACK_IMPORTED_MODULE_2__["show_add_new_folder"])("button#new-folder");
+  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_zoom_2_document_form"]);
+  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_switch_2_document_form"]); // creates a new DgDocument instance
 
-  jquery__WEBPACK_IMPORTED_MODULE_13___default()('.toast').toast({
+  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_load_on_scroll"]); //$('.toast').toast({'autohide': true, 'delay': 5000});
+
+  jquery__WEBPACK_IMPORTED_MODULE_11___default()('.toast').toast({
     'autohide': false
   });
-  jquery__WEBPACK_IMPORTED_MODULE_13___default()('.toast').toast('show');
+  jquery__WEBPACK_IMPORTED_MODULE_11___default()('.toast').toast('show');
 
-  if (jquery__WEBPACK_IMPORTED_MODULE_13___default()("#register-form").length > 0) {
-    Object(_register__WEBPACK_IMPORTED_MODULE_5__["registration"])();
+  if (jquery__WEBPACK_IMPORTED_MODULE_11___default()("#register-form").length > 0) {
+    Object(_register__WEBPACK_IMPORTED_MODULE_4__["registration"])();
   } else {
-    Object(_password__WEBPACK_IMPORTED_MODULE_6__["decorate_passwords"])();
+    Object(_password__WEBPACK_IMPORTED_MODULE_5__["decorate_passwords"])();
   }
 
   if (dom_actual_pages) {
-    new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_9__["DgPageScroll"](dom_actual_pages);
+    new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_7__["DgPageScroll"](dom_actual_pages);
   }
 
-  Object(_actions_changelist_actions__WEBPACK_IMPORTED_MODULE_7__["build_changelist_actions"])();
-  Object(_actions_changeform_actions__WEBPACK_IMPORTED_MODULE_8__["build_changeform_actions"])();
-  Object(_changelist__WEBPACK_IMPORTED_MODULE_3__["node_doubleclick"])(".dblclick"); // make node's titles (in document's changelist grid/list mode)
+  Object(_actions_changelist_actions__WEBPACK_IMPORTED_MODULE_6__["build_changelist_actions"])();
+  Object(_changelist__WEBPACK_IMPORTED_MODULE_2__["node_doubleclick"])(".dblclick"); // make node's titles (in document's changelist grid/list mode)
 
-  Object(_changelist__WEBPACK_IMPORTED_MODULE_3__["shorten_title"])();
-  Object(_changelist__WEBPACK_IMPORTED_MODULE_3__["document_preloader"])();
+  Object(_changelist__WEBPACK_IMPORTED_MODULE_2__["shorten_title"])();
+  Object(_changelist__WEBPACK_IMPORTED_MODULE_2__["document_preloader"])();
 };
 
 Object(_utils__WEBPACK_IMPORTED_MODULE_0__["dglReady"])( // i.e. after all DOM is loaded
@@ -21309,10 +21309,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _text_overlay__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./text_overlay */ "./src/js/text_overlay.js");
 /* harmony import */ var _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./document_form/thumbnail_list */ "./src/js/document_form/thumbnail_list.js");
-/* harmony import */ var _document_form_zoom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./document_form/zoom */ "./src/js/document_form/zoom.js");
-/* harmony import */ var _document_form_page_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./document_form/page_list */ "./src/js/document_form/page_list.js");
-/* harmony import */ var _document_form_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./document_form/common */ "./src/js/document_form/common.js");
-/* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./spinner */ "./src/js/spinner.js");
+/* harmony import */ var _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./document_form/thumbnail */ "./src/js/document_form/thumbnail.js");
+/* harmony import */ var _document_form_zoom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./document_form/zoom */ "./src/js/document_form/zoom.js");
+/* harmony import */ var _document_form_page_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./document_form/page_list */ "./src/js/document_form/page_list.js");
+/* harmony import */ var _document_form_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./document_form/common */ "./src/js/document_form/common.js");
+/* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./spinner */ "./src/js/spinner.js");
+/* harmony import */ var _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./forms/rename_change_form */ "./src/js/forms/rename_change_form.js");
+/* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
+
+
+
 
 
 
@@ -21362,11 +21368,11 @@ function add_switch_2_document_form() {
   add_switch_logic("#sw-right-panel");
 }
 
-class DgDocument {
+class MgDocument {
   constructor(page_num, text_arr) {
-    this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_3__["DgThumbnailList"]();
-    this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_4__["DgZoom"]();
-    this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_5__["DgPageList"](this._zoom);
+    this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_3__["MgThumbnailList"]();
+    this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_5__["DgZoom"]();
+    this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_6__["MgPageList"](this._zoom);
     this._page_num;
     this._text_arr = text_arr;
 
@@ -21374,7 +21380,8 @@ class DgDocument {
 
     this._page_list.load(this.zoom.get_value());
 
-    this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_7__["DgMainSpinner"]();
+    this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_8__["DgMainSpinner"]();
+    this._actions = this.build_actions();
     this.configEvents();
 
     if (page_num) {
@@ -21384,6 +21391,10 @@ class DgDocument {
     if (text_arr) {
       this._page_list.highlight_text(text_arr);
     }
+  }
+
+  get actions() {
+    return this._actions;
   }
 
   get zoom() {
@@ -21402,18 +21413,44 @@ class DgDocument {
     this._page_list.scroll_to(page_num);
   }
 
-  on_thumbnail_click(page_num) {
+  on_thumbnail_dblclick(page_num) {
     this.scroll_to(page_num);
+  }
+
+  on_thumbnail_click(page_num) {
+    console.log(`Page ${page_num} click`);
   }
 
   on_zoom_change(new_zoom_val) {
     this.page_list.on_zoom(new_zoom_val);
   }
 
+  on_page_move_up(page_num, doc_id, page_id) {
+    this.actions.clear_selection();
+
+    this._thumbnail_list.clear_selections();
+
+    this._page_list.on_page_move_up(page_num, doc_id, page_id);
+  }
+
+  on_page_move_down(page_num, doc_id, page_id) {
+    this.actions.clear_selection();
+
+    this._thumbnail_list.clear_selections();
+
+    this._page_list.on_page_move_down(page_num, doc_id, page_id);
+  }
+
   configEvents() {
     let that = this;
 
+    this._thumbnail_list.ondblclick(this.on_thumbnail_dblclick, this);
+
     this._thumbnail_list.onclick(this.on_thumbnail_click, this);
+
+    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_4__["MgThumbnail"].MOVE_UP, that.on_page_move_up, that);
+
+    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_4__["MgThumbnail"].MOVE_DOWN, that.on_page_move_down, that);
 
     this.zoom.subscribe("zoom", this.on_zoom_change, this);
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).resize(function () {
@@ -21423,32 +21460,321 @@ class DgDocument {
     });
   }
 
+  build_actions() {
+    /**
+    Actions dropdown menu of changeform view.
+    */
+    let actions = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormActions"](this._thumbnail_list, this._page_list),
+        rename_action,
+        delete_page_action,
+        cut_page_action,
+        paste_page_action,
+        paste_page_before_action,
+        paste_page_after_action,
+        apply_reorder_changes;
+    rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
+      // Achtung! #rename id is same for rename action
+      // in changeform view and changelist view.
+      id: "#rename",
+      enabled: function (selection, clipboard) {
+        return true;
+      },
+      action: function (selection, clipboard, current_node) {
+        let rename_form = new _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_9__["RenameChangeForm"](current_node);
+        rename_form.show();
+      }
+    });
+    delete_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
+      id: "#delete-page",
+      enabled: function (selection, clipboard) {
+        let order_changed = false; // User cannot delete pages if he changed their
+        // order and changes are pending. He/She must 
+        // apply reorder changes!
+
+        for (let page of selection.all()) {
+          if (page.page_num != page.page_order) {
+            return false;
+          }
+        }
+
+        return selection.length > 0;
+      },
+      action: function (selection, clipboard, current_node, thumbnail_list, page_list) {
+        let delete_page_form,
+            confirmation = confirm("Are you sure?"),
+            url,
+            params,
+            pages = [],
+            doc_id;
+
+        if (!confirmation) {
+          return;
+        }
+
+        for (let page of selection.all()) {
+          doc_id = page.doc_id;
+          pages.push(page.page_num);
+        }
+
+        url = `/api/document/${doc_id}/pages?`;
+        params = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.param({
+          'pages': pages
+        });
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+          url: url + params,
+          method: 'DELETE'
+        });
+        thumbnail_list.delete_selected(selection);
+        page_list.delete_selected(selection);
+      }
+    });
+    cut_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
+      id: "#cut-page",
+      enabled: function (selection, clipboard) {
+        return selection.length > 0;
+      },
+      action: function (selection, clipboard, current_node) {
+        let url,
+            pages = [],
+            doc_id;
+
+        for (let page of selection.all()) {
+          doc_id = page.doc_id;
+          pages.push(page.page_num);
+        }
+
+        url = `/api/document/${doc_id}/pages/cut`;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
+          url: url,
+          type: 'POST',
+          data: JSON.stringify(pages),
+          dataType: "json",
+          contentType: "application/json; charset=utf-8"
+        });
+      }
+    });
+    paste_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
+      id: "#paste-page",
+      enabled: function (selection, clipboard) {
+        return true;
+      },
+      action: function (selection, clipboard, current_node) {
+        let url;
+        url = `/api/document/${current_node.id}/pages/paste`;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
+          url: url,
+          type: 'POST',
+          dataType: "json",
+          contentType: "application/json; charset=utf-8"
+        });
+      }
+    });
+    paste_page_before_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
+      id: "#paste-page-before",
+      enabled: function (selection, clipboard) {
+        return selection.length == 1;
+      },
+      action: function (selection, clipboard, current_node) {
+        let url,
+            page_num = -1;
+
+        for (let page of selection.all()) {
+          if (page.page_num) {
+            page_num = page.page_num;
+          }
+        }
+
+        url = `/api/document/${current_node.id}/pages/paste`;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
+          url: url,
+          type: 'POST',
+          data: JSON.stringify({
+            'before': page_num
+          }),
+          dataType: "json",
+          contentType: "application/json; charset=utf-8"
+        });
+      }
+    });
+    paste_page_after_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
+      id: "#paste-page-after",
+      enabled: function (selection, clipboard) {
+        return selection.length == 1;
+      },
+      action: function (selection, clipboard, current_node) {
+        let url,
+            page_num = -1;
+
+        for (let page of selection.all()) {
+          if (page.page_num) {
+            page_num = page.page_num;
+          }
+        }
+
+        url = `/api/document/${current_node.id}/pages/paste`;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
+          url: url,
+          type: 'POST',
+          data: JSON.stringify({
+            'after': page_num
+          }),
+          dataType: "json",
+          contentType: "application/json; charset=utf-8"
+        });
+      }
+    });
+    apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
+      id: "#apply-reorder-changes",
+      enabled: function (selection, clipboard, current_node, thumbnail_list, page_list) {
+        // if any page has page_num != page_order
+        // it means page was reordered => there pending
+        // changes.
+        if (!thumbnail_list) {
+          return false;
+        }
+
+        for (let thumb of thumbnail_list.all()) {
+          let data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_4__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
+
+          if (data['page_num'] != data['page_order']) {
+            return true;
+          }
+        }
+
+        return false;
+      },
+      action: function (selection, clipboard, current_node, thumbnail_list, page_list) {
+        let confirmation = confirm("Are you sure?"),
+            url,
+            params,
+            pages = [],
+            doc_id,
+            data;
+
+        if (!confirmation) {
+          return;
+        }
+
+        for (let thumb of thumbnail_list.all()) {
+          data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_4__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
+          doc_id = thumb.doc_id;
+          pages.push({
+            'page_num': data['page_num'],
+            'page_order': data['page_order']
+          });
+        }
+
+        url = `/api/document/${doc_id}/pages`;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
+          url: url,
+          type: 'POST',
+          data: JSON.stringify(pages),
+          dataType: "json",
+          contentType: "application/json; charset=utf-8"
+        });
+      }
+    });
+    actions.add(rename_action);
+    actions.add(delete_page_action);
+    actions.add(cut_page_action);
+    actions.add(paste_page_action);
+    actions.add(paste_page_before_action);
+    actions.add(paste_page_after_action);
+    actions.add(apply_reorder_changes);
+    return actions;
+  }
+
 }
 
 function add_load_on_scroll() {
   let csrftoken,
       step,
-      page_num = Object(_document_form_common__WEBPACK_IMPORTED_MODULE_6__["get_win_param"])('page'),
-      text_arr = Object(_document_form_common__WEBPACK_IMPORTED_MODULE_6__["get_win_param"])('text'),
-      dg_document;
-  csrftoken = Object(_document_form_common__WEBPACK_IMPORTED_MODULE_6__["getCookie"])('csrftoken');
+      page_num = Object(_document_form_common__WEBPACK_IMPORTED_MODULE_7__["get_win_param"])('page'),
+      text_arr = Object(_document_form_common__WEBPACK_IMPORTED_MODULE_7__["get_win_param"])('text'),
+      mg_document;
+  csrftoken = Object(_document_form_common__WEBPACK_IMPORTED_MODULE_7__["getCookie"])('csrftoken');
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajaxSetup({
     beforeSend: function (xhr, settings) {
-      if (!Object(_document_form_common__WEBPACK_IMPORTED_MODULE_6__["csrfSafeMethod"])(settings.type) && !this.crossDomain) {
+      if (!Object(_document_form_common__WEBPACK_IMPORTED_MODULE_7__["csrfSafeMethod"])(settings.type) && !this.crossDomain) {
         xhr.setRequestHeader("X-CSRFToken", csrftoken);
       }
     }
-  });
+  }); // when opening the document land on this page
 
   if (page_num) {
     page_num = parseInt(page_num);
-  }
+  } // when opening the document highlight this text
+
 
   if (text_arr) {
     text_arr = text_arr.split('+');
   }
 
-  dg_document = new DgDocument(page_num, text_arr);
+  mg_document = new MgDocument(page_num, text_arr);
+}
+
+/***/ }),
+
+/***/ "./src/js/document_form/clipboard.js":
+/*!*******************************************!*\
+  !*** ./src/js/document_form/clipboard.js ***!
+  \*******************************************/
+/*! exports provided: MgClipboard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgClipboard", function() { return MgClipboard; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events */ "./src/js/events.js");
+
+
+class MgClipboard {
+  /* 
+    List of pages ids to paste into current document.
+  */
+  constructor(id = "#page_clipboard_form") {
+    this._id = id;
+    this._list = [];
+    this._events = new _events__WEBPACK_IMPORTED_MODULE_1__["DgEvents"]();
+
+    this._get_clipboard_form_server();
+  } // event name
+
+
+  static get CHANGE() {
+    return "change";
+  }
+
+  subscribe_event(name, handler, context) {
+    this._events.subscribe(name, handler, context);
+  }
+
+  notify_subscribers(event_name, list) {
+    this._events.notify(event_name, list);
+  }
+
+  get length() {
+    return this._list.length;
+  }
+
+  _get_clipboard_form_server() {
+    let url = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._id).attr('action');
+    let that = this;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, function (data) {
+      that._list = data.clipboard;
+      that.notify_subscribers(MgClipboard.CHANGE, that._list);
+    });
+  }
+
+  add(items) {}
+
+  count(cond_fn = x => x) {
+    // same as length, but with an optional filter.
+    return this._list.filter(cond_fn).length;
+  }
+
 }
 
 /***/ }),
@@ -21551,15 +21877,71 @@ function csrfSafeMethod(method) {
 
 /***/ }),
 
-/***/ "./src/js/document_form/page.js":
-/*!**************************************!*\
-  !*** ./src/js/document_form/page.js ***!
-  \**************************************/
-/*! exports provided: DgPage */
+/***/ "./src/js/document_form/lister.js":
+/*!****************************************!*\
+  !*** ./src/js/document_form/lister.js ***!
+  \****************************************/
+/*! exports provided: MgLister */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgLister", function() { return MgLister; });
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events */ "./src/js/events.js");
+
+class MgLister extends _events__WEBPACK_IMPORTED_MODULE_0__["DgEvents"] {
+  /**
+      Lister is a common class for MgPageList and MgThumbList.
+       Both page lists and thumb lists are updated based on current selection.
+      If user triggers delete pages action, boths lists needs to be updated
+      accordingly. Same of cut & paste actions.
+  */
+  constructor() {
+    super();
+  }
+
+  delete_selected(selection) {
+    // selection is instance of 
+    // document_form.selection.MgSelection
+    let thumbs_to_delete; // extract thumbs using selection object
+
+    thumbs_to_delete = this._list.filter(thumb => selection.contains(thumb)); // remove extracted thumb elements from DOM
+
+    for (let thumb of thumbs_to_delete) {
+      $(thumb.dom_ref).remove();
+    } // remove elements from list itself
+
+
+    this.purge_list(selection);
+  }
+
+  purge_list(selection) {
+    let item, pos;
+
+    for (let sel in selection) {
+      pos = this._list.findIndex(x => x.page_id == sel.page_id);
+
+      if (pos >= 0) {
+        this._list.splice(pos, 1);
+      }
+    }
+  }
+
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./src/js/document_form/page.js":
+/*!**************************************!*\
+  !*** ./src/js/document_form/page.js ***!
+  \**************************************/
+/*! exports provided: MgPage, DgPage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgPage", function() { return MgPage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgPage", function() { return DgPage; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
@@ -21593,22 +21975,94 @@ function build_text_overlay(dom_page, dom_img, arr_dom_hocr, orig_img_rect, high
   return overlay.build_for(arr_dom_hocr, highlight_text_arr);
 }
 
+class MgPage {
+  /**
+  Class deals with selection of pages in thumbnail list.
+   doc id - server side database id of the associated doc
+  page id - server side database id of the page
+  page_num - page number when document is displayed in
+      the view. It never changes.
+  page_order - which is initially = page_num will change
+  as user changes the order of the document.
+  **/
+  constructor(doc_id, page_id, page_num, page_order) {
+    this._doc_id = doc_id;
+    this._page_id = page_id; // page number is fixed, it does not change.
+    // when loading document initially, page_num == page_order
+    // if user moves up/down documents => page order changes
+    // but page_num no!
+
+    this._page_num = page_num; // page order in the document
+    // as opposite to page number (which is fixed),
+    // page order changes as user moves page up/down
+
+    this._page_order = page_order;
+  }
+
+  get doc_id() {
+    return this._doc_id;
+  }
+
+  get page_id() {
+    return this._page_id;
+  }
+
+  get page_order() {
+    return this._page_order;
+  }
+
+  get page_num() {
+    return this._page_num;
+  }
+
+  static create_from_dom(dom_elem) {
+    let page_order = jquery__WEBPACK_IMPORTED_MODULE_0___default()(dom_elem).find(".document.page").data("page_order");
+    let doc_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(dom_elem).find(".document.page").data("doc_id");
+    let page_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(dom_elem).find(".document.page").data("page_id");
+    let page_num = jquery__WEBPACK_IMPORTED_MODULE_0___default()(dom_elem).find(".document.page").data("page_num");
+    return new MgPage(doc_id, page_id, page_num, page_order);
+  }
+
+}
 class DgPage {
-  constructor(dom_ref, dom_data_ref, doc_id, page_num, zoom_val) {
+  /***
+      Class deals with OCR layer, scrolling, image loading,
+      resizing of the page.
+  ***/
+  constructor(dom_ref, dom_data_ref, doc_id, page_id, page_num, zoom_val) {
     // .actual_page
     this._dom_ref = dom_ref;
     this._dom_data_ref = dom_data_ref;
     this._dom_img = undefined;
     this._dom_hocr = undefined;
     this._zoom_val = zoom_val;
+    this._page_id = page_id;
     this._page_num = page_num;
     this._doc_id = doc_id; // will be known/updated after HOCR for Step(1) is downloaded.
 
     this._orig_page_size = undefined;
   }
 
+  get dom_ref() {
+    return this._dom_ref;
+  }
+
+  get page_id() {
+    return this._page_id;
+  }
+
   get page_num() {
     return this._page_num;
+  }
+
+  replace_with(dom_ref, page_num) {
+    this._dom_ref.replaceWith(dom_ref);
+
+    this._dom_ref = dom_ref;
+    this._dom_img = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).find("img").get(0);
+    this._dom_data_ref = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).find(".document.page").get(0);
+    this._dom_hocr = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).find(".page_hocr").get(0);
+    this._page_num = page_num;
   }
 
   highlight_text(text_arr) {
@@ -21632,7 +22086,7 @@ class DgPage {
   }
 
   set_zoom_val(zoom_val) {
-    console.log(`new zoom val=${zoom_val}`);
+    //console.log(`new zoom val=${zoom_val}`);
     this._zoom_val = zoom_val;
   }
 
@@ -21830,22 +22284,18 @@ class DgPage {
 
   on_scroll(zoom_val) {
     if (this.is_visible()) {
-      console.log(`page ${this.page_num} is visible.`);
-
       if (!this.is_img_loaded()) {
-        console.log(`loading page ${this.page_num}...`);
         this.load_img(zoom_val); // when load_img completes asyncroniously to load
         // image - it triggers load_hocr function.
-
-        this.set_zoom_val(zoom_val);
-      } else if (this.zoom_changed(zoom_val) || this.viewer_resized()) {
-        console.log(`resizing page ${this.page_num}...`);
+      } else if (this.zoom_changed(zoom_val)) {
         this.resize_img(zoom_val); // resize happens syncroniously.
         // It means that is ok to call resize_hocr syncr as well.                
 
         this.resize_hocr(zoom_val);
         this.set_zoom_val(zoom_val);
       }
+
+      this.set_zoom_val(zoom_val);
     }
   }
 
@@ -21858,22 +22308,24 @@ class DgPage {
       width = parseInt(width);
     }
 
-    ret = width != old_width;
-    console.log(`viewer resized ${ret}`);
+    if (old_width) {
+      old_width = parseInt(old_width);
+    }
+
+    ret = width != old_width; //console.log(`width=${width} old_width=${old_width} ret=${ret}`);
+
     return ret;
   }
 
   zoom_changed(new_zoom_val) {
     let ret;
-    ret = new_zoom_val != this.get_zoom_val();
-    console.log(`zoom changed ${ret}`);
+    ret = new_zoom_val != this.get_zoom_val(); //console.log(`new zoom val = ${new_zoom_val} this.zoom_val = ${this.get_zoom_val()} ret=${ret}`);
+
     return ret;
   }
 
   on_zoom(zoom_val) {
     if (this.is_visible()) {
-      console.log(`page ${this.page_num} zoom.`);
-
       if (this.zoom_changed(zoom_val) || this.viewer_resized()) {
         this.resize_img(zoom_val);
         this.resize_hocr(zoom_val);
@@ -21891,19 +22343,22 @@ class DgPage {
 /*!*******************************************!*\
   !*** ./src/js/document_form/page_list.js ***!
   \*******************************************/
-/*! exports provided: DgPageList */
+/*! exports provided: MgPageList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgPageList", function() { return DgPageList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgPageList", function() { return MgPageList; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./page */ "./src/js/document_form/page.js");
+/* harmony import */ var _lister__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lister */ "./src/js/document_form/lister.js");
 
 
-class DgPageList {
+
+class MgPageList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
   constructor(zoom) {
+    super();
     this._container_selector = ".actual-pages";
     this._selector = ".actual-pages .actual_page";
     this._list = [];
@@ -21940,8 +22395,6 @@ class DgPageList {
   }
 
   load(step) {
-    console.log(`Loading ${this.pages.length} pages`);
-
     for (let page of this._list) {
       page.on_scroll(step);
     }
@@ -21953,7 +22406,8 @@ class DgPageList {
     dom_arr.forEach(function (dom_page_item, index, arr) {
       let dom_data = dom_page_item.querySelector('.document.page'),
           doc_id,
-          page_num;
+          page_num,
+          page_id;
 
       if (!dom_data) {
         console.log("page dom data not found");
@@ -21962,19 +22416,51 @@ class DgPageList {
 
       doc_id = dom_data.getAttribute('data-doc_id');
       page_num = dom_data.getAttribute('data-page_num');
+      page_id = dom_data.getAttribute('data-page_id');
 
-      that._list.push(new _page__WEBPACK_IMPORTED_MODULE_1__["DgPage"](dom_page_item, dom_data, doc_id, page_num));
+      that._list.push(new _page__WEBPACK_IMPORTED_MODULE_1__["DgPage"](dom_page_item, dom_data, doc_id, page_id, page_num));
     });
   }
 
   on_zoom(new_zoom_val) {
-    console.log("page_list.on_zoom");
-
     for (let page of this.pages) {
       // will apply zoom only if page
       // is visible (within view area)
       page.on_zoom(new_zoom_val);
     }
+  }
+
+  get_page(page_num) {
+    let arr = [];
+    arr = this._list.filter(page => page.page_num == page_num);
+
+    if (arr.length > 0) {
+      return arr[0];
+    }
+
+    return false;
+  }
+
+  swap_pages(page_1, page_2) {
+    let clone_1, clone_2, dom_data_1, dom_data_2;
+    clone_1 = jquery__WEBPACK_IMPORTED_MODULE_0___default()(page_1.dom_ref).clone();
+    clone_2 = jquery__WEBPACK_IMPORTED_MODULE_0___default()(page_2.dom_ref).clone();
+    page_1.replace_with(clone_2[0], page_2.page_num);
+    page_2.replace_with(clone_1[0], page_1.page_num);
+  }
+
+  on_page_move_down(page_num, doc_id, page_id) {
+    let page_1, page_2;
+    page_1 = this.get_page(page_num);
+    page_2 = this.get_page(page_num + 1);
+    this.swap_pages(page_1, page_2);
+  }
+
+  on_page_move_up(page_num, doc_id, page_id) {
+    let page_1, page_2;
+    page_1 = this.get_page(page_num);
+    page_2 = this.get_page(page_num - 1);
+    this.swap_pages(page_1, page_2);
   }
 
   _config_events() {
@@ -22097,16 +22583,146 @@ class DgRect {
 
 /***/ }),
 
-/***/ "./src/js/document_form/thumbnail.js":
+/***/ "./src/js/document_form/selection.js":
 /*!*******************************************!*\
-  !*** ./src/js/document_form/thumbnail.js ***!
+  !*** ./src/js/document_form/selection.js ***!
   \*******************************************/
-/*! exports provided: DgThumbnail */
+/*! exports provided: MgSelection */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgThumbnail", function() { return DgThumbnail; });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgSelection", function() { return MgSelection; });
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events */ "./src/js/events.js");
+/* harmony import */ var _page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./page */ "./src/js/document_form/page.js");
+
+
+class MgSelection {
+  // digilette (dg) was renamed to papermerge (mg)
+
+  /**
+  A list of selected pages from current document
+  **/
+  static get DELETE() {
+    return "mg_delete_selected_page";
+  } // event name
+
+
+  static get CHANGE() {
+    return "mg_selection_changed";
+  }
+
+  constructor() {
+    this._list = [];
+    this._events = new _events__WEBPACK_IMPORTED_MODULE_0__["DgEvents"]();
+
+    this._configEvents();
+  }
+
+  subscribe_event(name, handler, context) {
+    this._events.subscribe(name, handler, context);
+  }
+
+  notify_subscribers(event_name) {
+    this._events.notify(event_name);
+  }
+
+  clear() {
+    this._list = [];
+
+    this._configEvents();
+
+    this.notify_subscribers(MgSelection.CHANGE, this._list);
+  }
+
+  contains(item) {
+    let pos;
+    pos = this._list.findIndex(x => x.page_id == item.page_id);
+    return pos >= 0;
+  }
+
+  add(mg_page) {
+    let pos;
+    pos = this._list.findIndex(item => item.page_id == mg_page.page_id); // add mg_page only if it is not already in the list.
+
+    if (pos < 0) {
+      this._list.push(mg_page);
+    }
+  }
+
+  all() {
+    return this._list;
+  }
+
+  first() {
+    return this._list[0];
+  }
+
+  remove(mg_page) {
+    let pos;
+    pos = this._list.findIndex(item => item.page_num == mg_page.page_num);
+
+    if (pos >= 0) {
+      this._list.splice(pos, 1);
+    }
+  }
+
+  get length() {
+    return this._list.length;
+  }
+
+  _on_page_click(event) {
+    let $this = $(this);
+    let mg_page;
+    let checkbox = $this.find("[type=checkbox]").first();
+    let checked, new_state;
+    checked = checkbox.prop("checked");
+    new_state = !checked;
+    checkbox.prop("checked", new_state);
+
+    if (new_state) {
+      $this.addClass("checked");
+    } else {
+      $this.removeClass("checked");
+    }
+
+    mg_page = _page__WEBPACK_IMPORTED_MODULE_1__["MgPage"].create_from_dom($this);
+
+    if (new_state) {
+      // is checked
+      event.data.selection.add(mg_page);
+    } else {
+      event.data.selection.remove(mg_page);
+    }
+
+    event.data.selection.notify_subscribers(MgSelection.CHANGE, this._list);
+  }
+
+  _configEvents() {
+    // listens on clicks on file and folders
+    // and adds/removes them from list
+    // when selection count changed - sends an event
+    $(".page_thumbnail").unbind('click');
+    $(".page_thumbnail").click({
+      selection: this
+    }, this._on_page_click);
+  }
+
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./src/js/document_form/thumbnail.js":
+/*!*******************************************!*\
+  !*** ./src/js/document_form/thumbnail.js ***!
+  \*******************************************/
+/*! exports provided: MgThumbnail */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgThumbnail", function() { return MgThumbnail; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events */ "./src/js/events.js");
@@ -22114,25 +22730,124 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class DgThumbnail {
+class MgThumbnail extends _events__WEBPACK_IMPORTED_MODULE_1__["DgEvents"] {
+  /**
+  On single clicks - thumbnails are included/removed to selection.
+  On double clicks - view will scroll to tumbnail's page.
+   Thus, single clicks are about managing selection of thumbnails/pages, while
+  double clicks are about scrolling pages.
+  **/
   // event name
   static get CLICK() {
     return "click";
+  } // event name
+
+
+  static get DBLCLICK() {
+    return "dblclick";
   }
 
-  constructor(dom_ref, dom_data_ref, doc_id, page_num) {
+  static get MOVE_UP() {
+    return "move_up";
+  }
+
+  static get MOVE_DOWN() {
+    return "move_down";
+  } // if two consecutive clicks occur in less than CLICK_TIMEOUT miliseconds
+  // they will be classified as "double click".
+
+
+  static get CLICK_TIMEOUT() {
+    return 250; // miliseconds
+  }
+
+  static get_data_ref_from_dom(dom_ref) {
+    let dom_data_ref = dom_ref.querySelector('.document.page');
+
+    if (!dom_data_ref) {
+      console.log("thumb dom data not found");
+      return;
+    }
+
+    return dom_data_ref;
+  }
+
+  static get_data_from_dom(dom_ref) {
+    let dom_data = dom_ref.querySelector('.document.page'),
+        data = {};
+
+    if (!dom_data) {
+      console.log("thumb dom data not found");
+      return;
+    }
+
+    data['doc_id'] = dom_data.getAttribute('data-doc_id');
+    data['page_num'] = dom_data.getAttribute('data-page_num');
+    data['page_id'] = dom_data.getAttribute('data-page_id');
+    data['page_order'] = dom_data.getAttribute('data-page_order');
+    return data;
+  }
+
+  constructor(dom_ref, dom_data_ref, doc_id, page_id, page_num) {
+    super();
     this._dom_ref = dom_ref;
     this._dom_data_ref = dom_data_ref;
     this._step = 4;
     this._page_num = page_num;
+    this._page_id = page_id;
     this._doc_id = doc_id;
-    this._events = new _events__WEBPACK_IMPORTED_MODULE_1__["DgEvents"]();
 
     this._config_events();
   }
 
+  replace_with(dom_ref) {
+    let dom_data = MgThumbnail.get_data_from_dom(dom_ref),
+        dom_data_ref = MgThumbnail.get_data_ref_from_dom(dom_ref);
+
+    this._dom_ref.replaceWith(dom_ref);
+
+    this._dom_ref = dom_ref;
+
+    if (!dom_data) {
+      console.log("dom_data empty");
+      return;
+    } // Do not carry on page_num attribute
+    // it is a bug to do so.
+    // When page order changes - page number attributes
+    // changes as well.
+    //this._page_num = dom_data['page_num'];
+
+
+    this._page_id = dom_data['page_id'];
+    this._dom_data_ref = dom_data_ref; // reconfigure events for this thumbnail
+
+    dom_data_ref.setAttribute('data-page_order', this._page_num);
+
+    this._config_events();
+  }
+
+  get dom_ref() {
+    return this._dom_ref;
+  }
+
+  get doc_id() {
+    return this._doc_id;
+  }
+
+  get page_id() {
+    return this._page_id;
+  }
+
   get page_num() {
     return this._page_num;
+  }
+
+  add_class(css_class) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this.dom_ref).addClass(css_class);
+  }
+
+  remove_class(css_class) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this.dom_ref).removeClass(css_class);
   }
 
   mark_highlight() {
@@ -22143,16 +22858,53 @@ class DgThumbnail {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).removeClass('current');
   }
 
+  clear_selection() {
+    let checkbox;
+    checkbox = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).find("[type=checkbox]").first();
+    checkbox.prop("checked", false);
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).removeClass('checked');
+  }
+
   _config_events() {
     let that = this;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).find(".arrow-up-control").click(function (e) {
+      e.preventDefault();
+      that.notify(MgThumbnail.MOVE_UP, that._page_num, that.doc_id, that.page_id);
+    });
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).find(".arrow-down-control").click(function (e) {
+      e.preventDefault();
+      that.notify(MgThumbnail.MOVE_DOWN, that._page_num, that.doc_id, that.page_id);
+    });
 
     this._dom_ref.onclick = function () {
-      that._events.notify(DgThumbnail.CLICK, that._page_num);
+      // single click or dblclick?
+      if (that.timer) {
+        // This way, if click is already set to fire,
+        // it will clear itself to avoid duplicate 'Single' alerts.
+        clearTimeout(that.timer);
+      }
+
+      that.timer = setTimeout(function () {
+        console.log('!click!');
+        that.notify(MgThumbnail.CLICK, that._page_num);
+      }, MgThumbnail.CLICK_TIMEOUT);
+    };
+
+    this._dom_ref.ondblclick = function () {
+      if (that.timer) {
+        clearTimeout(that.timer);
+      }
+
+      that.notify(MgThumbnail.DBLCLICK, that._page_num);
     };
   }
 
   onclick(handler, context) {
-    this._events.subscribe(DgThumbnail.CLICK, handler, context);
+    this.subscribe(MgThumbnail.CLICK, handler, context);
+  }
+
+  ondblclick(handler, context) {
+    this.subscribe(MgThumbnail.DBLCLICK, handler, context);
   }
 
   is_img_loaded() {
@@ -22200,19 +22952,22 @@ class DgThumbnail {
 /*!************************************************!*\
   !*** ./src/js/document_form/thumbnail_list.js ***!
   \************************************************/
-/*! exports provided: DgThumbnailList */
+/*! exports provided: MgThumbnailList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgThumbnailList", function() { return DgThumbnailList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgThumbnailList", function() { return MgThumbnailList; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _thumbnail__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./thumbnail */ "./src/js/document_form/thumbnail.js");
+/* harmony import */ var _lister__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lister */ "./src/js/document_form/lister.js");
 
 
-class DgThumbnailList {
+
+class MgThumbnailList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
   constructor() {
+    super();
     this._container_selector = ".page-thumbnails";
     this._selector = ".page-thumbnails .page_thumbnail";
     this._list = [];
@@ -22223,6 +22978,16 @@ class DgThumbnailList {
   load() {
     for (let thumb of this._list) {
       thumb.on_scroll();
+    }
+  }
+
+  all() {
+    return this._list;
+  }
+
+  ondblclick(handler, context) {
+    for (let thumb of this._list) {
+      thumb.ondblclick(handler, context);
     }
   }
 
@@ -22238,32 +23003,134 @@ class DgThumbnailList {
     }
   }
 
-  mark_highlight(page_num) {
+  clear_selections() {
+    for (let thumb of this._list) {
+      thumb.clear_selection();
+    }
+  }
+
+  get_thumb(page_num) {
     let arr = [];
     arr = this._list.filter(thumb => thumb.page_num == page_num);
 
     if (arr.length > 0) {
-      arr[0].mark_highlight();
+      return arr[0];
     }
+
+    return false;
+  }
+
+  swap_thumbs(thumb_1, thumb_2) {
+    let clone_1, clone_2, dom_data_1, dom_data_2;
+    clone_1 = jquery__WEBPACK_IMPORTED_MODULE_0___default()(thumb_1.dom_ref).clone();
+    clone_2 = jquery__WEBPACK_IMPORTED_MODULE_0___default()(thumb_2.dom_ref).clone();
+    thumb_1.replace_with(clone_2[0]);
+    thumb_2.replace_with(clone_1[0]);
+    this.update_css_class(thumb_1);
+    this.update_css_class(thumb_2);
+  }
+
+  update_css_class(thumb) {
+    if (this.is_first(thumb)) {
+      thumb.add_class('first');
+    } else {
+      thumb.remove_class('first');
+    }
+
+    if (this.is_last(thumb)) {
+      thumb.add_class('last');
+    } else {
+      thumb.remove_class('last');
+    }
+  }
+
+  is_first(thumb) {
+    return thumb.page_num == 1;
+  }
+
+  is_last(thumb) {
+    return thumb.page_num == this._list.length;
+  }
+
+  mark_highlight(page_num) {
+    /**
+        Mark thumbnail as current page in the view.
+    **/
+    let thumb;
+    thumb = this.get_thumb(page_num);
+
+    if (thumb) {
+      thumb.mark_highlight();
+    }
+  }
+
+  on_thumb_move_up(page_num, doc_id, page_id) {
+    let thumb_1, thumb_2;
+
+    if (page_num) {
+      page_num = parseInt(page_num, 10);
+    }
+
+    if (!page_num) {
+      console.warning("page_num not a number");
+      return;
+    }
+
+    if (page_num < 2) {
+      // one page document, discard, do nothing.
+      // or maybe first page
+      return false;
+    }
+
+    thumb_1 = this.get_thumb(page_num);
+    thumb_2 = this.get_thumb(page_num - 1); // because page_num >=2
+
+    this.swap_thumbs(thumb_1, thumb_2);
+    this.notify(_thumbnail__WEBPACK_IMPORTED_MODULE_1__["MgThumbnail"].MOVE_UP, page_num, doc_id, page_id);
+  }
+
+  on_thumb_move_down(page_num, doc_id, page_id) {
+    let thumb_1, thumb_2;
+
+    if (page_num) {
+      page_num = parseInt(page_num, 10);
+    }
+
+    if (!page_num) {
+      console.warning("page_num not a number");
+      return;
+    }
+
+    if (page_num > this._list.length - 1) {
+      return false;
+    }
+
+    thumb_1 = this.get_thumb(page_num);
+    thumb_2 = this.get_thumb(page_num + 1); // because page_num >=2
+
+    this.swap_thumbs(thumb_1, thumb_2);
+    this.notify(_thumbnail__WEBPACK_IMPORTED_MODULE_1__["MgThumbnail"].MOVE_DOWN, page_num, doc_id, page_id);
   }
 
   _add_thumbnails() {
     let dom_arr = Array.from(document.querySelectorAll(this._selector));
-    let that = this;
+    let that = this,
+        thumb;
     dom_arr.forEach(function (dom_page_item, index, arr) {
-      let dom_data = dom_page_item.querySelector('.document.page'),
-          doc_id,
-          page_num;
+      let dom_data, dom_data_ref;
+      dom_data = _thumbnail__WEBPACK_IMPORTED_MODULE_1__["MgThumbnail"].get_data_from_dom(dom_page_item);
+      dom_data_ref = _thumbnail__WEBPACK_IMPORTED_MODULE_1__["MgThumbnail"].get_data_ref_from_dom(dom_page_item);
 
       if (!dom_data) {
         console.log("thumb dom data not found");
         return;
       }
 
-      doc_id = dom_data.getAttribute('data-doc_id');
-      page_num = dom_data.getAttribute('data-page_num');
+      thumb = new _thumbnail__WEBPACK_IMPORTED_MODULE_1__["MgThumbnail"](dom_page_item, dom_data_ref, dom_data['doc_id'], dom_data['page_id'], dom_data['page_num']);
+      thumb.subscribe(_thumbnail__WEBPACK_IMPORTED_MODULE_1__["MgThumbnail"].MOVE_UP, that.on_thumb_move_up, that);
+      thumb.subscribe(_thumbnail__WEBPACK_IMPORTED_MODULE_1__["MgThumbnail"].MOVE_DOWN, that.on_thumb_move_down, that);
 
-      that._list.push(new _thumbnail__WEBPACK_IMPORTED_MODULE_1__["DgThumbnail"](dom_page_item, dom_data, doc_id, page_num));
+      that._list.push(thumb);
     });
   }
 
@@ -22333,38 +23200,6 @@ class DgZoom extends _events__WEBPACK_IMPORTED_MODULE_1__["DgEvents"] {
     });
   }
 
-}
-
-/***/ }),
-
-/***/ "./src/js/dropdown.js":
-/*!****************************!*\
-  !*** ./src/js/dropdown.js ***!
-  \****************************/
-/*! exports provided: dropdown_multilevel */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dropdown_multilevel", function() { return dropdown_multilevel; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
- // extend dropdown with multilevel menus
-// https://stackoverflow.com/questions/44467377/bootstrap-4-multilevel-dropdown-inside-navigation
-
-function dropdown_multilevel() {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
-    if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).next().hasClass('show')) {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-    }
-
-    var $subMenu = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).next(".dropdown-menu");
-    $subMenu.toggleClass('show');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.dropdown-submenu .show').removeClass("show");
-    });
-    return false;
-  });
 }
 
 /***/ }),
@@ -22756,6 +23591,31 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PasteForm", function() { return PasteForm; });
 class PasteForm {
   constructor(id = "#paste_form") {
+    this._id = id;
+  }
+
+  submit() {
+    $(this._id).submit();
+  }
+
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./src/js/forms/paste_pages_form.js":
+/*!******************************************!*\
+  !*** ./src/js/forms/paste_pages_form.js ***!
+  \******************************************/
+/*! exports provided: PastePagesForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PastePagesForm", function() { return PastePagesForm; });
+class PastePagesForm {
+  // same ID as defined in papermerge/boss/templates/boss/_forms.js.html
+  constructor(id = "#paste_pages_form") {
     this._id = id;
   }
 
@@ -24286,6 +25146,11 @@ class DgTextOverlay {
     // http://kba.cloud/hocr-spec/1.2/#bbox
     let bb = svg_item.getBBox();
     let w, h, tx, ty, ratio;
+
+    if (!this.orig_img_rect) {
+      return;
+    }
+
     ratio = parseInt(this.width) / this.orig_img_rect.width;
 
     if (Number.isNumeric(bb.width) && bb.width > 0) {

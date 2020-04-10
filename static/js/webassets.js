@@ -4021,6 +4021,504 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
+/***/ "./node_modules/ev-emitter/ev-emitter.js":
+/*!***********************************************!*\
+  !*** ./node_modules/ev-emitter/ev-emitter.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * EvEmitter v1.1.0
+ * Lil' event emitter
+ * MIT License
+ */
+
+/* jshint unused: true, undef: true, strict: true */
+
+( function( global, factory ) {
+  // universal module definition
+  /* jshint strict: false */ /* globals define, module, window */
+  if ( true ) {
+    // AMD - RequireJS
+    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+
+}( typeof window != 'undefined' ? window : this, function() {
+
+"use strict";
+
+function EvEmitter() {}
+
+var proto = EvEmitter.prototype;
+
+proto.on = function( eventName, listener ) {
+  if ( !eventName || !listener ) {
+    return;
+  }
+  // set events hash
+  var events = this._events = this._events || {};
+  // set listeners array
+  var listeners = events[ eventName ] = events[ eventName ] || [];
+  // only add once
+  if ( listeners.indexOf( listener ) == -1 ) {
+    listeners.push( listener );
+  }
+
+  return this;
+};
+
+proto.once = function( eventName, listener ) {
+  if ( !eventName || !listener ) {
+    return;
+  }
+  // add event
+  this.on( eventName, listener );
+  // set once flag
+  // set onceEvents hash
+  var onceEvents = this._onceEvents = this._onceEvents || {};
+  // set onceListeners object
+  var onceListeners = onceEvents[ eventName ] = onceEvents[ eventName ] || {};
+  // set flag
+  onceListeners[ listener ] = true;
+
+  return this;
+};
+
+proto.off = function( eventName, listener ) {
+  var listeners = this._events && this._events[ eventName ];
+  if ( !listeners || !listeners.length ) {
+    return;
+  }
+  var index = listeners.indexOf( listener );
+  if ( index != -1 ) {
+    listeners.splice( index, 1 );
+  }
+
+  return this;
+};
+
+proto.emitEvent = function( eventName, args ) {
+  var listeners = this._events && this._events[ eventName ];
+  if ( !listeners || !listeners.length ) {
+    return;
+  }
+  // copy over to avoid interference if .off() in listener
+  listeners = listeners.slice(0);
+  args = args || [];
+  // once stuff
+  var onceListeners = this._onceEvents && this._onceEvents[ eventName ];
+
+  for ( var i=0; i < listeners.length; i++ ) {
+    var listener = listeners[i]
+    var isOnce = onceListeners && onceListeners[ listener ];
+    if ( isOnce ) {
+      // remove listener
+      // remove before trigger to prevent recursion
+      this.off( eventName, listener );
+      // unset once flag
+      delete onceListeners[ listener ];
+    }
+    // trigger listener
+    listener.apply( this, args );
+  }
+
+  return this;
+};
+
+proto.allOff = function() {
+  delete this._events;
+  delete this._onceEvents;
+};
+
+return EvEmitter;
+
+}));
+
+
+/***/ }),
+
+/***/ "./node_modules/imagesloaded/imagesloaded.js":
+/*!***************************************************!*\
+  !*** ./node_modules/imagesloaded/imagesloaded.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * imagesLoaded v4.1.4
+ * JavaScript is all like "You images are done yet or what?"
+ * MIT License
+ */
+
+( function( window, factory ) { 'use strict';
+  // universal module definition
+
+  /*global define: false, module: false, require: false */
+
+  if ( true ) {
+    // AMD
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+      __webpack_require__(/*! ev-emitter/ev-emitter */ "./node_modules/ev-emitter/ev-emitter.js")
+    ], __WEBPACK_AMD_DEFINE_RESULT__ = (function( EvEmitter ) {
+      return factory( window, EvEmitter );
+    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+
+})( typeof window !== 'undefined' ? window : this,
+
+// --------------------------  factory -------------------------- //
+
+function factory( window, EvEmitter ) {
+
+'use strict';
+
+var $ = window.jQuery;
+var console = window.console;
+
+// -------------------------- helpers -------------------------- //
+
+// extend objects
+function extend( a, b ) {
+  for ( var prop in b ) {
+    a[ prop ] = b[ prop ];
+  }
+  return a;
+}
+
+var arraySlice = Array.prototype.slice;
+
+// turn element or nodeList into an array
+function makeArray( obj ) {
+  if ( Array.isArray( obj ) ) {
+    // use object if already an array
+    return obj;
+  }
+
+  var isArrayLike = typeof obj == 'object' && typeof obj.length == 'number';
+  if ( isArrayLike ) {
+    // convert nodeList to array
+    return arraySlice.call( obj );
+  }
+
+  // array of single index
+  return [ obj ];
+}
+
+// -------------------------- imagesLoaded -------------------------- //
+
+/**
+ * @param {Array, Element, NodeList, String} elem
+ * @param {Object or Function} options - if function, use as callback
+ * @param {Function} onAlways - callback function
+ */
+function ImagesLoaded( elem, options, onAlways ) {
+  // coerce ImagesLoaded() without new, to be new ImagesLoaded()
+  if ( !( this instanceof ImagesLoaded ) ) {
+    return new ImagesLoaded( elem, options, onAlways );
+  }
+  // use elem as selector string
+  var queryElem = elem;
+  if ( typeof elem == 'string' ) {
+    queryElem = document.querySelectorAll( elem );
+  }
+  // bail if bad element
+  if ( !queryElem ) {
+    console.error( 'Bad element for imagesLoaded ' + ( queryElem || elem ) );
+    return;
+  }
+
+  this.elements = makeArray( queryElem );
+  this.options = extend( {}, this.options );
+  // shift arguments if no options set
+  if ( typeof options == 'function' ) {
+    onAlways = options;
+  } else {
+    extend( this.options, options );
+  }
+
+  if ( onAlways ) {
+    this.on( 'always', onAlways );
+  }
+
+  this.getImages();
+
+  if ( $ ) {
+    // add jQuery Deferred object
+    this.jqDeferred = new $.Deferred();
+  }
+
+  // HACK check async to allow time to bind listeners
+  setTimeout( this.check.bind( this ) );
+}
+
+ImagesLoaded.prototype = Object.create( EvEmitter.prototype );
+
+ImagesLoaded.prototype.options = {};
+
+ImagesLoaded.prototype.getImages = function() {
+  this.images = [];
+
+  // filter & find items if we have an item selector
+  this.elements.forEach( this.addElementImages, this );
+};
+
+/**
+ * @param {Node} element
+ */
+ImagesLoaded.prototype.addElementImages = function( elem ) {
+  // filter siblings
+  if ( elem.nodeName == 'IMG' ) {
+    this.addImage( elem );
+  }
+  // get background image on element
+  if ( this.options.background === true ) {
+    this.addElementBackgroundImages( elem );
+  }
+
+  // find children
+  // no non-element nodes, #143
+  var nodeType = elem.nodeType;
+  if ( !nodeType || !elementNodeTypes[ nodeType ] ) {
+    return;
+  }
+  var childImgs = elem.querySelectorAll('img');
+  // concat childElems to filterFound array
+  for ( var i=0; i < childImgs.length; i++ ) {
+    var img = childImgs[i];
+    this.addImage( img );
+  }
+
+  // get child background images
+  if ( typeof this.options.background == 'string' ) {
+    var children = elem.querySelectorAll( this.options.background );
+    for ( i=0; i < children.length; i++ ) {
+      var child = children[i];
+      this.addElementBackgroundImages( child );
+    }
+  }
+};
+
+var elementNodeTypes = {
+  1: true,
+  9: true,
+  11: true
+};
+
+ImagesLoaded.prototype.addElementBackgroundImages = function( elem ) {
+  var style = getComputedStyle( elem );
+  if ( !style ) {
+    // Firefox returns null if in a hidden iframe https://bugzil.la/548397
+    return;
+  }
+  // get url inside url("...")
+  var reURL = /url\((['"])?(.*?)\1\)/gi;
+  var matches = reURL.exec( style.backgroundImage );
+  while ( matches !== null ) {
+    var url = matches && matches[2];
+    if ( url ) {
+      this.addBackground( url, elem );
+    }
+    matches = reURL.exec( style.backgroundImage );
+  }
+};
+
+/**
+ * @param {Image} img
+ */
+ImagesLoaded.prototype.addImage = function( img ) {
+  var loadingImage = new LoadingImage( img );
+  this.images.push( loadingImage );
+};
+
+ImagesLoaded.prototype.addBackground = function( url, elem ) {
+  var background = new Background( url, elem );
+  this.images.push( background );
+};
+
+ImagesLoaded.prototype.check = function() {
+  var _this = this;
+  this.progressedCount = 0;
+  this.hasAnyBroken = false;
+  // complete if no images
+  if ( !this.images.length ) {
+    this.complete();
+    return;
+  }
+
+  function onProgress( image, elem, message ) {
+    // HACK - Chrome triggers event before object properties have changed. #83
+    setTimeout( function() {
+      _this.progress( image, elem, message );
+    });
+  }
+
+  this.images.forEach( function( loadingImage ) {
+    loadingImage.once( 'progress', onProgress );
+    loadingImage.check();
+  });
+};
+
+ImagesLoaded.prototype.progress = function( image, elem, message ) {
+  this.progressedCount++;
+  this.hasAnyBroken = this.hasAnyBroken || !image.isLoaded;
+  // progress event
+  this.emitEvent( 'progress', [ this, image, elem ] );
+  if ( this.jqDeferred && this.jqDeferred.notify ) {
+    this.jqDeferred.notify( this, image );
+  }
+  // check if completed
+  if ( this.progressedCount == this.images.length ) {
+    this.complete();
+  }
+
+  if ( this.options.debug && console ) {
+    console.log( 'progress: ' + message, image, elem );
+  }
+};
+
+ImagesLoaded.prototype.complete = function() {
+  var eventName = this.hasAnyBroken ? 'fail' : 'done';
+  this.isComplete = true;
+  this.emitEvent( eventName, [ this ] );
+  this.emitEvent( 'always', [ this ] );
+  if ( this.jqDeferred ) {
+    var jqMethod = this.hasAnyBroken ? 'reject' : 'resolve';
+    this.jqDeferred[ jqMethod ]( this );
+  }
+};
+
+// --------------------------  -------------------------- //
+
+function LoadingImage( img ) {
+  this.img = img;
+}
+
+LoadingImage.prototype = Object.create( EvEmitter.prototype );
+
+LoadingImage.prototype.check = function() {
+  // If complete is true and browser supports natural sizes,
+  // try to check for image status manually.
+  var isComplete = this.getIsImageComplete();
+  if ( isComplete ) {
+    // report based on naturalWidth
+    this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
+    return;
+  }
+
+  // If none of the checks above matched, simulate loading on detached element.
+  this.proxyImage = new Image();
+  this.proxyImage.addEventListener( 'load', this );
+  this.proxyImage.addEventListener( 'error', this );
+  // bind to image as well for Firefox. #191
+  this.img.addEventListener( 'load', this );
+  this.img.addEventListener( 'error', this );
+  this.proxyImage.src = this.img.src;
+};
+
+LoadingImage.prototype.getIsImageComplete = function() {
+  // check for non-zero, non-undefined naturalWidth
+  // fixes Safari+InfiniteScroll+Masonry bug infinite-scroll#671
+  return this.img.complete && this.img.naturalWidth;
+};
+
+LoadingImage.prototype.confirm = function( isLoaded, message ) {
+  this.isLoaded = isLoaded;
+  this.emitEvent( 'progress', [ this, this.img, message ] );
+};
+
+// ----- events ----- //
+
+// trigger specified handler for event type
+LoadingImage.prototype.handleEvent = function( event ) {
+  var method = 'on' + event.type;
+  if ( this[ method ] ) {
+    this[ method ]( event );
+  }
+};
+
+LoadingImage.prototype.onload = function() {
+  this.confirm( true, 'onload' );
+  this.unbindEvents();
+};
+
+LoadingImage.prototype.onerror = function() {
+  this.confirm( false, 'onerror' );
+  this.unbindEvents();
+};
+
+LoadingImage.prototype.unbindEvents = function() {
+  this.proxyImage.removeEventListener( 'load', this );
+  this.proxyImage.removeEventListener( 'error', this );
+  this.img.removeEventListener( 'load', this );
+  this.img.removeEventListener( 'error', this );
+};
+
+// -------------------------- Background -------------------------- //
+
+function Background( url, element ) {
+  this.url = url;
+  this.element = element;
+  this.img = new Image();
+}
+
+// inherit LoadingImage prototype
+Background.prototype = Object.create( LoadingImage.prototype );
+
+Background.prototype.check = function() {
+  this.img.addEventListener( 'load', this );
+  this.img.addEventListener( 'error', this );
+  this.img.src = this.url;
+  // check if image is already complete
+  var isComplete = this.getIsImageComplete();
+  if ( isComplete ) {
+    this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
+    this.unbindEvents();
+  }
+};
+
+Background.prototype.unbindEvents = function() {
+  this.img.removeEventListener( 'load', this );
+  this.img.removeEventListener( 'error', this );
+};
+
+Background.prototype.confirm = function( isLoaded, message ) {
+  this.isLoaded = isLoaded;
+  this.emitEvent( 'progress', [ this, this.element, message ] );
+};
+
+// -------------------------- jQuery -------------------------- //
+
+ImagesLoaded.makeJQueryPlugin = function( jQuery ) {
+  jQuery = jQuery || window.jQuery;
+  if ( !jQuery ) {
+    return;
+  }
+  // set local variable
+  $ = jQuery;
+  // $().imagesLoaded()
+  $.fn.imagesLoaded = function( options, callback ) {
+    var instance = new ImagesLoaded( this, options, callback );
+    return instance.jqDeferred.promise( $(this) );
+  };
+};
+// try making plugin
+ImagesLoaded.makeJQueryPlugin();
+
+// --------------------------  -------------------------- //
+
+return ImagesLoaded;
+
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/jquery/dist/jquery.js":
 /*!********************************************!*\
   !*** ./node_modules/jquery/dist/jquery.js ***!
@@ -17981,22 +18479,19 @@ class DgAbstractAction {
 /*!**********************************************!*\
   !*** ./src/js/actions/changeform_actions.js ***!
   \**********************************************/
-/*! exports provided: DgChangeFormAction, DgChangeFormActions, build_changeform_actions */
+/*! exports provided: MgChangeFormAction, MgChangeFormActions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgChangeFormAction", function() { return DgChangeFormAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgChangeFormActions", function() { return DgChangeFormActions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "build_changeform_actions", function() { return build_changeform_actions; });
-/* harmony import */ var _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../forms/rename_change_form */ "./src/js/forms/rename_change_form.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _selection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../selection */ "./src/js/selection.js");
-/* harmony import */ var _clipboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../clipboard */ "./src/js/clipboard.js");
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../node */ "./src/js/node.js");
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgChangeFormAction", function() { return MgChangeFormAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgChangeFormActions", function() { return MgChangeFormActions; });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _document_form_selection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../document_form/selection */ "./src/js/document_form/selection.js");
+/* harmony import */ var _document_form_clipboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../document_form/clipboard */ "./src/js/document_form/clipboard.js");
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../node */ "./src/js/node.js");
 
 
 
@@ -18012,7 +18507,7 @@ __webpack_require__.r(__webpack_exports__);
         # paste - paste pages (which were cut from different document)
 */
 
-class DgChangeFormAction {
+class MgChangeFormAction {
   /*
     An abstraction of action item in (actions) dropdown menu from
     changelist and changeform view.
@@ -18044,46 +18539,56 @@ class DgChangeFormAction {
 
   enable() {
     this._is_enabled = true;
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()(this._id).removeClass("disabled");
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(this._id).removeClass("disabled");
   }
 
   disable() {
     console.log(`${this._id} disabled`);
     this._is_enabled = false;
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()(this._id).addClass("disabled");
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(this._id).addClass("disabled");
   }
 
-  toggle(selection, clipboard) {
-    if (this._enabled_cond(selection, clipboard)) {
+  toggle(selection, clipboard, current_node, thumbnail_list, page_list) {
+    if (this._enabled_cond(selection, clipboard, current_node, thumbnail_list, page_list)) {
       this.enable();
     } else {
       this.disable();
     }
   }
 
-  action(selection, clipboard, current_node) {
-    this._action(selection, clipboard, current_node);
+  action(selection, clipboard, current_node, thumbnail_list, page_list) {
+    this._action(selection, clipboard, current_node, thumbnail_list, page_list);
   }
 
 }
-class DgChangeFormActions {
+class MgChangeFormActions {
   /*
     An abstraction of actions dropdown menu in changelist view.
     Actions dropdown menu operates on a selection of one or many
     items (document or folder).
   */
-  constructor(config) {
+  constructor(thumbnail_list, page_list) {
     let title, id;
-    title = jquery__WEBPACK_IMPORTED_MODULE_2___default()("input[name=document_title]").val();
-    id = jquery__WEBPACK_IMPORTED_MODULE_2___default()("input[name=document_id]").val();
+    title = jquery__WEBPACK_IMPORTED_MODULE_1___default()("input[name=document_title]").val();
+    id = jquery__WEBPACK_IMPORTED_MODULE_1___default()("input[name=document_id]").val();
     this._actions = [];
-    this._selection = new _selection__WEBPACK_IMPORTED_MODULE_3__["DgSelection"](); // user can cut some items in one folder and
+    this._selection = new _document_form_selection__WEBPACK_IMPORTED_MODULE_2__["MgSelection"](); // user can cut some items in one folder and
     // paste them in another folder. Cut/Pasted items are placed (taken)
     // to/from DgClipboard
 
-    this._clipboard = new _clipboard__WEBPACK_IMPORTED_MODULE_4__["DgClipboard"]();
-    this._current_node = new _node__WEBPACK_IMPORTED_MODULE_5__["DgNode"](id, title);
+    this._clipboard = new _document_form_clipboard__WEBPACK_IMPORTED_MODULE_3__["MgClipboard"]();
+    this._current_node = new _node__WEBPACK_IMPORTED_MODULE_4__["DgNode"](id, title);
+    this._thumbnail_list = thumbnail_list;
+    this._page_list = page_list;
     this.configEvents();
+  }
+
+  get selection() {
+    return this._selection;
+  }
+
+  clear_selection() {
+    this.selection.clear();
   }
 
   add(action) {
@@ -18093,11 +18598,13 @@ class DgChangeFormActions {
   }
 
   _attach_events(action) {
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()(action.id).click({
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(action.id).click({
       action: action,
       selection: this._selection,
       clipboard: this._clipboard,
-      current_node: this._current_node
+      current_node: this._current_node,
+      thumbnail_list: this._thumbnail_list,
+      page_list: this._page_list
     }, this.on_click);
   }
 
@@ -18108,7 +18615,7 @@ class DgChangeFormActions {
        Theoretically this._selection and selection should be same.
     */
     for (let action of this._actions) {
-      action.toggle(this._selection, this._clipboard);
+      action.toggle(this._selection, this._clipboard, this._current_node, this._thumbnail_list, this._page_list);
     }
   }
 
@@ -18125,19 +18632,21 @@ class DgChangeFormActions {
     let selection = event.data.selection;
     let clipboard = event.data.clipboard;
     let current_node = event.data.current_node;
+    let thumbnail_list = event.data.thumbnail_list;
+    let page_list = event.data.page_list;
 
     if (!action.is_enabled) {
       return;
     }
 
-    action.action(selection, clipboard, current_node);
+    action.action(selection, clipboard, current_node, thumbnail_list, page_list);
   }
 
   configEvents() {
-    this._selection.subscribe_event(_selection__WEBPACK_IMPORTED_MODULE_3__["DgSelection"].CHANGE, this.on_change_selection, this // context
+    this._selection.subscribe_event(_document_form_selection__WEBPACK_IMPORTED_MODULE_2__["MgSelection"].CHANGE, this.on_change_selection, this // context
     );
 
-    this._clipboard.subscribe_event(_clipboard__WEBPACK_IMPORTED_MODULE_4__["DgClipboard"].CHANGE, this.on_change_clipboard, this //context
+    this._clipboard.subscribe_event(_document_form_clipboard__WEBPACK_IMPORTED_MODULE_3__["MgClipboard"].CHANGE, this.on_change_clipboard, this //context
     );
 
     for (let action of this._actions) {
@@ -18145,32 +18654,6 @@ class DgChangeFormActions {
     }
   }
 
-}
-function build_changeform_actions() {
-  /**
-  Actions dropdown menu of changeform view.
-  */
-  if (!Object(_utils__WEBPACK_IMPORTED_MODULE_1__["find_by_id"])("changeform_actions")) {
-    // there is no point to do anything is actions
-    // dropdown is not in the view.
-    return;
-  }
-
-  let actions = new DgChangeFormActions(),
-      rename_action;
-  rename_action = new DgChangeFormAction({
-    // Achtung! #rename id is same for rename action
-    // in changeform view and changelist view.
-    id: "#rename",
-    enabled: function (selection, clipboard) {
-      return true;
-    },
-    action: function (selection, clipboard, current_node) {
-      let rename_form = new _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_0__["RenameChangeForm"](current_node);
-      rename_form.show();
-    }
-  });
-  actions.add(rename_action);
 }
 
 /***/ }),
@@ -18196,9 +18679,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../node */ "./src/js/node.js");
 /* harmony import */ var _forms_cut_form__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../forms/cut_form */ "./src/js/forms/cut_form.js");
 /* harmony import */ var _forms_paste_form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../forms/paste_form */ "./src/js/forms/paste_form.js");
-/* harmony import */ var _forms_delete_form__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../forms/delete_form */ "./src/js/forms/delete_form.js");
-/* harmony import */ var _forms_rename_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../forms/rename_form */ "./src/js/forms/rename_form.js");
-/* harmony import */ var _forms_access_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../forms/access_form */ "./src/js/forms/access_form.js");
+/* harmony import */ var _forms_paste_pages_form__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../forms/paste_pages_form */ "./src/js/forms/paste_pages_form.js");
+/* harmony import */ var _forms_delete_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../forms/delete_form */ "./src/js/forms/delete_form.js");
+/* harmony import */ var _forms_rename_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../forms/rename_form */ "./src/js/forms/rename_form.js");
+/* harmony import */ var _forms_access_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../forms/access_form */ "./src/js/forms/access_form.js");
+
 
 
 
@@ -18236,7 +18721,10 @@ class DgChangeListActions {
     // paste them in another folder. Cut/Pasted items are placed (taken)
     // to/from DgClipboard
 
-    this._clipboard = new _clipboard__WEBPACK_IMPORTED_MODULE_4__["DgClipboard"]();
+    this._clipboard = new _clipboard__WEBPACK_IMPORTED_MODULE_4__["DgClipboard"](); // get_current_parent_id() always returns undefined.... to be
+    // removed
+    // parent id is loaded from papermerge/boss/templates/_forms.js.html
+
     this._current_node = Object(_node__WEBPACK_IMPORTED_MODULE_5__["get_current_parent_id"])();
     this.configEvents();
   }
@@ -18313,6 +18801,7 @@ function build_changelist_actions() {
       cut_action,
       delete_action,
       paste_action,
+      paste_pages_action,
       rename_action,
       download_action,
       access_action;
@@ -18346,7 +18835,7 @@ function build_changelist_actions() {
         return;
       }
 
-      delete_form = new _forms_delete_form__WEBPACK_IMPORTED_MODULE_8__["DeleteForm"](selection.all(), current_node);
+      delete_form = new _forms_delete_form__WEBPACK_IMPORTED_MODULE_9__["DeleteForm"](selection.all(), current_node);
       delete_form.submit();
     },
     confirm: true
@@ -18368,6 +18857,19 @@ function build_changelist_actions() {
       paste_form.submit();
     }
   });
+  paste_pages_action = new DgChangeListAction({
+    id: "#paste_pages",
+    initial_state: true,
+    // enabled by default
+    enabled: function (selection, clipboard) {
+      return true;
+    },
+    action: function (selection, clipboard, current_node) {
+      let paste_pages_form;
+      paste_pages_form = new _forms_paste_pages_form__WEBPACK_IMPORTED_MODULE_8__["PastePagesForm"]();
+      paste_pages_form.submit();
+    }
+  });
   rename_action = new DgChangeListAction({
     // Achtung! #rename id is same for rename action
     // in changeform view and changelist view.
@@ -18378,7 +18880,7 @@ function build_changelist_actions() {
     action: function (selection, clipboard, current_node) {
       let rename_form, node;
       node = selection.first();
-      rename_form = new _forms_rename_form__WEBPACK_IMPORTED_MODULE_9__["RenameForm"](node, current_node);
+      rename_form = new _forms_rename_form__WEBPACK_IMPORTED_MODULE_10__["RenameForm"](node, current_node);
       rename_form.show();
     }
   });
@@ -18401,13 +18903,14 @@ function build_changelist_actions() {
       // in case of access_action, only node is used - and it
       // refers to the selected node.
 
-      access_form = new _forms_access_form__WEBPACK_IMPORTED_MODULE_10__["AccessForm"](node, current_node);
+      access_form = new _forms_access_form__WEBPACK_IMPORTED_MODULE_11__["AccessForm"](node, current_node);
       access_form.show();
     }
   });
   actions.add(cut_action);
   actions.add(delete_action);
   actions.add(paste_action);
+  actions.add(paste_pages_action);
   actions.add(rename_action);
   actions.add(download_action);
   actions.add(access_action);
@@ -18569,6 +19072,740 @@ class DgClipboard {
   }
 
 }
+
+/***/ }),
+
+/***/ "./src/js/document_form/clipboard.js":
+/*!*******************************************!*\
+  !*** ./src/js/document_form/clipboard.js ***!
+  \*******************************************/
+/*! exports provided: MgClipboard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgClipboard", function() { return MgClipboard; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events */ "./src/js/events.js");
+
+
+class MgClipboard {
+  /* 
+    List of pages ids to paste into current document.
+  */
+  constructor(id = "#page_clipboard_form") {
+    this._id = id;
+    this._list = [];
+    this._events = new _events__WEBPACK_IMPORTED_MODULE_1__["DgEvents"]();
+
+    this._get_clipboard_form_server();
+  } // event name
+
+
+  static get CHANGE() {
+    return "change";
+  }
+
+  subscribe_event(name, handler, context) {
+    this._events.subscribe(name, handler, context);
+  }
+
+  notify_subscribers(event_name, list) {
+    this._events.notify(event_name, list);
+  }
+
+  get length() {
+    return this._list.length;
+  }
+
+  _get_clipboard_form_server() {
+    let url = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._id).attr('action');
+    let that = this;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, function (data) {
+      that._list = data.clipboard;
+      that.notify_subscribers(MgClipboard.CHANGE, that._list);
+    });
+  }
+
+  add(items) {}
+
+  count(cond_fn = x => x) {
+    // same as length, but with an optional filter.
+    return this._list.filter(cond_fn).length;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/document_form/common.js":
+/*!****************************************!*\
+  !*** ./src/js/document_form/common.js ***!
+  \****************************************/
+/*! exports provided: get_win_param, delete_elem_children, is_visible, build_elem, getCookie, csrfSafeMethod */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_win_param", function() { return get_win_param; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "delete_elem_children", function() { return delete_elem_children; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "is_visible", function() { return is_visible; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "build_elem", function() { return build_elem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookie", function() { return getCookie; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "csrfSafeMethod", function() { return csrfSafeMethod; });
+function get_win_param(param_name) {
+  let searchString = window.location.search.substring(1),
+      i,
+      val,
+      params = searchString.split("&");
+
+  for (i = 0; i < params.length; i++) {
+    val = params[i].split("=");
+
+    if (val[0] == param_name) {
+      return val[1];
+    }
+  }
+
+  return null;
+}
+function delete_elem_children(dom_elem) {
+  while (dom_elem.firstChild) {
+    dom_elem.removeChild(dom_elem.firstChild);
+  }
+}
+function is_visible(dom_page_item) {
+  let rect = dom_page_item.getBoundingClientRect();
+  let top_visible = false;
+  let bottom_visible = false;
+  let top_and_bottom_visible = false;
+  let ret;
+
+  if (rect.top >= 0 && rect.top < window.innerHeight) {
+    top_visible = true;
+  }
+
+  if (rect.bottom >= 0 && rect.bottom <= window.innerHeight) {
+    bottom_visible = true;
+  }
+
+  if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
+    top_and_bottom_visible = true;
+  }
+
+  ret = top_visible || bottom_visible || top_and_bottom_visible;
+  return top_visible || bottom_visible || top_and_bottom_visible;
+}
+function build_elem(tag_name, attrs, text = '') {
+  let el = document.createElement(tag_name),
+      text_content;
+
+  for (let k in attrs) {
+    el.setAttribute(k, attrs[k]);
+  }
+
+  if (text && text.length > 0) {
+    text_content = document.createTextNode(text);
+    el.appendChild(text_content);
+  }
+
+  return el;
+}
+function getCookie(name) {
+  var cookieValue = null;
+
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim(); // Does this cookie string begin with the name we want?
+
+      if (cookie.substring(0, name.length + 1) === name + '=') {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+
+  return cookieValue;
+}
+function csrfSafeMethod(method) {
+  // these HTTP methods do not require CSRF protection
+  return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
+}
+
+/***/ }),
+
+/***/ "./src/js/document_form/page.js":
+/*!**************************************!*\
+  !*** ./src/js/document_form/page.js ***!
+  \**************************************/
+/*! exports provided: MgPage, DgPage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgPage", function() { return MgPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgPage", function() { return DgPage; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var imagesloaded__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! imagesloaded */ "./node_modules/imagesloaded/imagesloaded.js");
+/* harmony import */ var imagesloaded__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(imagesloaded__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/js/document_form/common.js");
+/* harmony import */ var _text_overlay__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../text_overlay */ "./src/js/text_overlay.js");
+/* harmony import */ var _rect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./rect */ "./src/js/document_form/rect.js");
+ // imagesloaded will trigger "load" event after img element
+// has loaded image. Without this plugin, event WILL NOT
+// BE TRIGGERED IF IMG WAS loaded FROM CACHE
+
+
+
+
+ // https://github.com/desandro/imagesloaded#webpack
+// make imagesloaded as jquery plugin - this
+// enables us to pass dom element reference to imagesloaded function
+// (otherwise it accepts only a string query selector)
+
+imagesloaded__WEBPACK_IMPORTED_MODULE_1___default.a.makeJQueryPlugin(jquery__WEBPACK_IMPORTED_MODULE_0___default.a);
+
+function build_text_overlay(dom_page, dom_img, arr_dom_hocr, orig_img_rect, highlight_text_arr) {
+  /**
+  Creates a semi transparent svg element with text over the image.
+  **/
+  let overlay;
+  overlay = new _text_overlay__WEBPACK_IMPORTED_MODULE_3__["DgTextOverlay"](dom_img, // image over which will build overlay
+  dom_page, // dom page item, direct parent of dom_img
+  orig_img_rect);
+  return overlay.build_for(arr_dom_hocr, highlight_text_arr);
+}
+
+class MgPage {
+  /**
+  Class deals with selection of pages in thumbnail list.
+   doc id - server side database id of the associated doc
+  page id - server side database id of the page
+  page_num - page number when document is displayed in
+      the view. It never changes.
+  page_order - which is initially = page_num will change
+  as user changes the order of the document.
+  **/
+  constructor(doc_id, page_id, page_num, page_order) {
+    this._doc_id = doc_id;
+    this._page_id = page_id; // page number is fixed, it does not change.
+    // when loading document initially, page_num == page_order
+    // if user moves up/down documents => page order changes
+    // but page_num no!
+
+    this._page_num = page_num; // page order in the document
+    // as opposite to page number (which is fixed),
+    // page order changes as user moves page up/down
+
+    this._page_order = page_order;
+  }
+
+  get doc_id() {
+    return this._doc_id;
+  }
+
+  get page_id() {
+    return this._page_id;
+  }
+
+  get page_order() {
+    return this._page_order;
+  }
+
+  get page_num() {
+    return this._page_num;
+  }
+
+  static create_from_dom(dom_elem) {
+    let page_order = jquery__WEBPACK_IMPORTED_MODULE_0___default()(dom_elem).find(".document.page").data("page_order");
+    let doc_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(dom_elem).find(".document.page").data("doc_id");
+    let page_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(dom_elem).find(".document.page").data("page_id");
+    let page_num = jquery__WEBPACK_IMPORTED_MODULE_0___default()(dom_elem).find(".document.page").data("page_num");
+    return new MgPage(doc_id, page_id, page_num, page_order);
+  }
+
+}
+class DgPage {
+  /***
+      Class deals with OCR layer, scrolling, image loading,
+      resizing of the page.
+  ***/
+  constructor(dom_ref, dom_data_ref, doc_id, page_id, page_num, zoom_val) {
+    // .actual_page
+    this._dom_ref = dom_ref;
+    this._dom_data_ref = dom_data_ref;
+    this._dom_img = undefined;
+    this._dom_hocr = undefined;
+    this._zoom_val = zoom_val;
+    this._page_id = page_id;
+    this._page_num = page_num;
+    this._doc_id = doc_id; // will be known/updated after HOCR for Step(1) is downloaded.
+
+    this._orig_page_size = undefined;
+  }
+
+  get dom_ref() {
+    return this._dom_ref;
+  }
+
+  get page_id() {
+    return this._page_id;
+  }
+
+  get page_num() {
+    return this._page_num;
+  }
+
+  replace_with(dom_ref, page_num) {
+    this._dom_ref.replaceWith(dom_ref);
+
+    this._dom_ref = dom_ref;
+    this._dom_img = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).find("img").get(0);
+    this._dom_data_ref = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).find(".document.page").get(0);
+    this._dom_hocr = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).find(".page_hocr").get(0);
+    this._page_num = page_num;
+  }
+
+  highlight_text(text_arr) {
+    this._highlight_text_arr = text_arr;
+  }
+
+  scroll_to() {
+    this._dom_ref.scrollIntoView();
+  }
+
+  is_img_loaded() {
+    if (this._dom_ref.querySelectorAll('img').length > 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  is_visible() {
+    return Object(_common__WEBPACK_IMPORTED_MODULE_2__["is_visible"])(this._dom_ref);
+  }
+
+  set_zoom_val(zoom_val) {
+    //console.log(`new zoom val=${zoom_val}`);
+    this._zoom_val = zoom_val;
+  }
+
+  get_zoom_val() {
+    return this._zoom_val;
+  }
+
+  load_img(zoom_val) {
+    let src,
+        dynamic_width,
+        arr = [50, 75, 100, 125, 150],
+        that = this;
+    /*
+        Dynamic width is the width of viewer. In will very depending on the
+        screen size of user agent.
+    */
+
+    dynamic_width = this._dom_ref.getBoundingClientRect().width;
+    /*
+        value 1 from following url is equivalent of briolette.step.Step(1) on server side.
+        Step(1) corresponds to the image of width 1240px.
+        By server side convention that is considered 100% width of the image.
+        Step(0) will correspond to 125% of Step(1)
+        Step(1) ...
+        Step(2) will correspond to 75% of Step(1)
+        Step(3) will correspond to 50% of Step(1) => image with width=620px.
+    */
+
+    src = `/document/${this._doc_id}/preview/1/page/${this._page_num}`;
+
+    if (arr.includes(zoom_val)) {
+      dynamic_width = zoom_val / 100 * 1240;
+    }
+
+    this._dom_img = Object(_common__WEBPACK_IMPORTED_MODULE_2__["build_elem"])('img', {
+      'src': src,
+      'width': `${dynamic_width}px`
+    });
+
+    this._dom_ref.insertBefore(this._dom_img, this._dom_data_ref // insert before this direct child
+    );
+    /***
+        Tricky one:
+        load_hocr(zoom_val) needs to be called, only after
+        img element is fully loaded. This is because there is no other
+        way in advance to know the height of img element.
+        Before img is loaded, img DOM element has height = 0, which
+        sets svg proprty to 0 as well.
+    ***/
+
+
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_img).imagesLoaded().done(function (instance) {
+      that.load_hocr(zoom_val);
+    });
+  }
+
+  resize_img(zoom_val) {
+    let arr = [50, 75, 100, 125, 150],
+        new_width;
+    console.log(`resize_img zoom_val=${zoom_val}`);
+
+    if (!this._orig_page_size) {
+      // image might not yet be loaded, e.g.
+      // used opened document and have seen only 
+      // first page
+      console.log("this.orig_page_size is undefined");
+      return;
+    }
+
+    if (arr.includes(zoom_val)) {
+      new_width = parseInt(zoom_val) / 100 * this._orig_page_size.width;
+
+      this._dom_img.setAttribute('width', `${new_width}px`);
+
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_img).removeAttr('height');
+    }
+
+    if (zoom_val == 'width') {
+      new_width = this._dom_ref.getBoundingClientRect().width;
+
+      if (this._dom_img) {
+        // image might not yet be loaded, e.g.
+        // used opened document and have seen only 
+        // first page
+        this._dom_img.setAttribute('width', `${new_width}px`);
+      }
+
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_img).removeAttr('height');
+    }
+  }
+
+  load_hocr() {
+    // load hocr NEEDs to be called only after IMG element
+    // was loaded.
+    let hocr_url,
+        that = this,
+        orig_img_width,
+        orig_img_height;
+    this._dom_hocr = Object(_common__WEBPACK_IMPORTED_MODULE_2__["build_elem"])('div', {
+      'class': "page_hocr"
+    });
+    /**
+        value 1 from below url corresponds to briolette.step.Step(1)
+    **/
+
+    hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}`;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+      url: hocr_url
+    }).done(function (data, text_status, jxhr) {
+      let dom_span,
+          arr_dom_span = [];
+
+      if (jxhr.status != 200) {
+        // might return 404 if HOCR data is
+        // not ready yet.
+        return;
+      }
+
+      if (data && data['hocr']) {
+        data['hocr'].forEach(function (item, index, arr) {
+          dom_span = Object(_common__WEBPACK_IMPORTED_MODULE_2__["build_elem"])('span', {
+            'class': item['class'],
+            'id': item['id'],
+            'title': item['title'],
+            'x1': item['x1'],
+            'y1': item['y1'],
+            'x2': item['x2'],
+            'y2': item['y2'],
+            'wconf': item['wconf']
+          }, item['text']);
+
+          that._dom_hocr.appendChild(dom_span);
+
+          arr_dom_span.push(dom_span);
+        });
+
+        that._dom_ref.insertBefore(that._dom_hocr, that._dom_data_ref);
+
+        that._orig_page_size = new _rect__WEBPACK_IMPORTED_MODULE_4__["DgRect"](data['hocr_meta']['width'], data['hocr_meta']['height']);
+      }
+
+      that._dom_svg = build_text_overlay(that._dom_ref, that._dom_img, arr_dom_span, that._orig_page_size, that._highlight_text_arr);
+    });
+  }
+
+  resize_hocr(zoom_val) {
+    let hocr_url,
+        that = this;
+
+    if (!this._dom_hocr) {
+      return;
+    } //delete_elem_children(this._dom_hocr);
+
+
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_svg).remove();
+    hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}`;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+      url: hocr_url
+    }).done(function (data) {
+      let dom_span,
+          arr_dom_span = [],
+          highlight_text_arr = [];
+
+      if (data && data['hocr']) {
+        data['hocr'].forEach(function (item, index, arr) {
+          dom_span = Object(_common__WEBPACK_IMPORTED_MODULE_2__["build_elem"])('span', {
+            'class': item['class'],
+            'id': item['id'],
+            'title': item['title'],
+            'x1': item['x1'],
+            'y1': item['y1'],
+            'x2': item['x2'],
+            'y2': item['y2'],
+            'wconf': item['wconf']
+          }, item['text']);
+
+          that._dom_hocr.appendChild(dom_span);
+
+          arr_dom_span.push(dom_span);
+        });
+      } // this works, but code logic is brittle.
+      // The point is to remap hocr text over image,
+      // however, it relies on the fact that image is resized already
+      // and when img.getBoundingClientRect() it will take correct target
+      // image size.
+      // This code wont work is this function is executed BEFORE image is
+      // resized.
+
+
+      that._dom_svg = build_text_overlay(that._dom_ref, that._dom_img, // used to get real image size.
+      arr_dom_span, that._orig_page_size, // original image size, as provided by server
+      highlight_text_arr);
+    });
+  }
+
+  on_scroll(zoom_val) {
+    if (this.is_visible()) {
+      if (!this.is_img_loaded()) {
+        this.load_img(zoom_val); // when load_img completes asyncroniously to load
+        // image - it triggers load_hocr function.
+      } else if (this.zoom_changed(zoom_val)) {
+        this.resize_img(zoom_val); // resize happens syncroniously.
+        // It means that is ok to call resize_hocr syncr as well.                
+
+        this.resize_hocr(zoom_val);
+        this.set_zoom_val(zoom_val);
+      }
+
+      this.set_zoom_val(zoom_val);
+    }
+  }
+
+  viewer_resized() {
+    let old_width = this._dom_ref.getBoundingClientRect().width,
+        width = this._dom_img.getAttribute('width'),
+        ret;
+
+    if (width) {
+      width = parseInt(width);
+    }
+
+    if (old_width) {
+      old_width = parseInt(old_width);
+    }
+
+    ret = width != old_width; //console.log(`width=${width} old_width=${old_width} ret=${ret}`);
+
+    return ret;
+  }
+
+  zoom_changed(new_zoom_val) {
+    let ret;
+    ret = new_zoom_val != this.get_zoom_val(); //console.log(`new zoom val = ${new_zoom_val} this.zoom_val = ${this.get_zoom_val()} ret=${ret}`);
+
+    return ret;
+  }
+
+  on_zoom(zoom_val) {
+    if (this.is_visible()) {
+      if (this.zoom_changed(zoom_val) || this.viewer_resized()) {
+        this.resize_img(zoom_val);
+        this.resize_hocr(zoom_val);
+      }
+    }
+
+    this.set_zoom_val(zoom_val);
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/document_form/rect.js":
+/*!**************************************!*\
+  !*** ./src/js/document_form/rect.js ***!
+  \**************************************/
+/*! exports provided: DgRect */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgRect", function() { return DgRect; });
+class DgRect {
+  /**
+      A rectangle has a width and a height
+      measured in pixels.
+      It is more practical to pass
+      one single instance of rect instead
+      of having width and height separate.
+  **/
+  constructor(width, height) {
+    this._width = parseInt(width);
+    this._height = parseInt(height);
+  }
+
+  get width() {
+    return this._width;
+  }
+
+  get height() {
+    return this._height;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/document_form/selection.js":
+/*!*******************************************!*\
+  !*** ./src/js/document_form/selection.js ***!
+  \*******************************************/
+/*! exports provided: MgSelection */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgSelection", function() { return MgSelection; });
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events */ "./src/js/events.js");
+/* harmony import */ var _page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./page */ "./src/js/document_form/page.js");
+
+
+class MgSelection {
+  // digilette (dg) was renamed to papermerge (mg)
+
+  /**
+  A list of selected pages from current document
+  **/
+  static get DELETE() {
+    return "mg_delete_selected_page";
+  } // event name
+
+
+  static get CHANGE() {
+    return "mg_selection_changed";
+  }
+
+  constructor() {
+    this._list = [];
+    this._events = new _events__WEBPACK_IMPORTED_MODULE_0__["DgEvents"]();
+
+    this._configEvents();
+  }
+
+  subscribe_event(name, handler, context) {
+    this._events.subscribe(name, handler, context);
+  }
+
+  notify_subscribers(event_name) {
+    this._events.notify(event_name);
+  }
+
+  clear() {
+    this._list = [];
+
+    this._configEvents();
+
+    this.notify_subscribers(MgSelection.CHANGE, this._list);
+  }
+
+  contains(item) {
+    let pos;
+    pos = this._list.findIndex(x => x.page_id == item.page_id);
+    return pos >= 0;
+  }
+
+  add(mg_page) {
+    let pos;
+    pos = this._list.findIndex(item => item.page_id == mg_page.page_id); // add mg_page only if it is not already in the list.
+
+    if (pos < 0) {
+      this._list.push(mg_page);
+    }
+  }
+
+  all() {
+    return this._list;
+  }
+
+  first() {
+    return this._list[0];
+  }
+
+  remove(mg_page) {
+    let pos;
+    pos = this._list.findIndex(item => item.page_num == mg_page.page_num);
+
+    if (pos >= 0) {
+      this._list.splice(pos, 1);
+    }
+  }
+
+  get length() {
+    return this._list.length;
+  }
+
+  _on_page_click(event) {
+    let $this = $(this);
+    let mg_page;
+    let checkbox = $this.find("[type=checkbox]").first();
+    let checked, new_state;
+    checked = checkbox.prop("checked");
+    new_state = !checked;
+    checkbox.prop("checked", new_state);
+
+    if (new_state) {
+      $this.addClass("checked");
+    } else {
+      $this.removeClass("checked");
+    }
+
+    mg_page = _page__WEBPACK_IMPORTED_MODULE_1__["MgPage"].create_from_dom($this);
+
+    if (new_state) {
+      // is checked
+      event.data.selection.add(mg_page);
+    } else {
+      event.data.selection.remove(mg_page);
+    }
+
+    event.data.selection.notify_subscribers(MgSelection.CHANGE, this._list);
+  }
+
+  _configEvents() {
+    // listens on clicks on file and folders
+    // and adds/removes them from list
+    // when selection count changed - sends an event
+    $(".page_thumbnail").unbind('click');
+    $(".page_thumbnail").click({
+      selection: this
+    }, this._on_page_click);
+  }
+
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -18959,6 +20196,31 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PasteForm", function() { return PasteForm; });
 class PasteForm {
   constructor(id = "#paste_form") {
+    this._id = id;
+  }
+
+  submit() {
+    $(this._id).submit();
+  }
+
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./src/js/forms/paste_pages_form.js":
+/*!******************************************!*\
+  !*** ./src/js/forms/paste_pages_form.js ***!
+  \******************************************/
+/*! exports provided: PastePagesForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PastePagesForm", function() { return PastePagesForm; });
+class PastePagesForm {
+  // same ID as defined in papermerge/boss/templates/boss/_forms.js.html
+  constructor(id = "#paste_pages_form") {
     this._id = id;
   }
 
@@ -19399,58 +20661,6 @@ class DgPermissionReadonlyViewForm {
 
 /***/ }),
 
-/***/ "./src/js/forms/rename_change_form.js":
-/*!********************************************!*\
-  !*** ./src/js/forms/rename_change_form.js ***!
-  \********************************************/
-/*! exports provided: RenameChangeForm */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RenameChangeForm", function() { return RenameChangeForm; });
-class RenameChangeForm {
-  /*
-  Rename form of the changeform view.
-  Triggered by rename action in dropdown menu.
-  */
-  constructor(item, id = "#rename_changeform") {
-    this._item = item;
-    this._id = id;
-
-    this._set_title(item);
-
-    this._create_hidden_input(item);
-  }
-
-  _set_title(item) {
-    $(this._id).find("[name=title]").val(item.title);
-  }
-
-  _create_hidden_input(item) {
-    let hidden_input = `<input \
-         type="hidden" \
-         name="node_id" \
-         value="${item.id}" \
-         />`;
-    $(this._id).append(hidden_input);
-  }
-
-  show() {
-    $("#modals-container").css("display", "flex");
-    $(this._id).show();
-    $(this._id).find(".cancel").click(function (e) {
-      e.preventDefault();
-      $("#modals-container").hide();
-      $(this._id).hide();
-    });
-  }
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
 /***/ "./src/js/forms/rename_form.js":
 /*!*************************************!*\
   !*** ./src/js/forms/rename_form.js ***!
@@ -19825,6 +21035,219 @@ class DgSelection {
       selection: this,
       node_type: 'folder'
     }, this._on_node_click);
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/text_overlay.js":
+/*!********************************!*\
+  !*** ./src/js/text_overlay.js ***!
+  \********************************/
+/*! exports provided: DgTextOverlay */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgTextOverlay", function() { return DgTextOverlay; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+
+Number.isNumeric = function (value) {
+  return !isNaN(parseFloat(value)) && isFinite(value);
+};
+
+function build_svg(tag, attrs) {
+  let el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+
+  for (var k in attrs) {
+    el.setAttribute(k, attrs[k]);
+  }
+
+  return el;
+}
+
+class DgSVGText {
+  constructor(x, y, text) {
+    this.x = x;
+    this.y = y;
+    this.text = text;
+  }
+
+  make_svg() {
+    let dom = build_svg('text', {
+      'x': this.x,
+      'y': this.y
+    });
+    let text_node = document.createTextNode(this.text);
+    dom.appendChild(text_node);
+    return dom;
+  }
+
+}
+
+class DgBBox {
+  constructor(x1, y1, x2, y2) {
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
+  }
+
+  get width() {
+    return this.x2 - this.x1;
+  }
+
+  get height() {
+    return this.y2 - this.y1;
+  }
+
+}
+
+class DgTextOverlay {
+  /*
+      Creates an svg overlay for given image_id
+  */
+  constructor(dom_img, dom_parent, orig_img_rect) {
+    /* Image width and height */
+    let img_rect, height, width;
+    img_rect = dom_img.getBoundingClientRect();
+    this.height = img_rect.height;
+    this.width = img_rect.width;
+    this.dom_img = dom_img;
+    this.dom_parent = dom_parent;
+    this.orig_img_rect = orig_img_rect;
+  }
+
+  make_svg_container() {
+    let dom = build_svg('svg', {
+      'width': this.width,
+      'height': this.height
+    });
+    return dom;
+  }
+
+  fit_text_to_bbox(dest_bbox, svg_item, dg_svg_text) {
+    // http://kba.cloud/hocr-spec/1.2/#bbox
+    let bb = svg_item.getBBox();
+    let w, h, tx, ty, ratio;
+
+    if (!this.orig_img_rect) {
+      return;
+    }
+
+    ratio = parseInt(this.width) / this.orig_img_rect.width;
+
+    if (Number.isNumeric(bb.width) && bb.width > 0) {
+      /**
+          w = (img_cur_w / img_orig_w) * (server_text_w / text_w)
+           img_cur_w = img width from current DOM (adjusted to fit page width)
+          img_orig_w = img original width
+          server_text_w = text width as per HOCR data (retrieved from server)
+          text_w = width of text as in current DOM: svg.getBBox()
+           ISSUE: for some elements server_text_w (dest_bbox.width in code)
+          is too large, i.e. it has width of whole page. This happens because
+          HOCR data is wrong. Example: 
+              <span class='ocrx_word' 
+                      id='word_1_217' 
+                      title='bbox 0 0 1240 1755; 
+                      x_wconf 92'>:</span>
+           In example above, as per server data, bbox's width (width of ":") will be
+          1240 - 0 = 1240 which is obviously wrong.
+           To avoid one bbox element covering whole page, below code will
+          not scale all elemetns with where server_text_w / text_w > 20
+      **/
+      w = ratio * dest_bbox.width / bb.width;
+    } else {
+      return;
+    }
+
+    if (Number.isNumeric(bb.height) && bb.height > 0) {
+      h = dest_bbox.height / bb.height;
+    } else {
+      return;
+    }
+
+    if (!Number.isNumeric(w)) {
+      console.log(`[${dg_svg_text.text}] invalid scale value. dest_bbox.width = ${dest_bbox.width}; bb.width=${bb.width}; w=${w}`);
+      return;
+    }
+
+    tx = ratio * dest_bbox.x1 / w;
+    ty = ratio * dest_bbox.y2 / w; //  To avoid one bbox element covering whole page, below code will
+    //  not scale all elemetns with where server_text_w / text_w > 20
+
+    if (dest_bbox.width / bb.width <= 20) {
+      svg_item.setAttribute("transform", "scale(" + w + ")");
+      /*
+      console.log(
+          `OK w=${w}`
+      );
+      console.log(
+          `OK width=${this.width} / orig_img_rect.width=${this.orig_img_rect.width}`
+      );
+      console.log(
+           `OK dest_bbox.width=${dest_bbox.width} / bb.width=${bb.width} = ratio=${ratio}`
+      );
+      console.log(
+          `OK SVGText = [${dg_svg_text.text}]`
+      );
+      console.log(svg_item);
+      */
+    } else {
+      console.log(`SVG Scale factor > 20:  ${dest_bbox.width / bb.width}`);
+      console.log(`width=${this.width} / orig_img_rect.width=${this.orig_img_rect.width}`);
+      console.log(`dest_bbox.width=${dest_bbox.width} / bb.width=${bb.width} = ratio=${ratio}`);
+      console.log(`SVGText = [${dg_svg_text.text}]`);
+      console.log(svg_item);
+    }
+
+    svg_item.setAttribute("x", tx);
+    svg_item.setAttribute("y", ty);
+  }
+
+  build_for(words_arr, highlight_text_arr) {
+    let svg_container = this.make_svg_container();
+    let that = this;
+    let older_svg;
+
+    if (this.dom_parent) {
+      older_svg = this.dom_parent.querySelectorAll('svg');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(older_svg).remove();
+    }
+
+    this.dom_parent.insertBefore(svg_container, this.dom_img);
+    words_arr.forEach(function (dom_item, index, array) {
+      let x1 = dom_item.getAttribute('x1'),
+          y1 = dom_item.getAttribute('y1'),
+          x2 = dom_item.getAttribute('x2'),
+          y2 = dom_item.getAttribute('y2');
+      let bbox, dg_svg_text, svg_item;
+      bbox = new DgBBox(x1, y1, x2, y2);
+      dg_svg_text = new DgSVGText(bbox.x1, bbox.y2, dom_item.textContent);
+      svg_item = dg_svg_text.make_svg();
+      svg_container.appendChild(svg_item);
+      that.fit_text_to_bbox(bbox, svg_item, dg_svg_text); // used to track back original words (i.e. for debugging)
+
+      svg_item.setAttribute('id', dom_item.getAttribute('id'));
+      svg_item.setAttribute('title', dom_item.getAttribute('title')); // changed to yellow when highliting text
+      // as user search result.
+
+      svg_item.setAttribute('fill', 'transparent');
+      svg_item.setAttribute('opacity', '0.4');
+
+      if (highlight_text_arr) {
+        for (let word of highlight_text_arr) {
+          if (word == dom_item.textContent) {
+            svg_item.setAttribute('stroke', 'yellow');
+            svg_item.setAttribute('stroke-width', '10');
+          }
+        }
+      }
+    });
+    return svg_container;
   }
 
 }
