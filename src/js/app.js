@@ -15,6 +15,7 @@ import {DgPageScroll} from "./document_form/page_scroll";
 import {TopRightMenu} from "./top_right_menu";
 import {LeftMenu} from "./side_menu/left";
 import {RightMenu} from "./side_menu/right";
+import {sort_cookie} from "./sort_cookie";
 
 import $ from "jquery";
 
@@ -81,6 +82,7 @@ let App = function() {
   shorten_title();
   
   document_preloader();
+  sort_cookie();
 };
 
 dglReady( // i.e. after all DOM is loaded
