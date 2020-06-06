@@ -16,27 +16,7 @@ export class MetadataForm {
         // to root folder.
         this._create_hidden_parent(parent_id);
         this._set_title(node);
-        this.build_simple_key_actions();
         this.configEvents();
-    }
-
-    build_simple_key_actions() {
-        $("#add_simple_meta").click(function(){
-            $("ul#simple_keys").append(
-                `<li class='d-flex'><input id='' name='key' type='text' value=''>
-                <button type='button' class='close key text-danger mx-1' aria-label='Close'>
-                <span aria-hidden='true'>&times;</span></button>
-                </li>`
-            );
-        });
-
-        $("#add_comp_meta").click(function(){
-            $("ul#comp_keys").append(
-                `<li class="d-flex"><input id='' name='comp_key' type='text' value=''> 
-                <button type='button' class='close key text-danger mx-1' aria-label='Close'>
-                <span aria-hidden='true'>&times;</span></button></li>`
-            );
-        });
     }
 
     configEvents() {
@@ -71,27 +51,6 @@ export class MetadataForm {
         $(this._id).append(hidden_input);
     }
 
-    on_submit() {
-        let token = $("[name=csrfmiddlewaretoken]").val();
-        let simple_keys = [];
-        $("input[name=key_name]").each(function(){
-            simple_keys.push({
-                'id': this.id,
-                'key': this.value
-            });
-        });
-
-        $.ajaxSetup({
-            headers:
-            { 'X-CSRFToken': token}
-        });
-
-        $.post(
-            `/kvstore/${this._node.id}`,
-            JSON.stringify(simple_keys),
-        );
-    }
-
     unbind_events() {
         // unbind action events
         this._actions.unbind_events();
@@ -108,7 +67,7 @@ export class MetadataForm {
             e.preventDefault();
             $(that._id).css("display", "none");
             $("#modals-container").hide();
-            that.on_submit();
+            metadata_view.on_submit();
         });
 
         $(that._id).show();
