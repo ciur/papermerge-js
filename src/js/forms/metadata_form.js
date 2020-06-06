@@ -2,7 +2,7 @@
 export class MetadataForm {
     constructor(
         node,
-        id="#metadata-form",
+        id="#metadata_form",
     ) {
         this._node = node; // only one item!
         this._id = id;
@@ -100,12 +100,7 @@ export class MetadataForm {
             
             that.clear();
 
-            for(let access_hash of data) {
-                norm_ai = DgNormAccessItem.build_from(
-                    access_hash
-                );
-                that.insert_norm_ai(norm_ai)
-                console.log(access);
+            for(let kvstore_hash of data) {
             }
             $(that._id).find(".cancel").click(function(e){ 
                e.preventDefault();
