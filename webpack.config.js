@@ -51,7 +51,7 @@ let plug = [
 module.exports = {
     output: {
         filename: '[name].js',
-        path: '/home/eugen/ciur/papermerge-proj/papermerge/boss/static/boss/js/'
+        path: '/home/eugen/github/papermerge-proj/papermerge/boss/static/boss/js/'
     },
     entry: {
         papermerge: [

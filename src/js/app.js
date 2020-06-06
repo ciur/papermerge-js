@@ -22,6 +22,7 @@ import $ from "jquery";
 import 'bootstrap/js/dist/util';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/toast';
+import 'bootstrap/js/dist/tab';
 
 let on_document_form = function(func) {
   let $document_form = $("#document_form");
