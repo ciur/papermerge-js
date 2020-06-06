@@ -1,3 +1,5 @@
+import { Metadata } from "../models/metadata"; 
+
 
 export class MetadataForm {
     constructor(
@@ -98,9 +100,10 @@ export class MetadataForm {
     }
 
     show() {
-        let that = this;
+        let that = this, metadata = new Metadata(this._node.id);
 
         $("#modals-container").css("display", "flex");
+        metadata.fetch();
         $.ajax({
             url: `/kvstore/${this._node.id}`
         }).done(function(data){
@@ -120,9 +123,6 @@ export class MetadataForm {
                 $("#modals-container").hide();
                 that.on_submit();
             });
-
-
-
         });
 
         $(that._id).show();

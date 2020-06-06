@@ -15,6 +15,7 @@
     "@babel/preset-env": "^7.6.2",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.6",
+    "backbone": "^1.4.0",
     "bootstrap": "^4.3.1",
     "bootstrap-select": "^1.13.12",
     "css-loader": "^3.2.0",
