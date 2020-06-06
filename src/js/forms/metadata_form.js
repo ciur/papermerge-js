@@ -1,5 +1,5 @@
-import { Metadata } from "../models/metadata"; 
-
+import { MetadataView } from "../views/metadata";
+import _ from 'underscore';
 
 export class MetadataForm {
     constructor(
@@ -100,29 +100,15 @@ export class MetadataForm {
     }
 
     show() {
-        let that = this, metadata = new Metadata(this._node.id);
+        let that = this, metadata_view = new MetadataView(this._node.id);
 
         $("#modals-container").css("display", "flex");
-        metadata.fetch();
-        $.ajax({
-            url: `/kvstore/${this._node.id}`
-        }).done(function(data){
-            // load server side data
-            let norm_ai;
-            
-            that.clear();
 
-            for(let kvstore_hash of data) {
-            }
-
-
-            // on submit send data to server side
-            $(that._id).submit(function(e){
-                e.preventDefault();
-                $(that._id).css("display", "none");
-                $("#modals-container").hide();
-                that.on_submit();
-            });
+        $(that._id).submit(function(e){
+            e.preventDefault();
+            $(that._id).css("display", "none");
+            $("#modals-container").hide();
+            that.on_submit();
         });
 
         $(that._id).show();
