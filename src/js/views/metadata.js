@@ -2,8 +2,31 @@ import $ from "jquery";
 import _ from "underscore";
 import { Metadata } from "../models/metadata";
 import { View } from 'backbone';
+import Backbone from 'backbone';
 
 let TEMPLATE = require('../templates/metadata.html');
+
+let backboneSync = Backbone.sync;
+
+Backbone.sync = function (method, model, options) {
+    let csrf_token = $("[name=csrfmiddlewaretoken]").val();
+    /*
+     * The jQuery `ajax` method includes a 'headers' option
+     * which lets you set any headers you like
+     */
+    options.headers = {
+        /* 
+         * Set the 'Authorization' header and get the access
+         * token from the `auth` module
+         */
+        'X-CSRFToken': csrf_token
+    };
+    /*
+     * Call the stored original Backbone.sync method with
+     * extra headers argument added
+     */
+    backboneSync(method, model, options);
+};
 
 
 export class MetadataView extends View {

@@ -1,5 +1,10 @@
 import { Model } from 'backbone';
 
+let CSRF_TOKEN = $("[name=csrfmiddlewaretoken]").val();
+
+Backbone.$.ajaxSetup({
+    headers: {'X-CSRFToken': CSRF_TOKEN}
+});
 
 export class Metadata extends Model {
     initialize(doc_id) {
