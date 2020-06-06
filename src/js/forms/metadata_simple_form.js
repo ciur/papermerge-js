@@ -1,3 +1,7 @@
+import {MgSimpleKeyItems} from "../metadata/simple_key_items";
+import {MgSimpleKeyAction} from "../actions/simple_key_actions";
+import {MgSimpleKeyActions} from "../actions/simple_key_actions";
+import {MgSimpleKeyEditorForm} from "../forms/simple_key_editor_form";
 
 export class MetadataSimpleForm {
     constructor(
@@ -13,7 +17,49 @@ export class MetadataSimpleForm {
         // if this parameter is missing - will redirect back
         // to root folder.
         this._create_hidden_parent(parent_id);
+        this._key_simple_items = new MgSimpleKeyItems();
+        this._actions = new MgSimpleKeyActions(
+            node,
+            this._key_simple_items
+        );
         this._set_title(node);
+        this.build_simple_key_actions();
+    }
+
+    build_simple_key_actions() {
+        let create_action,
+            edit_action,
+            delete_action,
+            that = this;
+
+        create_action = new MgSimpleKeyAction({
+            id: "#add_simple_meta",
+            initial_state: true,
+            enabled: function(selection) { 
+                return true; 
+            },
+            action: function(node) {
+                let simple_key_editor_form;
+
+                simple_key_editor_form = new MgSimpleKeyEditorForm(
+                    node,
+                    // initial data is empty, so dialog will
+                    // be clear of any previous data
+                    undefined
+                );
+
+                simple_key_editor_form.show();
+                simple_key_editor_form.add_submit(
+                    that.on_simple_key_editor_close,
+                    that
+                );
+            }
+        });
+        this._actions.add(create_action);
+    }
+
+    on_simple_key_editor_close(simple_key_item) {
+        this._simple_key_items.update(simple_key_item);
     }
 
     configEvents() {
