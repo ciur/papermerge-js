@@ -1,7 +1,3 @@
-import {MgSimpleKeyItems} from "../metadata/simple_key_items";
-import {MgSimpleKeyAction} from "../actions/simple_key_actions";
-import {MgSimpleKeyActions} from "../actions/simple_key_actions";
-import {MgSimpleKeyEditorForm} from "../forms/simple_key_editor_form";
 
 export class MetadataSimpleForm {
     constructor(
@@ -17,49 +13,16 @@ export class MetadataSimpleForm {
         // if this parameter is missing - will redirect back
         // to root folder.
         this._create_hidden_parent(parent_id);
-        this._key_simple_items = new MgSimpleKeyItems();
-        this._actions = new MgSimpleKeyActions(
-            node,
-            this._key_simple_items
-        );
         this._set_title(node);
         this.build_simple_key_actions();
     }
 
     build_simple_key_actions() {
-        let create_action,
-            edit_action,
-            delete_action,
-            that = this;
-
-        create_action = new MgSimpleKeyAction({
-            id: "#add_simple_meta",
-            initial_state: true,
-            enabled: function(selection) { 
-                return true; 
-            },
-            action: function(node) {
-                let simple_key_editor_form;
-
-                simple_key_editor_form = new MgSimpleKeyEditorForm(
-                    node,
-                    // initial data is empty, so dialog will
-                    // be clear of any previous data
-                    undefined
-                );
-
-                simple_key_editor_form.show();
-                simple_key_editor_form.add_submit(
-                    that.on_simple_key_editor_close,
-                    that
-                );
-            }
+        $("#add_simple_meta").click(function(){
+            $("ul#simple_keys").append(
+                "<li><input id='' name='key_name' type='text' value=''></li>"
+            );
         });
-        this._actions.add(create_action);
-    }
-
-    on_simple_key_editor_close(simple_key_item) {
-        this._simple_key_items.update(simple_key_item);
     }
 
     configEvents() {
@@ -91,12 +54,25 @@ export class MetadataSimpleForm {
         $(this._id).append(hidden_input);
     }
 
-    on_access_close() {
-        // send all access info to the server.
-    }
-
     on_submit() {
+        let token = $("[name=csrfmiddlewaretoken]").val();
+        let simple_keys = [];
+        $("input[name=key_name]").each(function(){
+            simple_keys.push({
+                'id': this.id,
+                'key': this.value
+            });
+        });
 
+        $.ajaxSetup({
+            headers:
+            { 'X-CSRFToken': token}
+        });
+
+        $.post(
+            `/kvstore/${this._node.id}`,
+            JSON.stringify(simple_keys),
+        );
     }
 
     unbind_events() {
@@ -117,6 +93,15 @@ export class MetadataSimpleForm {
            // unbind submit event.
            $(that._id).off("submit");
         });
+
+        // on submit send data to server side
+        $(that._id).submit(function(e){
+            e.preventDefault();
+            $(that._id).css("display", "none");
+            $("#modals-container").hide();
+            that.on_submit();
+        });
+
         $(that._id).show();
     }
 }
