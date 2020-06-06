@@ -10,8 +10,7 @@ import {PastePagesForm} from "../forms/paste_pages_form";
 import {DeleteForm} from "../forms/delete_form";
 import {RenameForm} from "../forms/rename_form";
 import {AccessForm} from "../forms/access_form";
-import {MetadataSimpleForm} from "../forms/metadata_simple_form";
-import {MetadataCompForm} from "../forms/metadata_comp_form";
+import {MetadataForm} from "../forms/metadata_form";
 
 
 export class DgChangeListAction extends DgAbstractAction {
@@ -138,8 +137,7 @@ export function build_changelist_actions() {
       paste_pages_action,
       rename_action,
       download_action,
-      metadata_simple_action,
-      metadata_comp_action,
+      metadata_action,
       access_action;
 
   cut_action = new DgChangeListAction({
@@ -269,8 +267,8 @@ export function build_changelist_actions() {
     }
   });
 
-  metadata_comp_action = new DgChangeListAction({
-    id: "#metadata-comp",
+  metadata_action = new DgChangeListAction({
+    id: "#metadata",
     enabled: function(selection, clipboard) {
       return selection.length == 1;
     },
@@ -282,25 +280,7 @@ export function build_changelist_actions() {
       // some actions (in paste for example)
       // in case of access_action, only node is used - and it
       // refers to the selected node.
-      metadata_form = new MetadataCompForm(node, current_node);
-      metadata_form.show();
-    }
-  });
-
-  metadata_simple_action = new DgChangeListAction({
-    id: "#metadata-simple",
-    enabled: function(selection, clipboard) {
-      return selection.length == 1;
-    },
-    action: function(selection, clipboard, current_node) {
-      let metadata_form, node;
-
-      node = selection.first();
-      // current_node = referes to the parent node, which is used
-      // some actions (in paste for example)
-      // in case of access_action, only node is used - and it
-      // refers to the selected node.
-      metadata_form = new MetadataSimpleForm(node, current_node);
+      metadata_form = new MetadataForm(node, current_node);
       metadata_form.show();
     }
   });
@@ -313,6 +293,5 @@ export function build_changelist_actions() {
   actions.add(rename_action);
   actions.add(download_action);
   actions.add(access_action);
-  actions.add(metadata_simple_action);
-  actions.add(metadata_comp_action);
+  actions.add(metadata_action);
 }

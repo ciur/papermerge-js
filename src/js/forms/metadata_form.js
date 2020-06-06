@@ -1,8 +1,8 @@
 
-export class MetadataSimpleForm {
+export class MetadataForm {
     constructor(
         node,
-        id="#metadata-simple-form",
+        id="#metadata-form",
     ) {
         this._node = node; // only one item!
         this._id = id;
@@ -20,7 +20,13 @@ export class MetadataSimpleForm {
     build_simple_key_actions() {
         $("#add_simple_meta").click(function(){
             $("ul#simple_keys").append(
-                "<li><input id='' name='key_name' type='text' value=''></li>"
+                "<li><input id='' name='key' type='text' value=''></li>"
+            );
+        });
+
+        $("#add_comp_meta").click(function(){
+            $("ul#comp_keys").append(
+                "<li><input id='' name='comp_key' type='text' value=''></li>"
             );
         });
     }
@@ -86,20 +92,37 @@ export class MetadataSimpleForm {
         let that = this;
 
         $("#modals-container").css("display", "flex");
-        $(that._id).find(".cancel").click(function(e){ 
-           e.preventDefault();
-           $("#modals-container").hide();
-           $(that._id).hide();
-           // unbind submit event.
-           $(that._id).off("submit");
-        });
+        $.ajax({
+            url: `/kvstore/${this._node.id}`
+        }).done(function(data){
+            // load server side data
+            let norm_ai;
+            
+            that.clear();
 
-        // on submit send data to server side
-        $(that._id).submit(function(e){
-            e.preventDefault();
-            $(that._id).css("display", "none");
-            $("#modals-container").hide();
-            that.on_submit();
+            for(let access_hash of data) {
+                norm_ai = DgNormAccessItem.build_from(
+                    access_hash
+                );
+                that.insert_norm_ai(norm_ai)
+                console.log(access);
+            }
+            $(that._id).find(".cancel").click(function(e){ 
+               e.preventDefault();
+               $("#modals-container").hide();
+               $(that._id).hide();
+               // unbind submit event.
+               $(that._id).off("submit");
+            });
+
+            // on submit send data to server side
+            $(that._id).submit(function(e){
+                e.preventDefault();
+                $(that._id).css("display", "none");
+                $("#modals-container").hide();
+                that.on_submit();
+            });
+
         });
 
         $(that._id).show();
