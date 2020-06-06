@@ -172,10 +172,9 @@ export class DgPermissionEditorForm {
         template = `
             <option ${selected_html}
                 data-id="${usergroup_hash['name']}"
-                data-model=${usergroup_hash['model']}
-                data-content="<div class='icon ${icon_css_class} margin-right-xs'></div>${usergroup_hash['name']}"
-            >
-            </option>
+                data-model="${usergroup_hash['model']}"
+                data-content="<div class='icon ${icon_css_class} margin-right-xs'></div>"
+            >${usergroup_hash['name']}</option>
         `;
         return template;
     }
