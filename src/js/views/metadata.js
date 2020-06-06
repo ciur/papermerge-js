@@ -15,10 +15,6 @@ Backbone.sync = function (method, model, options) {
      * which lets you set any headers you like
      */
     options.headers = {
-        /* 
-         * Set the 'Authorization' header and get the access
-         * token from the `auth` module
-         */
         'X-CSRFToken': csrf_token
     };
     /*
