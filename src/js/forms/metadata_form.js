@@ -55,6 +55,7 @@ export class MetadataForm {
         let that = this, metadata_view = new MetadataView(this._node.id);
 
         $("#modals-container").css("display", "flex");
+        metadata_view.render();
 
         $(that._id).submit(function(e){
             e.preventDefault();

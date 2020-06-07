@@ -34,8 +34,7 @@ export class MetadataView extends View {
     initialize(doc_id) {
         this.metadata = new Metadata(doc_id);
 
-        this.metadata.fetch();
-
+        this.listenTo(this.metadata, 'change', this.render);
         this.render();
     }
 

@@ -10,18 +10,25 @@ Backbone.$.ajaxSetup({
 });
 
 export class Metadata extends Model {
+    defaults() {
+      return {
+        kvstore: new KVStoreCollection(),
+        kvstore_comp: new KVStoreCompCollection()
+      };
+    }
+
     initialize(doc_id) {
         this.doc_id = doc_id;
-        this._kvstore = new KVStoreCollection();
-        this._kvstore_comp = new KVStoreCompCollection();
+        // fetch data from server side
+        this.fetch();
     }
 
     get kvstore() {
-        return this._kvstore;
+        return this.get('kvstore');
     }
 
     get kvstore_comp() {
-        return this._kvstore_comp;
+        return this.get('kvstore_comp');
     }
 
     urlRoot() {
@@ -35,6 +42,31 @@ export class Metadata extends Model {
         dict['kvstore_comp'] = this.kvstore_comp.toJSON();
 
         return dict;
+    }
+
+    parse(response, options) {
+        let kvstore = response.kvstore,
+            kvstore_comp = response.kvstore_comp,
+            that = this;
+
+        _.each(kvstore, function(item){
+            that.kvstore.add(
+                new KVStore(item)
+            );
+        });
+
+        _.each(kvstore_comp, function(item){
+            that.kvstore_comp.add(
+                new KVStoreComp(item)
+            );
+        });
+
+        this.trigger('change');
+
+        return {
+            'kvstore': this.kvstore,
+            'kvstore_comp': this.kvstore_comp            
+        }
     }
 
     update_simple(cid, value) {
