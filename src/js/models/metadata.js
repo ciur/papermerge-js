@@ -28,11 +28,13 @@ export class Metadata extends Model {
         return `/metadata/${this.doc_id}`;
     }
 
-    defaults() {
-      return {
-        title: '',
-        completed: false
-      };
+    toJSON() {
+        let dict = {};
+        
+        dict['kvstore'] = this.kvstore.toJSON();
+        dict['kvstore_comp'] = this.kvstore_comp.toJSON();
+
+        return dict;
     }
 
     update_simple(cid, value) {

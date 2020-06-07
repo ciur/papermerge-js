@@ -3,6 +3,21 @@ import _ from "underscore";
 import { Model, Collection } from 'backbone';
 
 export class KVStore extends Model {
+    defaults() {
+      return {
+        key: '',
+        kv_inherited: false
+      };
+    }
+
+    toJSON() {
+        let dict = {
+            key: this.get('key'),
+            kv_inherited: this.get('kv_inherited')
+        }
+
+        return dict;
+    }
 }
 
 export class KVStoreCollection extends Collection {
@@ -13,10 +28,25 @@ export class KVStoreCollection extends Collection {
 
 
 export class KVStoreComp extends Model {
-    get model() {
-        return KVStoreComp;
+    defaults() {
+      return {
+        key: '',
+        kv_inherited: false
+      };
+    }
+
+    toJSON() {
+        let dict = {
+            key: this.get('key'),
+            kv_inherited: this.get('kv_inherited')
+        }
+
+        return dict;
     }
 }
 
 export class KVStoreCompCollection extends Collection {
+    get model() {
+        return KVStoreComp;
+    }
 }
