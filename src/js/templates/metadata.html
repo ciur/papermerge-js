@@ -15,7 +15,7 @@
         <% for (i=0; i < kvstore.models.length; i++) { %>
             <% item = kvstore.models[i]; %>
             <li class='d-flex' data-model='simple-key' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
-                <input data-cid='<%= item.cid %>' name='key' type='text' value="<%= item.get('key') %>">
+                <input data-id='<%= item.id %>' data-cid='<%= item.cid %>' name='key' type='text' value="<%= item.get('key') %>">
                 <button type='button' class='close key text-danger mx-1' aria-label='Close'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
@@ -27,7 +27,7 @@
         <% for (i=0; i < kvstore_comp.models.length; i++) { %>
             <% item = kvstore_comp.models[i]; %>
             <li class='d-flex' data-model='comp-key' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
-                <input data-cid='<%= item.cid %>' name='key' type='text' value="<%= item.get('key') %>">
+                <input data-id='<%= item.id %>' data-cid='<%= item.cid %>' name='key' type='text' value="<%= item.get('key') %>">
                 <button type='button' class='close key text-danger mx-1' aria-label='Close'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
