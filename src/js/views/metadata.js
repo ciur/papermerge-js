@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import { Metadata } from "../models/metadata";
+import { KVStore, KVStoreComp } from "../models/kvstore";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
@@ -48,13 +49,20 @@ export class MetadataView extends View {
         return event_map;
     }
 
-    add_simple_meta() {
-        this.metadata.add_simple();
+    add_simple_meta(event) {
+        let value = $(event.currentTarget).val();
+        
+        this.metadata.add_simple(
+            new KVStore({'value': value})
+        );
+        
         this.render();
     }
 
     add_comp_meta() {
-        this.metadata.add_comp();
+        this.metadata.add_comp(
+            new KVStoreComp({'value': value})
+        );
         this.render();
     }
 
@@ -63,9 +71,9 @@ export class MetadataView extends View {
         let data = parent.data();
 
         if (data['model'] == 'simple-key') {
-            this.metadata.remove_simple(data['id'], data['value']);
+            this.metadata.remove_simple(data['cid']);
         } else if (data['model'] == 'comp-key') {
-            this.metadata.remove_comp(data['id'], data['value']);
+            this.metadata.remove_comp(data['cid']);
         }
         parent.remove();
     }

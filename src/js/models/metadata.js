@@ -1,5 +1,7 @@
 import _ from "underscore";
 import { Model } from 'backbone';
+import { KVStore, KVStoreComp } from "./kvstore";
+import { KVStoreCollection, KVStoreCompCollection } from './kvstore';
 
 let CSRF_TOKEN = $("[name=csrfmiddlewaretoken]").val();
 
@@ -10,8 +12,8 @@ Backbone.$.ajaxSetup({
 export class Metadata extends Model {
     initialize(doc_id) {
         this.doc_id = doc_id;
-        this._kvstore = [];
-        this._kvstore_comp = [];
+        this._kvstore = new KVStoreCollection();
+        this._kvstore_comp = new KVStoreCompCollection();
     }
 
     get kvstore() {
@@ -34,48 +36,19 @@ export class Metadata extends Model {
     }
 
     add_simple() {
-        this.kvstore.push(
-            {
-                'key': '',
-                'id': '',
-                'kv_inherited': false
-            }
-        );
+        this.kvstore.add(new KVStore());
     }
 
-    remove_simple(id, value) {
-        this.remove(this.kvstore, id, value);
+    remove_simple(cid) {
+        this.kvstore.remove({'cid': cid});
     }
 
     add_comp() {
-        this.kvstore_comp.push(
-            {
-                'key': '',
-                'id': '',
-                'kv_inherited': false
-            }
-        );
+        this.kvstore_comp.add(new KVStoreComp());
     }
 
-    remove_comp(id, value) {
-        this.remove(this.kvstore_comp, id, value);
+    remove_comp(cid) {
+        this.kvstore_comp.remove({'cid': cid});
     }
 
-    remove(arr, id, value) {
-        // remove an element matched either by id or by value
-        // if both id and value are undefined - just remove an
-        // element from array with both id and values empty
-        let pos, do_match;
-
-        do_match = function(item) {
-            if (item.id == id || item.value == value) {
-                return true;
-            }
-        }
-
-        pos = _.findIndex(arr, do_match);
-        if (pos > -1) {
-            arr.splice(pos, 1);
-        }
-    }
 };

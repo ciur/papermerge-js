@@ -12,9 +12,9 @@
      </ul>
      Simple keys
      <ul id="simple_keys" class="vertical menu">
-        <% for (i=0; i < kvstore.length; i++) { %>
-            <li class='d-flex' data-model='simple-key' data-id='<%= kvstore[i].id %>' data-value='<%= kvstore[i].key %>'>
-                <input id='<%= kvstore[i].id %>' name='key' type='text' value='<%= kvstore[i].key %>'>
+        <% for (i=0; i < kvstore.models.length; i++) { %>
+            <li class='d-flex' data-model='simple-key' data-cid='<%= kvstore.models[i].cid %>' data-value='<%= kvstore.models[i].key %>'>
+                <input data-cid='<%= kvstore.models[i].cid %>' name='key' type='text' value='<%= kvstore.models[i].key %>'>
                 <button type='button' class='close key text-danger mx-1' aria-label='Close'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
