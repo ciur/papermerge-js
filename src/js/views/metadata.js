@@ -43,10 +43,23 @@ export class MetadataView extends View {
         let event_map = {
           "click #add_simple_meta": "add_simple_meta",
           "click #add_comp_meta"  : "add_comp_meta",
-          "click .close.key": "remove_meta"
+          "click .close.key": "remove_meta",
+          "keyup input": "update_value"
         }
 
         return event_map;
+    }
+
+    update_value(event) {
+        let value = $(event.currentTarget).val();
+        let parent = $(event.currentTarget).parent();
+        let data = parent.data();
+
+        if (data['model'] == 'simple-key') {
+            this.metadata.update_simple(data['cid'], value);
+        } else if (data['model'] == 'comp-key') {
+            this.metadata.update_comp(data['cid'], value);
+        }
     }
 
     add_simple_meta(event) {

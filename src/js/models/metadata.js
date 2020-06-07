@@ -35,6 +35,16 @@ export class Metadata extends Model {
       };
     }
 
+    update_simple(cid, value) {
+        let model = this.kvstore.get(cid);
+        model.set({'key': value});
+    }
+
+    update_comp(cid, value) {
+        let model = this.kvstore_comp.get(cid);
+        model.set({'key': value});
+    }
+
     add_simple() {
         this.kvstore.add(new KVStore());
     }
