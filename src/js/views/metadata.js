@@ -59,10 +59,13 @@ export class MetadataView extends View {
         this.render();
     }
 
-    add_comp_meta() {
+    add_comp_meta(event) {
+        let value = $(event.currentTarget).val();
+
         this.metadata.add_comp(
             new KVStoreComp({'value': value})
         );
+
         this.render();
     }
 
@@ -86,7 +89,8 @@ export class MetadataView extends View {
     render() {
 
         let compiled = _.template(TEMPLATE({
-            kvstore: this.metadata.kvstore
+            kvstore: this.metadata.kvstore,
+            kvstore_comp: this.metadata.kvstore_comp
         }));
 
         this.$el.html(compiled);
