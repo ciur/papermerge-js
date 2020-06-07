@@ -42,6 +42,7 @@ export class MetadataView extends View {
         let event_map = {
           "click #add_simple_meta": "add_simple_meta",
           "click #add_comp_meta"  : "add_comp_meta",
+          "click .close.key": "remove_meta"
         }
 
         return event_map;
@@ -57,9 +58,22 @@ export class MetadataView extends View {
         this.render();
     }
 
+    remove_meta(event) {
+        let parent = $(event.currentTarget).parent();
+        let data = parent.data();
+
+        if (data['model'] == 'simple-key') {
+            this.metadata.remove_simple(data['id'], data['value']);
+        } else if (data['model'] == 'comp-key') {
+            this.metadata.remove_comp(data['id'], data['value']);
+        }
+        parent.remove();
+    }
+
     on_submit() {
         this.metadata.save();
     }
+
 
     render() {
 

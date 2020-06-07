@@ -16,13 +16,6 @@ export class MetadataForm {
         // to root folder.
         this._create_hidden_parent(parent_id);
         this._set_title(node);
-        this.configEvents();
-    }
-
-    configEvents() {
-        $(document).on('click', '.close.key', function(){
-            $(this).parent().empty();
-        });
     }
 
     _set_title(item) {
@@ -80,7 +73,6 @@ export class MetadataForm {
            that.unbind_events();
            // unbind submit event.
            $(that._id).off("submit");
-
         });
     }
 }
