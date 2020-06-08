@@ -18,6 +18,15 @@ export class KVStore extends Model {
 
         return dict;
     }
+
+    get disabled() {
+        // used to disable input form for inherited
+        // kv items
+        if (this.get('kv_inherited')) {
+            return 'disabled';
+        }
+        return ''
+    }
 }
 
 export class KVStoreCollection extends Collection {

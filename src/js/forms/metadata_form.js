@@ -45,8 +45,6 @@ export class MetadataForm {
     }
 
     unbind_events() {
-        // unbind action events
-        this._actions.unbind_events();
         // unbind submit event
         $(this._id).off("submit");
     }
