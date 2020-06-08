@@ -28,7 +28,7 @@ Backbone.sync = function (method, model, options) {
 
 export class MetadataView extends View {
     el() {
-        return $('#metadata_form_content');
+        return $('#metadata_form .modal-body');
     } 
 
     initialize(doc_id) {
