@@ -43,10 +43,34 @@ export class MetadataView extends View {
           "click #add_simple_meta": "add_simple_meta",
           "click #add_comp_meta"  : "add_comp_meta",
           "click .close.key": "remove_meta",
-          "keyup input": "update_value"
+          "keyup input": "update_value",
+          "change .kv_type": "kv_type_update",
+          "change .kv_format": "kv_format_update"
         }
 
         return event_map;
+    }
+
+    kv_type_update(event) {
+        let value = $(event.currentTarget).val();
+        let parent = $(event.currentTarget).parent();
+        let data = parent.data();
+        let cur_fmt = {};
+
+        cur_fmt['money'] = this.metadata.currency_formats;
+        cur_fmt['numeric'] = this.metadata.numeric_formats;
+        cur_fmt['date'] = this.metadata.date_formats;
+        cur_fmt['text'] = [];
+
+        if (data['model'] == 'simple-key') {
+            this.metadata.update_simple(data['cid'],'kv_type', value);
+            this.metadata.update_simple(data['cid'],'current_formats', cur_fmt[value]);
+        } else if (data['model'] == 'comp-key') {
+            this.metadata.update_comp(data['cid'],'kv_type', value);
+            this.metadata.update_comp(data['cid'],'current_formats', cur_fmt[value]);
+        }
+
+        this.render();
     }
 
     update_value(event) {
@@ -55,9 +79,9 @@ export class MetadataView extends View {
         let data = parent.data();
 
         if (data['model'] == 'simple-key') {
-            this.metadata.update_simple(data['cid'], value);
+            this.metadata.update_simple(data['cid'], 'key', value);
         } else if (data['model'] == 'comp-key') {
-            this.metadata.update_comp(data['cid'], value);
+            this.metadata.update_comp(data['cid'], 'key', value);
         }
     }
 
@@ -99,10 +123,10 @@ export class MetadataView extends View {
 
 
     render() {
-
         let compiled = _.template(TEMPLATE({
             kvstore: this.metadata.kvstore,
-            kvstore_comp: this.metadata.kvstore_comp
+            kvstore_comp: this.metadata.kvstore_comp,
+            kv_types: this.metadata.kv_types,
         }));
 
         this.$el.html(compiled);

@@ -10,8 +10,28 @@
  <ul id="simple_keys" class="vertical menu">
     <% for (i=0; i < kvstore.models.length; i++) { %>
         <% item = kvstore.models[i]; %>
+        <% current_formats = item.get('current_formats'); %>
         <li class='d-flex' data-model='simple-key' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
             <input <%= item.disabled %> data-id='<%= item.id %>' data-cid='<%= item.cid %>' name='key' type='text' value="<%= item.get('key') %>">
+            <select class="kv_type" name='kv_type' class="custom-select">
+                <% for (j=0; j < kv_types.length; j++) { %>
+                    <option 
+                        {% if ( item.get('kv_type') == kv_types[j][0] ) { %} selected  {% }  %} 
+                        value="<%= kv_types[j][0] %>">
+                        <%= kv_types[j][1] %> / <%= item.get('kv_type') %>
+                    </option>
+                <% } %>
+            </select>
+            <select class="kv_format" name='kv_format' class="custom-select">
+                <% for (j=0; j < current_formats.length; j++) { %>
+                    <option 
+                         {% if ( item.get('kv_format') == current_formats[j][0] ) { %} selected  {% }  %} 
+                        value="<%= current_formats[j][0] %>">
+                        <%= current_formats[j][1] %>
+                        
+                    </option>
+                <% } %>
+            </select>
             <% if (!item.get('kv_inherited')) {  %>
                 <button type='button' class='close key text-danger mx-1' aria-label='Close'>
                     <span aria-hidden='true'>&times;</span>

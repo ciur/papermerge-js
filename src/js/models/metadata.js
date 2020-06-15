@@ -26,6 +26,8 @@ export class Metadata extends Model {
         this.currency_formats = [];
         this.numeric_formats = [];
         this.date_formats = [];
+        this.kv_current_formats = [];
+        this.kv_current_type = 'text';
 
         // fetch data from server side
         this.fetch();
@@ -87,14 +89,18 @@ export class Metadata extends Model {
         }
     }
 
-    update_simple(cid, value) {
-        let model = this.kvstore.get(cid);
-        model.set({'key': value});
+    update_simple(cid, attr, value) {
+        let model = this.kvstore.get(cid), dict = {};
+
+        dict[attr] = value;
+        model.set(dict);
     }
 
-    update_comp(cid, value) {
-        let model = this.kvstore_comp.get(cid);
-        model.set({'key': value});
+    update_comp(cid, attr, value) {
+        let model = this.kvstore_comp.get(cid), dict = {};
+
+        dict[attr] = value;
+        model.set(dict);
     }
 
     add_simple() {
