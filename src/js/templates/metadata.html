@@ -14,18 +14,18 @@
         <li class='d-flex' data-model='simple-key' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
             <input <%= item.disabled %> data-id='<%= item.id %>' data-cid='<%= item.cid %>' name='key' type='text' value="<%= item.get('key') %>">
             <select class="kv_type" name='kv_type' class="custom-select">
-                <% for (j=0; j < kv_types.length; j++) { %>
+                <% for (k=0; k < kv_types.length; k++) { %>
                     <option 
-                        {% if ( item.get('kv_type') == kv_types[j][0] ) { %} selected  {% }  %} 
-                        value="<%= kv_types[j][0] %>">
-                        <%= kv_types[j][1] %> / <%= item.get('kv_type') %>
+                        <% if ( item.get('kv_type') == kv_types[k][0] ) { %> selected  <% }  %> 
+                        value="<%= kv_types[k][0] %>">
+                        <%= kv_types[k][1] %>
                     </option>
                 <% } %>
             </select>
             <select class="kv_format" name='kv_format' class="custom-select">
                 <% for (j=0; j < current_formats.length; j++) { %>
                     <option 
-                         {% if ( item.get('kv_format') == current_formats[j][0] ) { %} selected  {% }  %} 
+                         <% if ( item.get('kv_format') == current_formats[j][0] ) { %> selected  <% }  %> 
                         value="<%= current_formats[j][0] %>">
                         <%= current_formats[j][1] %>
                         
