@@ -19,6 +19,14 @@ export class Metadata extends Model {
 
     initialize(doc_id) {
         this.doc_id = doc_id;
+
+        // Following 4 fields are used to populate UI
+        // with 2 dropdowns - type and format.
+        this.kv_types = [];
+        this.currency_formats = [];
+        this.numeric_formats = [];
+        this.date_formats = [];
+
         // fetch data from server side
         this.fetch();
     }
@@ -61,11 +69,21 @@ export class Metadata extends Model {
             );
         });
 
+        this.kv_types = response.kv_types;
+        this.currency_formats = response.currency_formats;
+        this.numeric_formats = response.numeric_formats;
+        this.date_formats = response.date_formats;
+
+
         this.trigger('change');
 
         return {
             'kvstore': this.kvstore,
-            'kvstore_comp': this.kvstore_comp            
+            'kvstore_comp': this.kvstore_comp,
+            'kv_types': this.kv_types,
+            'currency_formats': this.currency_formats,
+            'numeric_formats': this.numeric_formats,
+            'date_formats': this.date_formats
         }
     }
 
