@@ -9,8 +9,6 @@ export class KVStore extends Model {
         kv_inherited: false,
         kv_type: 'text',
         kv_format: undefined,
-        // only used on local, not passed to the server
-        current_formats: []
       };
     }
 
@@ -20,10 +18,22 @@ export class KVStore extends Model {
             key: this.get('key'),
             kv_inherited: this.get('kv_inherited'),
             kv_type: this.get('kv_type'),
-            kv_format: this.get('kv_format')
+            kv_format: this.get('kv_format'),
         }
 
         return dict;
+    }
+
+    get current_formats() {
+        if (this.get('kv_type') == 'date') {
+            return this.get('date_formats');
+        } else if (this.get('kv_type') == 'money') {
+            return this.get('currency_formats');
+        } else if (this.get('kv_type') == 'numeric') {
+            return this.get('numeric_formats');
+        }
+
+        return [];
     }
 
     get disabled() {

@@ -20,15 +20,6 @@ export class Metadata extends Model {
     initialize(doc_id) {
         this.doc_id = doc_id;
 
-        // Following 4 fields are used to populate UI
-        // with 2 dropdowns - type and format.
-        this.kv_types = [];
-        this.currency_formats = [];
-        this.numeric_formats = [];
-        this.date_formats = [];
-        this.kv_current_formats = [];
-        this.kv_current_type = 'text';
-
         // fetch data from server side
         this.fetch();
     }
@@ -57,6 +48,10 @@ export class Metadata extends Model {
     parse(response, options) {
         let kvstore = response.kvstore,
             kvstore_comp = response.kvstore_comp,
+            kv_types = response.kv_types,
+            date_formats = response.date_formats,
+            numeric_formats = response.numeric_formats,
+            currency_formats = response.currency_formats,
             that = this;
 
         _.each(kvstore, function(item){
@@ -71,11 +66,7 @@ export class Metadata extends Model {
             );
         });
 
-        this.kv_types = response.kv_types;
-        this.currency_formats = response.currency_formats;
-        this.numeric_formats = response.numeric_formats;
-        this.date_formats = response.date_formats;
-
+        this.set('kv_types', kv_types);
 
         this.trigger('change');
 
@@ -83,9 +74,9 @@ export class Metadata extends Model {
             'kvstore': this.kvstore,
             'kvstore_comp': this.kvstore_comp,
             'kv_types': this.kv_types,
+            'date_formats': this.date_formats,
             'currency_formats': this.currency_formats,
-            'numeric_formats': this.numeric_formats,
-            'date_formats': this.date_formats
+            'numeric_formats': this.numeric_formats
         }
     }
 

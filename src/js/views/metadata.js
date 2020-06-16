@@ -122,7 +122,7 @@ export class MetadataView extends View {
         let compiled = _.template(TEMPLATE({
             kvstore: this.metadata.kvstore,
             kvstore_comp: this.metadata.kvstore_comp,
-            kv_types: this.metadata.kv_types,
+            available_types: this.metadata.kv_types,
         }));
 
         this.$el.html(compiled);
