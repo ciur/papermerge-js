@@ -85,6 +85,10 @@ export class MetadataView extends View {
                 // in HTML <option> and second one is the human text
                 // cur_fmt[value][0][0] == use first *value* of first format from the list
                 this.metadata.update_simple(data['cid'],'kv_format', cur_fmt[value][0][0]);
+            } else {
+                // current list of formatting types is empty only for kv_type text
+                // no formating - means kv_type = text
+                this.metadata.update_simple(data['cid'],'kv_format', "");
             }
         } else if (data['model'] == 'comp-key') {
             this.metadata.update_comp(data['cid'],'kv_type', value);
@@ -94,6 +98,10 @@ export class MetadataView extends View {
                 // in HTML <option> and second one is the human text
                 // cur_fmt[value][0][0] == use first *value* of first format from the list
                 this.metadata.update_comp(data['cid'],'kv_format', cur_fmt[value][0][0]);
+            } else {
+                // current list of formatting types is empty only for kv_type text
+                // no formating - means kv_type = text
+                this.metadata.update_comp(data['cid'],'kv_format', "");
             }
         }
 
