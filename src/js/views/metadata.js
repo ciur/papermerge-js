@@ -41,7 +41,6 @@ export class MetadataView extends View {
     events() {
         let event_map = {
           "click #add_simple_meta": "add_simple_meta",
-          "click #add_comp_meta"  : "add_comp_meta",
           "click .close.key": "remove_meta",
           "keyup input": "update_value",
           "change input": "update_value",
@@ -53,17 +52,13 @@ export class MetadataView extends View {
     }
 
     kv_format_update(event) {
-      let value = $(event.currentTarget).val();
-      let parent = $(event.currentTarget).parent();
-      let data = parent.data();
+        let value = $(event.currentTarget).val();
+        let parent = $(event.currentTarget).parent();
+        let data = parent.data();
 
-      if (data['model'] == 'simple-key') {
-          this.metadata.update_simple(data['cid'],'kv_format', value);
-      } else if (data['model'] == 'comp-key') {
-          this.metadata.update_comp(data['cid'],'kv_format', cur_fmt[value]);
-      }
+        this.metadata.update_simple(data['cid'],'kv_format', value);
 
-      this.render();  
+        this.render();  
     }
 
     kv_type_update(event) {
@@ -77,32 +72,17 @@ export class MetadataView extends View {
         cur_fmt['date'] = this.metadata.date_formats;
         cur_fmt['text'] = [];
 
-        if (data['model'] == 'simple-key') {
-            this.metadata.update_simple(data['cid'],'kv_type', value);
-            this.metadata.update_simple(data['cid'],'current_formats', cur_fmt[value]);
-            if (cur_fmt[value].length > 0) {
-                // kv_format entry is a 2 items array. First one is used as value
-                // in HTML <option> and second one is the human text
-                // cur_fmt[value][0][0] == use first *value* of first format from the list
-                this.metadata.update_simple(data['cid'],'kv_format', cur_fmt[value][0][0]);
-            } else {
-                // current list of formatting types is empty only for kv_type text
-                // no formating - means kv_type = text
-                this.metadata.update_simple(data['cid'],'kv_format', "");
-            }
-        } else if (data['model'] == 'comp-key') {
-            this.metadata.update_comp(data['cid'],'kv_type', value);
-            this.metadata.update_comp(data['cid'],'current_formats', cur_fmt[value]);
-            if (cur_fmt[value].length > 0) {
-                // kv_format entry is a 2 items array. First one is used as value
-                // in HTML <option> and second one is the human text
-                // cur_fmt[value][0][0] == use first *value* of first format from the list
-                this.metadata.update_comp(data['cid'],'kv_format', cur_fmt[value][0][0]);
-            } else {
-                // current list of formatting types is empty only for kv_type text
-                // no formating - means kv_type = text
-                this.metadata.update_comp(data['cid'],'kv_format', "");
-            }
+        this.metadata.update_simple(data['cid'],'kv_type', value);
+        this.metadata.update_simple(data['cid'],'current_formats', cur_fmt[value]);
+        if (cur_fmt[value].length > 0) {
+            // kv_format entry is a 2 items array. First one is used as value
+            // in HTML <option> and second one is the human text
+            // cur_fmt[value][0][0] == use first *value* of first format from the list
+            this.metadata.update_simple(data['cid'],'kv_format', cur_fmt[value][0][0]);
+        } else {
+            // current list of formatting types is empty only for kv_type text
+            // no formating - means kv_type = text
+            this.metadata.update_simple(data['cid'],'kv_format', "");
         }
 
         this.render();
@@ -113,11 +93,7 @@ export class MetadataView extends View {
         let parent = $(event.currentTarget).parent();
         let data = parent.data();
 
-        if (data['model'] == 'simple-key') {
-            this.metadata.update_simple(data['cid'], 'key', value);
-        } else if (data['model'] == 'comp-key') {
-            this.metadata.update_comp(data['cid'], 'key', value);
-        }
+        this.metadata.update_simple(data['cid'], 'key', value);
     }
 
     add_simple_meta(event) {
@@ -130,25 +106,12 @@ export class MetadataView extends View {
         this.render();
     }
 
-    add_comp_meta(event) {
-        let value = $(event.currentTarget).val();
-
-        this.metadata.add_comp(
-            new KVStoreComp({'value': value})
-        );
-
-        this.render();
-    }
-
     remove_meta(event) {
         let parent = $(event.currentTarget).parent();
         let data = parent.data();
 
-        if (data['model'] == 'simple-key') {
-            this.metadata.remove_simple(data['cid']);
-        } else if (data['model'] == 'comp-key') {
-            this.metadata.remove_comp(data['cid']);
-        }
+        this.metadata.remove_simple(data['cid']);
+        
         parent.remove();
     }
 
