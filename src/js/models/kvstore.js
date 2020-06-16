@@ -5,7 +5,6 @@ import { Model, Collection } from 'backbone';
 export class KVStore extends Model {
     defaults() {
       return {
-        id: '',
         key: '',
         kv_inherited: false,
         kv_type: 'text',

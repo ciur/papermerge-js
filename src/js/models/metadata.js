@@ -92,19 +92,27 @@ export class Metadata extends Model {
     update_simple(cid, attr, value) {
         let model = this.kvstore.get(cid), dict = {};
 
-        dict[attr] = value;
-        model.set(dict);
+        if (model && attr) {
+            dict[attr] = value;
+            model.set(dict);
+        }
     }
 
     update_comp(cid, attr, value) {
         let model = this.kvstore_comp.get(cid), dict = {};
 
-        dict[attr] = value;
-        model.set(dict);
+        if (model && attr) {
+            dict[attr] = value;
+            model.set(dict);
+        }
     }
 
     add_simple() {
-        this.kvstore.add(new KVStore());
+        this.kvstore.add(
+            new KVStore({
+                'kv_current_formats': this.kv_current_formats
+            })
+        );
     }
 
     remove_simple(cid) {

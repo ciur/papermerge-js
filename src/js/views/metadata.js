@@ -99,9 +99,7 @@ export class MetadataView extends View {
     add_simple_meta(event) {
         let value = $(event.currentTarget).val();
         
-        this.metadata.add_simple(
-            new KVStore({'value': value})
-        );
+        this.metadata.add_simple();
         
         this.render();
     }
