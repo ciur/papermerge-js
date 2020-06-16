@@ -13,7 +13,11 @@ export class Metadata extends Model {
     defaults() {
       return {
         kvstore: new KVStoreCollection(),
-        kvstore_comp: new KVStoreCompCollection()
+        kvstore_comp: new KVStoreCompCollection(),
+        kv_types: [],
+        date_formats: [],
+        currency_formats: [],
+        numeric_formats: []
       };
     }
 
@@ -66,14 +70,16 @@ export class Metadata extends Model {
             );
         });
 
-        this.set('kv_types', kv_types);
+        console.log(`parse kv_types=${kv_types}`);
+
+        this.set({'kv_types': kv_types});
 
         this.trigger('change');
 
         return {
             'kvstore': this.kvstore,
             'kvstore_comp': this.kvstore_comp,
-            'kv_types': this.kv_types,
+            'kv_types': this.get('kv_types'),
             'date_formats': this.date_formats,
             'currency_formats': this.currency_formats,
             'numeric_formats': this.numeric_formats
@@ -101,7 +107,8 @@ export class Metadata extends Model {
     add_simple() {
         this.kvstore.add(
             new KVStore({
-                'kv_current_formats': this.kv_current_formats
+                'kv_current_formats': this.kv_current_formats,
+                'kv_types': this.kv_types
             })
         );
     }
