@@ -5,6 +5,7 @@ import { Model, Collection } from 'backbone';
 export class KVStore extends Model {
     defaults() {
       return {
+        id: '',
         key: '',
         kv_inherited: false,
         kv_type: 'text',
@@ -16,6 +17,7 @@ export class KVStore extends Model {
 
     toJSON() {
         let dict = {
+            id: this.get('id'),
             key: this.get('key'),
             kv_inherited: this.get('kv_inherited'),
             kv_type: this.get('kv_type'),
@@ -45,6 +47,7 @@ export class KVStoreCollection extends Collection {
 export class KVStoreComp extends Model {
     defaults() {
       return {
+        id: '',
         key: '',
         kv_inherited: false,
         kv_type: 'text',
