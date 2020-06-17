@@ -53,18 +53,6 @@ export class KVStore extends Model {
         return dict;
     }
 
-    get current_formats() {
-        if (this.get('kv_type') == 'date') {
-            return this.get('date_formats');
-        } else if (this.get('kv_type') == 'money') {
-            return this.get('currency_formats');
-        } else if (this.get('kv_type') == 'numeric') {
-            return this.get('numeric_formats');
-        }
-
-        return [];
-    }
-
     get disabled() {
         // used to disable input form for inherited
         // kv items
