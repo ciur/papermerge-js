@@ -12,6 +12,35 @@ export class KVStore extends Model {
       };
     }
 
+    initialize(doc_id) {
+        this.on('change:kv_type', this.update_current_formats);
+        this.trigger('change:kv_type');
+    }
+
+    update_current_formats() {
+        if (this.get('kv_type') == 'date') {
+            this.set(
+                'current_formats',
+                this.get('date_formats')
+            );
+        } else if (this.get('kv_type') == 'money') {
+            this.set(
+                'current_formats',
+                this.get('currency_formats')
+            );
+        } else if (this.get('kv_type') == 'numeric') {
+            this.set(
+                'current_formats',
+                this.get('numeric_formats')
+            );
+        } else {
+            this.set(
+                'current_formats',
+                []
+            );
+        }
+    }
+
     toJSON() {
         let dict = {
             id: this.get('id'),

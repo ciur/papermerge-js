@@ -67,9 +67,9 @@ export class MetadataView extends View {
         let data = parent.data();
         let cur_fmt = {};
 
-        cur_fmt['money'] = this.metadata.currency_formats;
-        cur_fmt['numeric'] = this.metadata.numeric_formats;
-        cur_fmt['date'] = this.metadata.date_formats;
+        cur_fmt['money'] = this.metadata.get('currency_formats');
+        cur_fmt['numeric'] = this.metadata.get('numeric_formats');
+        cur_fmt['date'] = this.metadata.get('date_formats');
         cur_fmt['text'] = [];
 
         this.metadata.update_simple(data['cid'],'kv_type', value);
@@ -119,10 +119,20 @@ export class MetadataView extends View {
 
 
     render() {
-        let compiled = _.template(TEMPLATE({
+        let compiled, context;
+
+        context = {
+            'kvstore': this.metadata.get('kvstore'),
+            'available_types': this.metadata.get('kv_types')
+        }
+
+        console.log(`kvstore=${this.metadata.get('kvstore')}`);
+        console.log(`available_types=${this.metadata.get('kv_types')}`);
+        console.log(context);
+
+        compiled = _.template(TEMPLATE({
             kvstore: this.metadata.kvstore,
-            kvstore_comp: this.metadata.kvstore_comp,
-            available_types: this.metadata.kv_types,
+            available_types: this.metadata.get('kv_types'),
         }));
 
         this.$el.html(compiled);

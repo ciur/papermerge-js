@@ -70,20 +70,12 @@ export class Metadata extends Model {
             );
         });
 
-        console.log(`parse kv_types=${kv_types}`);
-
         this.set({'kv_types': kv_types});
+        this.set({'numeric_formats': numeric_formats});
+        this.set({'date_formats': date_formats});
+        this.set({'currency_formats': currency_formats});
 
         this.trigger('change');
-
-        return {
-            'kvstore': this.kvstore,
-            'kvstore_comp': this.kvstore_comp,
-            'kv_types': this.get('kv_types'),
-            'date_formats': this.date_formats,
-            'currency_formats': this.currency_formats,
-            'numeric_formats': this.numeric_formats
-        }
     }
 
     update_simple(cid, attr, value) {

@@ -7,8 +7,8 @@
  <ul id="simple_keys" class="vertical menu">
     <% for (i=0; i < kvstore.models.length; i++) { %>
         <% item = kvstore.models[i]; %>
-        <% current_formats = item.current_formats || []; %>
-        <% kv_types = item.get('kv_types') ; %>
+        <% current_formats = item.get('current_formats') || []; %>
+        <% kv_types = item.get('kv_types') || available_types || []; %>
         <li class='d-flex' data-model='simple-key' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
             <input <%= item.disabled %> data-id='<%= item.id %>' data-cid='<%= item.cid %>' name='key' type='text' value="<%= item.get('key') %>">
             <select class="kv_type" name='kv_type' class="custom-select">
