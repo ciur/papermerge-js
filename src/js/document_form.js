@@ -10,6 +10,7 @@ import {get_win_param} from "./document_form/common";
 import {DgMainSpinner} from "./spinner";
 import {RenameChangeForm} from "./forms/rename_change_form";
 import {MgChangeFormActions, MgChangeFormAction} from "./actions/changeform_actions";
+import {MetadataPageForm} from "./forms/metadata_form";
 
 
 function add_switch_logic(switch_selector) {
@@ -345,7 +346,11 @@ class MgDocument {
           return selection.length == 1;
         },
         action: function(selection, clipboard, current_node) {
-          console.log('metadata_action');
+          let metadata_form, node;
+
+          page = selection.first();
+          metadata_form = new MetadataPageForm(page);
+          metadata_form.show();
         }
       });
 

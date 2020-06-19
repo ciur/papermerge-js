@@ -2,6 +2,7 @@ import { MetadataView } from "../views/metadata";
 import _ from 'underscore';
 
 export class MetadataForm {
+    // metadata form for documents
     constructor(
         node,
         id="#metadata_form",
@@ -67,6 +68,43 @@ export class MetadataForm {
            e.preventDefault();
            $("ul#simple_keys").empty();
            $("ul#comp_keys").empty();
+           $("#modals-container").hide();
+           $(that._id).hide();
+           that.unbind_events();
+           // unbind submit event.
+           $(that._id).off("submit");
+        });
+    }
+}
+
+export class MetadataPageForm  {
+    // metadata form for page
+    
+    constructor(
+        page,
+        id="#metadata_form",
+    ) {
+        this._page = page;
+        this._id = id;
+    }
+
+    show() {
+        let that = this, metadata_view = new MetadataPageView(this._page.page_id);
+
+        $("#modals-container").css("display", "flex");
+        metadata_view.render();
+
+        $(that._id).submit(function(e){
+            e.preventDefault();
+            $(that._id).css("display", "none");
+            $("#modals-container").hide();
+            metadata_view.on_submit();
+        });
+
+        $(that._id).show();
+        $(that._id).find(".cancel").click(function(e){ 
+           e.preventDefault();
+           $("ul#simple_keys").empty();
            $("#modals-container").hide();
            $(that._id).hide();
            that.unbind_events();
