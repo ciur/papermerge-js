@@ -346,7 +346,7 @@ class MgDocument {
           return selection.length == 1;
         },
         action: function(selection, clipboard, current_node) {
-          let metadata_form, node;
+          let metadata_form, page;
 
           page = selection.first();
           metadata_form = new MetadataPageForm(page);

@@ -1,7 +1,7 @@
 import _ from "underscore";
 import { Model } from 'backbone';
 import { KVStore, KVStoreComp } from "./kvstore";
-import { KVStoreCollection, KVStoreCompCollection } from './kvstore';
+import { KVStoreCollection, KVStoreCompCollection, KVStorePageCollection } from './kvstore';
 
 let CSRF_TOKEN = $("[name=csrfmiddlewaretoken]").val();
 

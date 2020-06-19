@@ -1,4 +1,5 @@
 import { MetadataView } from "../views/metadata";
+import { MetadataPageView } from "../views/metadata_page";
 import _ from 'underscore';
 
 export class MetadataForm {
