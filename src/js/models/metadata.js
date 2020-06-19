@@ -1,7 +1,7 @@
 import _ from "underscore";
 import { Model } from 'backbone';
 import { KVStore } from "./kvstore";
-import { KVStoreCollection, KVStoreCompCollection, KVStorePageCollection } from './kvstore';
+import { KVStoreCollection, KVStoreCompCollection } from './kvstore';
 
 let CSRF_TOKEN = $("[name=csrfmiddlewaretoken]").val();
 
@@ -97,7 +97,7 @@ export class Metadata extends Model {
 export class MetadataPage extends Model {
     defaults() {
       return {
-        kvstore: new KVStorePageCollection(),
+        kvstore: new KVStoreCollection(),
         kv_types: [],
         date_formats: [],
         currency_formats: [],

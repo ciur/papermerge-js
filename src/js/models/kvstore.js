@@ -6,67 +6,6 @@ export class KVStore extends Model {
     defaults() {
       return {
         key: '',
-        kv_inherited: false,
-        kv_type: 'text',
-        kv_format: undefined,
-      };
-    }
-
-    initialize(doc_id) {
-        this.on('change:kv_type', this.update_current_formats);
-        this.trigger('change:kv_type');
-    }
-
-    update_current_formats() {
-        if (this.get('kv_type') == 'date') {
-            this.set(
-                'current_formats',
-                this.get('date_formats')
-            );
-        } else if (this.get('kv_type') == 'money') {
-            this.set(
-                'current_formats',
-                this.get('currency_formats')
-            );
-        } else if (this.get('kv_type') == 'numeric') {
-            this.set(
-                'current_formats',
-                this.get('numeric_formats')
-            );
-        } else {
-            this.set(
-                'current_formats',
-                []
-            );
-        }
-    }
-
-    toJSON() {
-        let dict = {
-            id: this.get('id'),
-            key: this.get('key'),
-            kv_inherited: this.get('kv_inherited'),
-            kv_type: this.get('kv_type'),
-            kv_format: this.get('kv_format'),
-        }
-
-        return dict;
-    }
-
-    get disabled() {
-        // used to disable input form for inherited
-        // kv items
-        if (this.get('kv_inherited')) {
-            return 'disabled';
-        }
-        return ''
-    }
-}
-
-export class KVStorePage extends Model {
-    defaults() {
-      return {
-        key: '',
         value: '',
         kv_inherited: false,
         kv_type: 'text',
@@ -107,6 +46,7 @@ export class KVStorePage extends Model {
         let dict = {
             id: this.get('id'),
             key: this.get('key'),
+            value: this.get('value'),
             kv_inherited: this.get('kv_inherited'),
             kv_type: this.get('kv_type'),
             kv_format: this.get('kv_format'),
@@ -129,12 +69,6 @@ export class KVStorePage extends Model {
 export class KVStoreCollection extends Collection {
     get model() {
         return KVStore;
-    }
-}
-
-export class KVStorePageCollection extends Collection {
-    get model() {
-        return KVStorePage;
     }
 }
 

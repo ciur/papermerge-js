@@ -5,7 +5,7 @@ import { KVStore, KVStorePage } from "../models/kvstore";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
-let TEMPLATE = require('../templates/metadata.html');
+let TEMPLATE = require('../templates/metadata_page.html');
 
 let backboneSync = Backbone.sync;
 
@@ -42,8 +42,10 @@ export class MetadataPageView extends View {
         let event_map = {
           "click #add_simple_meta": "add_simple_meta",
           "click .close.key": "remove_meta",
-          "keyup input": "update_value",
-          "change input": "update_value",
+          "keyup input.key": "update_key",
+          "change input.key": "update_key",
+          "keyup input.value": "update_value",
+          "change input.value": "update_value",
           "change .kv_type": "kv_type_update",
           "change .kv_format": "kv_format_update"
         }
@@ -88,13 +90,22 @@ export class MetadataPageView extends View {
         this.render();
     }
 
-    update_value(event) {
+    update_key(event) {
         let value = $(event.currentTarget).val();
         let parent = $(event.currentTarget).parent();
         let data = parent.data();
 
         this.metadata.update_simple(data['cid'], 'key', value);
     }
+
+    update_value(event) {
+        let value = $(event.currentTarget).val();
+        let parent = $(event.currentTarget).parent();
+        let data = parent.data();
+
+        this.metadata.update_simple(data['cid'], 'value', value);
+    }
+
 
     add_simple_meta(event) {
         let value = $(event.currentTarget).val();
