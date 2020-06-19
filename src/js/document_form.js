@@ -177,6 +177,7 @@ class MgDocument {
         paste_page_action,
         paste_page_before_action,
         paste_page_after_action,
+        metadata_action,
         apply_reorder_changes;
 
       rename_action = new MgChangeFormAction({
@@ -338,6 +339,16 @@ class MgDocument {
         }
       });
 
+      metadata_action = new MgChangeFormAction({
+        id: '#metadata',
+        enabled: function(selection, clipboard) {
+          return selection.length == 1;
+        },
+        action: function(selection, clipboard, current_node) {
+          console.log('metadata_action');
+        }
+      });
+
       apply_reorder_changes = new MgChangeFormAction({
         id: "#apply-reorder-changes",
         enabled: function(
@@ -404,6 +415,7 @@ class MgDocument {
       actions.add(paste_page_action);
       actions.add(paste_page_before_action);
       actions.add(paste_page_after_action);
+      actions.add(metadata_action);
       actions.add(apply_reorder_changes);
 
       return actions;
