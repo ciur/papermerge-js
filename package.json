@@ -1,7 +1,7 @@
 {
   "name": "papermerge",
-  "version": "1.0.0",
-  "description": "Prototyping and testing of static assets",
+  "version": "1.4.0",
+  "description": "Papermerge DMS Frontend (js, sass)",
   "main": "index.js",
   "scripts": {
     "build": "webpack",

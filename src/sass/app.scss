@@ -5,15 +5,11 @@
 @import "./common/flex";
 @import "./common/responsive";
 @import "./common/icons";
-@import "./common/page";
 @import "./common/cookie_policy";
-@import "./common/topmenu";
 @import "./common/document_change_form";
 
 
-@import "./layout.scss";
 @import "./icons.scss";
-@import "./flex.scss";
 @import "./fonts.scss";
 @import "./reset.scss";
 @import "./colors.scss";
@@ -22,7 +18,6 @@
 @import "./document_form.scss";
 @import "./spinners.scss";
 @import "./changelists.scss";
-@import "./main.scss";
 @import "./reset";
 @import "./colors";
 @import "./spinners";
@@ -33,10 +28,6 @@
 @import "./box";
 @import "./user_form";
 @import "./sidebar";
-
-@import "./custom_bootstrap";
-
-
 
 .wrap {
     margin: 0 auto;

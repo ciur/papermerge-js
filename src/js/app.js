@@ -12,17 +12,9 @@ import {decorate_passwords} from "./password";
 import {build_changelist_actions} from "./actions/changelist_actions";
 import {DgPageScroll} from "./document_form/page_scroll";
 
-import {TopRightMenu} from "./top_right_menu";
-import {LeftMenu} from "./side_menu/left";
-import {RightMenu} from "./side_menu/right";
 import {sort_cookie} from "./sort_cookie";
 
 import $ from "jquery";
-
-import 'bootstrap/js/dist/util';
-import 'bootstrap/js/dist/dropdown';
-import 'bootstrap/js/dist/toast';
-import 'bootstrap/js/dist/tab';
 
 let on_document_form = function(func) {
   let $document_form = $("#document_form");
@@ -36,22 +28,7 @@ let on_document_form = function(func) {
 
 
 let App = function() {
-  let  upload_feedback_sw = $('upload-feedback-switch'),
-      uploader = new DgUploader(),
-      top_right_menu = new TopRightMenu(
-        "#top-right-menu-wrapper",
-        "#top-right-menu",
-        ".top-right-menu-trigger"
-      ),
-      left_menu = new LeftMenu(
-        "#left-sidebar.phone",
-        "#top-left-logo  .icon-hamburger"
-      ),
-      right_menu = new RightMenu(
-        "#document_details",
-        "#top-right-menu-wrapper .icon-3dots"
-      )
-    ;
+  let  uploader = new DgUploader();
 
   let dom_actual_pages = document.querySelector('.actual-pages');
 
@@ -66,17 +43,10 @@ let App = function() {
   $('.toast').toast({'autohide': false});
   $('.toast').toast('show');
 
-  if ($("#register-form").length > 0) {
-    registration();
-  } else {
-    decorate_passwords();
-  }
-
   if (dom_actual_pages) {
       new DgPageScroll(dom_actual_pages);
   }
   
-
   build_changelist_actions();
   node_doubleclick(".dblclick");
   // make node's titles (in document's changelist grid/list mode)
