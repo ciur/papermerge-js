@@ -20,23 +20,27 @@ export class NewFolderView extends View {
 
   events() {
       let event_map = {
-        "click input[type=submit]": "on_submit",
+        "click .create": "on_create",
       }
 
       return event_map;
   }
 
-  on_submit(event) {
-    let folder_name;
+  on_create(event) {
+    let folder_title, parent_id;
 
-    event.preventDefault();
-    console.log("default prevented");
+    parent_id = this.$el.find("[name=parent_id]").val();
+    folder_title = this.$el.find("[name=title]").val();
 
     this.folder.set(
-      {'name': folder_name}
+      {
+        'title': folder_title,
+        'parent_id': parent_id
+      }
     );
 
     this.folder.save();
+    this.$el.modal('hide');
   }
 
   render() {

@@ -7,7 +7,7 @@ export class NewFolder extends Model {
     */
     defaults() {
       return {
-        name: '',
+        title: '',
         parent_id: '',
       };
     }
@@ -15,11 +15,15 @@ export class NewFolder extends Model {
     initialize(parent_id) {
     }
 
+    urlRoot() {
+        return '/create-folder/';
+    }
+
     toJSON() {
         let dict = {
             id: this.get('id'),
             parent_id: this.get('parent_id'),
-            name: this.get('name'),
+            title: this.get('title'),
         }
 
         return dict;

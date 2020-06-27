@@ -10,13 +10,17 @@
     </div>
       <div class="modal-body">
             <div class="modal-body vertical">
-                <label class="padding-x-xs">Folder name</label>
-                <input name="title" type="text" >
-                <input name="parent_id" value="" type="hidden" >
+              <form>
+                  <div class="form-group">
+                    <label for="title">Folder name:</label>
+                    <input type="text" class="form-control" id="title" name="title">
+                    <input name="parent_id" value="" type="hidden" >
+                  </div>
+              </form>
             </div>
       </div>
       <div class="modal-footer">
-            <button type="submit" class="btn btn-success action margin-xs" >Create Folder</button>
+            <button type="submit" class="btn btn-success action margin-xs create" >Create</button>
             <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>
       </div>
   </div>
