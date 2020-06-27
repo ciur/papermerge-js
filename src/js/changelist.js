@@ -1,23 +1,16 @@
 import $ from "jquery";
 import {get_parent_id} from "./utils";
 import {DgSelection} from "./selection";
+import {NewFolderView} from "./views/new_folder";
 
 export function show_add_new_folder(new_folder_sel) {
   $(new_folder_sel).click(function(e){
-      var target_id = $(this).data("target-id"),
-          $target; // target is new folder form displayed to user
+       let new_folder_view;
 
       e.preventDefault();
 
-      $target = $("#" + target_id);
-      if ($target.length == 0) {
-          console.log("target " + target_id + " not found");
-          return;
-      }
-      $target.find("[name='parent_id']").attr("value", get_parent_id());
-      $target.find("[name='title']").val("");
-      $target.modal();
-      
+      new_folder_view = new NewFolderView();
+
   });
 }
 

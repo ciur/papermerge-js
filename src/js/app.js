@@ -13,6 +13,7 @@ import {build_changelist_actions} from "./actions/changelist_actions";
 import {DgPageScroll} from "./document_form/page_scroll";
 
 import {sort_cookie} from "./sort_cookie";
+import Backbone from 'backbone';
 
 import $ from "jquery";
 
@@ -20,6 +21,25 @@ import 'bootstrap/js/dist/util';
 import 'bootstrap/js/dist/toast';
 import 'bootstrap/js/dist/tab';
 import 'bootstrap/js/dist/modal';
+
+let backboneSync = Backbone.sync;
+
+Backbone.sync = function (method, model, options) {
+    let csrf_token = $("[name=csrfmiddlewaretoken]").val();
+    /*
+     * The jQuery `ajax` method includes a 'headers' option
+     * which lets you set any headers you like
+     */
+    options.headers = {
+        'X-CSRFToken': csrf_token
+    };
+    /*
+     * Call the stored original Backbone.sync method with
+     * extra headers argument added
+     */
+    backboneSync(method, model, options);
+};
+
 
 let on_document_form = function(func) {
   let $document_form = $("#document_form");
