@@ -2,10 +2,6 @@
 @import "./responsive";
 
 
-#changelist .actions select {
-    border-radius: 0;
-}
-
 @keyframes spin {
     from{
         transform: rotate(0deg);

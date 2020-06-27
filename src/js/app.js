@@ -40,8 +40,8 @@ let App = function() {
   // creates a new DgDocument instance
   on_document_form(add_load_on_scroll);
   //$('.toast').toast({'autohide': true, 'delay': 5000});
-  $('.toast').toast({'autohide': false});
-  $('.toast').toast('show');
+  //$('.toast').toast({'autohide': false});
+  //$('.toast').toast('show');
 
   if (dom_actual_pages) {
       new DgPageScroll(dom_actual_pages);
