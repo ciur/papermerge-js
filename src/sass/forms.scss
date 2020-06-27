@@ -11,76 +11,6 @@
     }
 }
 
-.search_main {
-    button {
-        display: flex;
-        padding: 0.2rem 1rem;
-        @include respond(phone) {
-            padding: 0.2rem 0.25rem;
-        }
-        margin: 0;
-        border: 0;
-        background-color: #e5e5e5;
-        i.icon-search {
-            width: 1.5rem;
-            height: 1.5rem;
-            @include respond(phone) {
-                width: 1rem;
-                height: 1rem;
-            }
-        }
-    }
-    input {
-        margin: 0;
-        border: 0;
-    }
-}
-
-form {
-    position: relative;
-
-    input.search_secondary {
-        width: 12rem;
-        border: none;
-        transition: width 0.4s ease-in-out;
-    }
-
-    input.search_secondary_placeholder {
-        border: none;
-        background-color: $breadcrumb_bg_color;
-        color: white;
-    }
-
-    i.icon-search-light {
-        position: absolute;
-        right: 0;
-        top: 0.2rem;
-    }   
-
-    input.search_secondary:focus {
-        width: 20rem;
-        background-color: $search_secondary_bg_color2;
-        color: $search_secondary_text_color2;
-    };
-}
-
-
-form {
-    margin: 0.25rem;
-    .form-row {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        padding: 0.5rem 0;
-        input {
-            flex: 1;
-        }
-    }
-    &.labels-above > .form-row {
-        flex-direction: column;
-    }
-}
-
 #user_form {
     padding: 0rem 1rem;
 
@@ -98,8 +28,6 @@ form {
         }
     }
 }
-
-
 
 form#userpreferencemodel_form {
     padding: 1rem;
@@ -138,100 +66,6 @@ fieldset.module.vertical {
         li {
             list-style-type: circle;
         }
-    }
-}
-
-select, input {
-    background-color: $clean_color;
-    border: {
-        color: darken($neuter_color, 30%);
-        width: 1px;
-        style: solid;
-    }
-}
-
-input {
-    padding: 0.2rem 0.3rem;
-}
-
-select {
-    padding: 0.7rem 0.25rem;   
-}
-
-input.password {
-    padding: 0.5rem 1rem;
-    // padding on the left side due to eye icon
-    padding-left: 1.5rem;
-}
-
-
-button, .btn {
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem 0.7rem;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-a.btn:hover {
-    text-decoration: none;   
-}
-
-input.action, button.action, .btn.action {
-    color: $clean_color;
-    background-color: $action_green;
-    min-width: 8rem;
-}
-
-.btn.huge {
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 0.5rem 1.8rem;
-    @include respond(phone) {
-        font-size: 1.2rem;
-        padding: 0.2rem 1.2rem;
-    }
-}
-
-.btn.large {
-    font-size: 1.2rem;
-    padding: 0.5rem 1.8rem;
-    @include respond(phone) {
-        font-size: 1.2rem;
-        padding: 0.2rem 1.2rem;
-    }
-}
-
-
-button.neuter, .btn-neuter {
-    background-color: $clean_color;
-    font-size: 1.2rem;
-    border: {
-        color: darken($neuter_color, 30%);
-        width: 1px;
-        style: solid;
-    }
-}
-
-button.btn-reverse {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: white;
-    border: white 1px solid;
-}
-
-button.btn-reverse:hover {
-    color: rgba(255, 255, 255, 0.8);
-    border-color: rgba(255, 255, 255, 0.8);
-}
-
- .btn-lock {
-    background-image: url(../img/icons/lock.svg);
-    background-repeat: no-repeat;
-    background-position: left;
-    background-size: 2rem;
-    @include respond(phone) {
-        background-size: 1.5rem;
     }
 }
 
