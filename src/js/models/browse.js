@@ -1,6 +1,6 @@
 import _ from "underscore";
 import { Model, Collection } from 'backbone';
-import { NodeCollection } from "./node";
+import { Node, NodeCollection } from "./node";
 
 export class Browse extends Model {
     defaults() {
@@ -16,7 +16,11 @@ export class Browse extends Model {
     }
 
     urlRoot() {
-        return '/browse/';
+        if (this.parent_id) {
+            return f`/browse/${this.parent_id}/`;
+        }
+
+        return '/browse/'
     }
 
     toJSON() {
@@ -28,5 +32,15 @@ export class Browse extends Model {
         }
 
         return dict;
+    }
+
+    parse(response, options) {
+        let nodes = response.nodes, that=this;
+
+        _.each(nodes, function(item){
+            that.nodes.add(new Node(item))
+        });
+
+       this.trigger('change');
     }
 }

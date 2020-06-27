@@ -13,7 +13,8 @@ export class BrowseView extends View {
 
   initialize(parent_id) {
       this.browse = new Browse(parent_id);
-      this.render();
+      this.browse.fetch();
+      this.listenTo(this.browse, 'change', this.render);
   }
 
   events() {
@@ -29,7 +30,7 @@ export class BrowseView extends View {
     context = {};
 
     compiled = _.template(TEMPLATE({
-        'nodes': this.browse.get('nodes'),
+        'nodes': this.browse.nodes,
     }));
 
     this.$el.html(compiled);

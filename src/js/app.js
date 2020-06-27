@@ -13,6 +13,7 @@ import {build_changelist_actions} from "./actions/changelist_actions";
 import {DgPageScroll} from "./document_form/page_scroll";
 
 import {sort_cookie} from "./sort_cookie";
+import {BrowseView} from "./views/browse";
 import Backbone from 'backbone';
 
 import $ from "jquery";
@@ -53,7 +54,7 @@ let on_document_form = function(func) {
 
 
 let App = function() {
-  let  uploader = new DgUploader();
+  let  uploader = new DgUploader(), browse;
 
   let dom_actual_pages = document.querySelector('.actual-pages');
 
@@ -79,6 +80,8 @@ let App = function() {
   
   document_preloader();
   sort_cookie();
+
+  browse = new BrowseView();
 };
 
 dglReady( // i.e. after all DOM is loaded

@@ -59,3 +59,45 @@ footer {
 .btn-bordered {
     border: 1px solid #ccc;
 }
+
+.node-w1 {
+    width: 8rem;
+}
+
+#browse {
+
+    input[type=checkbox] {
+        display: none;
+    }
+
+    ul.grid {
+        flex-wrap: wrap;
+        .node {
+            .icon-folder {
+                 width: 8rem;
+                 height: 8rem;
+                 background-image: url(../img/folder.svg);
+                 background-size:100% 100%;
+                 @include respond(phone) {
+                     width: 5rem;
+                     height: 5rem;
+                 }
+            }
+            .icon-file {
+                width: 8rem;
+                height: 8rem;
+                background-image: url(../img/file.svg);
+                background-size:100% 100%;
+                @include respond(phone) {
+                     width: 5rem;
+                     height: 5rem;
+                }
+            }
+            .title {
+                 text-align: center;
+                 opacity: 1;
+                 z-index: 0;
+            }
+        }
+    }
+}
