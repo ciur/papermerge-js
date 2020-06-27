@@ -14,18 +14,10 @@ export function show_add_new_folder(new_folder_sel) {
           console.log("target " + target_id + " not found");
           return;
       }
-      $("#modals-container").css("display", "flex");
-
       $target.find("[name='parent_id']").attr("value", get_parent_id());
       $target.find("[name='title']").val("");
+      $target.modal();
       
-      $target.show();
-
-      $target.find(".cancel").click(function(e){ 
-        e.preventDefault();
-        $("#modals-container").hide();
-        $target.hide();
-      });
   });
 }
 
