@@ -17,7 +17,6 @@ import {sort_cookie} from "./sort_cookie";
 import $ from "jquery";
 
 import 'bootstrap/js/dist/util';
-import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/toast';
 import 'bootstrap/js/dist/tab';
 import 'bootstrap/js/dist/modal';
