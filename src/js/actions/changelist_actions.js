@@ -9,7 +9,7 @@ import {PasteForm} from "../forms/paste_form";
 import {PastePagesForm} from "../forms/paste_pages_form";
 import {DeleteForm} from "../forms/delete_form";
 import {RenameForm} from "../forms/rename_form";
-import {AccessForm} from "../forms/access_form";
+//import {AccessForm} from "../forms/access_form";
 import {MetadataForm} from "../forms/metadata_form";
 
 
@@ -262,8 +262,8 @@ export function build_changelist_actions() {
       // some actions (in paste for example)
       // in case of access_action, only node is used - and it
       // refers to the selected node.
-      access_form = new AccessForm(node, current_node);
-      access_form.show();
+      //access_form = new AccessForm(node, current_node);
+      //access_form.show();
     }
   });
 
