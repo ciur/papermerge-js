@@ -41,23 +41,28 @@ export class Breadcrumb extends Model {
     }
 
     open(parent_node, notify_all) {
-        let breadcrumb = new Breadcrumb(parent_node.id),
-            that = this;
+        let parent_id;
 
-        breadcrumb.fetch();
-        breadcrumb.on('change', function(event){
-            that.nodes = breadcrumb.nodes;
-            that.parent_id = breadcrumb.parent_id;
-            that.trigger('change');
+        if (parent_node) {
+            parent_id = parent_node.id;
+        } else {
+            parent_id = undefined;
+        }
 
-            if (notify_all) {
-                // inform everybody about new parent
-                mg_dispatcher.trigger(
-                    PARENT_CHANGED,
-                    breadcrumb.parent_id
-                );
-            }
+
+        this.set({
+            'parent_id': parent_id
         });
+
+        this.fetch();
+
+        if (notify_all) {
+            // inform everybody about new parent
+            mg_dispatcher.trigger(
+                PARENT_CHANGED,
+                parent_id
+            );
+        }
     }
 
     parse(response, options) {

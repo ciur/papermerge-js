@@ -42,22 +42,27 @@ export class Browse extends Model {
     }
 
     open(parent_node, notify_all) {
-        let browse = new Browse(parent_node.id),
-            that = this;
+        let parent_id;
 
-        browse.fetch();
-        browse.on('change', function(event){
-            that.nodes = browse.nodes;
-            that.parent_id = browse.parent_id;
-            that.trigger('change');
-            if (notify_all) {
-                // inform everybody about new parent
-                mg_dispatcher.trigger(
-                    PARENT_CHANGED,
-                    browse.parent_id
-                )
-            }
+        if (parent_node) {
+            parent_id = parent_node.id;
+        } else {
+            parent_id = undefined;
+        }
+
+        this.set({
+            'parent_id': parent_id
         });
+
+        this.fetch();
+
+        if (notify_all) {
+            // inform everybody about new parent
+            mg_dispatcher.trigger(
+                PARENT_CHANGED,
+                parent_id
+            );
+        }
     }
 
     parse(response, options) {
@@ -74,6 +79,6 @@ export class Browse extends Model {
 
         this.set({'parent_id': parent_id});
 
-       this.trigger('change');
+        this.trigger('change');
     }
 }

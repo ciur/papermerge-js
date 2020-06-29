@@ -44,9 +44,7 @@ export class BreadcrumbView extends View {
 
     node = this.breadcrumb.nodes.get(data['id']);
 
-    if (node) {
-      this.breadcrumb.open(node, true);
-    }
+    this.breadcrumb.open(node, true);
   }
 
   render() {
