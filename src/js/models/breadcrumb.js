@@ -2,27 +2,25 @@ import _ from "underscore";
 import { Model, Collection } from 'backbone';
 import { Node, NodeCollection } from "./node";
 
-export class Browse extends Model {
+export class Breadcrumb extends Model {
     defaults() {
       return {
         nodes: [],
         parent_id: '',
-        breadcrumb_nodes: []
       };
     }
 
     initialize(parent_id) {
         this.parent_id = parent_id;
         this.nodes = new NodeCollection();
-        this.breadcrumb_nodes = new NodeCollection();
     }
 
     urlRoot() {
         if (this.parent_id) {
-            return `/browse/${this.parent_id}/`;
+            return f`/breadcrumb/${this.parent_id}/`;
         }
 
-        return '/browse/'
+        return '/breadcrumb/'
     }
 
     toJSON() {
@@ -36,29 +34,14 @@ export class Browse extends Model {
         return dict;
     }
 
-    open(parent_node) {
-        let browse = new Browse(parent_node.id),that = this;
-
-        browse.fetch();
-        browse.on('change', function(event){
-            that.nodes = browse.nodes;
-            that.parent_id = browse.parent_id;
-            that.trigger('change');
-            that.render();
-        });
-    }
-
     parse(response, options) {
 
         let nodes = response.nodes,
-            that=this,
-            parent_id = response.parent_id;
+            that=this;
 
         _.each(nodes, function(item){
             that.nodes.add(new Node(item))
         });
-
-        this.parent_id = parent_id;
 
        this.trigger('change');
     }

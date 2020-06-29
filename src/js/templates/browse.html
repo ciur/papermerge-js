@@ -1,7 +1,7 @@
 <ul class="d-flex grid">
     <% for (i=0; i < nodes.length; i++) { %>
         <% node = nodes.at(i) %>
-        <li class="node node-w1">
+        <li class="node node-w1" data-id="<%= node.get('id') %>" data-cid="<%= node.cid %>">
             <div class="icon-<%= node.get('ctype') %>">
             </div>
             <input type="checkbox" name="_selected_action" value="<%= node.get('id') %>" class="action-select" />

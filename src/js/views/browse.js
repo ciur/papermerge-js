@@ -19,9 +19,22 @@ export class BrowseView extends View {
 
   events() {
       let event_map = {
+        'dblclick .node':  'open_node'
       }
 
       return event_map;
+  }
+
+
+  open_node(event) {
+    let data = $(event.currentTarget).data(), node, new_co;
+
+    node = this.browse.nodes.get(data['cid']);
+
+    if (node) {
+      console.log(`Open node ${node.get('title')}`);  
+      this.browse.open(node);
+    }
   }
 
   render() {
@@ -31,6 +44,7 @@ export class BrowseView extends View {
 
     compiled = _.template(TEMPLATE({
         'nodes': this.browse.nodes,
+        'breadcrumb_nodes': this.browse.breadcumb_nodes,
     }));
 
     this.$el.html(compiled);
