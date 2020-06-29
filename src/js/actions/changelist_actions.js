@@ -1,5 +1,5 @@
-import {find_by_id} from "../utils";
 import $ from "jquery";
+import {NewFolderView} from "../views/new_folder";
 import {DgAbstractAction} from "./abstract_action";
 import {DgSelection} from "../selection";
 import {DgClipboard} from "../clipboard";
@@ -11,6 +11,7 @@ import {DeleteForm} from "../forms/delete_form";
 import {RenameForm} from "../forms/rename_form";
 //import {AccessForm} from "../forms/access_form";
 import {MetadataForm} from "../forms/metadata_form";
+import {mg_dispatcher, PARENT_CHANGED} from "../models/dispatcher";
 
 
 export class DgChangeListAction extends DgAbstractAction {
@@ -43,8 +44,10 @@ export class DgChangeListActions {
     // get_current_parent_id() always returns undefined.... to be
     // removed
     // parent id is loaded from papermerge/boss/templates/_forms.js.html
-    this._current_node = get_current_parent_id();
+    this._current_node = undefined;
     this.configEvents();
+
+
   }
 
   add(action) {
@@ -101,6 +104,12 @@ export class DgChangeListActions {
 
   configEvents() {
 
+    let that = this;
+
+    mg_dispatcher.on(PARENT_CHANGED, function(parent_id){
+      that._current_node = parent_id;
+    });
+
     this._selection.subscribe_event(
       DgSelection.CHANGE,
       this.on_change_selection,
@@ -119,179 +128,193 @@ export class DgChangeListActions {
   }
 }
 
-export function build_changelist_actions() {
-  /**
-  Actions dropdown menu of changelist view.
-  */
+export class Menu {
 
-  if ( !find_by_id("changelist_actions") ) {
-    // there is no point to do anything if actions
-    // dropdown is not in the view.
-    return;
+  constructor() {
+    this.actions = this._build_actions();
   }
 
-  let actions = new DgChangeListActions(),
-      cut_action,
-      delete_action,
-      paste_action,
-      paste_pages_action,
-      rename_action,
-      download_action,
-      metadata_action,
-      access_action;
+  _build_actions() {
 
-  cut_action = new DgChangeListAction({
-    id: "#cut",
-    enabled: function(selection, clipboard) {
-      return selection.length > 0;
-    },
-    action: function(selection, clipboard, current_node) {
-        let cut_form; 
+    let actions = new DgChangeListActions(),
+        cut_action,
+        delete_action,
+        paste_action,
+        paste_pages_action,
+        rename_action,
+        download_action,
+        metadata_action,
+        access_action,
+        new_folder;
 
-        clipboard.add(
-          selection.all()
-        );
-        selection.all().forEach(
-          item => item.addClass('cut')
-        );
+    cut_action = new DgChangeListAction({
+      id: "#cut",
+      enabled: function(selection, clipboard) {
+        return selection.length > 0;
+      },
+      action: function(selection, clipboard, current_node) {
+          let cut_form; 
 
-        cut_form = new CutForm(
-          selection.all(),
-          current_node
-        );
+          clipboard.add(
+            selection.all()
+          );
+          selection.all().forEach(
+            item => item.addClass('cut')
+          );
 
-        cut_form.submit();
-    }
-  });
-
-  delete_action = new DgChangeListAction({
-    id: "#delete",
-    enabled: function(selection, clipboard) {
-      return selection.length > 0;
-    },
-    action: function(selection, clipboard, current_node) {
-        let delete_form, confirmation = true;
-
-        if (this.confirm) {
-            confirmation = confirm("Are you sure?");
-        }
-
-        if (!confirmation) {
-          return;
-        }
-
-        delete_form = new DeleteForm(
+          cut_form = new CutForm(
             selection.all(),
             current_node
-        );
+          );
 
-        delete_form.submit();
-    },
-    confirm: true,
-  });
-
-  paste_action = new DgChangeListAction({
-    id: "#paste",
-    initial_state: true, // enabled by default
-    enabled: function(selection, clipboard) {
-      if (clipboard) {
-        return clipboard.length > 0;
+          cut_form.submit();
       }
+    });
 
-      return false;
-    },
-    action: function(selection, clipboard, current_node) {
-      let paste_form;
+    delete_action = new DgChangeListAction({
+      id: "#delete",
+      enabled: function(selection, clipboard) {
+        return selection.length > 0;
+      },
+      action: function(selection, clipboard, current_node) {
+          let delete_form, confirmation = true;
 
-      paste_form = new PasteForm();
+          if (this.confirm) {
+              confirmation = confirm("Are you sure?");
+          }
 
-      paste_form.submit();
-    }
-  });
+          if (!confirmation) {
+            return;
+          }
 
-  paste_pages_action = new DgChangeListAction({
-    id: "#paste_pages",
-    initial_state: true, // enabled by default
-    enabled: function(selection, clipboard) {
-      return true;
-    },
-    action: function(selection, clipboard, current_node) {
-      let paste_pages_form;
+          delete_form = new DeleteForm(
+              selection.all(),
+              current_node
+          );
 
-      paste_pages_form = new PastePagesForm();
+          delete_form.submit();
+      },
+      confirm: true,
+    });
 
-      paste_pages_form.submit();
-    }
-  });
+    paste_action = new DgChangeListAction({
+      id: "#paste",
+      initial_state: true, // enabled by default
+      enabled: function(selection, clipboard) {
+        if (clipboard) {
+          return clipboard.length > 0;
+        }
 
-  rename_action = new DgChangeListAction({
-    // Achtung! #rename id is same for rename action
-    // in changeform view and changelist view.
-    id: "#rename",
-    enabled: function(selection, clipboard) {
-      return selection.length == 1;
-    },
-    action: function(selection, clipboard, current_node) {
-      let rename_form, node; 
+        return false;
+      },
+      action: function(selection, clipboard, current_node) {
+        let paste_form;
 
-      node = selection.first();
-      rename_form = new RenameForm(node, current_node);
-      rename_form.show();
-    }
-  });
+        paste_form = new PasteForm();
 
-  download_action = new DgChangeListAction({
-    id: "#download",
-    enabled: function(selection, clipboard) {
-      return selection.length == 1;
-    },
-    action: function(selection, clipboard, current_node) {
-    }
-  });
+        paste_form.submit();
+      }
+    });
 
-  access_action = new DgChangeListAction({
-    id: "#access",
-    enabled: function(selection, clipboard) {
-      return selection.length == 1;
-    },
-    action: function(selection, clipboard, current_node) {
-      let access_form, node;
+    paste_pages_action = new DgChangeListAction({
+      id: "#paste_pages",
+      initial_state: true, // enabled by default
+      enabled: function(selection, clipboard) {
+        return true;
+      },
+      action: function(selection, clipboard, current_node) {
+        let paste_pages_form;
 
-      node = selection.first();
-      // current_node = referes to the parent node, which is used
-      // some actions (in paste for example)
-      // in case of access_action, only node is used - and it
-      // refers to the selected node.
-      //access_form = new AccessForm(node, current_node);
-      //access_form.show();
-    }
-  });
+        paste_pages_form = new PastePagesForm();
 
-  metadata_action = new DgChangeListAction({
-    id: "#metadata",
-    enabled: function(selection, clipboard) {
-      return selection.length == 1;
-    },
-    action: function(selection, clipboard, current_node) {
-      let metadata_form, node;
+        paste_pages_form.submit();
+      }
+    });
 
-      node = selection.first();
-      // current_node = referes to the parent node, which is used
-      // some actions (in paste for example)
-      // in case of access_action, only node is used - and it
-      // refers to the selected node.
-      metadata_form = new MetadataForm(node, current_node);
-      metadata_form.show();
-    }
-  });
+    rename_action = new DgChangeListAction({
+      // Achtung! #rename id is same for rename action
+      // in changeform view and changelist view.
+      id: "#rename",
+      enabled: function(selection, clipboard) {
+        return selection.length == 1;
+      },
+      action: function(selection, clipboard, current_node) {
+        let rename_form, node; 
+
+        node = selection.first();
+        rename_form = new RenameForm(node, current_node);
+        rename_form.show();
+      }
+    });
+
+    download_action = new DgChangeListAction({
+      id: "#download",
+      enabled: function(selection, clipboard) {
+        return selection.length == 1;
+      },
+      action: function(selection, clipboard, current_node) {
+      }
+    });
+
+    access_action = new DgChangeListAction({
+      id: "#access",
+      enabled: function(selection, clipboard) {
+        return selection.length == 1;
+      },
+      action: function(selection, clipboard, current_node) {
+        let access_form, node;
+
+        node = selection.first();
+        // current_node = referes to the parent node, which is used
+        // some actions (in paste for example)
+        // in case of access_action, only node is used - and it
+        // refers to the selected node.
+        //access_form = new AccessForm(node, current_node);
+        //access_form.show();
+      }
+    });
+
+    metadata_action = new DgChangeListAction({
+      id: "#metadata",
+      enabled: function(selection, clipboard) {
+        return selection.length == 1;
+      },
+      action: function(selection, clipboard, current_node) {
+        let metadata_form, node;
+
+        node = selection.first();
+        // current_node = referes to the parent node, which is used
+        // some actions (in paste for example)
+        // in case of access_action, only node is used - and it
+        // refers to the selected node.
+        metadata_form = new MetadataForm(node, current_node);
+        metadata_form.show();
+      }
+    });
+
+    new_folder = new DgChangeListAction({
+      id: "#new-folder",
+      enabled: function() {
+        return true;  // NewFolder menu is always enabled
+      },
+      action: function(selection, clipboard, current_node) {
+        let new_folder_view;
+
+        new_folder_view = new NewFolderView(current_node.id);
+      }
+    });
 
 
-  actions.add(cut_action);
-  actions.add(delete_action);
-  actions.add(paste_action);
-  actions.add(paste_pages_action);
-  actions.add(rename_action);
-  actions.add(download_action);
-  actions.add(access_action);
-  actions.add(metadata_action);
+    actions.add(cut_action);
+    actions.add(delete_action);
+    actions.add(paste_action);
+    actions.add(paste_pages_action);
+    actions.add(rename_action);
+    actions.add(download_action);
+    actions.add(access_action);
+    actions.add(metadata_action);
+    actions.add(new_folder);
+
+    return actions;
+  }
 }

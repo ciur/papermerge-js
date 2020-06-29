@@ -13,6 +13,7 @@ export class NewFolder extends Model {
     }
 
     initialize(parent_id) {
+        this.set({'parent_id': parent_id});
     }
 
     urlRoot() {

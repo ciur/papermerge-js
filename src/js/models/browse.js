@@ -2,19 +2,19 @@ import _ from "underscore";
 import { Model, Collection } from 'backbone';
 import { Node, NodeCollection } from "./node";
 
+import { mg_dispatcher, PARENT_CHANGED } from "./dispatcher";
+
 export class Browse extends Model {
     defaults() {
       return {
         nodes: [],
         parent_id: '',
-        breadcrumb_nodes: []
       };
     }
 
     initialize(parent_id) {
         this.parent_id = parent_id;
         this.nodes = new NodeCollection();
-        this.breadcrumb_nodes = new NodeCollection();
     }
 
     urlRoot() {
@@ -37,14 +37,19 @@ export class Browse extends Model {
     }
 
     open(parent_node) {
-        let browse = new Browse(parent_node.id),that = this;
+        let browse = new Browse(parent_node.id),
+            that = this;
 
         browse.fetch();
         browse.on('change', function(event){
             that.nodes = browse.nodes;
             that.parent_id = browse.parent_id;
             that.trigger('change');
-            that.render();
+            // inform everybody about new parent
+            mg_dispatcher.trigger(
+                PARENT_CHANGED,
+                browse.parent_id
+            )
         });
     }
 

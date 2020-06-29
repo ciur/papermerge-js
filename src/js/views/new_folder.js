@@ -29,13 +29,12 @@ export class NewFolderView extends View {
   on_create(event) {
     let folder_title, parent_id;
 
-    parent_id = this.$el.find("[name=parent_id]").val();
     folder_title = this.$el.find("[name=title]").val();
 
     this.folder.set(
       {
         'title': folder_title,
-        'parent_id': parent_id
+        'parent_id': this.folder.get('parent_id')
       }
     );
 

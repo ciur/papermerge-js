@@ -1,25 +1,25 @@
 import $ from "jquery";
 import _ from "underscore";
-import { Browse } from "../models/browse";
+import { Breadcrumb } from "../models/breadcrumb";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
 let TEMPLATE = require('../templates/browse.html');
 
-export class BrowseView extends View {
+export class BreadcrumbView extends View {
   el() {
-      return $('#browse');
+      return $('#breadcrumb');
   } 
 
   initialize(parent_id) {
-      this.browse = new Browse(parent_id);
-      this.browse.fetch();
-      this.listenTo(this.browse, 'change', this.render);
+      this.breadcrumb = new Breadcrumb(parent_id);
+      this.breadcrumb.fetch();
+      this.listenTo(this.breadcrumb, 'change', this.render);
   }
 
   events() {
       let event_map = {
-        'dblclick .node':  'open_node'
+        'click .node':  'open_node'
       }
 
       return event_map;
@@ -27,13 +27,13 @@ export class BrowseView extends View {
 
 
   open_node(event) {
-    let data = $(event.currentTarget).data(), node, new_co;
+    let data = $(event.currentTarget).data(), node;
 
-    node = this.browse.nodes.get(data['cid']);
+    node = this.breadcrumb.nodes.get(data['cid']);
 
     if (node) {
       console.log(`Open node ${node.get('title')}`);  
-      this.browse.open(node);
+      this.breadcrumb.open(node);
     }
   }
 
