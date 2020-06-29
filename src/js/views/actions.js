@@ -2,7 +2,10 @@ import $ from "jquery";
 import _ from "underscore";
 import { View } from 'backbone';
 import Backbone from 'backbone';
-import {mg_dispatcher, PARENT_CHANGED} from "../models/dispatcher";
+import {
+  mg_dispatcher,
+  PARENT_CHANGED,
+} from "../models/dispatcher";
 import {NewFolderView} from "../views/new_folder";
 
 export class ActionsView extends View {
@@ -18,7 +21,6 @@ export class ActionsView extends View {
     mg_dispatcher.on(PARENT_CHANGED, function(parent_id){
       that.parent_id = parent_id;
     });
-
   }
 
   events() {

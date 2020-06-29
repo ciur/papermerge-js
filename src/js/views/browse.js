@@ -3,6 +3,11 @@ import _ from "underscore";
 import { Browse } from "../models/browse";
 import { View } from 'backbone';
 import Backbone from 'backbone';
+import {
+    mg_dispatcher,
+    PARENT_CHANGED,
+} from "../models/dispatcher";
+
 
 let TEMPLATE = require('../templates/browse.html');
 
@@ -12,19 +17,23 @@ export class BrowseView extends View {
   } 
 
   initialize(parent_id) {
-      this.browse = new Browse(parent_id);
-      this.browse.fetch();
-      this.listenTo(this.browse, 'change', this.render);
+    let that = this;
+    this.browse = new Browse(parent_id);
+    this.browse.fetch();
+    this.listenTo(this.browse, 'change', this.render);
+
+    mg_dispatcher.on(PARENT_CHANGED, function(parent_id){
+      that.browse.set({'parent_id':parent_id});
+      that.browse.fetch();
+    });
   }
 
   events() {
       let event_map = {
-        'dblclick .node':  'open_node'
+        'dblclick .node': 'open_node'
       }
-
       return event_map;
   }
-
 
   open_node(event) {
     let data = $(event.currentTarget).data(), node, new_co;
@@ -33,7 +42,7 @@ export class BrowseView extends View {
 
     if (node) {
       console.log(`Open node ${node.get('title')}`);  
-      this.browse.open(node);
+      this.browse.open(node, true);
     }
   }
 

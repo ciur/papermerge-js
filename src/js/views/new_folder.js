@@ -31,12 +31,9 @@ export class NewFolderView extends View {
 
     folder_title = this.$el.find("[name=title]").val();
 
-    this.folder.set(
-      {
-        'title': folder_title,
-        'parent_id': this.folder.get('parent_id')
-      }
-    );
+    this.folder.set({
+      'title': folder_title,
+    });
 
     this.folder.save();
     this.$el.modal('hide');

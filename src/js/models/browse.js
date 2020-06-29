@@ -2,7 +2,10 @@ import _ from "underscore";
 import { Model, Collection } from 'backbone';
 import { Node, NodeCollection } from "./node";
 
-import { mg_dispatcher, PARENT_CHANGED } from "./dispatcher";
+import {
+    mg_dispatcher,
+    PARENT_CHANGED,
+} from "./dispatcher";
 
 export class Browse extends Model {
     defaults() {
@@ -18,8 +21,10 @@ export class Browse extends Model {
     }
 
     urlRoot() {
-        if (this.parent_id) {
-            return `/browse/${this.parent_id}/`;
+        let parent_id = this.get('parent_id');
+
+        if (parent_id) {
+            return `/browse/${parent_id}/`;
         }
 
         return '/browse/'
@@ -36,7 +41,7 @@ export class Browse extends Model {
         return dict;
     }
 
-    open(parent_node) {
+    open(parent_node, notify_all) {
         let browse = new Browse(parent_node.id),
             that = this;
 
@@ -45,11 +50,13 @@ export class Browse extends Model {
             that.nodes = browse.nodes;
             that.parent_id = browse.parent_id;
             that.trigger('change');
-            // inform everybody about new parent
-            mg_dispatcher.trigger(
-                PARENT_CHANGED,
-                browse.parent_id
-            )
+            if (notify_all) {
+                // inform everybody about new parent
+                mg_dispatcher.trigger(
+                    PARENT_CHANGED,
+                    browse.parent_id
+                )
+            }
         });
     }
 
@@ -59,11 +66,13 @@ export class Browse extends Model {
             that=this,
             parent_id = response.parent_id;
 
+        that.nodes.reset();
+
         _.each(nodes, function(item){
             that.nodes.add(new Node(item))
         });
 
-        this.parent_id = parent_id;
+        this.set({'parent_id': parent_id});
 
        this.trigger('change');
     }

@@ -1,0 +1,12 @@
+<ol class="breadcrumb float-sm-left">
+    <li class="breadcrumb-item">
+        <a class="breadcrumb-node" data-id=""><a href="#">Home</a>
+    </li>
+    <% for (i=0; i < nodes.length; i++) { %>
+        <% node = nodes.at(i) %>
+        <li class="breadcrumb-item">
+            <a href="#" class="breadcrumb-node"  data-id="<%= node.get('id') %>"><%= node.get('title') %></a>
+        </li>
+
+    <% } %>
+</ol>
