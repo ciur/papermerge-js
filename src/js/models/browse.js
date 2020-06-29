@@ -54,8 +54,6 @@ export class Browse extends Model {
             'parent_id': parent_id
         });
 
-        this.fetch();
-
         if (notify_all) {
             // inform everybody about new parent
             mg_dispatcher.trigger(

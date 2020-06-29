@@ -24,6 +24,8 @@ export class BreadcrumbView extends View {
     this.listenTo(this.breadcrumb, 'change', this.render);
 
     mg_dispatcher.on(PARENT_CHANGED, function(parent_id){
+      console.log("BreadcrumbView: parent_changed");
+
       that.breadcrumb.set({
         'parent_id': parent_id
       });
@@ -44,6 +46,7 @@ export class BreadcrumbView extends View {
 
     node = this.breadcrumb.nodes.get(data['id']);
 
+    console.log(`BreadcrumbView open node ${node.get('title')}`);  
     this.breadcrumb.open(node, true);
   }
 

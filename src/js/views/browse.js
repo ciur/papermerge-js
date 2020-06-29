@@ -23,6 +23,7 @@ export class BrowseView extends View {
     this.listenTo(this.browse, 'change', this.render);
 
     mg_dispatcher.on(PARENT_CHANGED, function(parent_id){
+      console.log("BrowseView: parent_changed");
       that.browse.set({'parent_id':parent_id});
       that.browse.fetch();
     });
@@ -41,7 +42,7 @@ export class BrowseView extends View {
     node = this.browse.nodes.get(data['cid']);
 
     if (node) {
-      console.log(`Open node ${node.get('title')}`);  
+      console.log(`BrowseView open node ${node.get('title')}`);  
       this.browse.open(node, true);
     }
   }
