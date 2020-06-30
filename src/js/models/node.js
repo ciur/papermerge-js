@@ -8,7 +8,7 @@ export class Node extends Model {
         parent_id: '',
         ctype: '',
         kvstore: '',
-        open_url: ''
+        selected: false
       };
     }
 

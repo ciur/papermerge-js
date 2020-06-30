@@ -31,22 +31,10 @@ export class ActionsView extends View {
       return event_map;
   }
 
-
   new_folder(event) {
     let new_folder_view;
 
     new_folder_view = new NewFolderView(this.parent_id);
   }
 
-  render() {
-    let compiled, context;
-    
-    context = {};
-
-    compiled = _.template(TEMPLATE({
-        'nodes': this.browse.nodes,
-    }));
-
-    this.$el.html(compiled);
-  }
 }

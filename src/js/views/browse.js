@@ -18,7 +18,6 @@ export class BrowseView extends View {
   } 
 
   initialize(parent_id) {
-    let that = this;
     this.browse = new Browse(parent_id);
     this.browse.fetch();
     this.listenTo(this.browse, 'change', this.render);
@@ -33,7 +32,27 @@ export class BrowseView extends View {
   }
 
   select_node(event) {
-    
+    let data = $(event.currentTarget).data(),
+      node,
+      selected,
+      new_state,
+      $target,
+      checkbox;
+
+    $target = $(event.currentTarget);
+    node = this.browse.nodes.get(data['cid']);
+
+    if (node) {
+      selected = node.get('selected');
+      node.set({'selected': !selected});
+      new_state = !selected;
+      
+      if (new_state) {
+        $target.addClass('checked');
+      } else {
+        $target.removeClass('checked');
+      }
+    }
   }
 
   open_node(event) {
