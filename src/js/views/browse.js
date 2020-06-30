@@ -7,6 +7,7 @@ import {
     mg_dispatcher,
     PARENT_CHANGED,
 } from "../models/dispatcher";
+import { mg_browse_router } from "../routers/browse";
 
 
 let TEMPLATE = require('../templates/browse.html');
@@ -21,12 +22,6 @@ export class BrowseView extends View {
     this.browse = new Browse(parent_id);
     this.browse.fetch();
     this.listenTo(this.browse, 'change', this.render);
-
-    mg_dispatcher.on(PARENT_CHANGED, function(parent_id){
-      console.log("BrowseView: parent_changed");
-      that.browse.set({'parent_id':parent_id});
-      that.browse.fetch();
-    });
   }
 
   events() {
@@ -37,14 +32,21 @@ export class BrowseView extends View {
   }
 
   open_node(event) {
-    let data = $(event.currentTarget).data(), node, new_co;
+    let data = $(event.currentTarget).data(),
+      node;
 
     node = this.browse.nodes.get(data['cid']);
 
     if (node) {
-      console.log(`BrowseView open node ${node.get('title')}`);  
-      this.browse.open(node, true);
+      mg_dispatcher.trigger(PARENT_CHANGED, node.id);
+    } else {
+      mg_dispatcher.trigger(PARENT_CHANGED, undefined);
     }
+  }
+
+  open(node_id) {
+    this.browse.set({'parent_id': node_id});
+    this.browse.fetch();
   }
 
   render() {

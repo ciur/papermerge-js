@@ -23,14 +23,6 @@ export class BreadcrumbView extends View {
     this.breadcrumb.fetch();
     this.listenTo(this.breadcrumb, 'change', this.render);
 
-    mg_dispatcher.on(PARENT_CHANGED, function(parent_id){
-      console.log("BreadcrumbView: parent_changed");
-
-      that.breadcrumb.set({
-        'parent_id': parent_id
-      });
-      that.breadcrumb.fetch();
-    });
   }
 
   events() {
@@ -46,8 +38,16 @@ export class BreadcrumbView extends View {
 
     node = this.breadcrumb.nodes.get(data['id']);
 
-    console.log(`BreadcrumbView open node ${node.get('title')}`);  
-    this.breadcrumb.open(node, true);
+    if (node) {
+      mg_dispatcher.trigger(PARENT_CHANGED, node.id);
+    } else {
+      mg_dispatcher.trigger(PARENT_CHANGED, undefined);
+    }
+  }
+
+  open(node_id) {
+    this.breadcrumb.set({'parent_id': node_id});
+    this.breadcrumb.fetch();
   }
 
   render() {

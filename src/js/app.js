@@ -15,6 +15,7 @@ import {sort_cookie} from "./sort_cookie";
 import {BrowseView} from "./views/browse";
 import {BreadcrumbView} from "./views/breadcrumb";
 import {ActionsView} from "./views/actions";
+import {BrowseRouter} from "./routers/browse";
 import Backbone from 'backbone';
 
 import $ from "jquery";
@@ -58,7 +59,10 @@ let App = function() {
   let  uploader = new DgUploader(),
     browse_view,
     actions_view,
-    breadcrumb_view;
+    breadcrumb_view,
+    browse_router;
+
+  
 
   let dom_actual_pages = document.querySelector('.actual-pages');
 
@@ -75,6 +79,11 @@ let App = function() {
   browse_view = new BrowseView();
   actions_view = new ActionsView();
   breadcrumb_view = new BreadcrumbView();
+  browse_router = new BrowseRouter(
+    browse_view,
+    breadcrumb_view
+  );
+  Backbone.history.start();
   
   document_preloader();
   sort_cookie();
