@@ -6,6 +6,7 @@ import Backbone from 'backbone';
 import {
     mg_dispatcher,
     PARENT_CHANGED,
+    SELECTION_CHANGED
 } from "../models/dispatcher";
 import { mg_browse_router } from "../routers/browse";
 
@@ -52,7 +53,20 @@ export class BrowseView extends View {
       } else {
         $target.removeClass('checked');
       }
+
+      mg_dispatcher.trigger(
+        SELECTION_CHANGED,
+        this.get_selection()
+      );
     }
+  }
+
+  get_selection() {
+    return _.filter(
+      this.browse.nodes.models, function(item) {
+        return item.get('selected') == true;
+      }
+    );
   }
 
   open_node(event) {
