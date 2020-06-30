@@ -1,6 +1,6 @@
 import $ from "jquery";
 import _ from "underscore";
-import { View } from 'backbone';
+import { View, Collection } from 'backbone';
 import Backbone from 'backbone';
 import {
   mg_dispatcher,
@@ -17,6 +17,10 @@ export class ActionsView extends View {
     let that = this;
 
     this.parent_id = parent_id;
+    // collection of nodes
+    this.selection = new Collection();
+    // collection of nodes
+    this.clipboard = new Collection();
 
     mg_dispatcher.on(PARENT_CHANGED, function(parent_id){
       that.parent_id = parent_id;
@@ -25,10 +29,20 @@ export class ActionsView extends View {
 
   events() {
       let event_map = {
-        'click #new-folder':  'new_folder'
+        'click #new-folder':  'new_folder',
+        'click #delete': 'delete_node',
+        'click #rename': 'rename_node'
       }
 
       return event_map;
+  }
+
+  delete_node(event) {
+
+  }
+
+  rename_node(event) {
+    
   }
 
   new_folder(event) {
