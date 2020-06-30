@@ -1,8 +1,4 @@
 import $ from "jquery";
-import {get_parent_id} from "./utils";
-import {DgSelection} from "./selection";
-import {NewFolderView} from "./views/new_folder";
-
 
 export function document_preloader() {
 

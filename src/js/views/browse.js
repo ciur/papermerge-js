@@ -26,9 +26,14 @@ export class BrowseView extends View {
 
   events() {
       let event_map = {
-        'dblclick .node': 'open_node'
+        'dblclick .node': 'open_node',
+        'click .node': 'select_node'
       }
       return event_map;
+  }
+
+  select_node(event) {
+    
   }
 
   open_node(event) {

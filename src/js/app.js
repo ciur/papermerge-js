@@ -1,6 +1,5 @@
 import {dglReady} from "./utils";
 import {DgUploader} from "./uploader/uploader";
-import {document_preloader} from "./changelist";
 
 import {add_zoom_2_document_form} from "./document_form";
 import {add_switch_2_document_form} from "./document_form";
@@ -59,8 +58,6 @@ let App = function() {
     breadcrumb_view,
     browse_router;
 
-  
-
   let dom_actual_pages = document.querySelector('.actual-pages');
 
   on_document_form(add_zoom_2_document_form);
@@ -82,10 +79,7 @@ let App = function() {
   );
   Backbone.history.start();
   
-  document_preloader();
   sort_cookie();
-
-  
 };
 
 dglReady( // i.e. after all DOM is loaded
