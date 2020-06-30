@@ -6,9 +6,6 @@ import {add_zoom_2_document_form} from "./document_form";
 import {add_switch_2_document_form} from "./document_form";
 import {add_load_on_scroll} from "./document_form";
 
-import {registration} from "./register";
-import {decorate_passwords} from "./password";
-
 import {DgPageScroll} from "./document_form/page_scroll";
 
 import {sort_cookie} from "./sort_cookie";
