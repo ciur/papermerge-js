@@ -5,11 +5,13 @@ import Backbone from 'backbone';
 import {
   mg_dispatcher,
   PARENT_CHANGED,
-  SELECTION_CHANGED
+  SELECTION_CHANGED,
+  BROWSER_REFRESH
 } from "../models/dispatcher";
 import {NewFolderView} from "../views/new_folder";
 
 export class ActionsView extends View {
+  
   el() {
       return $('#actions');
   } 
@@ -37,7 +39,15 @@ export class ActionsView extends View {
   }
 
   delete_node(event) {
+    let options = {};
 
+    options['success'] = function() {
+      mg_dispatcher.trigger(BROWSER_REFRESH);
+    }
+
+    this.selection.each(function(model){
+      model.destroy(options);
+    });
   }
 
   rename_node(event) {

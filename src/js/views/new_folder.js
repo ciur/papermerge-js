@@ -4,6 +4,10 @@ import { NewFolder } from "../models/new_folder";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
+import {
+  mg_dispatcher,
+  BROWSER_REFRESH
+} from "../models/dispatcher";
 
 let TEMPLATE = require('../templates/new_folder.html');
 
@@ -27,7 +31,11 @@ export class NewFolderView extends View {
   }
 
   on_create(event) {
-    let folder_title, parent_id;
+    let folder_title, parent_id, options = {};
+
+    options['success'] = function() {
+      mg_dispatcher.trigger(BROWSER_REFRESH);
+    }
 
     folder_title = this.$el.find("[name=title]").val();
 
@@ -35,8 +43,8 @@ export class NewFolderView extends View {
       'title': folder_title,
     });
 
-    this.folder.save();
     this.$el.modal('hide');
+    this.folder.save({}, options);
   }
 
   render() {

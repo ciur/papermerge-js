@@ -6,7 +6,8 @@ import Backbone from 'backbone';
 import {
     mg_dispatcher,
     PARENT_CHANGED,
-    SELECTION_CHANGED
+    SELECTION_CHANGED,
+    BROWSER_REFRESH
 } from "../models/dispatcher";
 import { mg_browse_router } from "../routers/browse";
 
@@ -22,6 +23,8 @@ export class BrowseView extends View {
     this.browse = new Browse(parent_id);
     this.browse.fetch();
     this.listenTo(this.browse, 'change', this.render);
+
+    mg_dispatcher.on(BROWSER_REFRESH, this.refresh, this);
   }
 
   events() {
@@ -85,6 +88,11 @@ export class BrowseView extends View {
   open(node_id) {
     this.browse.set({'parent_id': node_id});
     this.browse.fetch();
+  }
+
+  refresh() {
+    console.log('refresh');
+    this.open(this.browse.get('parend_id'));
   }
 
   render() {
