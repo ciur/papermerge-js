@@ -89,8 +89,6 @@ export class BrowseView extends View {
   open(node_id) {
     let parent_id = node_id;
     
-    console.log(`Browse Open: new parent_id = ${parent_id}`);
-
     this.browse.set({'parent_id': node_id});
     this.browse.fetch();
   }
@@ -98,7 +96,6 @@ export class BrowseView extends View {
   refresh() {
     let parent_id = this.browse.get('parent_id');
 
-    console.log(`refresh: current parent_id=${parent_id}`);
     this.open(parent_id);
   }
 

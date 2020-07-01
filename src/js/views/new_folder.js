@@ -14,7 +14,7 @@ let TEMPLATE = require('../templates/new_folder.html');
 export class NewFolderView extends View {
   el() {
       // this element is defined in admin/_forms.js.html
-      return $('#new-folder-form');
+      return $('#new-folder-modal');
   } 
 
   initialize(parent_id) {
@@ -23,11 +23,17 @@ export class NewFolderView extends View {
   }
 
   events() {
-      let event_map = {
-        "click .create": "on_create",
-      }
+    let event_map = {
+      "click .create": "on_create",
+      "submit": "on_form_submit"
+    }
 
-      return event_map;
+    return event_map;
+  }
+
+  on_form_submit(event) {
+    event.preventDefault();
+    this.on_create(event);
   }
 
   on_create(event) {

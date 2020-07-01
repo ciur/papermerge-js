@@ -89,8 +89,6 @@ export class ActionsView extends View {
 
     parent_id = this.parent_id;
     
-    console.log(`New folder: parent_id=${parent_id}`);
-
     new_folder_view = new NewFolderView(parent_id);
   }
 
