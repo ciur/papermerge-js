@@ -1,31 +1,51 @@
 <div id="upload_feedback" class="border-thin card hidden">
-    <section class="header">
-        <ul>
-            <li>
-                <button type="button" id="uploader_close" class="close" aria-label="Close">
+    <div class="card-header container-fluid" id="newsHeading">
+        <div class="row">
+            <div class="col">
+                <h5>Uploading...</h5>
+            </div>
+            <div class="col">
+                <button type="button" class="close text-danger" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
-                </button>                    
-            </li>
-        </ul>
-
-    </section>
-    <section id="upload_feedback_details" class="hidden">
-        <ul class="details">
-        </ul>
-    </section>
-    <section id="upload_feedback_summary">
-        <ul class="short horizontal fl-j-space-between fl-i-center">
-            <li id="uploader_short_status" class="cell status">
-            </li>
-            <li id="uploader_text_status" class="cell filename padding-left-md">
-                Uploading...
-            </li>
-            <li>
-                <button class="btn btn-neuter"  id="uploader_details_sw">
+                </button>
+            </div>
+        </div>
+    <div id="upload_feedback_details" class="hidden">
+        <div class="details">
+            <div class="row">
+                <% for (i=0; i < files.length; i++) { %>
+                    <% file = files.at(i) %>
+                    <div class="col-1">
+                        <div class="status">
+                            <i class="fa fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <div class="filename"><%= file.get('title') %></div>
+                    </div>
+                    <div class="col-2 text-right">
+                        <div class="size"><%= file.human_size %></div>
+                    </div>
+                    <div class="col-2 text-right">
+                        <div class="lang"><%= file.get('lang') %></div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <div id="upload_feedback_summary">
+        <div class="row my-2 align-items-center">
+            <div id="uploader_short_status" class="col-4 status text-success">
+                <i class="fa fa-check-circle"></i>
+            </div>
+            <div id="uploader_text_status" class="col-4 filename padding-left-md">
+            </div>
+            <div class="col-4 text-right">
+                <button class="btn btn-neuter btn-bordered"  id="uploader_details_sw">
                     Details
                 </button>
-            </li>
-        </ul>
-    </section>
+            </div>
+        </div>
+    </div>
     <div id="uploader_progress_bar" class="progress bar-thin bg-c-success"></div>
 </div>

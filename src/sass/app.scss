@@ -120,6 +120,8 @@ footer {
     bottom: 1rem;
     right: 0;
     left: 0;
-    max-width: 50%;
+    max-width: 80%;
     margin: 0 auto;
+    /** uploader must have higher z-index then aside bar **/
+    z-index: 2000;
 }

@@ -46,7 +46,9 @@ export class UploaderItem extends Model {
       return "upload_progress";
     }
 
-
+    get human_size() {
+      return "5KB";
+    }
 }
 
 export class Uploader extends Collection {

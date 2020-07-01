@@ -32,9 +32,14 @@ export class UploaderView extends View {
 
   events() {
     let event_map = {
+      'click .close': 'close'
     }
 
     return event_map;
+  }
+
+  close(event) {
+    this.$el.html('');
   }
 
   render() {
@@ -43,7 +48,7 @@ export class UploaderView extends View {
     context = {};
 
     compiled = _.template(TEMPLATE({
-        'files': this.uploader.models,
+        'files': this.uploader,
     }));
 
     this.$el.html(compiled);
