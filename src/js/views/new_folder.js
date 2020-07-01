@@ -39,6 +39,11 @@ export class NewFolderView extends View {
 
     folder_title = this.$el.find("[name=title]").val();
 
+    if (folder_title == null || folder_title.trim().length === 0) {
+      this.$el.modal('hide');
+      return ;
+    }
+
     this.folder.set({
       'title': folder_title,
     });

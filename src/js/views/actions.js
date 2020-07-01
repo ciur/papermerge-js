@@ -45,7 +45,8 @@ export class ActionsView extends View {
       mg_dispatcher.trigger(BROWSER_REFRESH);
     }
 
-    this.selection.each(function(model){
+    // https://stackoverflow.com/questions/10858935/cleanest-way-to-destroy-every-model-in-a-collection-in-backbone
+    _.each(_.clone(this.selection.models), function(model){
       model.destroy(options);
     });
   }
@@ -55,6 +56,9 @@ export class ActionsView extends View {
   }
 
   parent_changed(parent_id) {
+
+    console.log(`Actions View, parent changed, new parent_id=${parent_id}`);
+    console.log(`Actions View, parent changed, old parent_id=${this.parent_id}`);
     this.parent_id = parent_id;
   }
 
@@ -81,9 +85,13 @@ export class ActionsView extends View {
   }
 
   new_folder(event) {
-    let new_folder_view;
+    let new_folder_view, parent_id;
 
-    new_folder_view = new NewFolderView(this.parent_id);
+    parent_id = this.parent_id;
+    
+    console.log(`New folder: parent_id=${parent_id}`);
+
+    new_folder_view = new NewFolderView(parent_id);
   }
 
   enable_action(item) {
