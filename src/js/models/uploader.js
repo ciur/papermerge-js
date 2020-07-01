@@ -6,6 +6,7 @@ export class UploaderItem extends Model {
       return {
         title: '',
         size: '',
+        file: '',
         lang: '',
         status: '',
         file_type: '',
@@ -22,6 +23,9 @@ export class UploaderItem extends Model {
             'progress': 0,
             'status': UploaderItem.INIT
         });
+        // once uploader item instance is created
+        // immediately start upload process.
+        this.send();
     }
 
     static get INIT() {
@@ -48,6 +52,13 @@ export class UploaderItem extends Model {
 
     get human_size() {
       return "5KB";
+    }
+
+    send() {
+      /*
+      This model class does NOT use Backbone's sync. The
+      reason is that we need to closely monitor the progress of file uploads.
+       */
     }
 }
 

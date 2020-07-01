@@ -32,10 +32,15 @@ export class UploaderView extends View {
 
   events() {
     let event_map = {
-      'click .close': 'close'
+      'click .close': 'close',
+      'click button.toggle-details': 'toggle_details'
     }
 
     return event_map;
+  }
+
+  toggle_details(event) {
+    this.$el.find('.uploader-details').toggleClass('hidden');
   }
 
   close(event) {

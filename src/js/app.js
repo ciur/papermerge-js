@@ -1,5 +1,4 @@
 import {dglReady} from "./utils";
-import {DgUploader} from "./uploader/uploader";
 
 import {add_zoom_2_document_form} from "./document_form";
 import {add_switch_2_document_form} from "./document_form";

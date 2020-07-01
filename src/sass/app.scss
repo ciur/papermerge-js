@@ -4,6 +4,8 @@
 @import "./common/responsive";
 @import "./common/document_change_form";
 
+@import "./views/uploader.scss";
+
 @import "./fonts.scss";
 @import "./colors.scss";
 @import "./typo.scss";
@@ -20,6 +22,10 @@
 @import "./paginator";
 @import "./user_form";
 @import "./sidebar";
+
+.hidden {
+    display: none;
+}
 
 ul, ol {
     li {

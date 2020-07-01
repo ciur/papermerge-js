@@ -1,4 +1,4 @@
-<div id="upload_feedback" class="border-thin card hidden">
+<div id="upload_feedback" class="border-thin card">
     <div class="card-header container-fluid" id="newsHeading">
         <div class="row">
             <div class="col">
@@ -10,11 +10,12 @@
                 </button>
             </div>
         </div>
-    <div id="upload_feedback_details" class="hidden">
+    <div class="hidden uploader-details">
         <div class="details">
-            <div class="row">
-                <% for (i=0; i < files.length; i++) { %>
-                    <% file = files.at(i) %>
+            
+            <% for (i=0; i < files.length; i++) { %>
+                <div class="row">
+                <% file = files.at(i) %>
                     <div class="col-1">
                         <div class="status">
                             <i class="fa fa-check-circle"></i>
@@ -29,8 +30,9 @@
                     <div class="col-2 text-right">
                         <div class="lang"><%= file.get('lang') %></div>
                     </div>
-                <% } %>
-            </div>
+                </div>
+            <% } %>
+            
         </div>
     </div>
     <div id="upload_feedback_summary">
@@ -41,7 +43,7 @@
             <div id="uploader_text_status" class="col-4 filename padding-left-md">
             </div>
             <div class="col-4 text-right">
-                <button class="btn btn-neuter btn-bordered"  id="uploader_details_sw">
+                <button class="btn btn-neuter btn-bordered toggle-details">
                     Details
                 </button>
             </div>
