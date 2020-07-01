@@ -52,8 +52,7 @@ let on_document_form = function(func) {
 
 
 let App = function() {
-  let  uploader = new DgUploader(),
-    browse_view,
+  let browse_view,
     actions_view,
     breadcrumb_view,
     browse_router;

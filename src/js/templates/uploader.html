@@ -1,0 +1,31 @@
+<div id="upload_feedback" class="border-thin card hidden">
+    <section class="header">
+        <ul>
+            <li>
+                <button type="button" id="uploader_close" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>                    
+            </li>
+        </ul>
+
+    </section>
+    <section id="upload_feedback_details" class="hidden">
+        <ul class="details">
+        </ul>
+    </section>
+    <section id="upload_feedback_summary">
+        <ul class="short horizontal fl-j-space-between fl-i-center">
+            <li id="uploader_short_status" class="cell status">
+            </li>
+            <li id="uploader_text_status" class="cell filename padding-left-md">
+                Uploading...
+            </li>
+            <li>
+                <button class="btn btn-neuter"  id="uploader_details_sw">
+                    Details
+                </button>
+            </li>
+        </ul>
+    </section>
+    <div id="uploader_progress_bar" class="progress bar-thin bg-c-success"></div>
+</div>

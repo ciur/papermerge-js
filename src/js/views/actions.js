@@ -8,7 +8,9 @@ import {
   SELECTION_CHANGED,
   BROWSER_REFRESH
 } from "../models/dispatcher";
+
 import {NewFolderView} from "../views/new_folder";
+import {UploaderView} from "../views/uploader";
 
 export class ActionsView extends View {
   
@@ -32,10 +34,33 @@ export class ActionsView extends View {
       let event_map = {
         'click #new-folder':  'new_folder',
         'click #delete': 'delete_node',
-        'click #rename': 'rename_node'
+        'click #rename': 'rename_node',
+        // will proxy event to #id_file_name
+        'click #id_btn_upload': 'upload_clicked',
+        'change #id_file_name': 'upload'
       }
 
       return event_map;
+  }
+
+  upload(event) {
+    let $target = $(event.currentTarget), files,
+      lang = $("#lang").val(),
+      uploader_view;
+
+    files = $target[0].files;
+
+    uploader_view = new UploaderView(files, lang);
+  }
+
+  upload_clicked(event) {
+    let $hidden_file_input = $("#id_file_name");
+
+    event.preventDefault();
+
+    // send click event to hidden #id_file_name element
+    // (input[type=file] element used for uploads)
+    $hidden_file_input.click();
   }
 
   delete_node(event) {
@@ -56,9 +81,6 @@ export class ActionsView extends View {
   }
 
   parent_changed(parent_id) {
-
-    console.log(`Actions View, parent changed, new parent_id=${parent_id}`);
-    console.log(`Actions View, parent changed, old parent_id=${this.parent_id}`);
     this.parent_id = parent_id;
   }
 
