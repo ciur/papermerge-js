@@ -2,6 +2,12 @@
     <% for (i=0; i < nodes.length; i++) { %>
         <% node = nodes.at(i) %>
         <li class="node node-w1" data-id="<%= node.get('id') %>" data-cid="<%= node.cid %>" data-url="/<%= node.get('id') %>">
+            <% if (node.is_document())  { %>
+                <div class="placeholder document">
+                    <img class="zero_pix" src="<%=  node.get('img_src') %>" />
+                    <div class="document-loading"></div>
+                </div>
+            <% } %>
             <div class="icon-<%= node.get('ctype') %>">
             </div>
             <input type="checkbox" name="_selected_action" value="<%= node.get('id') %>" class="action-select" />

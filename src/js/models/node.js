@@ -8,7 +8,8 @@ export class Node extends Model {
         parent_id: '',
         ctype: '',
         kvstore: '',
-        selected: false
+        selected: false,
+        img_src: ''
       };
     }
 
@@ -27,6 +28,22 @@ export class Node extends Model {
         }
 
         return dict;
+    }
+
+    is_document() {
+        if (this.get('ctype') == 'document') {
+            return true;
+        }
+
+        return false;
+    }
+
+    is_folder() {
+        if (this.get('ctype') == 'folder') {
+            return true;
+        }
+
+        return false;
     }
 }
 

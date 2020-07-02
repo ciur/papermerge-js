@@ -1,0 +1,80 @@
+@import "../colors";
+
+#browse {
+
+    input[type=checkbox] {
+        display: none;
+    }
+
+    ul.grid {
+        flex-wrap: wrap;
+        padding: 0;
+
+        .node {
+
+            margin: 0.25rem;
+            padding: 0.25rem 1rem;
+            width: 10rem;
+
+            .placeholder.document {
+                position: relative;
+                overflow: hidden;
+                width: 142px;
+                height: 200px;
+                @include respond(phone) {
+                    width: 100px;
+                    height: 142px;
+                }
+                img {
+                    @include respond(phone) {
+                        width: 80px;
+                    }
+                }
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-color: #eee;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+
+            &.checked {
+                 background-color: $result_list_hover_bg_color;
+                 outline: 1px solid $result_list_hover_border_color;
+            }
+
+            .icon-folder {
+                 width: 8rem;
+                 height: 8rem;
+                 background-image: url(../img/folder.svg);
+                 background-size:100% 100%;
+                 @include respond(phone) {
+                     width: 5rem;
+                     height: 5rem;
+                 }
+            }
+            .icon-file {
+                width: 8rem;
+                height: 8rem;
+                background-image: url(../img/file.svg);
+                background-size:100% 100%;
+                @include respond(phone) {
+                     width: 5rem;
+                     height: 5rem;
+                }
+            }
+            .title {
+                 text-align: center;
+                 opacity: 1;
+                 z-index: 0;
+            }
+
+            &:hover {
+                 background-color: $result_list_hover_bg_color;
+                 outline: 1px solid $result_list_hover_bg_color;
+                 //border: 1px solid $result_list_hover_border_color;
+            }
+        }
+    }
+}
