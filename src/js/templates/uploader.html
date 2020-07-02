@@ -14,11 +14,17 @@
         <div class="details">
             
             <% for (i=0; i < files.length; i++) { %>
-                <div class="row">
                 <% file = files.at(i) %>
+                <div class="row <% if (file.is_error()) { %> text-danger <% } else { %> text-success <% } %>">
                     <div class="col-1">
                         <div class="status">
-                            <i class="fa fa-check-circle"></i>
+                            <% if (file.is_error()) { %>
+                                <i class="fa fa-times"></i>
+                            <% } else if (file.is_success()) { %>
+                                <i class="fa fa-check-circle"></i>
+                            <% } else if (file.is_progress()) { %>
+                                <i class="fa fa-spinner"></i>
+                            <% }  %>
                         </div>
                     </div>
                     <div class="col-7">

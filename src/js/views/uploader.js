@@ -17,12 +17,12 @@ export class UploaderView extends View {
       return $('#uploader-view');
   } 
 
-  initialize(files, lang) {
+  initialize(files, lang, parent_id) {
       this.uploader = new Uploader();
 
       for(let file of files) {
           this.uploader.add(
-            new UploaderItem(file, lang)
+            new UploaderItem(file, lang, parent_id)
           );
       }
 
@@ -51,6 +51,8 @@ export class UploaderView extends View {
     let compiled, context;
     
     context = {};
+
+    console.log("Rendering");
 
     compiled = _.template(TEMPLATE({
         'files': this.uploader,

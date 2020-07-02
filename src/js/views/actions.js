@@ -50,7 +50,11 @@ export class ActionsView extends View {
 
     files = $target[0].files;
 
-    uploader_view = new UploaderView(files, lang);
+    uploader_view = new UploaderView(
+      files,
+      lang,
+      this.parent_id
+    );
   }
 
   upload_clicked(event) {
