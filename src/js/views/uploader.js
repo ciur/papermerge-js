@@ -52,8 +52,6 @@ export class UploaderView extends View {
     
     context = {};
 
-    console.log("Rendering");
-
     compiled = _.template(TEMPLATE({
         'files': this.uploader,
     }));

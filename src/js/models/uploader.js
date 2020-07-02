@@ -155,7 +155,31 @@ export class Uploader extends Collection {
         return UploaderItem;
     }
 
-    initialize() {
+    get_summary_status() {
+        let summary_status = {
+           'success': 0,
+           'error': 0,
+        };
 
+        this.each(function(it) {
+            if ( it.is_success() ) {
+                summary_status['success'] += 1;
+            }
+            if ( it.is_error() ) {
+                summary_status['error'] += 1;   
+            }
+        });
+
+        return summary_status;
+    }
+
+    is_summary_success() {
+        let summary_status = this.get_summary_status();
+        return summary_status['success'] == this.length;
+    }
+
+    is_summary_error() {
+        let summary_status = this.get_summary_status();
+        return summary_status['error'] > 0;
     }
 }

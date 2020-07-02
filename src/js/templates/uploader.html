@@ -2,7 +2,13 @@
     <div class="card-header container-fluid" id="newsHeading">
         <div class="row">
             <div class="col">
-                <h5>Uploading...</h5>
+                <% if (files.is_summary_success()) { %>
+                    <h5 class="text-success">Done!</h5>
+                <% } else if (files.is_summary_error()) { %>
+                    <h5 class="text-danger">Error</h5>
+                <% } else { %>
+                    <h5>Uploading...</h5>
+                <% } %>
             </div>
             <div class="col">
                 <button type="button" class="close text-danger" aria-label="Close">
@@ -15,13 +21,13 @@
             
             <% for (i=0; i < files.length; i++) { %>
                 <% file = files.at(i) %>
-                <div class="row <% if (file.is_error()) { %> text-danger <% } else { %> text-success <% } %>">
+                <div style="background-size: <%= file.get('progress') %>% 100% %>" class="row <% if (file.is_error()) { %> status-fail <% } else { %> status-success <% } %>">
                     <div class="col-1">
                         <div class="status">
                             <% if (file.is_error()) { %>
-                                <i class="fa fa-times"></i>
+                                <i class="fa fa-times text-danger"></i>
                             <% } else if (file.is_success()) { %>
-                                <i class="fa fa-check-circle"></i>
+                                <i class="fa fa-check-circle text-success"></i>
                             <% } else if (file.is_progress()) { %>
                                 <i class="fa fa-spinner"></i>
                             <% }  %>
@@ -43,8 +49,12 @@
     </div>
     <div id="upload_feedback_summary">
         <div class="row my-2 align-items-center">
-            <div id="uploader_short_status" class="col-4 status text-success">
-                <i class="fa fa-check-circle"></i>
+            <div id="uploader_short_status" class="col-4 status">
+                <% if (files.is_summary_success()) { %>
+                    <i class="fa fa-check-circle  text-success"></i>
+                <% } else { %>
+                    <i class="fa fa-times  text-danger"></i>
+                <%  } %>
             </div>
             <div id="uploader_text_status" class="col-4 filename padding-left-md">
             </div>
