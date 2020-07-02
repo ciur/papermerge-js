@@ -1,4 +1,5 @@
 import _ from "underscore";
+import $ from "jquery";
 import { Model, Collection } from 'backbone';
 
 export class Node extends Model {
@@ -48,7 +49,38 @@ export class Node extends Model {
 }
 
 export class NodeCollection extends Collection {
+    
     get model() {
         return Node;
+    }
+
+    urlRoot() {
+        return '/nodes/';
+    }
+
+    delete(options) {
+        let token, post_data, request;
+
+        token = $("[name=csrfmiddlewaretoken]").val();
+        
+        post_data = this.models.map(
+            function(models) { 
+                return models.attributes;
+            }
+        );
+
+        $.ajaxSetup({
+            headers: { 'X-CSRFToken': token}
+        });
+
+        request = $.ajax({
+            method: "POST",
+            url: this.urlRoot(),
+            data: JSON.stringify(post_data),
+            contentType: "application/json",
+            dataType: 'json'
+        });
+
+        request.done(options['success']);
     }
 }

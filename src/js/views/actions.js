@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import { View, Collection } from 'backbone';
+import { NodeCollection } from '../models/node';
 import Backbone from 'backbone';
 import {
   mg_dispatcher,
@@ -22,7 +23,7 @@ export class ActionsView extends View {
     this.parent_id = parent_id;
     this.action_conditions = this._build_action_conditions();
     // collection of nodes
-    this.selection = new Collection();
+    this.selection = new NodeCollection();
     // collection of nodes
     this.clipboard = new Collection();
 
@@ -75,9 +76,10 @@ export class ActionsView extends View {
     }
 
     // https://stackoverflow.com/questions/10858935/cleanest-way-to-destroy-every-model-in-a-collection-in-backbone
-    _.each(_.clone(this.selection.models), function(model){
-      model.destroy(options);
-    });
+    //_.each(_.clone(this.selection.models), function(model){
+    //  model.destroy(options);
+    //});
+    this.selection.delete(options);
   }
 
   rename_node(event) {
