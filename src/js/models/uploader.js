@@ -155,6 +155,20 @@ export class Uploader extends Collection {
         return UploaderItem;
     }
 
+    get progress() {
+      let total_progress = 0;
+
+      this.each(function(it) {
+          total_progress += it.get('progress') ;
+      });
+
+      if (this.length > 0) {
+        total_progress = total_progress / this.length;
+      }
+
+      return total_progress;
+    }
+
     get_summary_status() {
         let summary_status = {
            'success': 0,

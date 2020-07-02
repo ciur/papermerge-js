@@ -1,21 +1,25 @@
 
 #upload_feedback {
-	.details {
-		padding: 0.5rem 1rem;
+    .details {
+        padding: 0.5rem 1rem;
 
-		.row {
-			padding: 0.25rem;
-		}
+        .row {
+            padding: 0.25rem;
+        }
 
-		.row.status-success {
-			background-color: #d5f6d6;
-		}
+        .row.status-success {
+            background-color: #d5f6d6;
+        }
 
-		.row.status-fail {
-			background-color: #ffbdbd;
-		}
-	}
-	.progress-bar-green, .progress-bar-success {
-	    background-color: #00a65a;
-	}
+        .row.status-fail {
+            background-color: #ffbdbd;
+        }
+    }
+    .progress-bar-green, .progress-bar-success {
+        background-color: #00a65a;
+    }
+
+    .progress-bar-red, .progress-bar-fail {
+        background-color: red;
+    }
 }
