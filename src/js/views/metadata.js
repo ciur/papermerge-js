@@ -22,6 +22,10 @@ export class MetadataView extends View {
         this.render();
     }
 
+    get all_disabled() {
+        return this.metadata.all_disabled;
+    }
+
     start() {
         // start listening on this.metadata object
         // which will trigger view rendering
@@ -111,6 +115,7 @@ export class MetadataView extends View {
         this.metadata.remove_simple(data['cid']);
         
         $li_container.remove();
+        this.render();
     }
 
     on_save() {
@@ -127,7 +132,8 @@ export class MetadataView extends View {
 
         compiled = _.template(TEMPLATE({
             kvstore: this.metadata.kvstore,
-            available_types: this.metadata.get('kv_types')
+            available_types: this.metadata.get('kv_types'),
+            all_disabled: this.all_disabled
         }));
 
         this.$el.html(compiled);

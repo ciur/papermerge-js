@@ -31,6 +31,23 @@ export class Metadata extends Model {
         return this.get('kvstore');
     }
 
+    get all_disabled() {
+        let kvstore = this.get('kvstore'),
+            inherited_items = [];
+
+        inherited_items = _.filter(
+            kvstore.models,
+            function(model){ return model.get('kv_inherited') == true; }
+        );
+
+        // if all items in kvstore are disabled
+        if (inherited_items.length == kvstore.length) {
+            return true;
+        }
+
+        return false;
+    }
+
     urlRoot() {
         return `/metadata/node/${this.doc_id}`;
     }
