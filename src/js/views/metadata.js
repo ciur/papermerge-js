@@ -13,9 +13,21 @@ export class MetadataView extends View {
 
     initialize(doc_id) {
         this.metadata = new Metadata(doc_id);
-
-        this.listenTo(this.metadata, 'change', this.render);
+        this.start();
         this.render();
+    }
+
+    start() {
+        // start listening on this.metadata object
+        // which will trigger view rendering
+        this.listenTo(this.metadata, 'change', this.render);
+    }
+
+    stop() {
+        // stops listening
+        // and remove html associated to this elem.
+        this.stopListening(this.metadata);
+        this.$el.html('');
     }
 
     events() {

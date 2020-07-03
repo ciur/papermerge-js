@@ -1,0 +1,28 @@
+#metadata {
+    ul {
+        margin: 0;
+        padding: 0;
+        color: white;
+        li.container {
+            padding: 0;
+            .toggle, .label, .close {
+                padding: 0;
+            }
+            .summary {
+                margin: 0.5rem 0;
+                .label {
+                    input {
+                        width: 100%;
+                        background-color: rgba(0, 0, 0, 0);
+                        border: 0px;
+                        border-bottom: 1px solid white;
+                        color: white;
+                    }
+                }
+            }
+            label {
+                color: #999;
+            }
+        }
+    }
+}

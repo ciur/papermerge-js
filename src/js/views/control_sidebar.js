@@ -26,7 +26,12 @@ export class ControlSidebarView extends View {
         console.log('node selected');
 
         if (selection.length == 0 || selection.length != 1) {
-            return ;
+            // nothing is selected, remove the view.
+            if (this.metadata_view) {
+                this.metadata_view.stop();
+                this.metadata_view = undefined;
+                return;
+            }
         }
 
         selected_node = selection[0];
@@ -35,8 +40,11 @@ export class ControlSidebarView extends View {
             return ;
         }
 
+        // new MetadataView(...)
+        // calls start() method.
         this.metadata_view = new MetadataView(
             selected_node.get('id')
         );
+
     }
 }
