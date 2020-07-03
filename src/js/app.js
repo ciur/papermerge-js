@@ -10,7 +10,9 @@ import {sort_cookie} from "./sort_cookie";
 import {BrowseView} from "./views/browse";
 import {BreadcrumbView} from "./views/breadcrumb";
 import {ActionsView} from "./views/actions";
+import {ControlSidebarView} from "./views/control_sidebar";
 import {BrowseRouter} from "./routers/browse";
+
 import Backbone from 'backbone';
 
 import $ from "jquery";
@@ -54,6 +56,7 @@ let App = function() {
   let browse_view,
     actions_view,
     breadcrumb_view,
+    control_sidebar,
     browse_router;
 
   let dom_actual_pages = document.querySelector('.actual-pages');
@@ -71,6 +74,7 @@ let App = function() {
   browse_view = new BrowseView();
   actions_view = new ActionsView();
   breadcrumb_view = new BreadcrumbView();
+  control_sidebar = new ControlSidebarView();
   browse_router = new BrowseRouter(
     browse_view,
     breadcrumb_view

@@ -8,7 +8,7 @@ let TEMPLATE = require('../templates/metadata.html');
 
 export class MetadataView extends View {
     el() {
-        return $('#metadata_form .modal-body');
+        return $('#metadata');
     } 
 
     initialize(doc_id) {
@@ -30,6 +30,7 @@ export class MetadataView extends View {
 
         return event_map;
     }
+
 
     kv_format_update(event) {
         let value = $(event.currentTarget).val();
