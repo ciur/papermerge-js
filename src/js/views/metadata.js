@@ -37,7 +37,8 @@ export class MetadataView extends View {
           "keyup input": "update_value",
           "change input": "update_value",
           "change .kv_type": "kv_type_update",
-          "change .kv_format": "kv_format_update"
+          "change .kv_format": "kv_format_update",
+          "click button.save": "on_save"
         }
 
         return event_map;
@@ -46,7 +47,7 @@ export class MetadataView extends View {
 
     kv_format_update(event) {
         let value = $(event.currentTarget).val();
-        let parent = $(event.currentTarget).parent();
+        let parent = $(event.currentTarget).closest("li");
         let data = parent.data();
 
         this.metadata.update_simple(data['cid'],'kv_format', value);
@@ -83,7 +84,7 @@ export class MetadataView extends View {
 
     update_value(event) {
         let value = $(event.currentTarget).val();
-        let parent = $(event.currentTarget).parent();
+        let parent = $(event.currentTarget).closest("li");
         let data = parent.data();
 
         this.metadata.update_simple(data['cid'], 'key', value);
@@ -107,10 +108,9 @@ export class MetadataView extends View {
         $li_container.remove();
     }
 
-    on_submit() {
+    on_save() {
         this.metadata.save();
     }
-
 
     render() {
         let compiled, context;
