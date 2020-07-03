@@ -9,7 +9,7 @@
         <% item = kvstore.models[i]; %>
         <% current_formats = item.get('current_formats') || []; %>
         <% kv_types = item.get('kv_types') || available_types || []; %>
-        <li class='container' data-model='simple-key' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
+        <li class='container' data-model='simple-key' data-id='<%= item.id %>' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
             <div class="row summary">
                 <div class="col-11 label">
                     <input <%= item.disabled %> data-id='<%= item.id %>' data-cid='<%= item.cid %>' placeholder="label name..." name='key' type='text' value="<%= item.get('key') %>">

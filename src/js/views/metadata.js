@@ -7,6 +7,11 @@ import { View } from 'backbone';
 let TEMPLATE = require('../templates/metadata.html');
 
 export class MetadataView extends View {
+    /***
+        Manages the sidebar control (the one on the left side)
+        view for metadata.
+        Sidebar control contains other views besides this one.
+    **/
     el() {
         return $('#metadata');
     } 
@@ -122,7 +127,7 @@ export class MetadataView extends View {
 
         compiled = _.template(TEMPLATE({
             kvstore: this.metadata.kvstore,
-            available_types: this.metadata.get('kv_types'),
+            available_types: this.metadata.get('kv_types')
         }));
 
         this.$el.html(compiled);
