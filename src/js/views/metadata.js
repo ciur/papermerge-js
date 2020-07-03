@@ -56,7 +56,7 @@ export class MetadataView extends View {
 
     kv_type_update(event) {
         let value = $(event.currentTarget).val();
-        let parent = $(event.currentTarget).parent();
+        let parent = $(event.currentTarget).closest("li");
         let data = parent.data();
         let cur_fmt = {};
 
@@ -99,11 +99,12 @@ export class MetadataView extends View {
 
     remove_meta(event) {
         let parent = $(event.currentTarget).parent();
+        let $li_container = $(event.currentTarget).closest("li");
         let data = parent.data();
 
         this.metadata.remove_simple(data['cid']);
         
-        parent.remove();
+        $li_container.remove();
     }
 
     on_submit() {
@@ -118,10 +119,6 @@ export class MetadataView extends View {
             'kvstore': this.metadata.get('kvstore'),
             'available_types': this.metadata.get('kv_types')
         }
-
-        console.log(`kvstore=${this.metadata.get('kvstore')}`);
-        console.log(`available_types=${this.metadata.get('kv_types')}`);
-        console.log(context);
 
         compiled = _.template(TEMPLATE({
             kvstore: this.metadata.kvstore,

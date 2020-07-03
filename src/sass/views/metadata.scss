@@ -3,11 +3,16 @@
         margin: 0;
         padding: 0;
         color: white;
+
         li.container {
-            padding: 0;
+            padding: 0.5rem;
+            border: 1px solid #555;
+            margin: 0.5rem 0;
+
             .toggle, .label, .close {
                 padding: 0;
             }
+
             .summary {
                 margin: 0.5rem 0;
                 .label {
@@ -20,6 +25,7 @@
                     }
                 }
             }
+
             label {
                 color: #999;
             }

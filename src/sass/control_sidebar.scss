@@ -3,8 +3,16 @@
 * Right sidebar displays insformation about Metadata, Access etc
 */
 .control-sidebar {
-	h5 {
-		border-bottom: 1px solid white;
-		padding-bottom: 0.5rem;
-	}
+    h5 {
+
+        padding-bottom: 0.5rem;
+    }
+
+    .muted-border-bottom {
+        border-bottom: 1px solid #888;
+    }
+
+    .border-bottom {
+        border-bottom: 1px solid white;
+    }
 }

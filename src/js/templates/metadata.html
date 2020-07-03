@@ -1,4 +1,4 @@
- <h5>Metadata</h5>
+ <h5 class="border-bottom">Metadata</h5>
  <ul>
     <li>
         <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>
@@ -11,15 +11,10 @@
         <% kv_types = item.get('kv_types') || available_types || []; %>
         <li class='container' data-model='simple-key' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
             <div class="row summary">
-                <div class="col-1 toggle">
-                    <button type='button' class='close key text-white mx-1'>
-                        <i class='fa fa-caret-right'></i>
-                    </button>
-                </div>
-                <div class="col-10 label">
+                <div class="col-11 label">
                     <input <%= item.disabled %> data-id='<%= item.id %>' data-cid='<%= item.cid %>' placeholder="label name..." name='key' type='text' value="<%= item.get('key') %>">
                 </div>
-                <div class="col-1 close">
+                <div class="col-1 close"  data-id='<%= item.id %>' data-cid='<%= item.cid %>'>
                     <% if (!item.get('kv_inherited')) {  %>
                         <button type='button' class='close key text-white mx-1' aria-label='Close'>
                             <span aria-hidden='true'>&times;</span>
@@ -64,3 +59,8 @@
         </li>
     <% } %>
  </ul>
+ <% if (kvstore.models.length > 0) { %>
+     <button type='button' class='btn btn-success btn-flat save key mx-1'>
+         Save
+     </button>
+ <% } %>
