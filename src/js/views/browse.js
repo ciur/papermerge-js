@@ -86,8 +86,10 @@ export class BrowseView extends View {
       } else {
         mg_dispatcher.trigger(PARENT_CHANGED, undefined);
       }
-    }
 
+      return;
+    }
+    // will reach this place only if node is a document.
     window.location = node.get('document_url');
   }
 
