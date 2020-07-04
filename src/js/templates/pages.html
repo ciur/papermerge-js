@@ -1,0 +1,9 @@
+<ul class="actual_pages">
+    <% for (i=0; i < pages.length; i++) { %>
+      <% page = pages.at(i) %>
+        <li class="actual_page">
+        <img src="/document/<%= document.get('id') %>/preview/1/page/<%= page.get('number') %>">
+          <div class="page_number"><%= page.get('number') %></div>
+        </li>
+    <% } %>
+</ul>

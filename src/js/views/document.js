@@ -31,17 +31,19 @@ export class DocumentView extends View {
 
   render() {
     let compiled_pages,
-        compiles_page_thumbnails,
+        compiled_page_thumbnails,
         context;
     
     context = {};
 
     compiled_pages = _.template(PAGES_TEMPLATE({
         'pages': this.document.pages,
+        'document': this.document
     }));
 
     compiled_page_thumbnails = _.template(PAGE_THUMBNAILS_TEMPLATE({
         'pages': this.document.pages,
+        'document': this.document
     }));
 
     this.$el.find("#page-thumbnails").html(

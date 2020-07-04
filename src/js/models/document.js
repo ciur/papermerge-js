@@ -35,7 +35,7 @@ export class Document extends Model {
 
     parse(response, options) {
 
-        let pages = response.pages,
+        let pages = response.document.pages,
             that=this;
 
         that.pages.reset();
