@@ -31,6 +31,18 @@ export class Node extends Model {
         return dict;
     }
 
+    get url() {
+        if (this.is_document()) {
+            // this url corresponds to backend's 
+            // reverse('core:document', args=(doc_id))
+            // and is used to open admin/documet.html template.
+            return this.get('document_url');
+        }
+
+        // this form of url is used for folder browsing via json requests.
+        return `/${this.get('id')}`;
+    }
+
     is_document() {
         if (this.get('ctype') == 'document') {
             return true;

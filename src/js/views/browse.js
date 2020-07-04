@@ -78,12 +78,17 @@ export class BrowseView extends View {
 
     node = this.browse.nodes.get(data['cid']);
 
-    // routers.browse handles PARENT_CHANGED event.
-    if (node) {
-      mg_dispatcher.trigger(PARENT_CHANGED, node.id);
-    } else {
-      mg_dispatcher.trigger(PARENT_CHANGED, undefined);
+    // folder is 'browsed' by triggering PARENT_CHANGED event
+    if (node.is_folder()) { 
+      // routers.browse handles PARENT_CHANGED event.
+      if (node) {
+        mg_dispatcher.trigger(PARENT_CHANGED, node.id);
+      } else {
+        mg_dispatcher.trigger(PARENT_CHANGED, undefined);
+      }
     }
+
+    window.location = node.get('document_url');
   }
 
   open(node_id) {

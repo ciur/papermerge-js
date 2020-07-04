@@ -1,7 +1,7 @@
 <ul class="d-flex grid">
     <% for (i=0; i < nodes.length; i++) { %>
         <% node = nodes.at(i) %>
-        <li class="node node-w1" data-id="<%= node.get('id') %>" data-cid="<%= node.cid %>" data-url="/<%= node.get('id') %>">
+        <li class="node node-w1" data-id="<%= node.get('id') %>" data-cid="<%= node.cid %>" data-url="<%= node.url %>">
             <% if (node.is_document())  { %>
                 <div class="placeholder document">
                     <img class="zero_pix" src="<%=  node.get('img_src') %>" />
