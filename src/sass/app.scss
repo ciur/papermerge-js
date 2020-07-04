@@ -17,6 +17,7 @@
 @import "./user_form";
 @import "./sidebar";
 @import "./control_sidebar";
+@import "./icons";
 
 
 @import "./views/uploader.scss";
@@ -31,6 +32,13 @@
 .content-header {
     padding: 0;
     padding-top: 1rem;
+}
+
+// Style little button above pages thumnails.
+// This button toggles left page thumbnails panel
+#sw-left-panel {
+    outline: 1px solid #ccc;
+    background-color: white;
 }
 
 ul, ol {
