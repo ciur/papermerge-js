@@ -18,28 +18,47 @@
         padding: 0;
 
         li.page_thumbnail:hover {
-            .icon-arrow-up {
+            .arrow-up-control {
                 visibility: visible;
             }
-            .icon-arrow-down {
+            .arrow-down-control {
                 visibility: visible;
             }
         }
         
         li.page_thumbnail.last:hover {
-            a.icon-arrow-down {
+            .arrow-down-control {
                 display: none;
             }
         }
-        
+
         li.page_thumbnail.first:hover {
-            a.icon-arrow-up {
+            .arrow-up-control {
+                display: none;
+            }
+        }
+
+        // when there is only one page in the document
+        // (i.e. the only page is first and last in same time)
+        // do not display arrow controls at all.
+        li.page_thumbnail.last.first:hover {
+            .arrow-down-control {
+                display: none;
+            }
+        }
+
+        li.page_thumbnail.last.first:hover {
+            .arrow-up-control {
                 display: none;
             }
         }
         
         li.page_thumbnail {
 
+            // relative position is necessary
+            // because arrow-up/arrow-down controls
+            // are absolute pos.
+            position: relative; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -51,24 +70,23 @@
                 }
             }
 
-            a.icon-arrow-up {
-                width: 1.5rem;
-                height: 1.5rem;
+            .arrow-up-control {
+                a {
+                    color: #00b000;    
+                }
                 visibility: hidden;
                 display: block;
-                background-image: url(../img/icons/arrow-up.svg);
-                background-size: 100% 100%;
                 position: absolute;
                 top: 0;
                 left: 0;
+                
             }
-            a.icon-arrow-down {
-                width: 1.5rem;
-                height: 1.5rem;
+            .arrow-down-control {
+                a {
+                    color: #00b000;    
+                }
                 visibility: hidden;
                 display: block;
-                background-image: url(../img/icons/arrow-down.svg);
-                background-size: 100% 100%;
                 position: absolute;
                 bottom: 1rem;
                 left: 0;
