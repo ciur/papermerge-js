@@ -8,15 +8,17 @@ import {
     PARENT_CHANGED,
 } from "../models/dispatcher";
 
-let TEMPLATE = require('../templates/document.html');
+let PAGES_TEMPLATE = require('../templates/pages.html');
+let PAGE_THUMBNAILS_TEMPLATE = require('../templates/page_thumbnails.html');
 
 export class DocumentView extends View {
   el() {
       return $('#document');
   } 
 
-  initialize(parent_id) {
-    this.document = new Document(parent_id);
+  initialize() {
+    let document_id = $("input[name='document_id']").val();
+    this.document = new Document(document_id);
     this.document.fetch();
     this.listenTo(this.document, 'change', this.render);
   }
@@ -28,14 +30,26 @@ export class DocumentView extends View {
   }
 
   render() {
-    let compiled, context;
+    let compiled_pages,
+        compiles_page_thumbnails,
+        context;
     
     context = {};
 
-    compiled = _.template(TEMPLATE({
+    compiled_pages = _.template(PAGES_TEMPLATE({
         'pages': this.document.pages,
     }));
 
-    this.$el.html(compiled);
+    compiled_page_thumbnails = _.template(PAGE_THUMBNAILS_TEMPLATE({
+        'pages': this.document.pages,
+    }));
+
+    this.$el.find("#page-thumbnails").html(
+      compiled_page_thumbnails
+    );
+
+    this.$el.find("#actual-pages").html(
+      compiled_pages
+    );
   }
 }

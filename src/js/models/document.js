@@ -16,14 +16,12 @@ export class Document extends Model {
     }
 
     initialize(id) {
-        this.id = id;
+        this.set({'id': id});
         this.pages = new PageCollection();
     }
 
     urlRoot() {
-        let doc_id = this.get('id');
-
-        return `/document/${doc_id}/`;
+        return `/document/`;
     }
 
     toJSON() {
