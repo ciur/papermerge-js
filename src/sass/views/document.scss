@@ -1,0 +1,120 @@
+@import "./responsive";
+@import "./theme";
+
+
+#actual-pages {
+    background-color: #ccc;
+}
+
+
+#document {
+
+    ul.page_thumbnails {
+
+        width: 10rem;
+        height: 100vh;
+        overflow: scroll;
+        border-right: 1px solid #d7d7d7;
+        padding: 0;
+
+        li.page_thumbnail:hover {
+            .icon-arrow-up {
+                visibility: visible;
+            }
+            .icon-arrow-down {
+                visibility: visible;
+            }
+        }
+        
+        li.page_thumbnail.last:hover {
+            a.icon-arrow-down {
+                display: none;
+            }
+        }
+        
+        li.page_thumbnail.first:hover {
+            a.icon-arrow-up {
+                display: none;
+            }
+        }
+        
+        li.page_thumbnail {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+
+            .page_number {
+                input {
+                    width: 2rem;
+                }
+            }
+
+            a.icon-arrow-up {
+                width: 1.5rem;
+                height: 1.5rem;
+                visibility: hidden;
+                display: block;
+                background-image: url(../img/icons/arrow-up.svg);
+                background-size: 100% 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            a.icon-arrow-down {
+                width: 1.5rem;
+                height: 1.5rem;
+                visibility: hidden;
+                display: block;
+                background-image: url(../img/icons/arrow-down.svg);
+                background-size: 100% 100%;
+                position: absolute;
+                bottom: 1rem;
+                left: 0;
+            }
+        }
+    }
+
+    ul.actual_pages {
+
+        height: 100vh;
+        overflow: scroll;
+
+        li.actual_page {
+            background-color: $gray_7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0px 4px 6px 1px rgba(0, 0, 0, 0.5);
+            min-height: 400px;
+
+            svg {
+                position: absolute;
+            }
+
+        }
+        fieldset.module.aligned {
+            position: relative;
+
+            .field-number {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                z-index: 100;
+                background-color: $gray_9;
+                div {
+                    padding: 0.5rem 1rem;
+                    @include respond(phone) {
+                        padding: 0rem 0.25rem;
+                    }
+                    input {
+                        color: white;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+
+}

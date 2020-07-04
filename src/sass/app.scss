@@ -22,9 +22,15 @@
 @import "./views/uploader.scss";
 @import "./views/browse.scss";
 @import "./views/metadata.scss";
+@import "./views/document.scss";
 
 .hidden {
     display: none;
+}
+
+.content-header {
+    padding: 0;
+    padding-top: 1rem;
 }
 
 ul, ol {
