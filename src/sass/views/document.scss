@@ -143,3 +143,44 @@
         border: 1px solid red;
     }
 }
+
+.actual_pages {
+    .actual_page {
+        position: relative;
+        background-color: $gray_7;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0px 4px 6px 1px rgba(0, 0, 0, 0.5);
+        min-height: 400px;
+
+        svg {
+            position: absolute;
+        }
+
+    }
+}
+
+#actual-pages {
+    flex: 1;
+    height: 100vh;
+    overflow: scroll;
+    background-color: $light_gray_bg;
+}
+
+.actual_pages {
+
+    img {
+        box-shadow: 0px 4px 6px 1px rgba(0, 0, 0, 0.5);
+    }
+    .actual_page {
+        .page_number {
+            input {
+                color: white;
+                font-size: 1.4rem;
+                font-weight: bold;
+                width: 2.5rem;
+            }
+        }
+    }
+}

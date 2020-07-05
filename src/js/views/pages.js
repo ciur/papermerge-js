@@ -1,13 +1,13 @@
 import $ from "jquery";
-import {DgPage} from "./page";
-import {MgLister} from "./lister";
 
-export class MgPageList extends MgLister {
-    constructor(zoom) {
-        super();
-        this._container_selector = ".actual_pages";
-        this._selector = ".actual_pages .actual_page";
-        this._list = [];
+export class PagesView {
+    /*
+        note that this is NOT a backbone view!
+    */
+    constructor(pages, zoom) {
+        this._container_selector = ".actual-pages";
+        this._selector = ".actual-pages .actual_page";
+        this._list = pages;
         this._zoom = zoom;
         this._config_events();
     }
@@ -45,9 +45,9 @@ export class MgPageList extends MgLister {
         }
     }
 
-    load(step) {
+    render(step) {
         for (let page of this._list) {
-            page.on_scroll(step);
+            page.load_img(step);
         }
     }
 
