@@ -43,6 +43,21 @@ export class Node extends Model {
         return `/${this.get('id')}`;
     }
 
+    full_title() {
+        return this.get('title');
+    }
+
+    short_title(len) {
+        let result,
+            text = this.get('title');
+
+        if (text && text.length > len) {
+          result = text.substring(0, len);
+        }
+
+        return `${result}...`;
+    }
+
     is_document() {
         if (this.get('ctype') == 'document') {
             return true;

@@ -15,8 +15,8 @@
 
     /* Position the tooltip text - see examples below! */
     position: absolute;
+    top: 1rem;
     z-index: 1;
-
     opacity: 0;
     transition: opacity 1s;
   }
@@ -26,4 +26,5 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+  z-index: 2100;
 }

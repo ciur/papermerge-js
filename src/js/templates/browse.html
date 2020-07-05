@@ -1,7 +1,7 @@
 <ul class="d-flex grid">
     <% for (i=0; i < nodes.length; i++) { %>
         <% node = nodes.at(i) %>
-        <li class="node node-w1" data-id="<%= node.get('id') %>" data-cid="<%= node.cid %>" data-url="<%= node.url %>">
+        <li class="node node-w1 d-flex flex-column align-items-center" data-id="<%= node.get('id') %>" data-cid="<%= node.cid %>" data-url="<%= node.url %>">
             <% if (node.is_document())  { %>
                 <div class="placeholder document">
                     <img class="zero_pix" src="<%=  node.get('img_src') %>" />
@@ -11,8 +11,9 @@
             <div class="icon-<%= node.get('ctype') %>">
             </div>
             <input type="checkbox" name="_selected_action" value="<%= node.get('id') %>" class="action-select" />
-            <div class="title">
-                <a href="#" class="<%= node.get('ctype') %>" data-id="<%= node.get('id') %>" alt="Test"><%= node.get('title') %></a>
+            <div class="title tooltip">
+                <a href="#" class="<%= node.get('ctype') %>" data-id="<%= node.get('id') %>" alt="<%=  node.full_title() %>"><%= node.short_title(20) %></a>
+                <span class="tooltiptext"><%= node.full_title()  %></span>
             </div>
         </li>
     <% } %>
