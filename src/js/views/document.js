@@ -15,6 +15,7 @@ import {DgMainSpinner} from "../spinner";
 import {RenameChangeForm} from "../forms/rename_change_form";
 import {MgChangeFormActions, MgChangeFormAction} from "../actions/changeform_actions";
 import {MetadataPageForm} from "../forms/metadata_form";
+import {BreadcrumbView} from "../views/breadcrumb";
 
 export class DocumentActionsView extends View {
   
@@ -70,12 +71,6 @@ export function add_zoom_2_document_form() {
     add_zoom_logic();
 }
 
-export function add_switch_2_document_form() {
-    // ok, here we are in document for page.
-    add_switch_logic("#sw-left-panel");
-    add_switch_logic("#sw-right-panel");
-}
-
 export class DocumentView extends View {
 
     el() {
@@ -83,7 +78,8 @@ export class DocumentView extends View {
     } 
 
     constructor() {
-      let dom_actual_pages = document.querySelector('.actual_pages');
+      let dom_actual_pages = document.querySelector('.actual_pages'),
+        document_id = $("input[name=document_id]").val();
 
       super();
 
@@ -95,6 +91,7 @@ export class DocumentView extends View {
       this._page_list.load(this.zoom.get_value());
       this._spinner = new DgMainSpinner();
       this._actions = this.build_actions();
+      this._breadcrumb_view = new BreadcrumbView(document_id);
 
       if (dom_actual_pages) {
           new DgPageScroll(dom_actual_pages);

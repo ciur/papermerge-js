@@ -40,7 +40,7 @@ export class Node extends Model {
         }
 
         // this form of url is used for folder browsing via json requests.
-        return `/${this.get('id')}`;
+        return `/#${this.get('id')}`;
     }
 
     full_title() {
@@ -52,10 +52,12 @@ export class Node extends Model {
             text = this.get('title');
 
         if (text && text.length > len) {
-          result = text.substring(0, len);
+            result = `${text.substring(0, len)}...`;
+        } else {
+            result = text;
         }
 
-        return `${result}...`;
+        return result;
     }
 
     is_document() {

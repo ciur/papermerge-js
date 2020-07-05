@@ -15,7 +15,7 @@ export class Breadcrumb extends Model {
     }
 
     initialize(parent_id) {
-        this.parent_id = parent_id;
+        this.set({'parent_id': parent_id});
         this.nodes = new NodeCollection();
     }
 

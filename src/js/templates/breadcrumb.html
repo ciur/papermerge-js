@@ -5,7 +5,7 @@
     <% for (i=0; i < nodes.length; i++) { %>
         <% node = nodes.at(i) %>
         <li class="breadcrumb-item">
-            <a href="#" class="breadcrumb-node"  data-id="<%= node.get('id') %>">
+            <a href="<%= node.url %>" class="breadcrumb-node"  data-id="<%= node.get('id') %>">
             	<%= node.get('title') %>
             </a>
         </li>

@@ -51,12 +51,14 @@ let App = function() {
   browse_view = new BrowseView();
   actions_view = new ActionsView();
   breadcrumb_view = new BreadcrumbView();
-  document_view = new DocumentView();
   control_sidebar = new ControlSidebarView();
+  document_view = new DocumentView();
+
   browse_router = new BrowseRouter(
     browse_view,
     breadcrumb_view
   );
+
   document_actions_view = new DocumentActionsView();
   Backbone.history.start();
   
