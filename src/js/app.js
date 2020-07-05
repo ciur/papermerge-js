@@ -7,7 +7,7 @@ import {BrowseView} from "./views/browse";
 import {BreadcrumbView} from "./views/breadcrumb";
 import {ActionsView} from "./views/actions";
 import {ControlSidebarView} from "./views/control_sidebar";
-import {DocumentView} from "./views/document";
+import {DocumentView, DocumentActionsView} from "./views/document";
 
 import {BrowseRouter} from "./routers/browse";
 
@@ -44,6 +44,7 @@ let App = function() {
     actions_view,
     breadcrumb_view,
     document_view,
+    document_actions_view,
     control_sidebar,
     browse_router;
 
@@ -56,6 +57,7 @@ let App = function() {
     browse_view,
     breadcrumb_view
   );
+  document_actions_view = new DocumentActionsView();
   Backbone.history.start();
   
   sort_cookie();

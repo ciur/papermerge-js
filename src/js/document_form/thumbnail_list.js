@@ -7,8 +7,8 @@ export class MgThumbnailList extends MgLister {
 
     constructor() {
         super();
-        this._container_selector = ".page-thumbnails";
-        this._selector = ".page-thumbnails .page_thumbnail";
+        this._container_selector = ".page_thumbnails";
+        this._selector = ".page_thumbnails .page_thumbnail";
         this._list = [];
         this._config_events();
     }

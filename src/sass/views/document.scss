@@ -2,12 +2,20 @@
 @import "./theme";
 
 
+
+
 #actual-pages {
     background-color: #ccc;
 }
 
 
 #document {
+
+    text::selection {
+        color: black;
+        background-color: green;
+        font-weight: bold;
+    }
 
     ul.page_thumbnails {
 
@@ -63,6 +71,21 @@
             flex-direction: column;
             align-items: center;
             padding: 0.5rem;
+            margin: 0.25rem 0.5rem;
+            
+            img {
+                border: 1px solid #ccc;
+                padding: 0;
+                width: 7rem;
+            }
+
+            &.checked {
+                 background-color: $result_list_hover_bg_color;
+                 outline: 1px solid $result_list_hover_border_color;
+            }
+            input[type=checkbox] {
+                display: none;
+            }
 
             .page_number {
                 input {
@@ -110,6 +133,7 @@
             svg {
                 position: absolute;
             }
+
 
         }
         fieldset.module.aligned {

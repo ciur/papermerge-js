@@ -16,26 +16,35 @@ import {RenameChangeForm} from "../forms/rename_change_form";
 import {MgChangeFormActions, MgChangeFormAction} from "../actions/changeform_actions";
 import {MetadataPageForm} from "../forms/metadata_form";
 
+export class DocumentActionsView extends View {
+  
+  el() {
+    return $('#document-actions');
+  }
 
-function add_switch_logic(switch_selector) {
-    // but clicking switch selector, target is toggled.
-    // in document view - this applies to page thumbnails left panel
-    // and document details right panels which can be visible or hidden.
-    $(switch_selector).click(function(e){
-        var target_id = $(this).data("target-id"),
-            $target;
+  events() {
+    let event_map = {
+      "click #sw-left-panel": "toggle_thumbnails"
+    }
 
-        e.preventDefault();
+    return event_map;
+  }
 
-        $target = $("#" + target_id);
-        if ($target.length == 0) {
-            console.log("target " + target_id + " not found");
-            return;
-        }
+  toggle_thumbnails(event) {
+    let target_id = $(event.currentTarget).data("target-id"),
+        $target;
 
-        $target.toggle();
-    });
-} // add_switch_logic
+    event.preventDefault();
+
+    $target = $("#" + target_id);
+    if ($target.length == 0) {
+        console.log("target " + target_id + " not found");
+        return;
+    }
+
+    $target.toggle();
+  }
+}
 
 function add_zoom_logic() {
 
