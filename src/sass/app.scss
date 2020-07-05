@@ -14,7 +14,6 @@
 @import "./tooltip";
 @import "./paginator";
 @import "./user_form";
-@import "./sidebar";
 @import "./control_sidebar";
 @import "./icons";
 
@@ -32,11 +31,18 @@
     padding-top: 1rem;
 }
 
-// Style little button above pages thumnails.
-// This button toggles left page thumbnails panel
-#sw-left-panel {
-    outline: 1px solid #ccc;
-    background-color: white;
+.dropdown-item.disabled {
+    a {
+        color: #aaa;
+    }
+}
+
+li#delete.dropdown-item:hover {
+    background-color: red;
+    a {
+        background-color: red;
+        color: white;
+    }
 }
 
 ul, ol {

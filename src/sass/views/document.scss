@@ -2,7 +2,12 @@
 @import "./theme";
 
 
-
+// Style little button above pages thumnails.
+// This button toggles left page thumbnails panel
+#sw-left-panel {
+    outline: 1px solid #ccc;
+    background-color: white;
+}
 
 #actual-pages {
     background-color: #ccc;
