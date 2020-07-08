@@ -20,7 +20,7 @@
           <% kvstore = parent_kv.at(j) %>
           <td scope="col"><%= node.get_page_value_for(kvstore.get('key')) %></td>
         <% } %>
-        <td>None</td>
+        <td><%= node.get('created_at') %></td>
     </tr>
     <% } %>
   </tbody>

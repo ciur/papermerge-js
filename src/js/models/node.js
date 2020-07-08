@@ -10,7 +10,8 @@ export class Node extends Model {
         ctype: '',
         kvstore: '',
         selected: false,
-        img_src: ''
+        img_src: '',
+        created_at: ''
       };
     }
 
@@ -26,6 +27,7 @@ export class Node extends Model {
             id: this.get('id'),
             parent_id: this.get('parent_id'),
             title: this.get('title'),
+            created_at: this.get('created_at')
         }
 
         return dict;
