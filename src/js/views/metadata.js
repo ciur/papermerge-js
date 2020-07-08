@@ -9,7 +9,7 @@ let TEMPLATE = require('../templates/metadata.html');
 export class MetadataView extends View {
     /***
         Manages the sidebar control (the one on the left side)
-        view for metadata.
+        view for metadata (of files and folder).
         Sidebar control contains other views besides this one.
     **/
     el() {

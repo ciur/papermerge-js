@@ -14,7 +14,6 @@ import {get_win_param} from "../document_form/common";
 import {DgMainSpinner} from "../spinner";
 import {RenameChangeForm} from "../forms/rename_change_form";
 import {MgChangeFormActions, MgChangeFormAction} from "../actions/changeform_actions";
-import {MetadataPageForm} from "../forms/metadata_form";
 import {BreadcrumbView} from "../views/breadcrumb";
 
 export class DocumentActionsView extends View {
@@ -350,20 +349,6 @@ export class DocumentView extends View {
               dataType: "json",
               contentType: "application/json; charset=utf-8",
             });
-        }
-      });
-
-      metadata_action = new MgChangeFormAction({
-        id: '#metadata',
-        enabled: function(selection, clipboard) {
-          return selection.length == 1;
-        },
-        action: function(selection, clipboard, current_node) {
-          let metadata_form, page;
-
-          page = selection.first();
-          metadata_form = new MetadataPageForm(page);
-          metadata_form.show();
         }
       });
 

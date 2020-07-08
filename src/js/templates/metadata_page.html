@@ -1,6 +1,7 @@
- <ul class="horizontal menu">
+ <h5 class="border-bottom">Metadata</h5>
+ <ul>
     <li>
-        <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Label"/>
+        <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>
     </li>
  </ul>
  <ul id="simple_keys" class="vertical menu">
@@ -8,33 +9,58 @@
         <% item = kvstore.models[i]; %>
         <% current_formats = item.get('current_formats') || []; %>
         <% kv_types = item.get('kv_types') || available_types || []; %>
-        <li class='d-flex' data-model='simple-key' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
-            <input class="key" <%= item.disabled %> data-id='<%= item.id %>' data-cid='<%= item.cid %>' name='key' type='text' value="<%= item.get('key') %>">
-            <select <%= item.disabled %>  class="kv_type" name='kv_type' class="custom-select">
-                <% for (k=0; k < kv_types.length; k++) { %>
-                    <option 
-                        <% if ( item.get('kv_type') == kv_types[k][0] ) { %> selected  <% }  %> 
-                        value="<%= kv_types[k][0] %>">
-                        <%= kv_types[k][1] %>
-                    </option>
-                <% } %>
-            </select>
-            <select <%= item.disabled %> class="kv_format" name='kv_format' class="custom-select">
-                <% for (j=0; j < current_formats.length; j++) { %>
-                    <option 
-                         <% if ( item.get('kv_format') == current_formats[j][0] ) { %> selected  <% }  %> 
-                        value="<%= current_formats[j][0] %>">
-                        <%= current_formats[j][1] %>
-                        
-                    </option>
-                <% } %>
-            </select>
-            <input class="value" data-id='<%= item.id %>' data-cid='<%= item.cid %>' name='value' type='text' value="<%= item.get('value') %>">
-            <% if (!item.get('kv_inherited')) {  %>
-                <button type='button' class='close key text-danger mx-1' aria-label='Close'>
-                    <span aria-hidden='true'>&times;</span>
-                </button>
-            <% } %>
+        <li class='container' data-model='simple-key' data-id='<%= item.id %>' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
+            <div class="row summary">
+                <div class="col-11 label">
+                    <input <%= item.disabled %> data-id='<%= item.id %>' data-cid='<%= item.cid %>' placeholder="label name..." name='key' type='text' value="<%= item.get('key') %>">
+                </div>
+                <div class="col-1 close"  data-id='<%= item.id %>' data-cid='<%= item.cid %>'>
+                    <% if (!item.get('kv_inherited')) {  %>
+                        <button type='button' class='close key text-white mx-1' aria-label='Close'>
+                            <span aria-hidden='true'>&times;</span>
+                        </button>
+                    <% } %>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <label>Type</label>
+                </div>
+                <div class="col-8">
+                    <select <%= item.disabled %>  class="kv_type" name='kv_type' class="custom-select">
+                        <% for (k=0; k < kv_types.length; k++) { %>
+                            <option 
+                                <% if ( item.get('kv_type') == kv_types[k][0] ) { %> selected  <% }  %> 
+                                value="<%= kv_types[k][0] %>">
+                                <%= kv_types[k][1] %>
+                            </option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <label>Format</label>
+                </div>
+                <div class="col-8">
+                    <select <%= item.disabled %> class="kv_format" name='kv_format' class="custom-select">
+                        <% for (j=0; j < current_formats.length; j++) { %>
+                            <option 
+                                 <% if ( item.get('kv_format') == current_formats[j][0] ) { %> selected  <% }  %> 
+                                value="<%= current_formats[j][0] %>">
+                                <%= current_formats[j][1] %>
+                                
+                            </option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+           
         </li>
     <% } %>
  </ul>
+ <% if (kvstore.models.length > 0 && !all_disabled) { %>
+     <button type='button' class='btn btn-success btn-flat save key mx-1'>
+         Save
+     </button>
+ <% } %>
