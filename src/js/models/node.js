@@ -75,6 +75,33 @@ export class Node extends Model {
 
         return false;
     }
+
+    get_page_value_for(key) {
+        let pages, kvstore, first_page, index;
+
+        if (node.is_folder()) {
+            return ''
+        }
+
+        pages = this.get('pages');
+
+        if (pages) {
+            first_page = pages[0];
+            kvstore = first_page.kvstore;
+
+            if (kvstore) {
+                index = _.findIndex(kvstore, function(kv) { 
+                    return kv.key == key;
+                });
+
+                if (index > 0) {
+                    return kvstore[index].value;
+                }
+            }
+        }
+
+        return '';
+    }
 }
 
 export class NodeCollection extends Collection {

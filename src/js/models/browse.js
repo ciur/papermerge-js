@@ -1,6 +1,8 @@
 import _ from "underscore";
 import { Model, Collection } from 'backbone';
 import { Node, NodeCollection } from "./node";
+import { KVStore, KVStoreCollection } from "./kvstore";
+
 
 import {
     mg_dispatcher,
@@ -12,12 +14,14 @@ export class Browse extends Model {
       return {
         nodes: [],
         parent_id: '',
+        parent_kv: [] // used in list display mode
       };
     }
 
     initialize(parent_id) {
         this.parent_id = parent_id;
         this.nodes = new NodeCollection();
+        this.parent_kv = new KVStoreCollection();
     }
 
     urlRoot() {
@@ -67,12 +71,17 @@ export class Browse extends Model {
 
         let nodes = response.nodes,
             that=this,
+            parent_kv = response.parent_kv,
             parent_id = response.parent_id;
 
         that.nodes.reset();
 
         _.each(nodes, function(item){
             that.nodes.add(new Node(item))
+        });
+
+        _.each(parent_kv, function(item){
+            that.parent_kv.add(new KVStore(item))
         });
 
         this.set({'parent_id': parent_id});

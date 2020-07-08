@@ -123,6 +123,7 @@ export class BrowseView extends View {
 
     compiled = _.template(list_or_grid_template({
         'nodes': this.browse.nodes,
+        'parent_kv': this.browse.parent_kv
     }));
 
     this.$el.html(compiled);

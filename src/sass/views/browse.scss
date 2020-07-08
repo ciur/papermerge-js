@@ -6,6 +6,12 @@
         display: none;
     }
 
+    .node:hover {
+         background-color: $result_list_hover_bg_color;
+         outline: 1px solid $result_list_hover_bg_color;
+         //border: 1px solid $result_list_hover_border_color;
+    }
+
     ul.grid {
         flex-wrap: wrap;
         padding: 0;
@@ -68,12 +74,6 @@
                  text-align: center;
                  opacity: 1;
                  z-index: 0;
-            }
-
-            &:hover {
-                 background-color: $result_list_hover_bg_color;
-                 outline: 1px solid $result_list_hover_bg_color;
-                 //border: 1px solid $result_list_hover_border_color;
             }
         }
     }

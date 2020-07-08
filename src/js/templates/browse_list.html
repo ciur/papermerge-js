@@ -1,3 +1,27 @@
-<ul class="d-flex grid">
-list mode
-</ul>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Type</th>
+      <th scope="col">Title</th>
+      <% for (i=0; i < parent_kv.length; i++) { %>
+        <% kvstore = parent_kv.at(i) %>
+        <th scope="col"><%= kvstore.get('key') %></th>
+      <% } %>
+      <th scope="col">Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (i=0; i < nodes.length; i++) { %>
+        <% node = nodes.at(i) %>
+    <tr class="node" data-id="<%= node.get('id') %>" data-cid="<%= node.cid %>" data-url="<%= node.url %>">
+        <td><% if (node.is_document()) { %> <i class="fa fa-file"></i> <% } else { %> <i class="fa fa-folder text-warning"></i> <% } %></td>
+        <td scope="row"><%= node.full_title() %></td>
+        <% for (j=0; j < parent_kv.length; j++) { %>
+          <% kvstore = parent_kv.at(j) %>
+          <td scope="col"><%= node.get_page_value_for(kvstore.get('key')) %></td>
+        <% } %>
+        <td>None</td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
