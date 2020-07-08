@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import { Browse } from "../models/browse";
+import { DisplayModeView } from "./display_mode";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 import {
@@ -12,7 +13,8 @@ import {
 import { mg_browse_router } from "../routers/browse";
 
 
-let TEMPLATE = require('../templates/browse.html');
+let TEMPLATE_GRID = require('../templates/browse_grid.html');
+let TEMPLATE_LIST = require('../templates/browse_list.html');
 
 export class BrowseView extends View {
   el() {
@@ -22,7 +24,9 @@ export class BrowseView extends View {
   initialize(parent_id) {
     this.browse = new Browse(parent_id);
     this.browse.fetch();
+    this.display_mode = new DisplayModeView();
     this.listenTo(this.browse, 'change', this.render);
+    this.listenTo(this.display_mode, 'change', this.render);
 
     mg_dispatcher.on(BROWSER_REFRESH, this.refresh, this);
   }
@@ -107,11 +111,17 @@ export class BrowseView extends View {
   }
 
   render() {
-    let compiled, context;
+    let compiled, context, list_or_grid_template;
     
     context = {};
 
-    compiled = _.template(TEMPLATE({
+    if (this.display_mode.is_list()) {
+      list_or_grid_template = TEMPLATE_LIST;
+    } else {
+      list_or_grid_template = TEMPLATE_GRID;
+    }
+
+    compiled = _.template(list_or_grid_template({
         'nodes': this.browse.nodes,
     }));
 
