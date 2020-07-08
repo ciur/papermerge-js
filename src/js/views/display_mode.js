@@ -4,8 +4,10 @@ import { View } from 'backbone';
 
 let TEMPLATE = require('../templates/display_mode.html');
 
-export let GRID = 1;
-export let LIST = 2;
+export let GRID = 'grid';
+export let LIST = 'list';
+
+
 
 export class DisplayModeView extends View {
 
@@ -14,9 +16,10 @@ export class DisplayModeView extends View {
     }
 
     initialize() {
-        this.display = GRID;
+        this.display = this.get_local('display_mode') || GRID;
         this.listenTo(this, "change", this.render);
         this.render();
+
     }
 
     events() {
@@ -28,6 +31,14 @@ export class DisplayModeView extends View {
         return events_map;
     }
 
+    get_local() {
+        return localStorage.getItem('display_mode');
+    }
+
+    set_local(mode) {
+        return localStorage.setItem('display_mode', mode);
+    }
+
     is_list() {
         return this.display == LIST;
     }
@@ -37,12 +48,21 @@ export class DisplayModeView extends View {
     }
 
     display_list(event) {
+        
+        event.preventDefault();
+
         this.display = LIST;
+        this.set_local(LIST);
+
         this.trigger('change');
     }
 
     display_grid(event) {
+        
+        event.preventDefault();
+
         this.display = GRID;
+        this.set_local(GRID);
         this.trigger('change');
     }
 
