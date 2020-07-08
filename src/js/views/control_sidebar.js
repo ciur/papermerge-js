@@ -13,7 +13,15 @@ export class ControlSidebarView extends View {
 
     el() {
         return $('.control-sidebar');
-    } 
+    }
+
+    events() {
+        let events_map = {
+            "click button#save": "on_save"
+        }
+
+        return events_map;
+    }
 
     initialize() {
         this.metadata_view = undefined;
@@ -80,5 +88,9 @@ export class ControlSidebarView extends View {
         this.metadata_view = new MetadataView(
             selected_node.get('id')
         );
+    }
+
+    on_save(event) {
+        this.$el.find("#save-metadata").trigger('click');
     }
 }

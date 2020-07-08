@@ -3,6 +3,12 @@
 * Right sidebar displays insformation about Metadata, Access etc
 */
 .control-sidebar {
+	overflow: scroll;
+	span {
+	    background-color: rgba(0,0,0,0);
+	    color: #bbb;
+	    border: 1px solid #888;
+	}
     h5 {
 
         padding-bottom: 0.5rem;

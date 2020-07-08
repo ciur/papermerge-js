@@ -1,4 +1,11 @@
 #metadata {
+
+    button[type=hidden] {
+        // save button is not visible but it is
+        // used to proxy click events
+        visibility: hidden;
+    }
+
     ul {
         margin: 0;
         padding: 0;
@@ -15,14 +22,17 @@
 
             .summary {
                 margin: 0.5rem 0;
-                .label {
-                    input {
-                        width: 100%;
-                        background-color: rgba(0, 0, 0, 0);
-                        border: 0px;
-                        border-bottom: 1px solid white;
-                        color: white;
-                    }
+                input[disabled] {
+                    width: 100%;
+                    background-color: rgba(0, 0, 0, 0);
+                    border: 0px;
+                    border-bottom: 1px solid white;
+                    color: white;
+                }
+                input {
+                    width: 100%;
+                    border: 0px;
+                    padding: 0.25rem;
                 }
             }
 
