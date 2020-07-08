@@ -1,5 +1,8 @@
 import $ from "jquery";
+import _ from "underscore";
 import { View } from 'backbone';
+
+let TEMPLATE = require('../templates/display_mode.html');
 
 export let GRID = 1;
 export let LIST = 2;
@@ -12,6 +15,8 @@ export class DisplayModeView extends View {
 
     initialize() {
         this.display = GRID;
+        this.listenTo(this, "change", this.render);
+        this.render();
     }
 
     events() {
@@ -24,7 +29,6 @@ export class DisplayModeView extends View {
     }
 
     is_list() {
-        console.log(`display = ${this.display}`);
         return this.display == LIST;
     }
 
@@ -33,14 +37,25 @@ export class DisplayModeView extends View {
     }
 
     display_list(event) {
-        console.log("Display list clicked");
         this.display = LIST;
         this.trigger('change');
     }
 
     display_grid(event) {
-        console.log("Display grid clicked");
         this.display = GRID;
         this.trigger('change');
+    }
+
+    render() {
+      let compiled, context;
+      
+      context = {};
+
+      compiled = _.template(TEMPLATE({
+          'is_list': this.is_list(),
+          'is_grid': this.is_grid(),
+      }));
+
+      this.$el.html(compiled);
     }
 }
