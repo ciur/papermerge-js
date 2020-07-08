@@ -121,8 +121,10 @@ export class DocumentView extends View {
         this.scroll_to(page_num);
     }
 
-    on_thumbnail_click(page_num) {
-        console.log(`Page ${page_num} click`);
+    on_thumbnail_click(page_num, doc_id, page_id) {
+        console.log(
+          `Page ${page_num} ${doc_id} ${page_id} click`
+        );
     }
 
     on_zoom_change(new_zoom_val) {
@@ -190,7 +192,6 @@ export class DocumentView extends View {
         paste_page_action,
         paste_page_before_action,
         paste_page_after_action,
-        metadata_action,
         apply_reorder_changes;
 
       rename_action = new MgChangeFormAction({
@@ -418,7 +419,6 @@ export class DocumentView extends View {
       actions.add(paste_page_action);
       actions.add(paste_page_before_action);
       actions.add(paste_page_after_action);
-      actions.add(metadata_action);
       actions.add(apply_reorder_changes);
 
       return actions;

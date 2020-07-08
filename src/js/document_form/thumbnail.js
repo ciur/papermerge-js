@@ -171,10 +171,11 @@ export class MgThumbnail extends DgEvents {
             }
             that.timer = setTimeout(
                 function() { 
-                    console.log('!click!');
                     that.notify(
                         MgThumbnail.CLICK,
-                        that._page_num
+                        that._page_num,
+                        that.doc_id,
+                        that.page_id
                     );
                 },
                 MgThumbnail.CLICK_TIMEOUT

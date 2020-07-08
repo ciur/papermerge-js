@@ -2,6 +2,11 @@ import $ from "jquery";
 import {MgThumbnail} from "./thumbnail";
 import {MgLister} from "./lister";
 
+import {
+    mg_dispatcher,
+    PAGE_SELECTION_CHANGED,
+} from "../models/dispatcher";
+
 
 export class MgThumbnailList extends MgLister {
 
@@ -208,7 +213,7 @@ export class MgThumbnailList extends MgLister {
     }
 
     _config_events() {
-        let that = this;
+        let that = this, first_thumb;
         this._add_thumbnails();
 
         $(this._container_selector).scroll(function(){
@@ -216,5 +221,17 @@ export class MgThumbnailList extends MgLister {
                 thumb.on_scroll();
             }
         });
+
+        // after document load, user did not select
+        // any page yet. In this case, metadata view will
+        // display first page' metadata.
+        if (this._list.length > 0) {
+            // if there is at least one thumbnail
+            first_thumb = this._list[0];
+            mg_dispatcher.trigger(
+                PAGE_SELECTION_CHANGED,
+                first_thumb.page_id
+            );
+        }
     }
 }

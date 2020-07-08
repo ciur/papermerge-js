@@ -15,7 +15,7 @@ export class MetadataPageView extends MetadataView {
 
 	initialize(page_id) {
 		// metadata per page
-	    this.metadata = new MetadataPage(doc_id);
+	    this.metadata = new MetadataPage(page_id);
 	    this.start();
 	    this.render();
 	}

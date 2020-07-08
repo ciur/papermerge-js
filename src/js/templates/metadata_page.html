@@ -21,7 +21,12 @@
                         </button>
                     <% } %>
                 </div>
-            </div>
+            </div> <!-- row.summary -->
+            <div class="row summary">
+                <div class="col-12 label">
+                    <input data-id='<%= item.id %>' data-cid='<%= item.cid %>' placeholder="value..." name='value' type='text' value="<%= item.get('value') %>">
+                </div>
+            </div> <!-- row.summary -->
             <div class="row">
                 <div class="col-4">
                     <label>Type</label>
