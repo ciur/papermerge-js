@@ -16,7 +16,57 @@ import { mg_browse_router } from "../routers/browse";
 let TEMPLATE_GRID = require('../templates/browse_grid.html');
 let TEMPLATE_LIST = require('../templates/browse_list.html');
 
+class BrowseListView extends View {
+  /**
+    List mode displays a table which can be sorted by each individual column.
+    Also, some columns might be added or removed.
+  **/
+  el() {
+      return $('#browse');
+  }
+
+  events() {
+    let event_map = {
+      
+    }
+    return event_map;
+  }
+
+  render(nodes, parent_kv) {
+    let compiled, context;
+    
+    context = {};
+
+    compiled = _.template(TEMPLATE_LIST({
+        'nodes': nodes,
+        'parent_kv': parent_kv
+    }));
+
+    this.$el.html(compiled);
+  }
+}
+
+class BrowseGridView extends View {
+
+  el() {
+      return $('#browse');
+  }
+
+  render(nodes) {
+    let compiled, context;
+    
+    context = {};
+
+    compiled = _.template(TEMPLATE_GRID({
+        'nodes': nodes,
+    }));
+
+    this.$el.html(compiled);
+  }
+}
+
 export class BrowseView extends View {
+
   el() {
       return $('#browse');
   } 
@@ -24,7 +74,14 @@ export class BrowseView extends View {
   initialize(parent_id) {
     this.browse = new Browse(parent_id);
     this.browse.fetch();
+
+    // UI used to switch between list and grid display modes
     this.display_mode = new DisplayModeView();
+
+    // there are to view modes - list and grid
+    this.browse_list_view = new BrowseListView();
+    this.browse_grid_view = new BrowseGridView();
+
     this.listenTo(this.browse, 'change', this.render);
     this.listenTo(this.display_mode, 'change', this.render);
 
@@ -111,21 +168,19 @@ export class BrowseView extends View {
   }
 
   render() {
-    let compiled, context, list_or_grid_template;
+    let compiled, context;
     
     context = {};
 
     if (this.display_mode.is_list()) {
-      list_or_grid_template = TEMPLATE_LIST;
+      this.browse_list_view.render(
+        this.browse.nodes,
+        this.browse.parent_kv
+      );
     } else {
-      list_or_grid_template = TEMPLATE_GRID;
+      this.browse_grid_view.render(
+        this.browse.nodes,
+      );
     }
-
-    compiled = _.template(list_or_grid_template({
-        'nodes': this.browse.nodes,
-        'parent_kv': this.browse.parent_kv
-    }));
-
-    this.$el.html(compiled);
   }
 }
