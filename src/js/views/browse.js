@@ -20,12 +20,28 @@ let ASC = 'asc';
 let DESC = 'desc';
 
 
-class TableHeaderCol {
+class Column {
 
-    initialize(name, key, sort) {
+    constructor(name, key, sort) {
       this._name = name;
       this._key = key;
       this._sort = this.get_local(name) || sort;
+    }
+
+    get key() {
+      return this._key;
+    }
+
+    get name() {
+      return this._name;
+    }
+
+    get sort() {
+      return this._sort;
+    }
+
+    set sort(sort_state) {
+      this._sort = sort_state;
     }
 
     get_local(name) {
@@ -35,28 +51,102 @@ class TableHeaderCol {
     set_local(name, value) {
       localStorage.setItem(`browse_list.${name}`, value); 
     }
+
+    toggle() {
+      // changes sorting state of the column
+      // if sort is undefined - initial sort is ASC
+      if (this.sort == undefined) {
+        this.sort = ASC;
+      } else if (this.sort == ASC) {
+        this.sort = DESC;
+      } else if (this.sort == DESC) {
+        this.sort = ASC;
+      }
+      this.set_local(this.name, this.sort);
+    }
+
+    get sort_icon_name() {
+      let fa_name = 'fa-sort';
+
+      if (this.sort == ASC) {
+        fa_name = 'fa-sort-amount-down-alt';
+      } else if (this.sort == DESC) {
+        fa_name = 'fa-sort-amount-down';
+      } 
+
+      return fa_name;
+    }
 }
 
-
-class Cell {
-  initialize(value, virtual_value) {
-    // the value itself displayed in the table cell e.g.
-    // '10,56' or '05.06.1983'
-    this._value = value;
-    // an integer corresponding to the value.
-    // this integer is provided by server side and it is used for sorting.
-    this._virtual_value = virtual_value;
-  }
-}
-
-class TableBody {
-
-}
 
 class Table {
 
-  initialize(nodes, parent_kv) {
+  constructor(nodes, parent_kv) {
+    let cols;
 
+    this._cols = this._build_header_cols(parent_kv)
+    cols = this._cols;
+    this._rows = this._build_rows(cols, nodes);
+  }
+
+  get cols() {
+    return this._cols;
+  }
+
+  get rows() {
+    return this._rows;
+  }
+
+  get key_cols() {
+    let result = [];
+
+    result = _.filter(
+      this.cols,
+      function(item){ return item.key != undefined; }
+    );
+
+    return result;
+  }
+
+  toggle_col_sort(index) {
+    this._cols[index].toggle();
+  }
+
+  _build_rows(cols, nodes) {
+
+  }
+
+  _build_header_cols(parent_kv) {
+    let result = [], kvstore, key, i;
+
+    // there are always at least 3 cols: type, title and
+    // created_at.
+    // type is always first one
+    // title is always second column
+    // created_at column is always last one.
+    result.push(
+      // name, key, sort
+      new Column('type', undefined, undefined)
+    );
+
+    result.push(
+      // name, key, sort
+      new Column('title', undefined, undefined)
+    );
+
+    for (i=0; i < parent_kv.length; i++) {
+      kvstore = parent_kv.at(i);
+      key = kvstore.get('key');
+      result.push(new Column(key, key, undefined));
+    }
+
+    result.push(
+      // name, key, sort
+      new Column('created_at', undefined, undefined)
+    );
+
+
+    return result;
   }
 
 }
@@ -71,8 +161,19 @@ class BrowseListView extends View {
   }
 
   initialize() {
-    this._cols = []; // an array of Col instances
-    this._rows = []; // an array of Row instances 
+    this._table = undefined;
+  }
+
+  get table() {
+    return this._table;
+  }
+
+  get cols() {
+    return this._table.cols;
+  }
+
+  get rows() {
+    return this._table.rows;
   }
 
   events() {
@@ -83,9 +184,48 @@ class BrowseListView extends View {
   }
 
   col_sort(event) {
-    let data = $(event.currentTarget).data();
+    let data = $(event.currentTarget).data(), key_name;
+
+    if (data.col == 'key') {
+      // kvstore column was clicked, find out
+      // exact key name
+      key_name = data.key;
+      this.toggle_key_column(key_name);
+    } else {
+      // one of 3 column was clicked - type, name or created_at
+      this.toggle_standard_column(data.col);
+    }
     
     event.preventDefault();
+    this.trigger("change");
+  }
+
+  toggle_key_column(key_name) {
+    let index;
+
+    index = _.findIndex(this.cols, function(item) {
+        return item.key == key_name;
+    });
+
+    if (index >= 0) {
+      this.toggle_col_sort(index);
+    }
+  }
+
+  toggle_col_sort(index) {
+    this._table.toggle_col_sort(index);
+  }
+
+  toggle_standard_column(name) {
+    let index;
+
+    index = _.findIndex(this.cols, function(item) {
+        return item.name == name;
+    });
+
+    if (index >= 0) {
+      this.toggle_col_sort(index);
+    }
   }
 
   render(nodes, parent_kv) {
@@ -97,7 +237,8 @@ class BrowseListView extends View {
 
     compiled = _.template(TEMPLATE_LIST({
         'nodes': nodes,
-        'parent_kv': parent_kv
+        'parent_kv': parent_kv,
+        'table': this.table
     }));
 
     this.$el.html(compiled);
@@ -142,6 +283,7 @@ export class BrowseView extends View {
 
     this.listenTo(this.browse, 'change', this.render);
     this.listenTo(this.display_mode, 'change', this.render);
+    this.listenTo(this.browse_list_view, 'change', this.render);
 
     mg_dispatcher.on(BROWSER_REFRESH, this.refresh, this);
   }

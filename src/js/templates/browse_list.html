@@ -8,7 +8,7 @@
           data-col="type"
         >
           Type
-          <i class="fa fa-sort"></i>
+          <i class="fa <%= table.cols[0].sort_icon_name %>"></i>
         </a>
       </th>
       <th scope="col">
@@ -18,21 +18,23 @@
           data-col="title"
         >
           Title
-          <i class="fa fa-sort"></i>
+          <i class="fa <%= table.cols[1].sort_icon_name %>"></i>
         </a>
       </th>
-      <% for (i=0; i < parent_kv.length; i++) { %>
-        <% kvstore = parent_kv.at(i) %>
-        <th scope="col">
-          <a 
-            href="#"
-            class="header sort d-flex justify-content-between align-items-center"
-            data-col="key" data-key="<%= kvstore.get('key') %>"
-          >
-            <%= kvstore.get('key') %>
-            <i class="fa fa-sort"></i>
-          </a>
-        </th>
+      <% for (i=0; i < table.key_cols.length; i++) { %>
+        <% column = table.key_cols[i] %>
+        <% if (column) { %>
+          <th scope="col">
+            <a 
+              href="#"
+              class="header sort d-flex justify-content-between align-items-center"
+              data-col="key" data-key="<%= column.key %>"
+            >
+              <%= column.key %>
+              <i class="fa <%= column.sort_icon_name %>"></i>
+            </a>
+          </th>
+        <% } %>
       <% } %>
       <th scope="col">
         <a
@@ -41,7 +43,7 @@
           data-col="created_at"
         >
           Created At
-          <i class="fa fa-sort"></i>
+          <i class="fa  <%= table.cols[table.cols.length -1].sort_icon_name %>"></i>
         </a>
       </th>
     </tr>
@@ -54,7 +56,9 @@
         <td scope="row"><%= node.full_title() %></td>
         <% for (j=0; j < parent_kv.length; j++) { %>
           <% kvstore = parent_kv.at(j) %>
-          <td scope="col"><%= node.get_page_value_for(kvstore.get('key')) %></td>
+          <% if (kvstore) { %>
+            <td scope="col"><%= node.get_page_value_for(kvstore.get('key')) %></td>
+          <% } %>
         <% } %>
         <td><%= node.get('created_at') %></td>
     </tr>
