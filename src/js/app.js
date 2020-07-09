@@ -61,7 +61,10 @@ let App = function() {
 
   document_actions_view = new DocumentActionsView();
   Backbone.history.start();
-  
+  // Small notofication popups on top-right corner of the screen.
+  // They serve as widgets for django's messages
+  $('.toast').toast({'autohide': false});
+  $('.toast').toast('show');
   sort_cookie();
 };
 
