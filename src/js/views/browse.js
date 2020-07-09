@@ -16,8 +16,9 @@ import { mg_browse_router } from "../routers/browse";
 let TEMPLATE_GRID = require('../templates/browse_grid.html');
 let TEMPLATE_LIST = require('../templates/browse_list.html');
 
-let ASC = 'asc';
-let DESC = 'desc';
+let SORT_ASC = 'asc';
+let SORT_DESC = 'desc';
+let SORT_UNDEFINED = 0;
 
 
 class Column {
@@ -42,10 +43,17 @@ class Column {
 
     set sort(sort_state) {
       this._sort = sort_state;
+      this.set_local(this.name, sort_state);
     }
 
     get_local(name) {
-      return localStorage.getItem(`browse_list.${name}`);
+      let local = localStorage.getItem(`browse_list.${name}`);
+      
+      if (local == "0" || local == undefined) {
+        return SORT_UNDEFINED;
+      };
+
+      return local;
     }
 
     set_local(name, value) {
@@ -55,22 +63,21 @@ class Column {
     toggle() {
       // changes sorting state of the column
       // if sort is undefined - initial sort is ASC
-      if (this.sort == undefined) {
-        this.sort = ASC;
-      } else if (this.sort == ASC) {
-        this.sort = DESC;
-      } else if (this.sort == DESC) {
-        this.sort = ASC;
+      if (this.sort == SORT_UNDEFINED || this.sort == undefined) {
+        this.sort = SORT_ASC;
+      } else if (this.sort == SORT_ASC) {
+        this.sort = SORT_DESC;
+      } else if (this.sort == SORT_DESC) {
+        this.sort = SORT_ASC;
       }
-      this.set_local(this.name, this.sort);
     }
 
     get sort_icon_name() {
       let fa_name = 'fa-sort';
 
-      if (this.sort == ASC) {
+      if (this.sort == SORT_ASC) {
         fa_name = 'fa-sort-amount-down-alt';
-      } else if (this.sort == DESC) {
+      } else if (this.sort == SORT_DESC) {
         fa_name = 'fa-sort-amount-down';
       } 
 
@@ -110,6 +117,14 @@ class Table {
 
   toggle_col_sort(index) {
     this._cols[index].toggle();
+    // Set as sort = undefined for all other columns
+    // Only one column at the time is supported.
+    for(let i=0; i < this._cols.length; i++ ) {
+      if (i != index ) {
+        this._cols[i].sort = SORT_UNDEFINED;
+      }
+    }
+
   }
 
   _build_rows(cols, nodes) {
