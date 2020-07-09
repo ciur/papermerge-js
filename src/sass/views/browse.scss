@@ -2,6 +2,16 @@
 
 #browse {
 
+    .table {
+        a.sort.header:hover {
+            text-decoration: none
+        }
+        th {
+            border-left: 1px solid #cecece;
+            border-right: 1px solid #cecece;
+        }
+    }
+
     input[type=checkbox] {
         display: none;
     }

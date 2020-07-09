@@ -16,6 +16,51 @@ import { mg_browse_router } from "../routers/browse";
 let TEMPLATE_GRID = require('../templates/browse_grid.html');
 let TEMPLATE_LIST = require('../templates/browse_list.html');
 
+let ASC = 'asc';
+let DESC = 'desc';
+
+
+class TableHeaderCol {
+
+    initialize(name, key, sort) {
+      this._name = name;
+      this._key = key;
+      this._sort = this.get_local(name) || sort;
+    }
+
+    get_local(name) {
+      return localStorage.getItem(`browse_list.${name}`);
+    }
+
+    set_local(name, value) {
+      localStorage.setItem(`browse_list.${name}`, value); 
+    }
+}
+
+
+class Cell {
+  initialize(value, virtual_value) {
+    // the value itself displayed in the table cell e.g.
+    // '10,56' or '05.06.1983'
+    this._value = value;
+    // an integer corresponding to the value.
+    // this integer is provided by server side and it is used for sorting.
+    this._virtual_value = virtual_value;
+  }
+}
+
+class TableBody {
+
+}
+
+class Table {
+
+  initialize(nodes, parent_kv) {
+
+  }
+
+}
+
 class BrowseListView extends View {
   /**
     List mode displays a table which can be sorted by each individual column.
@@ -25,17 +70,30 @@ class BrowseListView extends View {
       return $('#browse');
   }
 
+  initialize() {
+    this._cols = []; // an array of Col instances
+    this._rows = []; // an array of Row instances 
+  }
+
   events() {
     let event_map = {
-      
+      "click .header.sort": "col_sort"
     }
     return event_map;
+  }
+
+  col_sort(event) {
+    let data = $(event.currentTarget).data();
+    
+    event.preventDefault();
   }
 
   render(nodes, parent_kv) {
     let compiled, context;
     
     context = {};
+
+    this._table = new Table(nodes, parent_kv);
 
     compiled = _.template(TEMPLATE_LIST({
         'nodes': nodes,
