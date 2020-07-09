@@ -49,18 +49,12 @@
     </tr>
   </thead>
   <tbody>
-    <% for (i=0; i < nodes.length; i++) { %>
-        <% node = nodes.at(i) %>
-    <tr class="node" data-id="<%= node.get('id') %>" data-cid="<%= node.cid %>" data-url="<%= node.url %>">
-        <td><% if (node.is_document()) { %> <i class="fa fa-file"></i> <% } else { %> <i class="fa fa-folder text-warning"></i> <% } %></td>
-        <td scope="row"><%= node.full_title() %></td>
-        <% for (j=0; j < parent_kv.length; j++) { %>
-          <% kvstore = parent_kv.at(j) %>
-          <% if (kvstore) { %>
-            <td scope="col"><%= node.get_page_value_for(kvstore.get('key')) %></td>
-          <% } %>
+    <% for (i=0; i < table.rows.length; i++) { %>
+        <% row = table.rows[i] %>
+    <tr class="node" data-id="<%= row[0].id %>" data-cid="<%= row[0].cid %>" data-url="<%= row[0].url %>">
+        <% for (j=0; j < row.length; j++) { %>
+          <td><%= row[j].value %></td>
         <% } %>
-        <td><%= node.get('created_at') %></td>
     </tr>
     <% } %>
   </tbody>

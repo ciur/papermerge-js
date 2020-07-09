@@ -81,7 +81,7 @@ export class Node extends Model {
     get_page_value_for(key) {
         let pages, kvstore, first_page, index;
 
-        if (node.is_folder()) {
+        if (this.is_folder()) {
             return ''
         }
 
