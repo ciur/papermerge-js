@@ -70,7 +70,7 @@ export class ActionsView extends View {
   }
 
   delete_node(event) {
-    let options = {};
+    let options = {}, confirmation, titles_arr, titles_str;
 
     options['success'] = function() {
       mg_dispatcher.trigger(BROWSER_REFRESH);
@@ -80,6 +80,19 @@ export class ActionsView extends View {
     //_.each(_.clone(this.selection.models), function(model){
     //  model.destroy(options);
     //});
+    titles_arr = _.map(
+      this.selection.models,
+      function(model) { return model.get('title'); }
+    )
+    titles_str = titles_arr.join(', ');
+    
+    confirmation = confirm(
+      `DELETE following folders/documents:  ${titles_str}?`
+    );
+
+    if (!confirmation) {
+      return;
+    }
     this.selection.delete(options);
   }
 
