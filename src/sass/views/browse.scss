@@ -89,6 +89,8 @@
     }
 }
 
-.dropdown-submenu > .dropdown-menu {
-    left: -100%;
+#display-mode {
+    .dropdown-submenu > .dropdown-menu {
+        left: -100%;
+    }
 }
