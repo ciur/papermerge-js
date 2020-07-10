@@ -11,6 +11,7 @@ import {
 } from "../models/dispatcher";
 
 import {NewFolderView} from "../views/new_folder";
+import {RenameView} from "../views/rename";
 import {UploaderView} from "../views/uploader";
 
 export class ActionsView extends View {
@@ -82,10 +83,6 @@ export class ActionsView extends View {
     this.selection.delete(options);
   }
 
-  rename_node(event) {
-
-  }
-
   parent_changed(parent_id) {
     this.parent_id = parent_id;
   }
@@ -110,6 +107,14 @@ export class ActionsView extends View {
             that.disable_action(item);
         }
     });
+  }
+
+  rename_node(event) {
+    let node = _.first(this.selection.models), rename_view;
+
+    if (node) {
+      rename_view = new RenameView(node);
+    }
   }
 
   new_folder(event) {
