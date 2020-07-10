@@ -116,29 +116,74 @@ export class NodeCollection extends Collection {
         return '/nodes/';
     }
 
+    collection_post_action(url, options, extra_data) {
+      let token, post_data, request;
+
+      token = $("[name=csrfmiddlewaretoken]").val();
+      
+      post_data = this.models.map(
+          function(models) { 
+              return models.attributes;
+          }
+      );
+
+      if (extra_data) {
+        post_data = {...post_data, ...extra_data}
+      }
+
+      $.ajaxSetup({
+          headers: { 'X-CSRFToken': token}
+      });
+
+      request = $.ajax({
+          method: "POST",
+          url: url,
+          data: JSON.stringify(post_data),
+          contentType: "application/json",
+          dataType: 'json'
+      });
+
+      request.done(options['success']);  
+    }
+
     delete(options) {
-        let token, post_data, request;
+        this.collection_post_action(
+            this.urlRoot(),
+            options
+        )
+    }
+
+    cut(options) {
+        this.collection_post_action(
+            '/cut-node/',
+            options
+        );
+    }
+
+    paste(options, parent_id) {
+        let token, request;
 
         token = $("[name=csrfmiddlewaretoken]").val();
         
-        post_data = this.models.map(
-            function(models) { 
-                return models.attributes;
-            }
-        );
-
         $.ajaxSetup({
             headers: { 'X-CSRFToken': token}
         });
 
         request = $.ajax({
             method: "POST",
-            url: this.urlRoot(),
-            data: JSON.stringify(post_data),
+            url: '/paste-node/',
+            data: JSON.stringify({'parent_id': parent_id}),
             contentType: "application/json",
             dataType: 'json'
         });
 
-        request.done(options['success']);
+        request.done(options['success']);  
+    }
+
+    paste_pages(options, parent_id) {
+        this.collection_post_action(
+            '/paste-pages/',
+            options
+        );
     }
 }

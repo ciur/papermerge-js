@@ -36,6 +36,9 @@ export class ActionsView extends View {
       let event_map = {
         'click #new-folder':  'new_folder',
         'click #delete': 'delete_node',
+        'click #cut': 'cut_node',
+        'click #paste': 'paste',
+        'click #paste_pages': 'paste_pages',
         'click #rename': 'rename_node',
         // will proxy event to #id_file_name
         'click #id_btn_upload': 'upload_clicked',
@@ -96,8 +99,46 @@ export class ActionsView extends View {
     this.selection.delete(options);
   }
 
+  cut_node(event) {
+    let options = {};
+
+    options['success'] = function() {
+      mg_dispatcher.trigger(BROWSER_REFRESH);
+    }
+
+    this.selection.cut(options);
+  }
+
+  paste(event) {
+    let options = {};
+
+    options['success'] = function() {
+      mg_dispatcher.trigger(BROWSER_REFRESH);
+    }
+
+    console.log(`paste: current parent_id=${this.parent_id}`);
+    this.selection.paste(
+      options,
+      this.parent_id
+    );
+  }
+
+  paste_pages(event) {
+    let options = {};
+
+    options['success'] = function() {
+      mg_dispatcher.trigger(BROWSER_REFRESH);
+    }
+
+    this.selection.paste_pages(
+      options,
+      this.parent_id
+    );
+  }
+
   parent_changed(parent_id) {
     this.parent_id = parent_id;
+    console.log(`ActionsView - parent_changed: current parent_id=${this.parent_id}`);
   }
 
   selection_changed(selection) {
@@ -159,6 +200,17 @@ export class ActionsView extends View {
           return false;
       }
     });
+
+    result.add({
+      'id': "#cut",
+      'cond': function(selection, clipboard, parent_id) {
+          if (selection.length > 0) {
+            return true;
+          }
+          return false;
+      }
+    });
+
 
     result.add({
       'id': "#rename",
