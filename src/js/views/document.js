@@ -76,11 +76,9 @@ export class DocumentView extends View {
       return $('#document');
     } 
 
-    constructor() {
+    initialize() {
       let dom_actual_pages = document.querySelector('.actual_pages'),
         document_id = $("input[name=document_id]").val();
-
-      super();
 
       this._thumbnail_list = new MgThumbnailList(); 
       this._zoom = new DgZoom();

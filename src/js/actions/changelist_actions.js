@@ -8,7 +8,6 @@ import {CutForm} from "../forms/cut_form";
 import {PasteForm} from "../forms/paste_form";
 import {PastePagesForm} from "../forms/paste_pages_form";
 import {DeleteForm} from "../forms/delete_form";
-import {RenameForm} from "../forms/rename_form";
 //import {AccessForm} from "../forms/access_form";
 import {MetadataForm} from "../forms/metadata_form";
 import {mg_dispatcher, PARENT_CHANGED} from "../models/dispatcher";
@@ -141,7 +140,6 @@ export class Menu {
         delete_action,
         paste_action,
         paste_pages_action,
-        rename_action,
         download_action,
         metadata_action,
         access_action,
@@ -231,22 +229,6 @@ export class Menu {
       }
     });
 
-    rename_action = new DgChangeListAction({
-      // Achtung! #rename id is same for rename action
-      // in changeform view and changelist view.
-      id: "#rename",
-      enabled: function(selection, clipboard) {
-        return selection.length == 1;
-      },
-      action: function(selection, clipboard, current_node) {
-        let rename_form, node; 
-
-        node = selection.first();
-        rename_form = new RenameForm(node, current_node);
-        rename_form.show();
-      }
-    });
-
     download_action = new DgChangeListAction({
       id: "#download",
       enabled: function(selection, clipboard) {
@@ -309,7 +291,6 @@ export class Menu {
     actions.add(delete_action);
     actions.add(paste_action);
     actions.add(paste_pages_action);
-    actions.add(rename_action);
     actions.add(download_action);
     actions.add(access_action);
     actions.add(metadata_action);

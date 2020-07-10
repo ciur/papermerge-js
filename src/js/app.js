@@ -52,7 +52,10 @@ let App = function() {
   actions_view = new ActionsView();
   breadcrumb_view = new BreadcrumbView();
   control_sidebar = new ControlSidebarView();
-  document_view = new DocumentView();
+
+  if ($("#document").length == 1) {
+    document_view = new DocumentView();
+  }
 
   browse_router = new BrowseRouter(
     browse_view,
