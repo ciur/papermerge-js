@@ -79,24 +79,29 @@ export class Node extends Model {
     }
 
     get_page_value_for(key) {
+        /**
+        * Returns value of the provided key in first page
+        of corresponding document.
+        In browser list mode (and in document viewer if no page is selected)
+        it is metadata of the first page displayed.
+        **/
         let pages, kvstore, first_page, index;
 
+        // pages are relevant only of nodes which are Documents.
         if (this.is_folder()) {
             return ''
         }
-
         pages = this.get('pages');
 
         if (pages) {
             first_page = pages[0];
             kvstore = first_page.kvstore;
-
             if (kvstore) {
                 index = _.findIndex(kvstore, function(kv) { 
                     return kv.key == key;
                 });
 
-                if (index > 0) {
+                if (index >= 0) {
                     return kvstore[index].value;
                 }
             }
