@@ -8,10 +8,11 @@ import {
 
 export class BrowseRouter extends Router {
 
-    constructor(browse_view, breadcrumb_view) {
+    constructor(browse_view, breadcrumb_view, actions_view) {
         super();
         this.browse_view = browse_view;
         this.breadcrumb_view = breadcrumb_view;
+        this.actions_view = actions_view;
     }
 
     preinitialize() {
@@ -33,5 +34,6 @@ export class BrowseRouter extends Router {
     browse(node_id) {
         this.browse_view.open(node_id);
         this.breadcrumb_view.open(node_id);
+        this.actions_view.set_parent(node_id);
     }
 }

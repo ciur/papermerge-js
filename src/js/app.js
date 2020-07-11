@@ -59,7 +59,8 @@ let App = function() {
 
   browse_router = new BrowseRouter(
     browse_view,
-    breadcrumb_view
+    breadcrumb_view,
+    actions_view
   );
 
   document_actions_view = new DocumentActionsView();

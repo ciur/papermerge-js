@@ -32,6 +32,10 @@ export class ActionsView extends View {
     mg_dispatcher.on(SELECTION_CHANGED, this.selection_changed, this);
   }
 
+  set_parent(parent_id) {
+    this.parent_id = parent_id;
+  }
+
   events() {
       let event_map = {
         'click #new-folder':  'new_folder',
