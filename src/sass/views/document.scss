@@ -13,6 +13,9 @@
     background-color: #ccc;
 }
 
+.page_hocr {
+    display: none;
+}
 
 #document {
 
@@ -141,7 +144,13 @@
                 position: absolute;
             }
 
-
+            .page_number {
+                color: white;
+                font-size: 1.4rem;
+                font-weight: bold;
+                margin: 0.75rem;
+                width: 2.5rem;
+            }
         }
         fieldset.module.aligned {
             position: relative;
