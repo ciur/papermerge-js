@@ -15,6 +15,8 @@ import {DgMainSpinner} from "../spinner";
 import {RenameChangeForm} from "../forms/rename_change_form";
 import {MgChangeFormActions, MgChangeFormAction} from "../actions/changeform_actions";
 import {BreadcrumbView} from "../views/breadcrumb";
+import {RenameView} from "../views/rename";
+import {Document} from "../models/document";
 
 export class DocumentActionsView extends View {
   
@@ -24,7 +26,7 @@ export class DocumentActionsView extends View {
 
   events() {
     let event_map = {
-      "click #sw-left-panel": "toggle_thumbnails"
+      "click #sw-left-panel": "toggle_thumbnails",
     }
 
     return event_map;
@@ -190,7 +192,8 @@ export class DocumentView extends View {
         paste_page_action,
         paste_page_before_action,
         paste_page_after_action,
-        apply_reorder_changes;
+        apply_reorder_changes,
+        that = this;
 
       rename_action = new MgChangeFormAction({
         // Achtung! #rename id is same for rename action
@@ -200,8 +203,20 @@ export class DocumentView extends View {
           return true;
         },
         action: function(selection, clipboard, current_node) {
-          let rename_form = new RenameChangeForm(current_node);
-          rename_form.show();
+          let rename_view, node, options = {};
+
+          node = new Document(current_node.id);
+
+          function update_breadcrumb() {
+            that._breadcrumb_view.breadcrumb.fetch();
+          }
+
+          options['success'] = function(model, response, options) {
+            rename_view = new RenameView(model);
+            rename_view.rename.on("change", update_breadcrumb);
+          };
+
+          node.fetch(options);
         }
       });
 

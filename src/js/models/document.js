@@ -50,6 +50,9 @@ export class Document extends Model {
             that.thumbnails.add(new Thumbnail(item))
         });
 
+        this.set({'title': response.document.title});
+        this.set({'notes': response.document.notes});
+
         this.trigger('change');
     }
 }
