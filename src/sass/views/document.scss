@@ -1,6 +1,11 @@
 @import "./responsive";
 @import "./theme";
 
+aside {
+    a.download {
+        color: white;
+    }
+}
 
 // Style little button above pages thumnails.
 // This button toggles left page thumbnails panel
