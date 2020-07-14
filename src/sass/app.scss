@@ -15,6 +15,7 @@
 @import "./paginator";
 @import "./user_form";
 @import "./control_sidebar";
+@import "./search_results";
 @import "./icons";
 
 @import "./views/uploader.scss";
@@ -87,7 +88,7 @@ footer {
     background-color: white;
 }
 
-#breadcrumb {
+#breadcrumb, #search_breadcrumb {
     background-color: #f4f6f9;
 }
 

@@ -1,0 +1,22 @@
+#search_results {
+    h4 {
+        font-weight: 400;
+        a {
+            color: #444;
+        }
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        li {
+            padding: 1rem 0.5rem;
+        }
+        li:hover {
+            background-color: $result_list_hover_bg_color;
+            outline: 1px solid $result_list_hover_bg_color;
+        }
+    }
+    .page_highlight {
+        color: #aaa;        
+    }
+}
