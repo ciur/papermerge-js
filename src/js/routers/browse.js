@@ -28,6 +28,7 @@ export class BrowseRouter extends Router {
     routes() {
         return {
             ":node_id": "browse",
+            "*path": "browse"
         }
     }
 

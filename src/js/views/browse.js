@@ -454,8 +454,6 @@ export class BrowseView extends View {
 
   initialize(parent_id) {
     this.browse = new Browse(parent_id);
-    this.browse.fetch();
-
     // UI used to switch between list and grid display modes
     this.display_mode = new DisplayModeView();
 
@@ -553,6 +551,8 @@ export class BrowseView extends View {
     let compiled, context;
     
     context = {};
+
+    console.log(`BrowseView rendering: for parent_id = ${this.browse.parent_id} nodes count ${this.browse.nodes.length}`);
 
     if (this.display_mode.is_list()) {
       this.browse_list_view.render(
