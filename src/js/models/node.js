@@ -165,7 +165,7 @@ export class NodeCollection extends Collection {
         );
     }
 
-    paste(options, parent_id) {
+    _paste(url, options, parent_id) {
         let token, request;
 
         token = $("[name=csrfmiddlewaretoken]").val();
@@ -176,7 +176,7 @@ export class NodeCollection extends Collection {
 
         request = $.ajax({
             method: "POST",
-            url: '/paste-node/',
+            url: url,
             data: JSON.stringify({'parent_id': parent_id}),
             contentType: "application/json",
             dataType: 'json'
@@ -185,10 +185,13 @@ export class NodeCollection extends Collection {
         request.done(options['success']);  
     }
 
+    paste(options, parent_id) {
+        // pastes folder or document
+        this._paste('/paste-node/', options, parent_id);
+    }
+
     paste_pages(options, parent_id) {
-        this.collection_post_action(
-            '/paste-pages/',
-            options
-        );
+        // pastes pages
+        this._paste('/paste-pages/', options, parent_id);
     }
 }

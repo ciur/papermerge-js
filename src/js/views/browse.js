@@ -552,8 +552,6 @@ export class BrowseView extends View {
     
     context = {};
 
-    console.log(`BrowseView rendering: for parent_id = ${this.browse.parent_id} nodes count ${this.browse.nodes.length}`);
-
     if (this.display_mode.is_list()) {
       this.browse_list_view.render(
         this.browse.nodes,
