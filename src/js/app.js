@@ -1,15 +1,15 @@
-import {dglReady} from "./utils";
+import { dglReady } from "./utils";
 
-import {DgPageScroll} from "./document_form/page_scroll";
+import { DgPageScroll } from "./document_form/page_scroll";
 
-import {sort_cookie} from "./sort_cookie";
-import {BrowseView} from "./views/browse";
-import {BreadcrumbView} from "./views/breadcrumb";
-import {ActionsView} from "./views/actions";
-import {ControlSidebarView} from "./views/control_sidebar";
-import {DocumentView, DocumentActionsView} from "./views/document";
+import { sort_cookie } from "./sort_cookie";
+import { BrowseView } from "./views/browse";
+import { BreadcrumbView } from "./views/breadcrumb";
+import { ActionsView } from "./views/actions";
+import { ControlSidebarView } from "./views/control_sidebar";
+import { DocumentView, DocumentActionsView } from "./views/document";
 
-import {BrowseRouter} from "./routers/browse";
+import { BrowseRouter } from "./routers/browse";
 
 import Backbone from 'backbone';
 
@@ -40,6 +40,7 @@ Backbone.sync = function (method, model, options) {
 
 
 let App = function() {
+
   let browse_view,
     actions_view,
     breadcrumb_view,
@@ -54,6 +55,8 @@ let App = function() {
   control_sidebar = new ControlSidebarView();
 
   if ($("#document").length == 1) {
+    // we in document view. Document view and browser view
+    // are exclusive.
     document_view = new DocumentView();
   } else {
     
@@ -70,7 +73,6 @@ let App = function() {
     $('.toast').toast({'autohide': false});
     $('.toast').toast('show');
     sort_cookie();
-
   }
 
 };

@@ -1,4 +1,5 @@
 import _ from "underscore";
+import $ from "jquery";
 import { Router } from 'backbone';
 
 import {
@@ -33,6 +34,12 @@ export class BrowseRouter extends Router {
     }
 
     browse(node_id) {
+
+        if (!node_id) {
+            if ($("#root_node_id").length > 0) {
+                node_id = $("#root_node_id").val();
+            };
+        }
         this.browse_view.open(node_id);
         this.breadcrumb_view.open(node_id);
         this.actions_view.set_parent(node_id);
