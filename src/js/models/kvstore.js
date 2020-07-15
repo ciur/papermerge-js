@@ -7,6 +7,7 @@ export class KVStore extends Model {
       return {
         key: '',
         value: '',
+        virtual_value: '',
         kv_inherited: false,
         kv_type: 'text',
         kv_format: undefined,
@@ -47,6 +48,7 @@ export class KVStore extends Model {
             id: this.get('id'),
             key: this.get('key'),
             value: this.get('value'),
+            virtual_value: this.get('virtual_value'),
             kv_inherited: this.get('kv_inherited'),
             kv_type: this.get('kv_type'),
             kv_format: this.get('kv_format'),

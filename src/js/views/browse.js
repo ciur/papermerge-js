@@ -170,7 +170,7 @@ class Table {
         return sort_type;
       }
       if ( found_1['virtual_value'] > found_2['virtual_value'] ){
-          return sort_type;
+          return -sort_type;
       }
       return 0;
     }
@@ -191,7 +191,7 @@ class Table {
         return sort_type;
       }
       if ( found_1['virtual_value'] > found_2['virtual_value'] ){
-          return sort_type;
+          return -sort_type;
       }
       return 0;
     }
@@ -274,6 +274,7 @@ class Table {
           if (kvstore) {
             key = kvstore.get('key');
             value = node.get_page_value_for(key);
+            virtual_value = node.get_page_virtual_value_for(kvstore.get('key'));
             row.push(
               {
                 'id': node.get('id'),
@@ -281,7 +282,7 @@ class Table {
                 'url': node.url,
                 'key': key,
                 'value': value,
-                'virtual_value': node.get_page_value_for(kvstore.get('key')),
+                'virtual_value': parseInt(virtual_value),
                 'virtual_type': 'str'
               }
             )

@@ -78,9 +78,9 @@ export class Node extends Model {
         return false;
     }
 
-    get_page_value_for(key) {
+    find_page_kvstore_for(key) {
         /**
-        * Returns value of the provided key in first page
+        * Returns kvstore of the provided key in first page
         of corresponding document.
         In browser list mode (and in document viewer if no page is selected)
         it is metadata of the first page displayed.
@@ -89,7 +89,7 @@ export class Node extends Model {
 
         // pages are relevant only of nodes which are Documents.
         if (this.is_folder()) {
-            return ''
+            return undefined;
         }
         pages = this.get('pages');
 
@@ -102,12 +102,36 @@ export class Node extends Model {
                 });
 
                 if (index >= 0) {
-                    return kvstore[index].value;
+                    return kvstore[index];
                 }
             }
         }
 
-        return '';
+        return undefined;
+    }
+
+    get_page_value_for(key) {
+        let page_kvstore;
+
+        page_kvstore = this.find_page_kvstore_for(key);
+        
+        if (page_kvstore) {
+            return page_kvstore.value;
+        }
+
+        return ''
+    }
+
+    get_page_virtual_value_for(key) {
+        let page_kvstore;
+
+        page_kvstore = this.find_page_kvstore_for(key);
+        
+        if (page_kvstore) {
+            return page_kvstore.virtual_value;
+        }
+
+        return ''
     }
 }
 
