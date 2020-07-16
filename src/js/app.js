@@ -58,6 +58,7 @@ let App = function() {
     // we in document view. Document view and browser view
     // are exclusive.
     document_view = new DocumentView();
+    document_actions_view = new DocumentActionsView();
   } else {
     
     browse_router = new BrowseRouter(
@@ -66,7 +67,7 @@ let App = function() {
       actions_view
     );
 
-    document_actions_view = new DocumentActionsView();
+   
     Backbone.history.start();
     // Small notofication popups on top-right corner of the screen.
     // They serve as widgets for django's messages

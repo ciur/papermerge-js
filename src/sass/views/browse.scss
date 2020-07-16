@@ -2,6 +2,11 @@
 
 #browse {
 
+    .checked {
+         background-color: $result_list_hover_bg_color;
+         outline: 1px solid $result_list_hover_border_color;
+    }
+
     .table {
         a.sort.header:hover {
             text-decoration: none
@@ -55,10 +60,6 @@
             }
 
 
-            &.checked {
-                 background-color: $result_list_hover_bg_color;
-                 outline: 1px solid $result_list_hover_border_color;
-            }
 
             .icon-folder {
                  width: 8rem;
