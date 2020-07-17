@@ -12,6 +12,7 @@ import {
 
 import {NewFolderView} from "../views/new_folder";
 import {RenameView} from "../views/rename";
+import {AccessView} from "../views/access";
 import {UploaderView} from "../views/uploader";
 
 export class ActionsView extends View {
@@ -42,6 +43,7 @@ export class ActionsView extends View {
         'click #delete': 'delete_node',
         'click #cut': 'cut_node',
         'click #paste': 'paste',
+        'click #access': 'click_access',
         'click #paste_pages': 'paste_pages',
         'click #rename': 'rename_node',
         // will proxy event to #id_file_name
@@ -50,6 +52,15 @@ export class ActionsView extends View {
       }
 
       return event_map;
+  }
+
+  click_access(event) {
+    
+    let node = _.first(this.selection.models), rename_view;
+
+    if (node) {
+      access_view = new AccessView(node);
+    }
   }
 
   upload(event) {
@@ -227,6 +238,16 @@ export class ActionsView extends View {
       }
     });
 
+    result.add({
+      'id': "#access",
+      'cond': function(selection, clipboard, parent_id) {
+          if (selection.length == 1) {
+            return true;
+          }
+
+          return false;
+      }
+    });
 
     return result;
   }

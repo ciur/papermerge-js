@@ -12,7 +12,6 @@ import {MgPageList} from "../document_form/page_list";
 import {csrfSafeMethod, getCookie, is_visible, build_elem} from "../document_form/common";
 import {get_win_param} from "../document_form/common";
 import {DgMainSpinner} from "../spinner";
-import {RenameChangeForm} from "../forms/rename_change_form";
 import {MgChangeFormActions, MgChangeFormAction} from "../actions/changeform_actions";
 import {BreadcrumbView} from "../views/breadcrumb";
 import {RenameView} from "../views/rename";
