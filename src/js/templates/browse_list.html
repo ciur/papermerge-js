@@ -7,7 +7,7 @@
           class="header sort d-flex justify-content-between align-items-center"
           data-col="type"
         >
-          Type
+          <%= gettext('Type') %>
           <i class="fa <%= table.cols[0].sort_icon_name %>"></i>
         </a>
       </th>
@@ -17,7 +17,7 @@
           class="header sort d-flex justify-content-between align-items-center"
           data-col="title"
         >
-          Title
+          <%= gettext('Title ') %>
           <i class="fa <%= table.cols[1].sort_icon_name %>"></i>
         </a>
       </th>
@@ -42,7 +42,7 @@
           class="header sort d-flex justify-content-between align-items-center"
           data-col="created_at"
         >
-          Created At
+          <%= gettext('Created At') %>
           <i class="fa  <%= table.cols[table.cols.length -1].sort_icon_name %>"></i>
         </a>
       </th>
