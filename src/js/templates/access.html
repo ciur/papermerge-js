@@ -21,23 +21,23 @@
                     <button id="readonly_view_perm" class="btn btn-light btn-bordered">View</button>
                 </li>
             </ul>
-            <div class="flex-table">
-                <div class="ft-header">
-                    <div class="ft-row">
-                        <div class="ft-col width10">
-                        </div>
-                        <div class="ft-col width30">
+            <table class="table table-striped">
+                <thead class="thead-light">
+                    <tr class="text-uppercase">
+                        <td>
+                        </td>
+                        <td>
                             User or Group
-                        </div>
-                        <div class="ft-col width30">
+                        </td>
+                        <td>
                             Type
-                        </div>
-                        <div class="ft-col width30">
+                        </td>
+                        <td>
                             Access
-                        </div>
-                    </div>
-                </div> <!--- header -->
-                <div class="ft-body" id="access_items">
+                        </td>
+                    </tr>
+                </thead> <!--- header -->
+                <tbody id="access_items">
                     <!--
                     <div class="ft-row row1">
                         <div class="ft-col width10">
@@ -53,8 +53,8 @@
                         </div>
                     </div>
                     -->
-                </div> <!-- end of body -->
-            </div>
+                </tbody> <!-- end of body -->
+            </table> <!--  table -->
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-success action margin-xs rename">Apply</button>
