@@ -33,6 +33,7 @@ export class AccessView extends View {
         }));
 
         this.$el.html(compiled);
+        this.$el.modal();
         
         return this;
     }

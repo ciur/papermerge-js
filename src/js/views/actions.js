@@ -56,7 +56,7 @@ export class ActionsView extends View {
 
   click_access(event) {
     
-    let node = _.first(this.selection.models), rename_view;
+    let node = _.first(this.selection.models), access_view;
 
     if (node) {
       access_view = new AccessView(node);
