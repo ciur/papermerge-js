@@ -3,6 +3,7 @@ import _ from "underscore";
 import { Permission } from "../models/permission";
 import { UserGroupCollection } from "../models/user_group";
 import { View } from 'backbone';
+import { mg_dispatcher, PERMISSION_CHANGED } from "../models/dispatcher";
 
 let TEMPLATE = require('../templates/permission_editor.html');
 
@@ -17,6 +18,8 @@ export class PermissionEditorView extends View {
         } else {
             this._permission = new Permission();
         }
+        this._users = [];
+        this._groups = [];
         this._usergroups = new UserGroupCollection();
         this._usergroups.fetch();
         this.listenTo(this._usergroups, 'change', this.render);
@@ -34,9 +37,22 @@ export class PermissionEditorView extends View {
     }
 
     on_perm_user_or_group(event) {
-        let $target = $(event.currentTarget), user_or_groups;
 
-        user_or_groups = $target.val().split(',')
+        let user_or_groups, name, model, that = this;
+
+        this._users = [];
+        this._groups = [];
+
+        $(".perm_user_or_group :selected").each(function(i, sel){ 
+            name = $(sel).val();
+            model = $(sel).data('model');
+
+            if (model == 'user') {
+                that._users.push(name);
+            } else if (model == 'group') {
+                that._groups.push(name);
+            }
+        });
     }
 
     on_access_type(event) {
@@ -65,7 +81,14 @@ export class PermissionEditorView extends View {
 
 
     on_apply(event) {
-
+        mg_dispatcher.trigger(
+            PERMISSION_CHANGED,
+            this._permission,
+            this._users,
+            this._groups
+        );
+        this.$el.html('')
+        this.$el.modal('hide');
     }
 
     render() {

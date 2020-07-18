@@ -45,5 +45,7 @@ export class AccessCollection extends Collection {
         });
 
         this.trigger('change');
+
+        return access;
     }
 }

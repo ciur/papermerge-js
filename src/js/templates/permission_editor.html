@@ -11,7 +11,9 @@
                 <select class="perm_user_or_group form-control" multiple title="<%= gettext('Nothing selected') %>">
                     <% for (i=0; i < usergroups.models.length; i++) { %>
                         <% item = usergroups.models[i]; %>
-                        <option><%= item.get('name') %></option>
+                        <option data-model="<%= item.get('model') %>">
+                            <%= item.get('name') %>
+                        </option>
                     <% } %>
                 </select>
             </div>  

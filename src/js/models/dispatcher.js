@@ -13,3 +13,4 @@ export let SELECTION_CHANGED = "selection_changed";
 // If nothing is selected - metadata for first page is displayed.
 export let PAGE_SELECTION_CHANGED = "page_selection_changed";
 export let BROWSER_REFRESH = "browser_refresh";
+export let PERMISSION_CHANGED = "permission_changed";

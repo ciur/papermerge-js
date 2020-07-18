@@ -2,7 +2,9 @@ import $ from "jquery";
 import _ from "underscore";
 import { PermissionEditorView } from "./permission_editor";
 import { Access, AccessCollection } from "../models/access";
+import { Permission } from "../models/permission";
 import { View } from 'backbone';
+import { mg_dispatcher, PERMISSION_CHANGED } from "../models/dispatcher";
 
 let TEMPLATE = require('../templates/access.html');
 
@@ -12,13 +14,17 @@ export class AccessView extends View {
     } 
 
     initialize(node) {
-        this.acc_collection = new AccessCollection(
-            [], {'node': node}
-        );
+        this.acc_collection = new AccessCollection([], {'node': node});
+
         this.acc_collection.fetch();
+
         this.listenTo(
             this.acc_collection, 'change', this.render
         )
+        this.listenTo(
+            mg_dispatcher, PERMISSION_CHANGED, this.on_perm_changed,
+        );
+
     }
 
     events() {
@@ -32,10 +38,34 @@ export class AccessView extends View {
         return event_map;
     }
 
+    on_perm_changed(permission, users, groups) {
+        /*****
+        Permissions set and user + group to which they apply.
+        ****/
+        let that = this, perm;
+
+        _.each(users, function(item){
+            perm = new Permission(permission);
+            perm.set({'name': item});
+            perm.set({'model': 'user'});
+            that.acc_collection.add(perm);
+        });
+
+        _.each(groups, function(item){
+            perm = new Permission(permission);
+            perm.set({'name': item});
+            perm.set({'model': 'group'});
+            that.acc_collection.add(perm);
+        });
+
+        that.render();
+    }
+
     create_perm(event) {
         let perm_editor_view;
 
         perm_editor_view = new PermissionEditorView();
+        console.log(this.acc_collection.models);
     }
 
     edit_perm(event) {
