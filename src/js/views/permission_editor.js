@@ -24,9 +24,48 @@ export class PermissionEditorView extends View {
 
     events() {
         let event_map = {
+            'click .apply': 'on_apply',
+            'change .perm_user_or_group': 'on_perm_user_or_group',
+            'change .access_type': 'on_access_type',
+            'click .checkbox': 'on_checkbox'
         }
 
         return event_map;
+    }
+
+    on_perm_user_or_group(event) {
+        let $target = $(event.currentTarget), user_or_groups;
+
+        user_or_groups = $target.val().split(',')
+    }
+
+    on_access_type(event) {
+        let $target = $(event.currentTarget), access_type;
+
+        access_type = $target.val();
+        this.set_type(access_type);
+    }
+
+    on_checkbox(event) {
+        let $target = $(event.currentTarget), name, checked;
+
+        name = $target.attr('name');
+        checked = $target.is(':checked');
+
+        this.set_perm(name, checked);
+    }
+
+    set_perm(name, checked) {
+        this._permission.set_perm(name, checked);
+    }
+
+    set_type(access_type) {
+        this._permission.set_type(access_type);
+    }
+
+
+    on_apply(event) {
+
     }
 
     render() {

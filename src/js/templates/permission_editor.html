@@ -8,7 +8,7 @@
         <div class="modal-body">
             <div class="form-group">
                 <label class="padding-x-xs"><%= gettext('User or Group') %>:</label>
-                <select id="perm_user_or_group" class="form-control" multiple title="<%= gettext('Nothing selected') %>">
+                <select class="perm_user_or_group form-control" multiple title="<%= gettext('Nothing selected') %>">
                     <% for (i=0; i < usergroups.models.length; i++) { %>
                         <% item = usergroups.models[i]; %>
                         <option><%= item.get('name') %></option>
@@ -17,36 +17,36 @@
             </div>  
             <div class="form-group">
                 <label class="padding-x-xs"><%= gettext('Type') %>:</label>
-                <select name="access_type">
+                <select name="access_type" class="access_type">
                     <option selected value="allow"><%= gettext('Allow') %></option>
                     <option value="deny"><%= gettext('Deny') %></option>
                 </select>
             </div>
             <formset class="d-flex flex-column">
                 <div class="form-check">
-                    <input class="margin-right-sm" type="checkbox" name="change_perm">
+                    <input class="margin-right-sm checkbox" type="checkbox" name="change_perm">
                     <label class="padding-x-xs horizonal"><%= gettext('Change Permissions') %></label>
                 </div>
                 <div class="form-check">
-                    <input class="margin-right-sm" type="checkbox" name="take_ownership">
+                    <input class="margin-right-sm checkbox" type="checkbox" name="take_ownership">
                     <label class="padding-x-xs horizonal"><%= gettext('Take Ownership') %></label>
                 </div>
                 <div class="form-check">
-                    <input class="margin-right-sm" type="checkbox" name="read">
+                    <input class="margin-right-sm checkbox" type="checkbox" name="read">
                     <label class="padding-x-xs horizonal"><%= gettext('Read') %></label>
                 </div>
                 <div class="form-check">
-                    <input class="margin-right-sm" type="checkbox" name="write">
+                    <input class="margin-right-sm checkbox" type="checkbox" name="write">
                     <label class="padding-x-xs horizonal"><%= gettext('Write') %></label>
                 </div>
                 <div class="form-check">
-                    <input class="margin-right-sm" type="checkbox" name="delete">
+                    <input class="margin-right-sm checkbox" type="checkbox" name="delete">
                     <label class="padding-x-xs horizonal"> <%= gettext('Delete') %></label>
                 </div>
             </formset>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-success action margin-xs rename">
+            <button type="submit" class="btn btn-success action margin-xs apply">
                 <%= gettext('Apply') %>
             </button>
             <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">
