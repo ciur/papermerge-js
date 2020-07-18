@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title"><%= gettext('Access') %></h1>
@@ -10,22 +10,22 @@
             <ul id="permission_actions" class="nav nav-pills">
                 <li class="mx-1">
                     <button id="create_perm" class="btn btn-light btn-bordered">
-                        <%= gettext('Create') %>
+                        <i class="fa fa-plus mr-1"></i><%= gettext('Create') %>
                     </button>
                 </li>
                 <li class="mx-1">
                     <button id="edit_perm" class="btn btn-light btn-bordered">
-                        <%= gettext('Edit') %>
+                        <i class="fa fa-edit mr-1"></i><%= gettext('Edit') %>
                     </button>
                 </li>
                 <li class="mx-1">
                     <button id="delete_perm" class="btn btn-light btn-bordered">
-                        <%= gettext('Delete') %>
+                        <i class="fa fa-times mr-1"></i><%= gettext('Delete') %>
                     </button>
                 </li>
                 <li class="mx-1">
                     <button id="readonly_view_perm" class="btn btn-light btn-bordered">
-                        <%= gettext('View') %>
+                         <i class="fa fa-eye mr-1"></i><%= gettext('View') %>
                     </button>
                 </li>
             </ul>
