@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Access</h1>
+            <h5 class="modal-title"><%= gettext('Access') %></h1>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -9,21 +9,29 @@
         <div class="modal-body">
             <ul id="permission_actions" class="nav nav-pills">
                 <li class="mx-1">
-                    <button id="create_perm" class="btn btn-light btn-bordered">Create</button>
+                    <button id="create_perm" class="btn btn-light btn-bordered">
+                        <%= gettext('Create') %>
+                    </button>
                 </li>
                 <li class="mx-1">
-                    <button id="edit_perm" class="btn btn-light btn-bordered">Edit</button>
+                    <button id="edit_perm" class="btn btn-light btn-bordered">
+                        <%= gettext('Edit') %>
+                    </button>
                 </li>
                 <li class="mx-1">
-                    <button id="delete_perm" class="btn btn-light btn-bordered">Delete</button>
+                    <button id="delete_perm" class="btn btn-light btn-bordered">
+                        <%= gettext('Delete') %>
+                    </button>
                 </li>
                 <li class="mx-1">
-                    <button id="readonly_view_perm" class="btn btn-light btn-bordered">View</button>
+                    <button id="readonly_view_perm" class="btn btn-light btn-bordered">
+                        <%= gettext('View') %>
+                    </button>
                 </li>
             </ul>
             <table class="table table-striped">
                 <thead class="thead-light">
-                    <tr class="text-uppercase">
+                    <tr>
                         <td>
                         </td>
                         <td>
@@ -57,8 +65,12 @@
             </table> <!--  table -->
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-success action margin-xs rename">Apply</button>
-            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>
+            <button type="submit" class="btn btn-success action margin-xs rename">
+                <%= gettext('Apply') %>
+            </button>
+            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">
+                <%= gettext('Cancel') %>
+            </button></a>
         </div>
     </div> <!-- modal content -->
 </div>
