@@ -11,10 +11,12 @@ export class AccessView extends View {
     } 
 
     initialize(node) {
-        this.acc_collection = new AccessCollection(node);
+        this.acc_collection = new AccessCollection(
+            [], {'node': node}
+        );
         this.acc_collection.fetch();
         this.listenTo(
-            this.acc_collection, 'change', this.render()
+            this.acc_collection, 'change', this.render
         )
     }
 
@@ -37,7 +39,7 @@ export class AccessView extends View {
 
         this.$el.html(compiled);
         this.$el.modal();
-        
+
         return this;
     }
 };

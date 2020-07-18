@@ -10,22 +10,22 @@
             <ul id="permission_actions" class="nav nav-pills">
                 <li class="mx-1">
                     <button id="create_perm" class="btn btn-light btn-bordered">
-                        <i class="fa fa-plus mr-1"></i><%= gettext('Create') %>
+                        <i class="fa fa-plus mr-1 text-success"></i><%= gettext('Create') %>
                     </button>
                 </li>
                 <li class="mx-1">
                     <button id="edit_perm" class="btn btn-light btn-bordered">
-                        <i class="fa fa-edit mr-1"></i><%= gettext('Edit') %>
+                        <i class="fa fa-edit mr-1 text-success"></i><%= gettext('Edit') %>
                     </button>
                 </li>
                 <li class="mx-1">
                     <button id="delete_perm" class="btn btn-light btn-bordered">
-                        <i class="fa fa-times mr-1"></i><%= gettext('Delete') %>
+                        <i class="fa fa-times mr-1 text-danger"></i><%= gettext('Delete') %>
                     </button>
                 </li>
                 <li class="mx-1">
                     <button id="readonly_view_perm" class="btn btn-light btn-bordered">
-                         <i class="fa fa-eye mr-1"></i><%= gettext('View') %>
+                         <i class="fa fa-eye mr-1 text-success"></i><%= gettext('View') %>
                     </button>
                 </li>
             </ul>
@@ -50,8 +50,8 @@
                         <% item = acc_collection.models[i]; %>
                         <tr>
                             <td></td>
-                            <td><%= item.name %></td>
-                            <td><%= item.access_type %></td>
+                            <td><%= item.get('name') %></td>
+                            <td><%= item.get('access_type') %></td>
                             <td>Full Control</td>
                         </tr>
                     <% } %>

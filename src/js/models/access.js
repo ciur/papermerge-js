@@ -25,8 +25,9 @@ export class AccessCollection extends Collection {
         return Access;
     }
 
-    initialize(node) {
-        this.node = node;
+    initialize(model, options) {
+        this.node = options['node'];
+        console.log(`AccessCollection this.node.id=${this.node.id}`);
     }
 
     url() {
@@ -34,11 +35,15 @@ export class AccessCollection extends Collection {
     }
 
     parse(response, options) {
-        let access = response.access,
-            that = this;
+        let access = response.access, that=this;
 
-        this.reset();
-        this.add(response.access);
+
+        // do not trigger reset event
+        that.reset([], {'silent': true});
+
+        _.each(access, function(item){
+            that.add(new Access(item))
+        });
 
         this.trigger('change');
     }
