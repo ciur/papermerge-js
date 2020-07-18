@@ -33,8 +33,6 @@
                 <thead class="thead-light">
                     <tr>
                         <td>
-                        </td>
-                        <td>
                             <%= gettext('User or Group') %>
                         </td>
                         <td>
@@ -48,8 +46,7 @@
                 <tbody id="access_items">
                     <% for (i=0; i < acc_collection.models.length; i++) { %>
                         <% item = acc_collection.models[i]; %>
-                        <tr>
-                            <td></td>
+                        <tr data-cid="<%= item.cid  %>" data-model="<%= item.get('model')  %>"  data-name="<%= item.get('name')  %>">
                             <td><%= item.get('name') %></td>
                             <td><%= item.get('access_type') %></td>
                             <td>Full Control</td>

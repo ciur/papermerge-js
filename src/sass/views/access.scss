@@ -1,0 +1,14 @@
+@import "../colors";
+
+#access_items {
+
+	tr:hover {
+		background-color: $result_list_hover_bg_color;
+		outline: 1px solid $result_list_hover_bg_color;
+	}
+
+	tr.checked {
+	     background-color: $result_list_hover_bg_color;
+	     outline: 1px solid $result_list_hover_border_color;
+	}
+}

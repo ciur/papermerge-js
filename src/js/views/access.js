@@ -32,10 +32,17 @@ export class AccessView extends View {
             'click #create_perm': 'create_perm',
             'click #edit_perm': 'edit_perm',
             'click #delete_perm': 'delete_perm',
-            'click #readonly_view_perm': 'readonly_view_perm'
+            'click #readonly_view_perm': 'readonly_view_perm',
+            'click #access_items tr': 'on_item_click'
         }
 
         return event_map;
+    }
+
+    on_item_click(event) {
+        let $target = $(event.currentTarget);
+
+        $target.toggleClass('checked');
     }
 
     on_perm_changed(permission, users, groups) {
@@ -65,7 +72,6 @@ export class AccessView extends View {
         let perm_editor_view;
 
         perm_editor_view = new PermissionEditorView();
-        console.log(this.acc_collection.models);
     }
 
     edit_perm(event) {
@@ -73,7 +79,29 @@ export class AccessView extends View {
     }
 
     delete_perm(event) {
+        let attrs = [], models, that = this;
 
+        attrs = _.map(
+            this.$el.find('tr.checked'),
+            function(item) {
+                let name, model;
+
+                name = $(item).data('name');
+                model = $(item).data('model');
+
+                return {'name': name, 'model': model};
+            }
+        );
+        _.each(attrs, function(attr){
+            let found = _.find(
+                that.acc_collection.models, function(item) {
+                    return item.get('name') == attr['name'] && item.get('model') == attr['model']
+                }   
+            );
+            that.acc_collection.remove(found);
+        });
+
+        this.render();
     }
 
     readonly_view_perm(event) {
