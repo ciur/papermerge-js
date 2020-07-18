@@ -11,8 +11,11 @@ export class AccessView extends View {
     } 
 
     initialize(node) {
-        this.access = new Access(node);
-        this.render();
+        this.acc_collection = new AccessCollection(node);
+        this.acc_collection.fetch();
+        this.listenTo(
+            this.acc_collection, 'change', this.render()
+        )
     }
 
     events() {
@@ -29,7 +32,7 @@ export class AccessView extends View {
         }
 
         compiled = _.template(TEMPLATE({
-            access: this.access,
+            acc_collection: this.acc_collection,
         }));
 
         this.$el.html(compiled);

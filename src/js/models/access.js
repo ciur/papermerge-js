@@ -18,12 +18,28 @@ export class Access extends Model {
 }
 
 export class AccessCollection extends Collection {
-    
+    /****
+        All access for specific node
+    ****/
     get model() {
-        return Page;
+        return Access;
     }
 
-    urlRoot() {
-        return '/pages/';
+    initialize(node) {
+        this.node = node;
+    }
+
+    url() {
+        return `/node/${node.id}/access`;
+    }
+
+    parse(response, options) {
+        let access = response.access,
+            that = this;
+
+        this.reset();
+        this.add(response.access);
+
+        this.trigger('change');
     }
 }

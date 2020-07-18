@@ -46,21 +46,15 @@
                     </tr>
                 </thead> <!--- header -->
                 <tbody id="access_items">
-                    <!--
-                    <div class="ft-row row1">
-                        <div class="ft-col width10">
-                        </div>
-                        <div class="ft-col width30">
-                           margaret
-                        </div>
-                        <div class="ft-col width30">
-                            Zulassen
-                        </div>
-                        <div class="ft-col width30">
-                            Lesen &amp; Schreiben
-                        </div>
-                    </div>
-                    -->
+                    <% for (i=0; i < acc_collection.models.length; i++) { %>
+                        <% item = acc_collection.models[i]; %>
+                        <tr>
+                            <td></td>
+                            <td><%= item.name %></td>
+                            <td><%= item.access_type %></td>
+                            <td>Full Control</td>
+                        </tr>
+                    <% } %>
                 </tbody> <!-- end of body -->
             </table> <!--  table -->
         </div>
