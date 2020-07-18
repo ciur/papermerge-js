@@ -27,7 +27,6 @@ export class AccessCollection extends Collection {
 
     initialize(model, options) {
         this.node = options['node'];
-        console.log(`AccessCollection this.node.id=${this.node.id}`);
     }
 
     url() {

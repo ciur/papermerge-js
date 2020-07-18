@@ -9,9 +9,10 @@
             <div class="form-group">
                 <label class="padding-x-xs"><%= gettext('User or Group') %>:</label>
                 <select id="perm_user_or_group" class="form-control" multiple title="<%= gettext('Nothing selected') %>">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
+                    <% for (i=0; i < usergroups.models.length; i++) { %>
+                        <% item = usergroups.models[i]; %>
+                        <option><%= item.get('name') %></option>
+                    <% } %>
                 </select>
             </div>  
             <div class="form-group">

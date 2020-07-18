@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import { Permission } from "../models/permission";
+import { UserGroupCollection } from "../models/user_group";
 import { View } from 'backbone';
 
 let TEMPLATE = require('../templates/permission_editor.html');
@@ -16,7 +17,9 @@ export class PermissionEditorView extends View {
         } else {
             this._permission = new Permission();
         }
-        this.render();
+        this._usergroups = new UserGroupCollection();
+        this._usergroups.fetch();
+        this.listenTo(this._usergroups, 'change', this.render);
     }
 
     events() {
@@ -33,7 +36,7 @@ export class PermissionEditorView extends View {
         }
 
         compiled = _.template(TEMPLATE({
-            
+            'usergroups': this._usergroups
         }));
 
         this.$el.html(compiled);
