@@ -61,6 +61,10 @@ export class AccessView extends View {
     on_item_click(event) {
         let $target = $(event.currentTarget);
 
+        if ($target.hasClass('disabled')) {
+            return;
+        }
+
         $target.toggleClass('checked');
     }
 

@@ -46,7 +46,7 @@
                 <tbody id="access_items">
                     <% for (i=0; i < acc_collection.models.length; i++) { %>
                         <% item = acc_collection.models[i]; %>
-                        <tr data-cid="<%= item.cid  %>" data-model="<%= item.get('model')  %>"  data-name="<%= item.get('name')  %>" data-id="<%= item.get('id')  %>">
+                        <tr class="<% if (item.get('access_inherited')) {  %>disabled<% } %>" data-cid="<%= item.cid  %>" data-model="<%= item.get('model')  %>"  data-name="<%= item.get('name')  %>" data-id="<%= item.get('id')  %>">
                             <td><%= item.get('name') %></td>
                             <td><%= gettext(item.human_access_type()) %></td>
                             <td><%= gettext(item.human_perms()) %></td>
