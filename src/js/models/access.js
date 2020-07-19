@@ -18,7 +18,9 @@ export class AccessCollection extends Collection {
     }
 
     url() {
-        return `/node/${node.id}/access`;
+        if (this.node) {
+            return `/node/${this.node.id}/access`;
+        }
     }
 
     parse(response, options) {

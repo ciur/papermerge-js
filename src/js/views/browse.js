@@ -507,11 +507,15 @@ export class BrowseView extends View {
   }
 
   get_selection() {
-    return _.filter(
+    let result;
+    
+    result = _.filter(
       this.browse.nodes.models, function(item) {
         return item.get('selected') == true;
       }
     );
+
+    return result;
   }
 
   open_node(event) {

@@ -16,6 +16,7 @@ export class AccessView extends View {
     initialize(node) {
         this.acc_collection = new AccessCollection([], {'node': node});
         this.acc_collection.fetch();
+        this.node = node;
         // deleted items will be moved to this collection
         // and then passed to server side
         this.deleted_acc = new AccessCollection([], {});
@@ -157,6 +158,7 @@ export class AccessView extends View {
 
         compiled = _.template(TEMPLATE({
             acc_collection: this.acc_collection,
+            node: this.node
         }));
 
         this.$el.html(compiled);
