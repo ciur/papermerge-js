@@ -48,7 +48,7 @@
                         <% item = acc_collection.models[i]; %>
                         <tr data-cid="<%= item.cid  %>" data-model="<%= item.get('model')  %>"  data-name="<%= item.get('name')  %>">
                             <td><%= item.get('name') %></td>
-                            <td><%= item.get('access_type') %></td>
+                            <td><%= gettext(item.human_access_type()) %></td>
                             <td><%= gettext(item.human_perms()) %></td>
                         </tr>
                     <% } %>

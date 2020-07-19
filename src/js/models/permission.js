@@ -1,6 +1,7 @@
 import _ from "underscore";
 import $ from "jquery";
 import { Model } from 'backbone';
+import { capitalize } from "../utils";
 
 let ALLOW = 'allow';
 let DENY = 'deny';
@@ -59,6 +60,12 @@ export class Permission extends Model {
 
     static get DEL() {
         return 'delete';
+    }
+
+    human_access_type() {
+        return capitalize(
+            this.get('access_type')
+        );
     }
 
     human_perms() {
