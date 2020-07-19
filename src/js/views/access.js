@@ -15,8 +15,10 @@ export class AccessView extends View {
 
     initialize(node) {
         this.acc_collection = new AccessCollection([], {'node': node});
-
         this.acc_collection.fetch();
+        // deleted items will be moved to this collection
+        // and then passed to server side
+        this.deleted_acc = new AccessCollection([], {});
 
         this.listenTo(
             this.acc_collection, 'change', this.render
@@ -41,6 +43,14 @@ export class AccessView extends View {
         }
 
         return event_map;
+    }
+
+    on_apply(event) {
+        this.$el.html('')
+        this.$el.modal('hide');
+        // removes attached events via event map
+        this.undelegateEvents();
+        this.acc_collection.save_access(this.deleted_acc);
     }
 
     on_close(event) {
@@ -117,6 +127,7 @@ export class AccessView extends View {
                     return item.get('name') == attr['name'] && item.get('model') == attr['model']
                 }   
             );
+            that.deleted_acc.add(found);
             that.acc_collection.remove(found);
         });
 
@@ -149,7 +160,6 @@ export class AccessView extends View {
 
         return this;
     }
-
     _first_selected() {
         /*
          * Returns first selected Permission object
