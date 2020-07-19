@@ -33,10 +33,18 @@ export class AccessView extends View {
             'click #edit_perm': 'edit_perm',
             'click #delete_perm': 'delete_perm',
             'click #readonly_view_perm': 'readonly_view_perm',
-            'click #access_items tr': 'on_item_click'
+            'click #access_items tr': 'on_item_click',
+            'click .close': 'on_close',
+            'click .cancel': 'on_close',
+            'click .apply': 'on_apply'
         }
 
         return event_map;
+    }
+
+    on_close(event) {
+        // removes attached events via event map
+        this.undelegateEvents();
     }
 
     on_item_click(event) {
