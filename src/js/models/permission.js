@@ -39,6 +39,12 @@ export class Permission extends Model {
         this.set({'permissions': permissions});
     }
 
+    get_perm(name) {
+        let permissions = this.get('permissions');
+
+        return permissions[name];
+    }
+
     set_type(access_type) {
         this.set({'access_type': access_type});
     }

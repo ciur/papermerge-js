@@ -11,7 +11,7 @@
                 <select <% if (!edit) { %> disabled <% } %> class="perm_user_or_group form-control" multiple title="<%= gettext('Nothing selected') %>">
                     <% for (i=0; i < usergroups.models.length; i++) { %>
                         <% item = usergroups.models[i]; %>
-                        <option data-model="<%= item.get('model') %>">
+                        <option <% if (item.get('name') == permission.get('name') && item.get('model') == permission.get('model')) { %> selected <% } %> data-model="<%= item.get('model') %>">
                             <%= item.get('name') %>
                         </option>
                     <% } %>
@@ -20,29 +20,35 @@
             <div class="form-group">
                 <label class="padding-x-xs"><%= gettext('Type') %>:</label>
                 <select <% if (!edit) { %> disabled <% } %> name="access_type" class="access_type">
-                    <option selected value="allow"><%= gettext('Allow') %></option>
-                    <option value="deny"><%= gettext('Deny') %></option>
+                    <option <% if ('allow' == permission.get('access_type')) { %> selected <% } %> value="allow"><%= gettext('Allow') %></option>
+                    <option <% if ('deny' == permission.get('access_type')) { %> selected <% } %>  value="deny"><%= gettext('Deny') %></option>
                 </select>
             </div>
             <formset class="d-flex flex-column">
                 <div class="form-check">
-                    <input <% if (!edit) { %> disabled <% } %> class="margin-right-sm checkbox" type="checkbox" name="change_perm">
+                    <input <% if (!edit) { %> disabled <% } %> class="margin-right-sm checkbox" type="checkbox" name="change_perm" <% if (permission.get_perm('change_perm')) { %> checked <% } %> >
                     <label class="padding-x-xs horizonal"><%= gettext('Change Permissions') %></label>
                 </div>
                 <div class="form-check">
-                    <input <% if (!edit) { %> disabled <% } %> class="margin-right-sm checkbox" type="checkbox" name="take_ownership">
+                    <input <% if (!edit) { %> disabled <% } %> class="margin-right-sm checkbox" type="checkbox" name="take_ownership" <% if (permission.get_perm('take_ownership')) { %> checked <% } %> >
                     <label class="padding-x-xs horizonal"><%= gettext('Take Ownership') %></label>
                 </div>
                 <div class="form-check">
-                    <input <% if (!edit) { %> disabled <% } %> class="margin-right-sm checkbox" type="checkbox" name="read">
+                    <input <% if (!edit) { %> disabled <% } %> class="margin-right-sm checkbox" type="checkbox" name="read"
+                    <% if (permission.get_perm('read')) { %> checked <% } %>
+                    >
                     <label class="padding-x-xs horizonal"><%= gettext('Read') %></label>
                 </div>
                 <div class="form-check">
-                    <input <% if (!edit) { %> disabled <% } %> class="margin-right-sm checkbox" type="checkbox" name="write">
+                    <input <% if (!edit) { %> disabled <% } %> class="margin-right-sm checkbox" type="checkbox" name="write"
+                    <% if (permission.get_perm('write')) { %> checked <% } %>
+                    >
                     <label class="padding-x-xs horizonal"><%= gettext('Write') %></label>
                 </div>
                 <div class="form-check">
-                    <input <% if (!edit) { %> disabled <% } %> class="margin-right-sm checkbox" type="checkbox" name="delete">
+                    <input <% if (!edit) { %> disabled <% } %> class="margin-right-sm checkbox" type="checkbox" name="delete"
+                    <% if (permission.get_perm('delete')) { %> checked <% } %>
+                    >
                     <label class="padding-x-xs horizonal"> <%= gettext('Delete') %></label>
                 </div>
             </formset>
