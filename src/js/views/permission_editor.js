@@ -12,12 +12,13 @@ export class PermissionEditorView extends View {
         return $('#permission-editor-modal');
     } 
 
-    initialize(permission) {
+    initialize(permission, edit=true) {
         if (permission) {
             this._permission = permission;
         } else {
             this._permission = new Permission();
         }
+        this._edit = edit;
         this._users = [];
         this._groups = [];
         this._usergroups = new UserGroupCollection();
@@ -82,12 +83,20 @@ export class PermissionEditorView extends View {
 
 
     on_apply(event) {
-        mg_dispatcher.trigger(
-            PERMISSION_CHANGED,
-            this._permission,
-            this._users,
-            this._groups
-        );
+
+        if (this._edit) {
+            /* 
+               means form was opened in edit mode,
+               maybe something changed.
+             */
+             mg_dispatcher.trigger(
+                 PERMISSION_CHANGED,
+                 this._permission,
+                 this._users,
+                 this._groups
+             );
+        }
+
         this.$el.html('')
         this.$el.modal('hide');
         // removes attached events via event map
@@ -101,7 +110,9 @@ export class PermissionEditorView extends View {
         }
 
         compiled = _.template(TEMPLATE({
-            'usergroups': this._usergroups
+            'usergroups': this._usergroups,
+            'permission': this._permission,
+            'edit': this._edit
         }));
 
         this.$el.html(compiled);

@@ -90,24 +90,11 @@ export class AccessView extends View {
     }
 
     edit_perm(event) {
-        let perm_editor_view,
-            id, cid, found, checked_el;
+        let perm_editor_view, found;
         
-        checked_el = this.$el.find('tr.checked');
-        cid = checked_el.data('cid');
-        id = checked_el.data('id');
+        found = this._first_selected();
 
-        console.log(`edit_perm cid = ${cid}`);
-
-        found = _.find(this.acc_collection.models, function(item) {
-            console.log(`cid=${cid} und item.cid=${item.cid}`);
-            return item.cid == cid || item.get('id') == id;
-        });
-
-        console.log(`edit_perm found = ${found}`);
-
-
-        // perm_editor_view = new PermissionEditorView();
+        perm_editor_view = new PermissionEditorView(found);
     }
 
     delete_perm(event) {
@@ -137,7 +124,14 @@ export class AccessView extends View {
     }
 
     readonly_view_perm(event) {
+        let perm_editor_view, found;
         
+        found = this._first_selected();
+
+        perm_editor_view = new PermissionEditorView(
+            found,
+            false  // edit = false, i.e. open readonly view
+        );
     }
 
     render() {
@@ -154,5 +148,23 @@ export class AccessView extends View {
         this.$el.modal();
 
         return this;
+    }
+
+    _first_selected() {
+        /*
+         * Returns first selected Permission object
+        */
+        let checked_el, cid, id, found;
+
+        checked_el = this.$el.find('tr.checked');
+
+        cid = checked_el.data('cid');
+        id = checked_el.data('id');
+
+        found = _.find(this.acc_collection.models, function(item) {
+            return item.cid == cid || item.get('id') == id;
+        });
+
+        return found;
     }
 };
