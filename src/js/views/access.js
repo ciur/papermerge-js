@@ -24,6 +24,7 @@ export class AccessView extends View {
         this.listenTo(
             mg_dispatcher, PERMISSION_CHANGED, this.on_perm_changed,
         );
+        this.render();
 
     }
 
@@ -89,7 +90,24 @@ export class AccessView extends View {
     }
 
     edit_perm(event) {
+        let perm_editor_view,
+            id, cid, found, checked_el;
+        
+        checked_el = this.$el.find('tr.checked');
+        cid = checked_el.data('cid');
+        id = checked_el.data('id');
 
+        console.log(`edit_perm cid = ${cid}`);
+
+        found = _.find(this.acc_collection.models, function(item) {
+            console.log(`cid=${cid} und item.cid=${item.cid}`);
+            return item.cid == cid || item.get('id') == id;
+        });
+
+        console.log(`edit_perm found = ${found}`);
+
+
+        // perm_editor_view = new PermissionEditorView();
     }
 
     delete_perm(event) {

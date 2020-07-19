@@ -17,6 +17,7 @@ export class Permission extends Model {
 
     defaults() {
       return {
+        id: '',
         name: '',  // e.g. admin
         model: '', // e.g. user/group
         access_type: ALLOW,
