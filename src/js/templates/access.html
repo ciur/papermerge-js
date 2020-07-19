@@ -49,7 +49,7 @@
                         <tr data-cid="<%= item.cid  %>" data-model="<%= item.get('model')  %>"  data-name="<%= item.get('name')  %>">
                             <td><%= item.get('name') %></td>
                             <td><%= item.get('access_type') %></td>
-                            <td>Full Control</td>
+                            <td><%= gettext(item.human_perms()) %></td>
                         </tr>
                     <% } %>
                 </tbody> <!-- end of body -->

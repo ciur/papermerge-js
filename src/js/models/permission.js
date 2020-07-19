@@ -14,50 +14,81 @@ let ALLOWED_TYPES = [
 
 export class Permission extends Model {
 
-	defaults() {
-	  return {
-	    name: '',  // e.g. admin
-	    model: '', // e.g. user/group
-	    access_type: ALLOW,
-	    access_inherited: false,
-	    permissions: {
-	    	read: false,
-	    	write: false,
-	    	delete: false,
-	    	change_perm: false,
-	    	take_ownership: false
-	    }
-	  };
-	}
+    defaults() {
+      return {
+        name: '',  // e.g. admin
+        model: '', // e.g. user/group
+        access_type: ALLOW,
+        access_inherited: false,
+        permissions: {
+            read: false,
+            write: false,
+            delete: false,
+            change_perm: false,
+            take_ownership: false
+        }
+      };
+    }
 
-	set_perm(name, checked) {
-		let permissions = this.get('permissions');
+    set_perm(name, checked) {
+        let permissions = this.get('permissions');
 
-		permissions[name] = checked;
-		this.set({'permissions': permissions});
-	}
+        permissions[name] = checked;
+        this.set({'permissions': permissions});
+    }
 
-	set_type(access_type) {
-		this.set({'access_type': access_type});
-	}
+    set_type(access_type) {
+        this.set({'access_type': access_type});
+    }
 
-	static get CHPERM() {
-	    return 'change_perm';
-	}
+    static get CHPERM() {
+        return 'change_perm';
+    }
 
-	static get OWN() {
-	    return 'take_ownership';
-	}
+    static get OWN() {
+        return 'take_ownership';
+    }
 
-	static get READ() {
-	    return 'read';
-	}
+    static get READ() {
+        return 'read';
+    }
 
-	static get WRITE() {
-	    return 'write';
-	}
+    static get WRITE() {
+        return 'write';
+    }
 
-	static get DEL() {
-	    return 'delete';
-	}
+    static get DEL() {
+        return 'delete';
+    }
+
+    human_perms() {
+        let text, permissions;
+        let ch;
+        let own;
+        let write;
+        let read;
+        let del;
+
+        permissions = this.get('permissions');
+
+        ch = permissions[Permission.CHPERM];
+        own = permissions[Permission.OWN];
+        write = permissions[Permission.WRITE];
+        read = permissions[Permission.READ];
+        del = permissions[Permission.DEL];
+
+        if (ch && own && write && read && del) {
+            text = 'Full Control';
+        } else if (read && write && !ch && !own && !del) {
+            text = 'Read & Write';
+        } else if (read && !write && !ch && !own && !del) {
+            text = 'Read';
+        } else if (read && write && !ch && !own && del) {
+            text = 'Read & Write & Delete';
+        } else {
+            text = 'User Defined';
+        }
+
+        return text;
+    }
 }

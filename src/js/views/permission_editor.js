@@ -53,6 +53,7 @@ export class PermissionEditorView extends View {
                 that._groups.push(name);
             }
         });
+        console.log(this._groups);
     }
 
     on_access_type(event) {
@@ -89,6 +90,8 @@ export class PermissionEditorView extends View {
         );
         this.$el.html('')
         this.$el.modal('hide');
+        // removes attached events via event map
+        this.undelegateEvents();
     }
 
     render() {

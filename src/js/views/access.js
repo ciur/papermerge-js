@@ -52,16 +52,22 @@ export class AccessView extends View {
         let that = this, perm;
 
         _.each(users, function(item){
-            perm = new Permission(permission);
+            perm = new Permission();
+            perm.set({'permissions': permission.get('permissions')});
             perm.set({'name': item});
             perm.set({'model': 'user'});
+            perm.set({'access_type': permission.get('access_type')});
+            perm.set({'access_inherited': permission.get('access_inherited')});
             that.acc_collection.add(perm);
         });
 
         _.each(groups, function(item){
-            perm = new Permission(permission);
+            perm = new Permission();
+            perm.set({'permissions': permission.get('permissions')});
             perm.set({'name': item});
             perm.set({'model': 'group'});
+            perm.set({'access_type': permission.get('access_type')});
+            perm.set({'access_inherited': permission.get('access_inherited')});
             that.acc_collection.add(perm);
         });
 

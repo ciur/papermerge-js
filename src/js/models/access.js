@@ -1,28 +1,14 @@
 import _ from "underscore";
 import $ from "jquery";
 import { Model, Collection } from 'backbone';
-
-export class Access extends Model {
-    urlRoot() {
-        return '/access/';
-    }
-
-    toJSON() {
-        let dict = {
-            id: this.get('id'),
-            number: this.get('number'),
-        }
-
-        return dict;
-    }
-}
+import { Permission } from "../models/permission";
 
 export class AccessCollection extends Collection {
     /****
         All access for specific node
     ****/
     get model() {
-        return Access;
+        return Permission;
     }
 
     initialize(model, options) {
@@ -41,7 +27,7 @@ export class AccessCollection extends Collection {
         that.reset([], {'silent': true});
 
         _.each(access, function(item){
-            that.add(new Access(item))
+            that.add(new Permission(item))
         });
 
         this.trigger('change');
