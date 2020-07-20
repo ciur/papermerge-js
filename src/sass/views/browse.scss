@@ -32,10 +32,19 @@
         padding: 0;
 
         .node {
-
+            position: relative;
             margin: 0.25rem;
             padding: 0.25rem 1rem;
             width: 10rem;
+
+            .icons {
+                position: absolute;
+                left: 0;
+                font-size: 1.8rem;
+                .fa-lock {
+                    color: #f00;
+                }
+            }
 
             .placeholder.document {
                 position: relative;
