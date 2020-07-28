@@ -35,6 +35,9 @@ export class RenameView extends View {
   on_form_submit(event) {
     event.preventDefault();
     this.on_rename(event);
+    // otherwise it will continue renaming
+    // renaming same folder/file over and over!
+    this.undelegateEvents();
   }
 
   on_rename(event) {
