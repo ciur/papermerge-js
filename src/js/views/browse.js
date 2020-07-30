@@ -409,8 +409,6 @@ class BrowseListView extends View {
     }
   }
 
-
-
   render(nodes, parent_kv) {
     let compiled, context;
     
@@ -553,7 +551,7 @@ export class BrowseView extends View {
   }
 
   render() {
-    let compiled, context;
+    let compiled, context, sort_order, sort_field;
     
     context = {};
 
@@ -563,10 +561,17 @@ export class BrowseView extends View {
         this.browse.parent_kv
       );
     } else {
+      sort_field = this.display_mode.sort_field;
+      sort_order = this.display_mode.sort_order;
+
+      console.log(`Dynamically sorting... by ${sort_field} ${sort_order}`);
+      this.browse.nodes.dynamic_sort_by(
+        sort_field,
+        sort_order
+      );
+      
       this.browse_grid_view.render(
-        this.browse.nodes,
-        this.display_mode.sort_field,
-        this.display_mode.sort_order
+        this.browse.nodes
       );
     }
   }

@@ -148,6 +148,31 @@ export class Node extends Model {
     }
 }
 
+function dynamic_comparator(sort_field, sort_order) {
+    let comp, ord = 1;
+
+    if (sort_order == 'desc') {
+        ord = -1;
+    }
+
+    comp = function(m1, m2) {
+        if (sort_field == 'type') {
+            sort_field = 'ctype'
+        } else if (sort_field == 'date') {
+            sort_field = 'timestamp';
+        }
+        if (m1.get(sort_field) < m2.get(sort_field)) {
+            return -1 * ord;
+        } else if (m1.get(sort_field) > m2.get(sort_field)) {
+            return 1 * ord;
+        }
+        
+        return 0;
+    }
+
+    return comp;
+}
+
 export class NodeCollection extends Collection {
     
     get model() {
@@ -230,5 +255,10 @@ export class NodeCollection extends Collection {
     paste_pages(options, parent_id) {
         // pastes pages
         this._paste('/paste-pages/', options, parent_id);
+    }
+
+    dynamic_sort_by(sort_field, sort_order) {
+        this.comparator = dynamic_comparator(sort_field, sort_order);
+        this.sort();
     }
 }
