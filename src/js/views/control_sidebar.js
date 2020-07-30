@@ -1,4 +1,7 @@
+import $ from "jquery";
+
 import { View } from 'backbone';
+import { Document } from "../models/document";
 import { MetadataView } from "./metadata";
 import { MetadataPageView } from "./metadata_page";
 
@@ -39,7 +42,7 @@ export class ControlSidebarView extends View {
         )
     }
 
-    page_selection_changed(page_id) {
+    page_selection_changed(page_id, doc_id) {
         /**
         Triggered by thumbnails_list: 
             * after thumbnail list is loaded, in this case
@@ -90,7 +93,20 @@ export class ControlSidebarView extends View {
         );
     }
 
+    _save_notes() {
+        let doc_id = $("input[name=document_id]").val(),
+            notes = $("textarea[name=notes]").val(),
+            doc;
+
+        console.log(`Saving notes for document=${doc_id}, notes=${notes}`);
+
+        doc = new Document(doc_id);
+        // update notes attribute on the server
+        doc.save({'notes': notes}, {patch: true});
+    }
+
     on_save(event) {
         this.$el.find("#save-metadata").trigger('click');
+        this._save_notes();
     }
 }

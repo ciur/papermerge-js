@@ -230,7 +230,8 @@ export class MgThumbnailList extends MgLister {
             first_thumb = this._list[0];
             mg_dispatcher.trigger(
                 PAGE_SELECTION_CHANGED,
-                first_thumb.page_id
+                first_thumb.page_id,
+                first_thumb.doc_id
             );
         }
     }

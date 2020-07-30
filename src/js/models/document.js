@@ -26,10 +26,16 @@ export class Document extends Model {
         return `/document/`;
     }
 
+    url() {
+        // for sake of slash at the end of string.
+        return `/document/${this.get('id')}/`;
+    }
+
     toJSON() {
         let dict = {
             id: this.get('id'),
             nodes: this.get('pages'),
+            notes: this.get('notes'),
         }
 
         return dict;
