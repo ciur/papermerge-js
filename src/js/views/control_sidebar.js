@@ -20,7 +20,8 @@ export class ControlSidebarView extends View {
 
     events() {
         let events_map = {
-            "click button#save": "on_save"
+            "click button#save": "on_save",
+            "click button#delete": "on_delete"
         }
 
         return events_map;
@@ -98,11 +99,28 @@ export class ControlSidebarView extends View {
             notes = $("textarea[name=notes]").val(),
             doc;
 
-        console.log(`Saving notes for document=${doc_id}, notes=${notes}`);
-
         doc = new Document(doc_id);
         // update notes attribute on the server
         doc.save({'notes': notes}, {patch: true});
+    }
+
+    on_delete(event) {
+        let doc_id = $("input[name=document_id]").val(),
+            confirmation,
+            doc;
+
+        confirmation = confirm(
+            "Are you sure you want to delete this document?"
+        );
+
+        if (!confirmation) {
+          return;
+        }
+
+        doc = new Document(doc_id);
+        doc.destroy({success: function(model, response) {
+            window.location = response.url;
+        }});
     }
 
     on_save(event) {
