@@ -2,7 +2,6 @@ import { dglReady } from "./utils";
 
 import { DgPageScroll } from "./document_form/page_scroll";
 
-import { sort_cookie } from "./sort_cookie";
 import { BrowseView } from "./views/browse";
 import { BreadcrumbView } from "./views/breadcrumb";
 import { ActionsView } from "./views/actions";
@@ -73,7 +72,6 @@ let App = function() {
     // They serve as widgets for django's messages
     $('.toast').toast({'autohide': false});
     $('.toast').toast('show');
-    sort_cookie();
   }
 
 };
