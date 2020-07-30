@@ -35,9 +35,15 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item sort asc title" href="#">
+                <% if (sort_field == 'title' && sort_order == 'asc') { %>
+                  <i class="fa fa-check text-success"></i>
+                <% } %>
                <%= gettext('Asc') %>
               </a></li>
               <li><a class="dropdown-item sort desc title" href="#">
+                <% if (sort_field == 'title' && sort_order == 'desc') { %>
+                  <i class="fa fa-check text-success"></i>
+                <% } %>
                 <%= gettext('Desc') %>
               </a></li>
             </ul>
@@ -47,9 +53,15 @@
           </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item sort asc date" href="#">
+                <% if (sort_field == 'date' && sort_order == 'asc') { %>
+                  <i class="fa fa-check text-success"></i>
+                <% } %>
                 <%= gettext('Asc') %>
               </a></li>
               <li><a class="dropdown-item sort desc date" href="#">
+                <% if (sort_field == 'date' && sort_order == 'desc') { %>
+                  <i class="fa fa-check text-success"></i>
+                <% } %>
                 <%= gettext('Desc') %>
             </a></li>
             </ul>
@@ -59,9 +71,15 @@
           </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item sort asc type" href="#">
+                <% if (sort_field == 'type' && sort_order == 'asc') { %>
+                  <i class="fa fa-check text-success"></i>
+                <% } %>
                 <%= gettext('Asc') %>
               </a></li>
               <li><a class="dropdown-item sort desc type" href="#">
+                <% if (sort_field == 'type' && sort_order == 'desc') { %>
+                  <i class="fa fa-check text-success"></i>
+                <% } %>
                 <%= gettext('Desc') %>
               </a></li>
             </ul>

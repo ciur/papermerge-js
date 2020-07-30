@@ -434,7 +434,7 @@ class BrowseGridView extends View {
       return $('#browse');
   }
 
-  render(nodes) {
+  render(nodes, sort_field, sort_order) {
     let compiled, context;
     
     context = {};
@@ -565,6 +565,8 @@ export class BrowseView extends View {
     } else {
       this.browse_grid_view.render(
         this.browse.nodes,
+        this.display_mode.sort_field,
+        this.display_mode.sort_order
       );
     }
   }
