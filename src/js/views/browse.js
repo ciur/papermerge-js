@@ -214,6 +214,7 @@ class Table {
       'id': node.get('id'),
       'cid': node.cid,
       'url': node.url,
+      'is_readonly': node.is_readonly(),
       'col': 'type',
       'value': value,
       'virtual_value': virtual_value,

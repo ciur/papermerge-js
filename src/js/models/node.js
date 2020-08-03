@@ -138,13 +138,13 @@ export class Node extends Model {
     is_readonly() {
         let user_perms = this.get('user_perms'), result;
 
-         result = user_perms['read'];
-         result = result && !user_perms['write'];
-         result = result && !user_perms['delete'];
-         result = result && !user_perms['change_perm'];
-         result = result && !user_perms['take_ownership'];
+        result = user_perms['read'];
+        result = result && !user_perms['write'];
+        result = result && !user_perms['delete'];
+        result = result && !user_perms['change_perm'];
+        result = result && !user_perms['take_ownership'];
 
-         return result;
+        return result;
     }
 }
 

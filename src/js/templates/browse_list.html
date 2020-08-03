@@ -53,7 +53,12 @@
         <% row = table.rows[i] %>
     <tr class="node" data-id="<%= row[0].id %>" data-cid="<%= row[0].cid %>" data-url="<%= row[0].url %>">
         <% for (j=0; j < row.length; j++) { %>
-          <td><%= row[j].value %></td>
+          <td>
+            <% if (row[j].is_readonly) { %>
+                <i class="fa fa-lock text-danger"></i>
+            <% } %>
+            <%= row[j].value %>
+            </td>
         <% } %>
     </tr>
     <% } %>
