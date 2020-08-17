@@ -542,6 +542,7 @@ export class BrowseView extends View {
     let parent_id = node_id;
     
     this.browse.set({'parent_id': node_id});
+    
     this.browse.fetch();
   }
 
@@ -575,5 +576,9 @@ export class BrowseView extends View {
         this.browse.nodes
       );
     }
+
+    $("#pre-loader").hide();
+    
   }
+
 }
