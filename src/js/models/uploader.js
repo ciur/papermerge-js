@@ -9,6 +9,7 @@ export class UploaderItem extends Model {
         title: '',
         size: '',
         file: '',
+        msg: '',
         lang: '',
         status: '',
         file_type: '',
@@ -118,6 +119,8 @@ export class UploaderItem extends Model {
       }
 
       function transferComplete(e) {
+        let response = JSON.parse(e.currentTarget.response);
+
         console.log(`Complete? status = ${e.currentTarget.status}`);
 
          if (e.currentTarget.status == 200) {
@@ -132,6 +135,11 @@ export class UploaderItem extends Model {
             that.set({
               'status': UploaderItem.UPLOAD_ERROR
             });
+            if (response && response.msg) {
+              that.set({
+                'msg': response.msg
+              });
+            }
          }
       }
 
