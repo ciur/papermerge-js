@@ -112,10 +112,19 @@ export class UploaderItem extends Model {
       });
 
       function transferFailed(e) {
+        let response = JSON.parse(e.currentTarget.response);
+
         console.log(`Transfer failed for ${that.get('title')}`);
+
         that.set({
           'status': UploaderItem.UPLOAD_ERROR
         });
+
+        if (response && response.msg) {
+          that.set({
+            'msg': response.msg
+          });
+        }
       }
 
       function transferComplete(e) {
