@@ -1,6 +1,7 @@
 
 let MiniCssExtractPlugin = require('mini-css-extract-plugin');
 let webpack = require('webpack');
+const isDevelopment = process.env.NODE_ENV !== 'production'
 
 let mod = {
     rules: [
@@ -39,9 +40,10 @@ let mod = {
 
 }
 
-let plug = [
+let plug = function (env, argv) {
+    return [
       new MiniCssExtractPlugin({
-        filename: '../css/[name].css',
+        filename: argv.mode === 'development' ? '../css/[name].debug.css' : '../css/[name].css'
       }),
       // https://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
         new webpack.ProvidePlugin({
@@ -50,27 +52,32 @@ let plug = [
             jquery: 'jquery',
             'window.jQuery': 'jquery',
         }),
-]
+    ]
+}
 
-module.exports = {
-    output: {
-        filename: '[name].js',
-        path: '/home/eugen/GitHub/PapermergeDMS/papermerge/contrib/admin/static/admin/js/'
-    },
-    entry: {
-        papermerge: [
-            './src/js/app.js',
-            './src/sass/app.scss',
-        ]
+module.exports = function (env, argv) {
 
-    },
-    module: mod,
-    plugins: plug,
-    resolve: {
-        // I got this from here
-        // https://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
-        alias: {
-            'bootstrap-select-dropdown': "bootstrap-select-dropdown/src/js/bootstrap-select-dropdown"
+    return {
+        mode: argv.mode === 'development' ? 'development' : 'production',
+        output: {
+            filename:  argv.mode === 'development' ? '[name].debug.js' : '[name].js',
+            path: '/home/eugen/GitHub/PapermergeDMS/papermerge/contrib/admin/static/admin/js/'
+        },
+        entry: {
+            papermerge: [
+                './src/js/app.js',
+                './src/sass/app.scss',
+            ]
+
+        },
+        module: mod,
+        plugins: plug(env, argv),
+        resolve: {
+            // I got this from here
+            // https://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
+            alias: {
+                'bootstrap-select-dropdown': "bootstrap-select-dropdown/src/js/bootstrap-select-dropdown"
+            }
         }
     }
 }
