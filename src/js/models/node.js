@@ -1,6 +1,7 @@
 import _ from "underscore";
 import $ from "jquery";
 import { Model, Collection } from 'backbone';
+import { MessageView } from '../views/message';
 
 export class Node extends Model {
     defaults() {
@@ -199,33 +200,39 @@ export class NodeCollection extends Collection {
     }
 
     collection_post_action(url, options, extra_data) {
-      let token, post_data, request;
+        let token, post_data, request;
 
-      token = $("[name=csrfmiddlewaretoken]").val();
-      
-      post_data = this.models.map(
-          function(models) { 
-              return models.attributes;
-          }
-      );
+        token = $("[name=csrfmiddlewaretoken]").val();
+        
+        post_data = this.models.map(
+            function(models) { 
+                return models.attributes;
+            }
+        );
 
-      if (extra_data) {
-        post_data = {...post_data, ...extra_data}
-      }
+        if (extra_data) {
+          post_data = {...post_data, ...extra_data}
+        }
 
-      $.ajaxSetup({
-          headers: { 'X-CSRFToken': token}
-      });
+        $.ajaxSetup({
+            headers: { 'X-CSRFToken': token}
+        });
 
-      request = $.ajax({
-          method: "POST",
-          url: url,
-          data: JSON.stringify(post_data),
-          contentType: "application/json",
-          dataType: 'json'
-      });
+        request = $.ajax({
+            method: "POST",
+            url: url,
+            data: JSON.stringify(post_data),
+            contentType: "application/json",
+            dataType: 'json',
+            error: function(xhr, text, error) {
+                new MessageView(
+                    "Error",
+                    xhr.responseJSON['msg'], 
+                );
+            }
+        });
 
-      request.done(options['success']);  
+        request.done(options['success']);
     }
 
     delete(options) {
