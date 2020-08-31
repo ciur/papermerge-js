@@ -2,6 +2,7 @@ import { dglReady } from "./utils";
 
 import { DgPageScroll } from "./document_form/page_scroll";
 
+import { LogsView } from "./views/logs";
 import { BrowseView } from "./views/browse";
 import { BreadcrumbView } from "./views/breadcrumb";
 import { ActionsView } from "./views/actions";
@@ -46,8 +47,10 @@ let App = function() {
     document_view,
     document_actions_view,
     control_sidebar,
-    browse_router;
+    browse_router,
+    logs_view;
 
+  logs_view = new LogsView();
   browse_view = new BrowseView();
   actions_view = new ActionsView();
   breadcrumb_view = new BreadcrumbView();
