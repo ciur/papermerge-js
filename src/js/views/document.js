@@ -318,6 +318,14 @@ export class DocumentView extends View {
               type: 'POST',
               dataType: "json",
               contentType: "application/json; charset=utf-8",
+              error: function(response) {
+                if (response.status == 403) {
+                  new MessageView(
+                      "Error",
+                      response.responseJSON['msg'],
+                  );
+                }
+              }
             });
         }
       });
