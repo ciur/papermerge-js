@@ -9,10 +9,13 @@ export class Tag extends Model {
         return '/tag-node/';
     }
 
+    modelId() {
+        return this.get('name')
+    }
+
     toJSON() {
         let dict = {
-            id: this.get('id'),
-            tag: this.get('tags'),
+            name: this.get('name'),
         }
 
         return dict;
@@ -26,5 +29,15 @@ export class Tags extends Collection {
 
     urlRoot() {
         return '/tags/';
+    }
+
+    remove(model) {
+        for (var i = 0; i < this.models.length; i++) {
+            if (this.models[i].get('title') == model.get('title')) {
+                this.models.splice(i, 1);
+                this.length--;
+                break;
+            }
+        }
     }
 }

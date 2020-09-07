@@ -2,7 +2,10 @@
     <% model = tags.models[i] %>
      <div class="tag d-flex align-items-center">
        <span><%= model.get('name') %></span>
-       <i class="fa fa-times tag-remove"></i>
+       <i 
+        class="fa fa-times tag-remove"
+        data-name="<%= model.get('name') %>">
+        </i>
      </div>
  <% } %>
 <input class="tag-input" />

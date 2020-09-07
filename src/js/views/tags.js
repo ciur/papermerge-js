@@ -27,16 +27,26 @@ export class TagsView extends View {
     return event_map;
   }
 
+  on_remove(event) {
+    let value, model;
+
+    value = $(event.target).data('name');
+    model = new Tag({'name': value});
+    this.tags.remove(model);
+    this.render();
+  }
+
   on_keyup(event) {
-    let tag, value;
+    let value, model;
 
     event.preventDefault();
 
     if (event.which == ENTER_KEY || event.key == ',') {
       value = $(event.target).val();
       value = value.replace(',','');
-      tag = new Tag({'name': value});
-      this.tags.add(tag)
+      model = new Tag({'name': value});
+
+      this.tags.add(model);
       this.render();
       this.$el.find("input").focus();
     }
