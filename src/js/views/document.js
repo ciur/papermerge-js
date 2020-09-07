@@ -16,6 +16,7 @@ import {MgChangeFormActions, MgChangeFormAction} from "../actions/changeform_act
 import {BreadcrumbView} from "../views/breadcrumb";
 import {RenameView} from "../views/rename";
 import {Document} from "../models/document";
+import { MessageView } from '../views/message';
 
 export class DocumentActionsView extends View {
   
@@ -290,6 +291,14 @@ export class DocumentView extends View {
               data: JSON.stringify(pages),
               dataType: "json",
               contentType: "application/json; charset=utf-8",
+              error: function(response) {
+                if (response.status == 403) {
+                  new MessageView(
+                      "Error",
+                      response.responseJSON['msg'],
+                  );
+                }
+              }
           });
         }
       });
@@ -309,6 +318,14 @@ export class DocumentView extends View {
               type: 'POST',
               dataType: "json",
               contentType: "application/json; charset=utf-8",
+              error: function(response) {
+                if (response.status == 403) {
+                  new MessageView(
+                      "Error",
+                      response.responseJSON['msg'],
+                  );
+                }
+              }
             });
         }
       });
