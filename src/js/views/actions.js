@@ -12,7 +12,7 @@ import {
 
 import {NewFolderView} from "../views/new_folder";
 import {RenameView} from "../views/rename";
-import {TagsView} from "../views/tags";
+import {TagsModalView} from "../views/tags_modal";
 import {AccessView} from "../views/access";
 import {UploaderView} from "../views/uploader";
 
@@ -192,7 +192,7 @@ export class ActionsView extends View {
     let node = _.first(this.selection.models), tags_view;
 
     if (node) {
-      tags_view = new TagsView(node);
+      tags_view = new TagsModalView(node);
     }
   }
 

@@ -1,36 +1,7 @@
-<div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">
-          <%= gettext('Tags') %>
-      </h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-      <div class="modal-body">
-            <div class="modal-body vertical">
-              <form id="new-folder-form" method="POST">
-                  <div class="form-group">
-                    <label for="tags"><%= gettext('Tags Editor') %>:</label>
-                    <div class="tags-container d-flex">
-                      <div class="tag d-flex align-items-center">
-                        <span>Invoice</span>
-                        <i class="fa fa-times"></i>
-                      </div>
-                      <div class="tag d-flex align-items-center">
-                        <span>Paid</span>
-                        <i class="fa fa-times"></i>
-                      </div>
-                      <input />
-                    </div>
-                  </div>
-              </form>
-            </div>
-      </div>
-      <div class="modal-footer">
-            <button type="submit" class="btn btn-success action margin-xs tags"><%= gettext('Submit') %></button>
-            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel"><%= gettext('Cancel') %></button></a>
-      </div>
-  </div>
-</div>
+ <% for (i=0; i < tags.models.length; i++) { %>
+     <div class="tag d-flex align-items-center">
+       <span>{{tags[i].name}}</span>
+       <i class="fa fa-times tag-remove"></i>
+     </div>
+ <% } %>
+
