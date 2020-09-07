@@ -1,0 +1,26 @@
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">
+          <%= gettext('Tags') %>
+      </h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+      <div class="modal-body">
+            <div class="modal-body vertical">
+              <form id="new-folder-form" method="POST">
+                  <div class="form-group">
+                    <label for="tags"><%= gettext('Tags Editor') %>:</label>
+                    <input type="text" class="form-control" value="<%= tags %>" name="tags" />
+                  </div>
+              </form>
+            </div>
+      </div>
+      <div class="modal-footer">
+            <button type="submit" class="btn btn-success action margin-xs tags"><%= gettext('Submit') %></button>
+            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel"><%= gettext('Cancel') %></button></a>
+      </div>
+  </div>
+</div>

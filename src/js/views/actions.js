@@ -12,6 +12,7 @@ import {
 
 import {NewFolderView} from "../views/new_folder";
 import {RenameView} from "../views/rename";
+import {TagsView} from "../views/tags";
 import {AccessView} from "../views/access";
 import {UploaderView} from "../views/uploader";
 
@@ -46,6 +47,7 @@ export class ActionsView extends View {
         'click #access': 'click_access',
         'click #paste_pages': 'paste_pages',
         'click #rename': 'rename_node',
+        'click #tags-menu-item': 'tag_node',
         // will proxy event to #id_file_name
         'click #id_btn_upload': 'upload_clicked',
         'change #id_file_name': 'upload'
@@ -186,6 +188,14 @@ export class ActionsView extends View {
     }
   }
 
+  tag_node(event) {
+    let node = _.first(this.selection.models), tags_view;
+
+    if (node) {
+      tags_view = new TagsView(node);
+    }
+  }
+
   new_folder(event) {
     let new_folder_view, parent_id;
 
@@ -234,6 +244,16 @@ export class ActionsView extends View {
             return true;
           }
 
+          return false;
+      }
+    });
+
+    result.add({
+      'id': "#tags-menu-item",
+      'cond': function(selection, clipboard, parent_id) {
+          if (selection.length > 0) {
+            return true;
+          }
           return false;
       }
     });
