@@ -1,7 +1,9 @@
- <% for (i=0; i < tags.models.length; i++) { %>
+ <% for (let i=0; i < tags.models.length; i++) { %>
+    <% model = tags.models[i] %>
      <div class="tag d-flex align-items-center">
-       <span>{{tags[i].name}}</span>
+       <span><%= model.get('name') %></span>
        <i class="fa fa-times tag-remove"></i>
      </div>
  <% } %>
+<input class="tag-input" />
 

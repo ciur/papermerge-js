@@ -1,7 +1,7 @@
 import _ from "underscore";
-import { Model } from 'backbone';
+import { Model, Collection } from 'backbone';
 
-export class Tags extends Model {
+export class Tag extends Model {
     /**
         Used to tag folder/document.
     */
@@ -16,5 +16,15 @@ export class Tags extends Model {
         }
 
         return dict;
+    }
+}
+
+export class Tags extends Collection {
+    get model() {
+        return Tag;
+    }
+
+    urlRoot() {
+        return '/tags/';
     }
 }

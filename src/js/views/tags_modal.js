@@ -1,6 +1,6 @@
 import $ from "jquery";
 import _ from "underscore";
-import { Tags } from "../models/tags";
+import { TagsView } from "../views/tags";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
@@ -18,14 +18,13 @@ export class TagsModalView extends View {
   } 
 
   initialize(node) {
-      this.tags = new Tags(node);
       this.node = node;
       this.render();
+      this.tags_container = new TagsView();
   }
 
   events() {
     let event_map = {
-      "keyup .tag-input": 'on_keyup',
       "click .rename": "on_rename",
       "submit": "on_form_submit"
     }
@@ -33,18 +32,12 @@ export class TagsModalView extends View {
     return event_map;
   }
 
-  on_keyup(event) {
-    if (event.key == 'Enter' || event.key == ',') {
-
-    }
-  }
-
   on_form_submit(event) {
     event.preventDefault();
-    this.on_rename(event);
+    //this.on_rename(event);
     // otherwise it will continue renaming
     // renaming same folder/file over and over!
-    this.undelegateEvents();
+    //this.undelegateEvents();
   }
 
   on_rename(event) {

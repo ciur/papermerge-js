@@ -1,19 +1,20 @@
 import $ from "jquery";
 import _ from "underscore";
-import { Tags } from "../models/tags";
+import { Tag, Tags } from "../models/tags";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
 let TEMPLATE = require('../templates/tags.html');
+let ENTER_KEY = 13;
 
-export class TagsModalView extends View {
+
+export class TagsView extends View {
   el() {
-      // this element is defined in admin/_forms.js.html
-      return $('#tags-modal');
+      return $('.tags-container');
   } 
 
   initialize(tags) {
-      this.tags = tags;
+      this.tags = tags || new Tags();
       this.render();
   }
 
@@ -27,8 +28,17 @@ export class TagsModalView extends View {
   }
 
   on_keyup(event) {
-    if (event.key == 'Enter' || event.key == ',') {
+    let tag, value;
 
+    event.preventDefault();
+
+    if (event.which == ENTER_KEY || event.key == ',') {
+      value = $(event.target).val();
+      value = value.replace(',','');
+      tag = new Tag({'name': value});
+      this.tags.add(tag)
+      this.render();
+      this.$el.find("input").focus();
     }
   }
 
@@ -38,10 +48,9 @@ export class TagsModalView extends View {
     context = {};
 
     compiled = _.template(TEMPLATE({
-        'tags': this.node.get('tags'),
+        'tags': this.tags,
     }));
 
     this.$el.html(compiled);
-    this.$el.modal();
   }
 }
