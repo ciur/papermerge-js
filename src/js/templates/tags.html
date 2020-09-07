@@ -13,7 +13,17 @@
               <form id="new-folder-form" method="POST">
                   <div class="form-group">
                     <label for="tags"><%= gettext('Tags Editor') %>:</label>
-                    <input type="text" class="form-control" value="<%= tags %>" name="tags" />
+                    <div class="tags-container d-flex">
+                      <div class="tag d-flex align-items-center">
+                        <span>Invoice</span>
+                        <i class="fa fa-times"></i>
+                      </div>
+                      <div class="tag d-flex align-items-center">
+                        <span>Paid</span>
+                        <i class="fa fa-times"></i>
+                      </div>
+                      <input />
+                    </div>
                   </div>
               </form>
             </div>
