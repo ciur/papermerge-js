@@ -9,7 +9,15 @@
                 </div>
             <% } %>
             <div class="icon-<%= node.get('ctype') %>">
+
             </div>
+            <ul class="node-tags d-flex flex-column align-items-end">
+                <% tags = node.get('tags'); %>
+                <% for (t=0; t < tags.length; t++) { %>
+                    <% tag = tags[t]; %>
+                    <li class="tag"><%= tag['name'] %></li>
+                <% } %>
+            </ul>
             <div class="icons">
                 <% if (node.is_readonly()) {  %>
                     <i class="fa fa-lock"></i>
@@ -20,6 +28,7 @@
                 <a href="#" class="<%= node.get('ctype') %>" data-id="<%= node.get('id') %>" alt="<%=  node.full_title() %>"><%= node.short_title(20) %></a>
                 <span class="tooltiptext"><%= node.full_title()  %></span>
             </div>
+
         </li>
     <% } %>
 </ul>

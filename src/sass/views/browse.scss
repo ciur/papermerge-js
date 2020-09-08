@@ -46,6 +46,20 @@
                 }
             }
 
+            ul.node-tags {
+                position: absolute;
+                right: 0;
+
+                li.tag {
+                    color: white;
+                    background-color: green;
+                    padding: 0.1rem 0.5rem;
+                    margin-right: -0.2rem;
+                    margin-top: 0.25rem;
+                    border-radius: 0.5rem;
+                }
+            }
+
             .placeholder.document {
                 position: relative;
                 overflow: hidden;
@@ -79,6 +93,7 @@
                      width: 5rem;
                      height: 5rem;
                  }
+
             }
             .title {
                  text-align: center;
