@@ -13,8 +13,8 @@ export class TagsView extends View {
       return $('.tags-container');
   } 
 
-  initialize(tags) {
-      this.tags = tags || new Tags();
+  initialize(node) {
+      this.tags = new Tags([], {'node': node});
       this.render();
   }
 

@@ -3,6 +3,7 @@ import $ from "jquery";
 import { Model, Collection } from 'backbone';
 import { MessageView } from '../views/message';
 
+
 export class Node extends Model {
     defaults() {
       return {

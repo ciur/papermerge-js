@@ -1,5 +1,7 @@
 import _ from "underscore";
 import { Model, Collection } from 'backbone';
+import { MessageView } from '../views/message';
+
 
 export class Tag extends Model {
     /**
@@ -27,8 +29,16 @@ export class Tags extends Collection {
         return Tag;
     }
 
+    initialize(model, options) {
+        if (options) {
+            this.node = options.node;
+        }
+    }
+
     urlRoot() {
-        return '/tags/';
+        if (this.node) {
+            return `/node/${this.node.id}/tags/`;
+        }
     }
 
     remove(model) {
@@ -39,5 +49,41 @@ export class Tags extends Collection {
                 break;
             }
         }
+    }
+
+    save(options) {
+        let token, request, tags ,post_data;
+
+        token = $("[name=csrfmiddlewaretoken]").val();
+
+        tags = this.models.map(
+            function(models) { 
+                return models.attributes;
+            }
+        );
+
+        post_data = {
+            'tags': tags,
+        }
+        
+        $.ajaxSetup({
+            headers: { 'X-CSRFToken': token}
+        });
+
+        request = $.ajax({
+            method: "POST",
+            url: this.urlRoot(),
+            data: JSON.stringify(post_data),
+            contentType: "application/json",
+            dataType: 'json',
+            error: function(xhr, text, error) {
+                new MessageView(
+                    "Error",
+                    xhr.responseJSON['msg'], 
+                );
+            }
+        });
+
+        request.done(options['success']);  
     }
 }

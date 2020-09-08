@@ -20,12 +20,12 @@ export class TagsModalView extends View {
   initialize(node) {
       this.node = node;
       this.render();
-      this.tags_container = new TagsView();
+      this.tags_container = new TagsView(node);
   }
 
   events() {
     let event_map = {
-      "click .rename": "on_rename",
+      "click button.submit_tags": "on_click_submit",
       "submit": "on_form_submit"
     }
 
@@ -40,26 +40,18 @@ export class TagsModalView extends View {
     //this.undelegateEvents();
   }
 
-  on_rename(event) {
-    let node_title, parent_id, options = {};
+  on_click_submit(event) {
+    let tags, parent_id, options = {};
 
     options['success'] = function() {
       mg_dispatcher.trigger(BROWSER_REFRESH);
     }
 
-    node_title = this.$el.find("[name=title]").val();
+    tags = this.tags_container.tags;
 
-    if (node_title == null || node_title.trim().length === 0) {
-      this.$el.modal('hide');
-      return ;
-    }
-
-    this.rename.set({
-      'title': node_title,
-    });
 
     this.$el.modal('hide');
-    this.rename.save({}, options);
+    tags.save({}, options);
   }
 
   render() {
