@@ -7,6 +7,7 @@ import { BreadcrumbView } from "./views/breadcrumb";
 import { ActionsView } from "./views/actions";
 import { ControlSidebarView } from "./views/control_sidebar";
 import { DocumentView, DocumentActionsView } from "./views/document";
+import { TagPreviewView } from "./views/tag_preview";
 
 import { BrowseRouter } from "./routers/browse";
 
@@ -46,12 +47,14 @@ let App = function() {
     document_view,
     document_actions_view,
     control_sidebar,
-    browse_router;
+    browse_router,
+    tag_preview_view;
 
   browse_view = new BrowseView();
   actions_view = new ActionsView();
   breadcrumb_view = new BreadcrumbView();
   control_sidebar = new ControlSidebarView();
+  tag_preview_view = new TagPreviewView();
 
   if ($("#document").length == 1) {
     // we in document view. Document view and browser view
