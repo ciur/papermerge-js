@@ -230,7 +230,7 @@ class Table {
       'cid': node.cid,
       'url': node.url,
       'col': 'title',
-      'value': node.full_title(),
+      'value': node.full_title_list_mode(),
       'virtual_value': node.full_title(),
       'virtual_type': 'str'
     }

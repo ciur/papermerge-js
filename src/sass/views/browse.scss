@@ -7,6 +7,10 @@
          outline: 1px solid $result_list_hover_border_color;
     }
 
+    .fa.fa-folder, .fa.fa-file {
+        font-size: 1.5rem;
+    }
+
     .table {
         a.sort.header:hover {
             text-decoration: none

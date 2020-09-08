@@ -54,6 +54,27 @@ export class Node extends Model {
         return this.get('title');
     }
 
+    full_title_list_mode() {
+        let tags = this.get('tags'), tag,
+            title_and_tags;
+
+        title_and_tags = `<ul class="d-flex flex-row align-items-center">`;
+        title_and_tags += `<li class="mx-2">${this.get('title')}</li>`;
+
+        for (let t=0; t < tags.length; t++) {
+            tag = tags[t];
+            if (tag) {
+                title_and_tags += `<li class="tag"  style="background:  ${tag['bg_color']}`;
+                title_and_tags += `;color: ${tag['fg_color']}" >`;
+                title_and_tags += tag['name'];
+                title_and_tags +=`</li>`;
+            }
+        }
+        title_and_tags += `</ul>`;
+
+        return title_and_tags;
+    }
+
     short_title(len) {
         let result,
             text = this.get('title');
