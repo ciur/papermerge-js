@@ -14,7 +14,16 @@ export class TagsView extends View {
   } 
 
   initialize(node) {
-      this.tags = new Tags([], {'node': node});
+      tags = _.map(
+        node.get('tags') || [],
+        function(item) { 
+          return new Tag({'name': item['name']});
+        }
+      );
+      this.tags = new Tags(
+        tags, 
+        {'node': node}
+      );
       this.render();
   }
 

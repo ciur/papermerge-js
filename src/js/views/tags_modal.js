@@ -55,7 +55,7 @@ export class TagsModalView extends View {
   }
 
   render() {
-    let compiled, context;
+    let compiled, context, node;
     
     context = {};
 
