@@ -15,7 +15,9 @@
                 <% tags = node.get('tags'); %>
                 <% for (t=0; t < tags.length; t++) { %>
                     <% tag = tags[t]; %>
-                    <li class="tag"><%= tag['name'] %></li>
+                    <li class="tag"  style="background: <%= tag['bg_color'] %>;color: <%= tag['fg_color'] %>" >
+                        <%= tag['name'] %>
+                    </li>
                 <% } %>
             </ul>
             <div class="icons">
