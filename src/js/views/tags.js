@@ -13,18 +13,12 @@ export class TagsView extends View {
       return $('.tags-container');
   } 
 
-  initialize(node) {
-      tags = _.map(
-        node.get('tags') || [],
-        function(item) { 
-          return new Tag({'name': item['name']});
-        }
-      );
-      this.tags = new Tags(
-        tags, 
-        {'node': node}
-      );
-      this.render();
+  initialize(tags) {
+    /*
+    * Backbone collection of tags
+    */
+    this.tags = tags
+    this.render();
   }
 
   events() {
@@ -73,3 +67,4 @@ export class TagsView extends View {
     this.$el.html(compiled);
   }
 }
+

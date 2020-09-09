@@ -31,13 +31,19 @@ export class Tags extends Collection {
 
     initialize(model, options) {
         if (options) {
-            this.node = options.node;
+            if (options.node) {
+                this.node = options.node;    
+            } else if (options.nodes) {
+                this.nodes = options.nodes;
+            }
         }
     }
 
     urlRoot() {
         if (this.node) {
             return `/node/${this.node.id}/tags/`;
+        } else if (this.nodes) {
+            return `/nodes/tags/`;
         }
     }
 
@@ -52,7 +58,7 @@ export class Tags extends Collection {
     }
 
     save(options) {
-        let token, request, tags ,post_data;
+        let token, request, tags, post_data, nodes = [];
 
         token = $("[name=csrfmiddlewaretoken]").val();
 
@@ -62,8 +68,18 @@ export class Tags extends Collection {
             }
         );
 
+        if (this.node) {
+            nodes = [node.id];
+        } else if (this.nodes) {
+            nodes = _.map(
+                this.nodes,
+                function(item){ return item.id; }
+            );
+        }
+
         post_data = {
             'tags': tags,
+            'nodes': nodes
         }
         
         $.ajaxSetup({

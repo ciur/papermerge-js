@@ -12,7 +12,7 @@ import {
 
 import {NewFolderView} from "../views/new_folder";
 import {RenameView} from "../views/rename";
-import {TagsModalView} from "../views/tags_modal";
+import {TagsModalView, MultiTagsModalView} from "../views/tags_modal";
 import {AccessView} from "../views/access";
 import {UploaderView} from "../views/uploader";
 
@@ -189,10 +189,12 @@ export class ActionsView extends View {
   }
 
   tag_node(event) {
-    let node = _.first(this.selection.models), tags_view;
+    let models = this.selection.models, tags_view;
 
-    if (node) {
-      tags_view = new TagsModalView(node);
+    if (models.length == 1) {
+      tags_view = new TagsModalView(_.first(models));
+    } else if (models.length > 1) {
+      tags_view = new MultiTagsModalView(models);
     }
   }
 
@@ -235,7 +237,6 @@ export class ActionsView extends View {
           return false;
       }
     });
-
 
     result.add({
       'id': "#rename",
