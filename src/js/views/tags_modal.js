@@ -54,13 +54,48 @@ export class BaseModalView extends View {
     * Returns a (backbone) collection  of shared tags across given nodes
     */
   }
+  _nodes2tag_collection(nodes) {
+    /*
+    * For given nodes returns a backbone collection of tags 
+    * (of model.tags.Tag instances) shared among all of them.
+    */
+    let tags, tag_collection, shared, keys;
+
+    shared = {}
+
+    tag_collection = new Tags([], {'node': node});
+
+    for(let x=0; x < nodes.length; x++) {
+      tags = nodes[x].get('tags') || [];
+
+      for (let i=0; i < tags.length; i++) {
+         if (!shared[tags[i]['name']]) {
+            shared[tags[i]['name']] = 1;
+         } else {
+            shared[tags[i]['name']] += 1;
+         }
+      }
+    }
+
+    keys = _.uniq(_.keys(shared));
+    // add only tags with nodes.length counter
+    for(let x=0; x < keys.length; x++) {
+      if (shared[keys[x]] == nodes.length) {
+        tag_collection.add(
+          {'name': keys[x]}
+        );
+      }
+    }
+
+    return tag_collection;
+  }
 
   _node2tag_collection(node) {
     /*
     * For given node returns a backbone collection of tags 
     * (of model.tags.Tag instances)
     */
-    let result, tags, tag_collection;
+    let tags, tag_collection;
 
     tag_collection = new Tags([], {'node': node});
 
@@ -102,7 +137,7 @@ export class TagsModalView extends BaseModalView {
   }
 }
 
-export class MultiTagsModalView extends View {
+export class MultiTagsModalView extends BaseModalView {
   /***
   * Modal dialog displayed when user selected multiple nodes
   ***/
@@ -111,7 +146,8 @@ export class MultiTagsModalView extends View {
     this.nodes = nodes;
     this.render();
     this.tags_container = new TagsView(
-      this._get_shared_tags(nodes)
+      // notice 'nodes' is in plural
+      this._nodes2tag_collection(nodes)
     );
   }
 
@@ -121,7 +157,8 @@ export class MultiTagsModalView extends View {
     context = {};
 
     compiled = _.template(MULTI_TEMPLATE({
-        'tags': this._get_shared_tags(this.nodes),
+        // notice 'nodes' is in plural
+        'tags': this._nodes2tag_collection(this.nodes),
     }));
 
     this.$el.html(compiled);
