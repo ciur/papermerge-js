@@ -63,7 +63,7 @@ export class BaseModalView extends View {
 
     shared = {}
 
-    tag_collection = new Tags([], {'node': node});
+    tag_collection = new Tags([], {'nodes': nodes});
 
     for(let x=0; x < nodes.length; x++) {
       tags = nodes[x].get('tags') || [];
