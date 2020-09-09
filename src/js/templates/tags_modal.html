@@ -11,12 +11,14 @@
       <div class="modal-body">
             <div class="modal-body vertical">
               <form id="new-folder-form" method="POST">
-                  <div class="form-group">
-                    <label for="tags"><%= gettext('Tags Editor') %>:</label>
-                    <div class="tags-container d-flex">
-                     
-                    </div>
+                <div class="form-group">
+                  <label for="tags"><%= gettext('Tags Editor') %>:</label>
+                  <div class="tags-container d-flex">
                   </div>
+                  <p class="text-muted">
+                    <%= gettext('Use comma(,) or Enter as tags separator') %>
+                  </p>
+                </div>
               </form>
             </div>
       </div>

@@ -45,9 +45,8 @@ export class BaseModalView extends View {
 
     tags = this.tags_container.tags;
 
-
     this.$el.modal('hide');
-    tags.save({}, options);
+    tags.save(options);
   }
 
   _get_shared_tags(nodes) {
@@ -74,7 +73,6 @@ export class BaseModalView extends View {
     }
     return tag_collection;
   }
-
 }
 
 
