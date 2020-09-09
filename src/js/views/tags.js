@@ -46,13 +46,22 @@ export class TagsView extends View {
 
     if (event.which == ENTER_KEY || event.key == ',') {
       value = $(event.target).val();
-      value = value.replace(',','');
-      model = new Tag({'name': value});
 
-      this.tags.add(model);
-      this.render();
-      this.$el.find("input").focus();
-    }
+      if (!_.isEmpty(value)) { // whitespace is not a tag!
+        value = value.replace(',','');
+
+        // maybe user just pressed enter key after
+        // whitespace. Make sure there is some non-white space
+        // after comma removal.
+        if (!_.isEmpty(value)) {
+          model = new Tag({'name': value});
+
+          this.tags.add(model);
+          this.render();
+          this.$el.find("input").focus();
+        } // is not empty IF
+      } // is not empty IF
+    } // enter or comma IF
   }
 
   render() {
