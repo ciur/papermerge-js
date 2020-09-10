@@ -31,9 +31,10 @@ export class Browse extends Model {
 
         if (parent_id) {
             base_url = `/browse/${parent_id}/`;
+        } else {
+            base_url = '/browse/';    
         }
-
-        base_url = '/browse/';
+        
         tag = this.get('tag');
         if (tag) {
             base_url = base_url + `?tag=${tag}`;
