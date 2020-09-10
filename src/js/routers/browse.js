@@ -29,8 +29,16 @@ export class BrowseRouter extends Router {
     routes() {
         return {
             ":node_id": "browse",
+            "tagged/:name": "tagged",
             "*path": "browse"
         }
+    }
+
+    tagged(name) {
+        this.browse_view.open(
+            undefined, // node_id
+            name // tagname
+        );
     }
 
     browse(node_id) {

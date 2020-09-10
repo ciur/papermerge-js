@@ -25,13 +25,21 @@ export class Browse extends Model {
     }
 
     urlRoot() {
-        let parent_id = this.get('parent_id');
+        let parent_id = this.get('parent_id'),
+            base_url,
+            tag;
 
         if (parent_id) {
-            return `/browse/${parent_id}/`;
+            base_url = `/browse/${parent_id}/`;
         }
 
-        return '/browse/'
+        base_url = '/browse/';
+        tag = this.get('tag');
+        if (tag) {
+            base_url = base_url + `?tag=${tag}`;
+        }
+
+        return base_url;
     }
 
     toJSON() {

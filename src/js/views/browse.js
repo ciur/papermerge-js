@@ -538,10 +538,13 @@ export class BrowseView extends View {
     window.location = node.get('document_url');
   }
 
-  open(node_id) {
+  open(node_id, tagname) {
     let parent_id = node_id;
     
-    this.browse.set({'parent_id': node_id});
+    this.browse.set({
+      'parent_id': node_id,
+      'tag': tagname
+    });
     
     this.browse.fetch();
   }
