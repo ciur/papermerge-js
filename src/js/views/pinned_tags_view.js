@@ -16,7 +16,10 @@ export class PinnedTagsView extends View {
   }
 
   on_click(event) {
-    event.preventDefault();
+    let $el = $(event.currentTarget),
+        parent = $el.parent();
     
+    parent.siblings().removeClass('active');
+    parent.addClass('active');
   }
 }

@@ -3,9 +3,16 @@
 */
 ul.pinned_tags {
     li {
+        padding: 0.2rem;
+        padding-left: 0.5rem;
         a.tag {
             padding-top: 0rem;
             padding-bottom: 0rem;
         }
+    }
+
+    li.active {
+        background-color: rgba(0,0,0,0.2);
+        border-left: 2px solid white;
     }
 }

@@ -8,6 +8,7 @@ import { ActionsView } from "./views/actions";
 import { ControlSidebarView } from "./views/control_sidebar";
 import { DocumentView, DocumentActionsView } from "./views/document";
 import { TagPreviewView } from "./views/tag_preview";
+import { PinnedTagsView } from "./views/pinned_tags_view";
 
 import { BrowseRouter } from "./routers/browse";
 
@@ -48,13 +49,15 @@ let App = function() {
     document_actions_view,
     control_sidebar,
     browse_router,
-    tag_preview_view;
+    tag_preview_view,
+    pinned_tags_view;
 
   browse_view = new BrowseView();
   actions_view = new ActionsView();
   breadcrumb_view = new BreadcrumbView();
   control_sidebar = new ControlSidebarView();
   tag_preview_view = new TagPreviewView();
+  pinned_tags_view = new PinnedTagsView();
 
   if ($("#document").length == 1) {
     // we in document view. Document view and browser view
