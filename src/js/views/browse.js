@@ -8,7 +8,12 @@ import {
     mg_dispatcher,
     PARENT_CHANGED,
     SELECTION_CHANGED,
-    BROWSER_REFRESH
+    BROWSER_REFRESH,
+    SELECT_ALL,
+    SELECT_FOLDERS,
+    SELECT_DOCUMENTS,
+    DESELECT,
+    INVERT_SELECTION,
 } from "../models/dispatcher";
 import { mg_browse_router } from "../routers/browse";
 
@@ -466,6 +471,11 @@ export class BrowseView extends View {
     this.listenTo(this.browse_list_view, 'change', this.render);
 
     mg_dispatcher.on(BROWSER_REFRESH, this.refresh, this);
+    mg_dispatcher.on(SELECT_ALL, this.select_all, this);
+    mg_dispatcher.on(SELECT_FOLDERS, this.select_folders, this);
+    mg_dispatcher.on(SELECT_DOCUMENTS, this.select_documents, this);
+    mg_dispatcher.on(DESELECT, this.deselect, this);
+    mg_dispatcher.on(INVERT_SELECTION, this.invert_selection, this);
   }
 
   events() {
@@ -474,6 +484,65 @@ export class BrowseView extends View {
         'click .node': 'select_node'
       }
       return event_map;
+  }
+
+  select_all() {
+    this.browse.nodes.each(function(node){
+        node.select();
+    });
+
+    mg_dispatcher.trigger(
+      SELECTION_CHANGED,
+      this.get_selection()
+    );
+  }
+
+  select_folders() {
+    this.browse.nodes.each(function(node){
+      if (node.is_folder()) {
+        node.select();
+      }
+    });
+
+    mg_dispatcher.trigger(
+      SELECTION_CHANGED,
+      this.get_selection()
+    );
+  }
+
+  select_documents() {
+    this.browse.nodes.each(function(node){
+      if (node.is_document()) {
+        node.select();
+      }
+    });
+
+    mg_dispatcher.trigger(
+      SELECTION_CHANGED,
+      this.get_selection()
+    );
+  }
+
+  deselect() {
+    this.browse.nodes.each(function(node){
+        node.deselect();
+    });
+
+    mg_dispatcher.trigger(
+      SELECTION_CHANGED,
+      this.get_selection()
+    );
+  }
+
+  invert_selection() {
+    this.browse.nodes.each(function(node){
+      node.toggle_selection();
+    });
+
+    mg_dispatcher.trigger(
+      SELECTION_CHANGED,
+      this.get_selection()
+    );
   }
 
   select_node(event) {

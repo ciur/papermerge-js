@@ -14,3 +14,10 @@ export let SELECTION_CHANGED = "selection_changed";
 export let PAGE_SELECTION_CHANGED = "page_selection_changed";
 export let BROWSER_REFRESH = "browser_refresh";
 export let PERMISSION_CHANGED = "permission_changed";
+
+// sent by menu items of "select" menu to browser module
+export let SELECT_ALL = "select_all";
+export let SELECT_FOLDERS = "select_folders";
+export let SELECT_DOCUMENTS = "select_documents";
+export let DESELECT = "deselect";
+export let INVERT_SELECTION = "invert_selection";

@@ -88,6 +88,34 @@ export class Node extends Model {
         return result;
     }
 
+    select() {
+        this.set({'selected': true});
+        // mark checked actual DOM element.
+        $(`.node[data-cid=${this.cid}]`).addClass('checked');
+    }
+
+    deselect() {
+        this.set({'selected': false});
+        // mark checked actual DOM element.
+        $(`.node[data-cid=${this.cid}]`).removeClass('checked');
+    }
+
+    toggle_selection() {
+        let state;
+
+        state = this.get('selected');
+
+        this.set({'selected': !state});
+
+        // toggle check state of actual DOM element.
+        if (state) {
+            // i.e. if selected
+            $(`.node[data-cid=${this.cid}]`).removeClass('checked');
+        } else {
+            $(`.node[data-cid=${this.cid}]`).addClass('checked');
+        }
+    }
+
     is_document() {
         if (this.get('ctype') == 'document') {
             return true;

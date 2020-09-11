@@ -7,7 +7,12 @@ import {
   mg_dispatcher,
   PARENT_CHANGED,
   SELECTION_CHANGED,
-  BROWSER_REFRESH
+  BROWSER_REFRESH,
+  SELECT_ALL,
+  SELECT_FOLDERS,
+  SELECT_DOCUMENTS,
+  DESELECT,
+  INVERT_SELECTION,
 } from "../models/dispatcher";
 
 import {NewFolderView} from "../views/new_folder";
@@ -50,10 +55,36 @@ export class ActionsView extends View {
         'click #tags-menu-item': 'tag_node',
         // will proxy event to #id_file_name
         'click #id_btn_upload': 'upload_clicked',
-        'change #id_file_name': 'upload'
+        'change #id_file_name': 'upload',
+        // selection related
+        'click #select_all_menu_item': 'on_select_all',
+        'click #select_folders_menu_item': 'on_select_folders',
+        'click #select_documents_menu_item': 'on_select_documents',
+        'click #deselect_menu_item': 'on_deselect',
+        'click #invert_selection_menu_item': 'on_invert_selection'
       }
 
       return event_map;
+  }
+
+  on_select_all(event) {
+    mg_dispatcher.trigger(SELECT_ALL);
+  }
+
+  on_select_folders(event) {
+    mg_dispatcher.trigger(SELECT_FOLDERS);
+  }
+
+  on_select_documents(event) {
+    mg_dispatcher.trigger(SELECT_DOCUMENTS);
+  }
+
+  on_deselect(event) {
+    mg_dispatcher.trigger(DESELECT);
+  }
+
+  on_invert_selection(event) {
+    mg_dispatcher.trigger(INVERT_SELECTION);
   }
 
   click_access(event) {
@@ -133,7 +164,6 @@ export class ActionsView extends View {
       mg_dispatcher.trigger(BROWSER_REFRESH);
     }
 
-    console.log(`paste: current parent_id=${this.parent_id}`);
     this.selection.paste(
       options,
       this.parent_id
