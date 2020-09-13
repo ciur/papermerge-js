@@ -4,6 +4,11 @@ import { View } from 'backbone';
 import Backbone from 'backbone';
 
 export class PinnedTagsView extends View {
+  /**
+    View on the left side navigation menu. If user
+    clicks a tag - it adds to it 'active' class 
+    (and removes active class from other pinned tags).
+  */
   el() {
       return $('#pinned_tags_view');
   }

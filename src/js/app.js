@@ -9,6 +9,7 @@ import { ControlSidebarView } from "./views/control_sidebar";
 import { DocumentView, DocumentActionsView } from "./views/document";
 import { TagPreviewView } from "./views/tag_preview";
 import { PinnedTagsView } from "./views/pinned_tags_view";
+import { ChangelistCheckboxView } from "./views/changelist_checkbox_view";
 
 import { BrowseRouter } from "./routers/browse";
 
@@ -50,7 +51,8 @@ let App = function() {
     control_sidebar,
     browse_router,
     tag_preview_view,
-    pinned_tags_view;
+    pinned_tags_view,
+    changelist_checkbox;
 
   browse_view = new BrowseView();
   actions_view = new ActionsView();
@@ -58,6 +60,7 @@ let App = function() {
   control_sidebar = new ControlSidebarView();
   tag_preview_view = new TagPreviewView();
   pinned_tags_view = new PinnedTagsView();
+  changelist_checkbox = new ChangelistCheckboxView();
 
   if ($("#document").length == 1) {
     // we in document view. Document view and browser view
