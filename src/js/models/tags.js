@@ -103,3 +103,14 @@ export class Tags extends Collection {
         request.done(options['success']);  
     }
 }
+
+
+export class AllTags extends Collection {
+    get model() {
+        return Tag;
+    }
+
+    parse(response) {
+      return response.tags;
+    }
+}

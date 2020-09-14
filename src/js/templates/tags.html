@@ -8,5 +8,11 @@
         </i>
      </div>
  <% } %>
-<input class="tag-input" />
+<input list="all_tags" class="tag-input" />
+<datalist id="all_tags">
+<% for (let i=0; i < all_tags.models.length; i++) { %>
+    <% model = all_tags.models[i] %>
+     <option value="<%= model.get('name') %>">
+<% } %>
+</datalist>
 

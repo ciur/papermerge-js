@@ -2,6 +2,7 @@ import $ from "jquery";
 import _ from "underscore";
 import { View, Collection } from 'backbone';
 import { NodeCollection } from '../models/node';
+import { AllTags } from "../models/tags";
 import Backbone from 'backbone';
 import {
   mg_dispatcher,
@@ -219,13 +220,36 @@ export class ActionsView extends View {
   }
 
   tag_node(event) {
-    let models = this.selection.models, tags_view;
+    let models = this.selection.models,
+      tags_view,
+      all_tags,
+      that,
+      success;
 
-    if (models.length == 1) {
-      tags_view = new TagsModalView(_.first(models));
-    } else if (models.length > 1) {
-      tags_view = new MultiTagsModalView(models);
+    // first get all tags available for current user
+    // and pass them to TagsModalView (or MultiTagsModalView)
+    // to enable autocompletion.
+
+    that = this;
+
+    all_tags = new AllTags();
+    all_tags.url = '/alltags/';
+
+    success = function(collection, response, options) {
+      if (models.length == 1) {
+        tags_view = new TagsModalView(
+          _.first(models),
+          collection
+        );
+      } else if (models.length > 1) {
+        tags_view = new MultiTagsModalView(
+          models,
+          collection
+        );
+      }
     }
+
+    all_tags.fetch({'success': success});
   }
 
   new_folder(event) {

@@ -115,11 +115,16 @@ export class TagsModalView extends BaseModalView {
   /***
   * Modal dialog displayed when user selected a single node
   ***/
-  initialize(node) {
+  initialize(node, all_tags_collection) {
+      /* 
+        all_tags_collection is tags collection of all tags of
+        given user (used for autocomplete).
+       */
       this.node = node;
       this.render();
       this.tags_container = new TagsView(
-        this._node2tag_collection(node)
+        this._node2tag_collection(node),
+        all_tags_collection
       );
   }
 
@@ -141,13 +146,18 @@ export class MultiTagsModalView extends BaseModalView {
   /***
   * Modal dialog displayed when user selected multiple nodes
   ***/
-  initialize(nodes) {
+  initialize(nodes, all_tags_collection) {
+    /* 
+      all_tags_collection is tags collection of all tags of
+      given user (used for autocomplete).
+     */
     // notice plural here
     this.nodes = nodes;
     this.render();
     this.tags_container = new TagsView(
       // notice 'nodes' is in plural
-      this._nodes2tag_collection(nodes)
+      this._nodes2tag_collection(nodes),
+      all_tags_collection
     );
   }
 

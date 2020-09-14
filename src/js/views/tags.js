@@ -13,11 +13,12 @@ export class TagsView extends View {
       return $('.tags-container');
   } 
 
-  initialize(tags) {
+  initialize(tags, all_tags) {
     /*
     * Backbone collection of tags
     */
     this.tags = tags
+    this.all_tags = all_tags;
     this.render();
   }
 
@@ -71,6 +72,7 @@ export class TagsView extends View {
 
     compiled = _.template(TEMPLATE({
         'tags': this.tags,
+        'all_tags': this.all_tags
     }));
 
     this.$el.html(compiled);
