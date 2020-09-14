@@ -13,11 +13,14 @@
             </div>
             <ul class="node-tags d-flex flex-column align-items-end">
                 <% tags = node.get('tags'); %>
-                <% for (t=0; t < tags.length; t++) { %>
+                <% for (t=0; t < tags.length && t < 3; t++) { %>
                     <% tag = tags[t]; %>
                     <li class="tag"  style="background: <%= tag['bg_color'] %>;color: <%= tag['fg_color'] %>" >
                         <%= tag['name'] %>
                     </li>
+                <% } %>
+                <% if (tags.length > 3) { %>
+                    <li>...</li>
                 <% } %>
             </ul>
             <div class="icons">
