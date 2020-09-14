@@ -5,6 +5,7 @@ import { View } from 'backbone';
 import Backbone from 'backbone';
 
 let TEMPLATE = require('../templates/tags.html');
+let AV_TEMPLATE = require('../templates/av_tags.html');
 let ENTER_KEY = 13;
 
 
@@ -79,3 +80,29 @@ export class TagsView extends View {
   }
 }
 
+
+export class AdvancedSearchTagsView extends TagsView {
+  el() {
+      return $('.av-tags-container');
+  } 
+
+  initialize() {
+    /*
+    * Backbone collection of tags
+    */
+    this.tags = new Tags([]);
+    this.render();
+  }
+
+  render() {
+    let compiled, context;
+    
+    context = {};
+
+    compiled = _.template(AV_TEMPLATE({
+        'tags': this.tags,
+    }));
+
+    this.$el.html(compiled);
+  }
+}

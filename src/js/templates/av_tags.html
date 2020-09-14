@@ -1,0 +1,15 @@
+ <% for (let i=0; i < tags.models.length; i++) { %>
+    <% model = tags.models[i] %>
+     <div class="tag d-flex align-items-center">
+       <span><%= model.get('name') %></span>
+       <i 
+        class="fa fa-times tag-remove"
+        data-name="<%= model.get('name') %>">
+        </i>
+     </div>
+ <% } %>
+<input list="all_tags" class="tag-input" />
+<% for (let i=0; i < tags.models.length; i++) { %>
+   <% model = tags.models[i] %>
+   <input type="hidden" name="tag" value="<%= model.get('name') %>" />
+<% } %>
