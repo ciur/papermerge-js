@@ -1,8 +1,22 @@
+.search-tag {
+    border: 1px solid #ccc;
+    margin: 0 0.2rem;
+    padding: 0 0.2rem;
+    border-radius: 0.25rem;
+}
+
 #search_results {
     h4 {
         font-weight: 400;
         a {
             color: #444;
+        }
+        ul {
+            li.tag {
+                padding: 0rem 0.2rem;
+                margin: 0;
+                margin-left: 1rem
+            }
         }
     }
     ul {
