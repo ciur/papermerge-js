@@ -41,6 +41,25 @@ export class TagsView extends View {
     this.render();
   }
 
+  get_tag(name) {
+    /*
+    * Given a tagname - return an instance of models.Tag
+    (with name, fg_color and bg_color)
+    */
+    let tag;
+
+    tag = this.all_tags.find({'name': name});
+    if (tag) {
+      return tag; // existing colored tag;
+    }
+
+    return new Tag({
+      'name': name,
+      'fg_color': '#ffffff',
+      'bg_color': '#c41fff'
+    });
+  }
+
   on_keyup(event) {
     let value, model;
 
@@ -56,7 +75,7 @@ export class TagsView extends View {
         // whitespace. Make sure there is some non-white space
         // after comma removal.
         if (!_.isEmpty(value)) {
-          model = new Tag({'name': value});
+          model = this.get_tag(value);
 
           this.tags.add(model);
           this.render();
