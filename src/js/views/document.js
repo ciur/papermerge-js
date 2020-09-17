@@ -4,7 +4,8 @@ import { View } from 'backbone';
 import Backbone from 'backbone';
 
 import { Node } from "../models/node";
-import { node2tag_collection, TagsModalView } from "../views/tags_modal";
+import { Tags } from "../models/tags";
+import { TagsModalView } from "../views/tags_modal";
 import {DgPageScroll} from "../document_form/page_scroll";
 import {DgTextOverlay} from "../text_overlay";
 import {MgThumbnailList} from "../document_form/thumbnail_list";
@@ -403,7 +404,19 @@ export class DocumentView extends View {
           });
 
           success = function(model, response, options) {
-            let correct_node, n = model.get('node');
+            let correct_node, n = model.get('node'), tags_collection;
+
+            tags_collection = new Tags([]);
+
+            for (let i=0; i < n['alltags'].length; i++) {
+              tags_collection.add(
+                {
+                  'name': n['alltags'][i]['name'],
+                  'fg_color': n['alltags'][i]['fg_color'],
+                  'bg_color': n['alltags'][i]['bg_color']
+                }
+              );
+            }
 
             // small hack
             correct_node = new Node({
@@ -415,7 +428,7 @@ export class DocumentView extends View {
 
             tags_view = new TagsModalView(
               correct_node,
-              node2tag_collection(correct_node)
+              tags_collection
             );
           }
 

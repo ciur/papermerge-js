@@ -46,11 +46,19 @@ export class TagsView extends View {
     * Given a tagname - return an instance of models.Tag
     (with name, fg_color and bg_color)
     */
-    let tag;
+    let tag, model, found = undefined;
 
-    tag = this.all_tags.find({'name': name});
-    if (tag) {
-      return tag; // existing colored tag;
+    if (this.all_tags) {
+      for(let i=0; i < this.all_tags.models.length; i++ ) {
+        model = this.all_tags.models[i];
+        if (model.get('name') == name) {
+          found = model;
+          break;
+        }
+      }
+      if (found) {
+        return found; // existing colored tag;
+      }
     }
 
     return new Tag({
