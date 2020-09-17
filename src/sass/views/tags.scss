@@ -2,6 +2,25 @@
   width: 100%;
 }
 
+.document.tags-container {
+  /*
+  * tags in documents right panel are readonly
+  */
+
+  .tag {
+    span {
+      margin-right: 0.5rem;
+    }
+  }
+
+  input {
+    display: none;
+  }
+  i {
+    display: none;
+  }
+}
+
 .tags-container, .av-tags-container {
     border: 1px solid #ccc;  
     padding: 0.5rem 1rem;

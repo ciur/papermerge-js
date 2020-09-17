@@ -14,6 +14,29 @@ let TEMPLATE = require('../templates/tags_modal.html');
 let MULTI_TEMPLATE = require('../templates/multi_tags_modal.html');
 
 
+export function node2tag_collection(node) {
+  /*
+  * For given node returns a backbone collection of tags 
+  * (of model.tags.Tag instances)
+  */
+  let tags, tag_collection;
+
+  tag_collection = new Tags([], {'node': node});
+
+  tags = node.get('tags') || [];
+
+  for (let i=0; i < tags.length; i++) {
+    tag_collection.add(
+      {
+        'name': tags[i]['name'],
+        'fg_color': tags[i]['fg_color'],
+        'bg_color': tags[i]['bg_color']
+      }
+    );
+  }
+  return tag_collection;
+}
+
 export class BaseModalView extends View {
   /***
   * Modal dialog displayed when user selected a single node
@@ -90,24 +113,6 @@ export class BaseModalView extends View {
     return tag_collection;
   }
 
-  _node2tag_collection(node) {
-    /*
-    * For given node returns a backbone collection of tags 
-    * (of model.tags.Tag instances)
-    */
-    let tags, tag_collection;
-
-    tag_collection = new Tags([], {'node': node});
-
-    tags = node.get('tags') || [];
-
-    for (let i=0; i < tags.length; i++) {
-      tag_collection.add(
-        {'name': tags[i]['name']}
-      );
-    }
-    return tag_collection;
-  }
 }
 
 
@@ -123,7 +128,7 @@ export class TagsModalView extends BaseModalView {
       this.node = node;
       this.render();
       this.tags_container = new TagsView(
-        this._node2tag_collection(node),
+        node2tag_collection(node),
         all_tags_collection
       );
   }

@@ -3,6 +3,8 @@ import _ from "underscore";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
+import { Node } from "../models/node";
+import { node2tag_collection, TagsModalView } from "../views/tags_modal";
 import {DgPageScroll} from "../document_form/page_scroll";
 import {DgTextOverlay} from "../text_overlay";
 import {MgThumbnailList} from "../document_form/thumbnail_list";
@@ -192,6 +194,7 @@ export class DocumentView extends View {
         paste_page_action,
         paste_page_before_action,
         paste_page_after_action,
+        tags_action,
         apply_reorder_changes,
         that = this;
 
@@ -382,6 +385,44 @@ export class DocumentView extends View {
         }
       });
 
+      tags_action = new MgChangeFormAction({
+        id: "#tags-menu-item",
+        enabled: function(selection, clipboard) {
+          return true;
+        },
+        action: function(selection, clipboard, current_node) {
+          let tags_view,
+            node,
+            that = this,
+            success;
+
+          node = new Node({
+              'id': current_node.id,
+              'ctype': 'document',
+              'document_url': `/node/${current_node.id}`
+          });
+
+          success = function(model, response, options) {
+            let correct_node, n = model.get('node');
+
+            // small hack
+            correct_node = new Node({
+              'id': n['id'],
+              'title': n['title'],
+              'tags': n['tags'],
+              'alltags': n['alltags']
+            });
+
+            tags_view = new TagsModalView(
+              correct_node,
+              node2tag_collection(correct_node)
+            );
+          }
+
+          node.fetch({'success': success});
+        }
+      });
+
       apply_reorder_changes = new MgChangeFormAction({
         id: "#apply-reorder-changes",
         enabled: function(
@@ -449,6 +490,7 @@ export class DocumentView extends View {
       actions.add(paste_page_before_action);
       actions.add(paste_page_after_action);
       actions.add(apply_reorder_changes);
+      actions.add(tags_action);
 
       return actions;
     }
