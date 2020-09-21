@@ -104,7 +104,6 @@ export class Tags extends Collection {
     }
 }
 
-
 export class AllTags extends Collection {
     get model() {
         return Tag;
@@ -112,5 +111,76 @@ export class AllTags extends Collection {
 
     parse(response) {
       return response.tags;
+    }
+}
+
+export class AutomateTags extends Collection {
+    get model() {
+        return Tag;
+    }
+
+    initialize(model, options) {
+        if (options) {
+            if (options.automate) {
+                this.automate = options.automate;    
+            }
+        }
+    }
+
+    urlRoot() {
+        if (this.automate) {
+            // returns automate tags
+            return `/automate/${this.automate.id}/tags/`;
+        } else {
+            // returns all tags of specific user.
+            return `/automate/tags/`;
+        }
+    }
+
+    remove(model) {
+        for (var i = 0; i < this.models.length; i++) {
+            if (this.models[i].get('name') == model.get('name')) {
+                this.models.splice(i, 1);
+                this.length--;
+                break;
+            }
+        }
+    }
+
+    save(options) {
+        let token, request, tags, post_data, nodes = [];
+
+        token = $("[name=csrfmiddlewaretoken]").val();
+
+        tags = this.models.map(
+            function(models) { 
+                return models.attributes;
+            }
+        );
+
+        post_data = {
+            'tags': tags,
+            'automate': this.automate.id
+        }
+        
+        $.ajaxSetup({
+            headers: { 'X-CSRFToken': token}
+        });
+
+        request = $.ajax({
+            method: "POST",
+            url: this.urlRoot(),
+            data: JSON.stringify(post_data),
+            contentType: "application/json",
+            dataType: 'json',
+            error: function(xhr, text, error) {
+                new MessageView(
+                    "Error",
+                    xhr.responseJSON['msg'], 
+                );
+            }
+        });
+
+        request.done(options['success']);  
     }
 }

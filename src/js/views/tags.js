@@ -1,6 +1,6 @@
 import $ from "jquery";
 import _ from "underscore";
-import { Tag, Tags } from "../models/tags";
+import { Tag, Tags, AllTags } from "../models/tags";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
@@ -133,3 +133,37 @@ export class AdvancedSearchTagsView extends TagsView {
     this.$el.html(compiled);
   }
 }
+
+
+export class AutomateTagsView extends TagsView {
+  /*
+  *  Tags view in New/Edit Automate form. Tags here are loaded
+  from automate, not from a node.
+  */
+  el() {
+    return $('.automate-tags-container');
+  }
+
+  initialize() {
+    /*
+    * Loads tags from hidden automate who's is loaded from hidden
+    input named "automate_id"
+    */
+    let all_tags, that = this;
+    
+    this.all_tags = new AllTags();
+    this.all_tags.url = '/alltags/';
+
+    success = function(collection, response, options) {
+      that = new TagsModalView(
+        _.first(models),
+        collection
+      );
+    }
+
+    this.all_tags.fetch({'success': success});
+    this.tags = new Tags([]);
+    
+    this.render();
+  }
+ }
