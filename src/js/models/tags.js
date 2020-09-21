@@ -47,6 +47,14 @@ export class Tags extends Collection {
         }
     }
 
+    comma_sep_tags() {
+        let result = "";
+        for(let i = 0; i < this.models.length; i++) {
+            result += `${this.models[i].get('name')}, `;
+        }
+        return result;
+    }
+
     remove(model) {
         for (var i = 0; i < this.models.length; i++) {
             if (this.models[i].get('name') == model.get('name')) {

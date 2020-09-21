@@ -7,6 +7,7 @@ import Backbone from 'backbone';
 
 let TEMPLATE = require('../templates/tags.html');
 let AV_TEMPLATE = require('../templates/av_tags.html');
+let AT_TEMPLATE = require('../templates/automate_tags.html');
 let ENTER_KEY = 13;
 
 
@@ -129,6 +130,7 @@ export class AdvancedSearchTagsView extends TagsView {
 
     compiled = _.template(AV_TEMPLATE({
         'tags': this.tags,
+        'all_tags': new Tags([])
     }));
 
     this.$el.html(compiled);
@@ -174,7 +176,7 @@ export class AutomateTagsView extends TagsView {
 
     context = {};
 
-    compiled = _.template(TEMPLATE({
+    compiled = _.template(AT_TEMPLATE({
         'tags': this.tags,
         'all_tags': this.all_tags
     }));

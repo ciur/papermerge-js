@@ -16,7 +16,4 @@
      <option value="<%= model.get('name') %>">
 <% } %>
 </datalist>
-<% for (let i=0; i < tags.models.length; i++) { %>
-   <% model = tags.models[i] %>
-   <input type="hidden" name="tag" value="<%= model.get('name') %>" />
-<% } %>
+<input type="hidden" name="tags" value="<%= tags.comma_sep_tags() %>" />
