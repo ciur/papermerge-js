@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import { Tag, Tags, AllTags } from "../models/tags";
+import { Automate } from "../models/automate";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
@@ -149,21 +150,35 @@ export class AutomateTagsView extends TagsView {
     * Loads tags from hidden automate who's is loaded from hidden
     input named "automate_id"
     */
-    let all_tags, that = this;
-    
-    this.all_tags = new AllTags();
-    this.all_tags.url = '/alltags/';
+    let all_tags,
+      automate,
+      success,
+      automate_id,
+      that = this;
 
-    success = function(collection, response, options) {
-      that = new TagsModalView(
-        _.first(models),
-        collection
-      );
+    automate_id = $("input[name=automate_id]").val();
+
+    this.automate = new Automate({'id': automate_id});
+
+    success = function(model, response, options) {
+        that.tags = new Tags(response.tags);
+        that.all_tags = new Tags(response.alltags);
+        that.render();
     }
 
-    this.all_tags.fetch({'success': success});
-    this.tags = new Tags([]);
-    
-    this.render();
+    this.automate.fetch({'success': success});
+  }
+
+  render() {
+    let compiled, context;
+
+    context = {};
+
+    compiled = _.template(TEMPLATE({
+        'tags': this.tags,
+        'all_tags': this.all_tags
+    }));
+
+    this.$el.html(compiled);
   }
  }
