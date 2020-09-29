@@ -8,6 +8,7 @@ import { BreadcrumbView } from "./views/breadcrumb";
 import { ActionsView } from "./views/actions";
 import { ControlSidebarView } from "./views/control_sidebar";
 import { DocumentView, DocumentActionsView } from "./views/document";
+import { ChangelistCheckboxView } from "./views/changelist_checkbox_view";
 
 import { BrowseRouter } from "./routers/browse";
 
@@ -48,6 +49,7 @@ let App = function() {
     document_actions_view,
     control_sidebar,
     browse_router,
+    changelist_checkbox,
     logs_view;
 
   logs_view = new LogsView();
@@ -55,6 +57,7 @@ let App = function() {
   actions_view = new ActionsView();
   breadcrumb_view = new BreadcrumbView();
   control_sidebar = new ControlSidebarView();
+  changelist_checkbox = new ChangelistCheckboxView();
 
   if ($("#document").length == 1) {
     // we in document view. Document view and browser view
