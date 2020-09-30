@@ -44,14 +44,20 @@ export class KVStore extends Model {
     }
 
     toJSON() {
-        let dict = {
+        let dict = {}
+
+        dict = {
             id: this.get('id'),
             key: this.get('key'),
-            value: this.get('value'),
             virtual_value: this.get('virtual_value'),
             kv_inherited: this.get('kv_inherited'),
             kv_type: this.get('kv_type'),
             kv_format: this.get('kv_format'),
+        }
+
+        // set 'value' only of there is actually a value
+        if (this.get('value')) {
+            dict['value'] = this.get('value');
         }
 
         return dict;
