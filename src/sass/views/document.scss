@@ -213,7 +213,7 @@ aside {
 #actual-pages {
     flex: 1;
     height: 100vh;
-    overflow: scroll;
+    overflow: hidden;
     background-color: $light_gray_bg;
 }
 
