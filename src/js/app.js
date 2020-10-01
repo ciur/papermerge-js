@@ -1,5 +1,3 @@
-import { dglReady } from "./utils";
-
 import { DgPageScroll } from "./document_form/page_scroll";
 
 import { BrowseView } from "./views/browse";
@@ -91,8 +89,6 @@ let App = function() {
 
 };
 
-dglReady( // i.e. after all DOM is loaded
-  function(event) {
-      App();
-  }
-);
+$(function(event) {
+  App();
+});
