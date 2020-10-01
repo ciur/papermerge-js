@@ -100,6 +100,7 @@ export class DocumentView extends View {
       }
 
       this.configEvents();
+      this._adjust_viewer_height()
     }
 
     get actions() {
@@ -506,5 +507,45 @@ export class DocumentView extends View {
       actions.add(tags_action);
 
       return actions;
+    }
+
+    _adjust_viewer_height() {
+      /**
+       * Change viewer height (in order to remove redundent scrollbars).
+       * 
+       * By default ul.actual_pages, #actual-pages and ul.page_thumbnails
+       * elements have css height set to 100vh. This adds vertical scroll
+       * bars (because viewer is 100vh + header height + footer height).
+       * This function will make viewer little bit small by decreasing 
+       * height of ul.actual_pages, #actual-pages and ul.page_thumbnails 
+       * elements, thus removing (yet another) scrollbar.
+      */
+
+      let vh_height,
+        footer_height,
+        header_height,
+        nav_height,
+        viewer_height;
+
+      vh_height = Math.max(
+        document.documentElement.clientHeight, window.innerHeight || 0
+      );
+
+      footer_height = $('footer').outerHeight(true);
+      header_height = $('#content-header').outerHeight(true);
+      nav_height = $('nav.main-header').outerHeight(true);
+
+      
+      //console.log(`vh_height=${vh_height}`);
+      //console.log(`footer_height=${footer_height}`);
+      //console.log(`header_height=${header_height}`);
+      //console.log(`nav_height=${nav_height}`);
+
+      viewer_height = vh_height - nav_height - footer_height - 2 * header_height;
+
+      $("ul.actual_pages").css('height', `${viewer_height}px`);
+      $("#actual-pages").css('height', `${viewer_height}px`);
+      $("ul.page_thumbnails").css('height', `${viewer_height}px`);
+      $('body').css("overflow", 'hidden');
     }
 }
