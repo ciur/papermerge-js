@@ -169,7 +169,3 @@ export function proxy_click(from_elem_id, to_elem_id) {
         }
     });
 }
-
-export function dglReady(func){
-    document.addEventListener('DOMContentLoaded', func);
-};
