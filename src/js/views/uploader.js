@@ -27,7 +27,12 @@ export class UploaderView extends View {
       }
 
       this.listenTo(this.uploader, 'change', this.render);
+      this.listenTo(this.uploader, 'change', this.refresh_node_list);
       this.render();
+  }
+
+  refresh_node_list() {
+    mg_dispatcher.trigger(BROWSER_REFRESH);
   }
 
   events() {
