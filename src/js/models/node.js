@@ -303,7 +303,6 @@ export class NodeCollection extends Collection {
                 return model.get('id');
             }
         );
-        console.log(node_ids);
         downloader = new Downloader('/download-nodes/', node_ids);
         downloader.download();
     }
