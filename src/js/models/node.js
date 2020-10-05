@@ -2,6 +2,7 @@ import _ from "underscore";
 import $ from "jquery";
 import { Model, Collection } from 'backbone';
 import { MessageView } from '../views/message';
+import { Downloader } from "./downloader";
 
 
 export class Node extends Model {
@@ -295,10 +296,16 @@ export class NodeCollection extends Collection {
     }
 
     download(options) {
-        this.collection_post_action(
-            '/download-nodes/',
-            options
+        let node_ids = [], downloader;
+
+        node_ids = this.models.map(
+            function(model) {
+                return model.get('id');
+            }
         );
+        console.log(node_ids);
+        downloader = new Downloader('/download-nodes/', node_ids);
+        downloader.download();
     }
 
     cut(options) {
