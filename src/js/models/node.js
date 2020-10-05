@@ -294,6 +294,13 @@ export class NodeCollection extends Collection {
         )
     }
 
+    download(options) {
+        this.collection_post_action(
+            '/download-nodes/',
+            options
+        );
+    }
+
     cut(options) {
         this.collection_post_action(
             '/cut-node/',

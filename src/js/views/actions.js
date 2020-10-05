@@ -47,6 +47,7 @@ export class ActionsView extends View {
   events() {
       let event_map = {
         'click #new-folder':  'new_folder',
+        'click #download-nodes': 'download_nodes',
         'click #delete': 'delete_node',
         'click #cut': 'cut_node',
         'click #paste': 'paste',
@@ -146,6 +147,16 @@ export class ActionsView extends View {
       return;
     }
     this.selection.delete(options);
+  }
+
+  download_nodes(event) {
+    let options = {};
+
+    options['success'] = function() {
+      // pass
+    }
+
+    this.selection.download(options);
   }
 
   cut_node(event) {
@@ -278,6 +289,16 @@ export class ActionsView extends View {
             return true;
           }
 
+          return false;
+      }
+    });
+
+    result.add({
+      'id': "#download-nodes",
+      'cond': function(selection, clipboard, parent_id) {
+          if (selection.length > 0) {
+            return true;
+          }
           return false;
       }
     });
