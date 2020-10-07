@@ -2,6 +2,7 @@ import $ from "jquery";
 import _ from "underscore";
 import { Browse } from "../models/browse";
 import { DisplayModeView } from "./display_mode";
+import { DropzoneView } from "./dropzone";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 import {
@@ -465,6 +466,7 @@ export class BrowseView extends View {
     // there are to view modes - list and grid
     this.browse_list_view = new BrowseListView();
     this.browse_grid_view = new BrowseGridView();
+    this.dropzone = new DropzoneView(this.browse);
 
     this.listenTo(this.browse, 'change', this.render);
     this.listenTo(this.display_mode, 'change', this.render);
