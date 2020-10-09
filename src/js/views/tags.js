@@ -73,8 +73,6 @@ export class TagsView extends View {
   on_keyup(event) {
     let value, model;
 
-    event.preventDefault();
-
     if (event.which == ENTER_KEY || event.key == ',') {
       value = $(event.target).val();
 

@@ -8,8 +8,8 @@
         </i>
      </div>
  <% } %>
-<input list="all_tags" class="tag-input" />
-<datalist id="all_tags">
+<input list="all_tags2" class="tag-input"/>
+<datalist id="all_tags2">
 <% for (let i=0; i < all_tags.models.length; i++) { %>
     <% model = all_tags.models[i] %>
      <option value="<%= model.get('name') %>">

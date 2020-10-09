@@ -1,3 +1,10 @@
+/*
+  Remove Datalist Dropdown Arrow in Chrome
+*/
+[list]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
 .av-tags-container {
   width: 100%;
 }
@@ -50,7 +57,7 @@
     input {
        outline: none;
        border: 0;
-       width: 7rem;
+       width: 12rem;
     }
 }
 /* BEGIN Pinned tags are not displayed in case of collapsed sidebar */
