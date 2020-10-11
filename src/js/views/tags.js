@@ -111,7 +111,7 @@ export class TagsView extends View {
 export class AdvancedSearchTagsView extends TagsView {
   el() {
       return $('.av-tags-container');
-  } 
+  }
 
   initialize() {
     /*
@@ -121,7 +121,7 @@ export class AdvancedSearchTagsView extends TagsView {
     this.all_tags = new AllTags();
     this.all_tags.url = '/alltags/';
 
-    this.listenTo(this.all_tags, 'change', this.render);
+    this.listenTo(this.all_tags, 'add', this.render);
     this.all_tags.fetch();
   }
 
