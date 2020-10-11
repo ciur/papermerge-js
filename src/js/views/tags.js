@@ -118,7 +118,11 @@ export class AdvancedSearchTagsView extends TagsView {
     * Backbone collection of tags
     */
     this.tags = new Tags([]);
-    this.render();
+    this.all_tags = new AllTags();
+    this.all_tags.url = '/alltags/';
+
+    this.listenTo(this.all_tags, 'change', this.render);
+    this.all_tags.fetch();
   }
 
   render() {
@@ -128,7 +132,7 @@ export class AdvancedSearchTagsView extends TagsView {
 
     compiled = _.template(AV_TEMPLATE({
         'tags': this.tags,
-        'all_tags': new Tags([])
+        'all_tags': this.all_tags
     }));
 
     this.$el.html(compiled);
