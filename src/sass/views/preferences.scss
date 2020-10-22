@@ -1,6 +1,17 @@
 .preferences {
     .card {
+        i {
+            display: block;
+        }
         box-shadow: none;
-        border-top: 3px solid #d2d6de;
+        border-top: 3px solid #0dac00;
+        background-color: #f8f8f8;
+        a {
+            color: #0c1f0b;
+            font-size: 1.4rem;
+        }
+        a:hover {
+            text-decoration: none;
+        }
     }
 }
