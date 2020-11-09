@@ -64,7 +64,6 @@ export class ControlSidebarView extends View {
         this.metadata_view = new MetadataPageView(page_id);
     }
 
-
     selection_changed(selection) {
         /*
             Triggered by browser view when user selects/deselects
