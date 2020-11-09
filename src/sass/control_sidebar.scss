@@ -23,6 +23,11 @@
     }
 }
 
+.control-sidebar {
+    width: auto;
+    min-width: 350px;
+}
+
 .control-sidebar::before {
     content: '';
     display: block;
@@ -30,4 +35,5 @@
     top: 0;
     z-index: 10;
     overflow: auto;
+    
 }
