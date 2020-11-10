@@ -49,7 +49,7 @@ export class Metadata extends Model {
     }
 
     urlRoot() {
-        return `/metadata/node/${this.doc_id}`;
+        return `/node/${this.doc_id}`;
     }
 
     toJSON() {

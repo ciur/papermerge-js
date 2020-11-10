@@ -16,7 +16,9 @@ export class Node extends Model {
         img_src: '',
         created_at: '',
         user_perms: {},
-        tags: []
+        tags: [],
+        parts: [],
+        metadata: []
       };
     }
 
@@ -33,7 +35,9 @@ export class Node extends Model {
             parent_id: this.get('parent_id'),
             title: this.get('title'),
             created_at: this.get('created_at'),
-            tags: this.get('tags')
+            tags: this.get('tags'),
+            parts: this.get('parts'),
+            metadata: this.get('metadata')
         }
 
         return dict;
