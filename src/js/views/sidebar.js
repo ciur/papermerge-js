@@ -1,6 +1,6 @@
 import $ from "jquery";
 import _ from "underscore";
-import { View } from 'backbone';
+import { View, Collection } from 'backbone';
 import Backbone from 'backbone';
 
 import {
@@ -9,6 +9,7 @@ import {
 } from "../models/dispatcher";
 
 let TEMPLATE_PART = require('../templates/sidebar/part.html');
+let TEMPLATE_METADATA = require('../templates/sidebar/metadata.html');
 
 export class SidebarView extends View {
 
@@ -31,9 +32,11 @@ export class SidebarView extends View {
     render(node) {
         let compiled = "",
             compiled_part,
+            compiled_metadata,
             context,
             i,
-            parts;
+            parts,
+            metadata;
         
         context = {};
 
@@ -43,6 +46,13 @@ export class SidebarView extends View {
         }
 
         parts = node.get('parts');
+        metadata = node.get('metadata');
+
+        compiled_metadata = _.template(TEMPLATE_METADATA({
+            'kvstore': new Collection(metadata),
+        }));
+
+        compiled += compiled_metadata();
 
         if (parts) {
             for (i=0; i < parts.length; i++) {
