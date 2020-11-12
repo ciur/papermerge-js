@@ -26,6 +26,12 @@ let SORT_ASC = 'asc';
 let SORT_DESC = 'desc';
 let SORT_UNDEFINED = 0;
 
+// In order to differentiate single clicks
+// from double clicks a timeout of ``DBLCLICK_TIMEOUT`` milliseconds is used.
+// If second click event follows in less than ``DBLCLICK_TIMEOUT`` it will
+// be handled as double click.
+let DBLCLICK_TIMEOUT = 300; // ms = milliseconds
+
 
 class Column {
 
@@ -467,6 +473,9 @@ export class BrowseView extends View {
     this.browse_list_view = new BrowseListView();
     this.browse_grid_view = new BrowseGridView();
     this.dropzone = new DropzoneView(this.browse);
+    // used to differentiate single clicks vs double clicks
+    // in open_node and select_node
+    this.click = 0;
 
     this.listenTo(this.browse, 'change', this.render);
     this.listenTo(this.display_mode, 'change', this.render);
@@ -553,27 +562,45 @@ export class BrowseView extends View {
       selected,
       new_state,
       $target,
-      checkbox;
+      checkbox,
+      that = this;
 
-    $target = $(event.currentTarget);
-    node = this.browse.nodes.get(data['cid']);
+    // wait DBLCLICK_TIMEOUT milliseconds to see if this is a single click
+    // or dblclick event
+    this.click += 1;
+    // if in DBLCLICK_TIMEOUT milliseconds
+    // this.click == 1  -> single click
+    // this.click > 1   -> double click
+    setTimeout(function(){
 
-    if (node) {
-      selected = node.get('selected');
-      node.set({'selected': !selected});
-      new_state = !selected;
-      
-      if (new_state) {
-        $target.addClass('checked');
-      } else {
-        $target.removeClass('checked');
-      }
+      if (that.click < 2) {
+        // this is single click
+        console.log("this is single click, go on!");
+        $target = $(event.currentTarget);
+        node = that.browse.nodes.get(data['cid']);
 
-      mg_dispatcher.trigger(
-        SELECTION_CHANGED,
-        this.get_selection()
-      );
-    }
+        if (node) {
+          selected = node.get('selected');
+          node.set({'selected': !selected});
+          new_state = !selected;
+          
+          if (new_state) {
+            $target.addClass('checked');
+          } else {
+            $target.removeClass('checked');
+          }
+
+          mg_dispatcher.trigger(
+            SELECTION_CHANGED,
+            that.get_selection()
+          );
+        } // if (node)
+
+      } // if (this.click < 2)
+
+      // reset click counter
+      that.click = 0;
+    }, DBLCLICK_TIMEOUT);
   }
 
   get_selection() {
@@ -592,6 +619,7 @@ export class BrowseView extends View {
     let data = $(event.currentTarget).data(),
       node;
 
+    console.log("double click");
     node = this.browse.nodes.get(data['cid']);
 
     // folder is 'browsed' by triggering PARENT_CHANGED event
