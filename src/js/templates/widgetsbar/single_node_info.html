@@ -1,9 +1,23 @@
 <div class="card">
     <div class="card-body">
-      <div class="card-title">Info</div>
+      <div class="card-title"><label>Info</label></div>
       <div class="card-text">
-        <%= title %>
-        <%= ctype %>
+        <ul class="collection">
+            <li class="collection-item">
+                <% if (ctype == 'document') { %>
+                    <i class="fa fa-file text-info mr-1"></i>
+                <% } else { %>
+                    <i class="fa fa-folder text-warning mr-1"></i>
+                <% } %>
+                <%= title %>
+            </li>
+            <li class="collection-item">
+                <label><%= gettext('Created') %>:</label> ABC
+            </li>
+            <li class="collection-item">
+                <label><%= gettext('Modified') %>:</label> XYZ
+            </li>
+        </ul>
       </div> 
     </div>
 </div>
