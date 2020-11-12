@@ -8,8 +8,33 @@ import {
   SELECTION_CHANGED,
 } from "../models/dispatcher";
 
-let TEMPLATE_PART = require('../templates/sidebar/part.html');
-let TEMPLATE_METADATA = require('../templates/sidebar/metadata.html');
+let PART_WIDGET_TPL = require('../templates/widgetsbar/part.html');
+let METADATA_WIDGET_TPL = require('../templates/widgetsbar/metadata.html');
+
+class SingleNodeInfoWidget extends View {
+
+    template(kwargs) {
+        let compiled_tpl,
+            file_tpl = require('../templates/widgetsbar/single_node_info.html');
+
+        compiled_tpl = _.template(file_tpl(kwargs));
+
+        return compiled_tpl();
+    }
+
+    initialize(node) {
+        this.node = node;
+    }
+
+    render() {
+        let context = {};
+
+        context['title'] = this.node.get('title');
+        context['ctype'] = this.node.get('ctype');
+
+        return this.template(context);
+    }
+}
 
 export class WidgetsBarView extends View {
 
@@ -36,7 +61,8 @@ export class WidgetsBarView extends View {
             context,
             i,
             parts,
-            metadata;
+            metadata,
+            info_widget;
         
         context = {};
 
@@ -45,18 +71,22 @@ export class WidgetsBarView extends View {
             return;
         }
 
+        info_widget = new SingleNodeInfoWidget(node);
+
         parts = node.get('parts');
         metadata = node.get('metadata');
 
-        compiled_metadata = _.template(TEMPLATE_METADATA({
+        compiled_metadata = _.template(METADATA_WIDGET_TPL({
             'kvstore': new Collection(metadata),
         }));
 
+        compiled += info_widget.render();
         compiled += compiled_metadata();
+
 
         if (parts) {
             for (i=0; i < parts.length; i++) {
-                compiled_part = _.template(TEMPLATE_PART({
+                compiled_part = _.template(PART_WIDGET_TPL({
                     'part': parts[i],
                 }));
                 compiled += compiled_part();
