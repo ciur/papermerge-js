@@ -11,10 +11,10 @@ import {
 let TEMPLATE_PART = require('../templates/sidebar/part.html');
 let TEMPLATE_METADATA = require('../templates/sidebar/metadata.html');
 
-export class SidebarView extends View {
+export class WidgetsBarView extends View {
 
     el() {
-        return $("#sidebar");
+        return $("#widgetsbar");
     }
 
     initialize() {

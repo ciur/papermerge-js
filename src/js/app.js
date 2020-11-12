@@ -8,7 +8,7 @@ import { DocumentView, DocumentActionsView } from "./views/document";
 import { TagPreviewView } from "./views/tag_preview";
 import { AdvancedSearchTagsView } from "./views/tags";
 import { AutomateTagsView } from "./views/tags";
-import { SidebarView } from "./views/sidebar";
+import { WidgetsBarView } from "./views/widgetsbar";
 import { PinnedTagsView } from "./views/pinned_tags_view";
 import { ChangelistCheckboxView } from "./views/changelist_checkbox_view";
 
@@ -55,7 +55,7 @@ let App = function() {
     changelist_checkbox,
     av_tags_view,
     automate_tags_view,
-    sidebar_view;
+    widgetsbar_view;
 
   browse_view = new BrowseView();
   actions_view = new ActionsView();
@@ -66,7 +66,7 @@ let App = function() {
   changelist_checkbox = new ChangelistCheckboxView();
   av_tags_view = new AdvancedSearchTagsView();
   automate_tags_view = new AutomateTagsView();
-  sidebar_view = new SidebarView();
+  widgetsbar_view = new WidgetsBarView();
 
   if ($("#document").length == 1) {
     // we in document view. Document view and browser view
