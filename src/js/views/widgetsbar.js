@@ -31,6 +31,8 @@ class SingleNodeInfoWidget extends View {
 
         context['title'] = this.node.get('title');
         context['ctype'] = this.node.get('ctype');
+        context['created_at'] = this.node.get('created_at');
+        context['updated_at'] = this.node.get('updated_at');
 
         return this.template(context);
     }
