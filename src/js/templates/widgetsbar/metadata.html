@@ -2,8 +2,15 @@
     <div class="card-body">
         <div class="card-title"><label><%= gettext('Metadata') %></label></div>
         <div class="card-text">
-            <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>
-             <ul id="simple_keys" class="vertical menu">
+            <ul class="collection">
+                <li class="collection-item d-flex flex-row-reverse">
+                    <button id="add_simple_meta" class="btn btn-primary btn-flat" type="button" >
+                        <i class="fa fa-plus"></i>
+                        <%= gettext("Add") %>
+                    </button>
+                </li>
+            </ul>
+            <ul id="simple_keys" class="vertical menu">
                 <% for (i=0; i < kvstore.models.length; i++) { %>
                     <% item = kvstore.models[i]; %>
                     <% current_formats = item.get('current_formats') || []; %>

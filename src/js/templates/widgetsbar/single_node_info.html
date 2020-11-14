@@ -18,7 +18,9 @@
                 <label><%= gettext('Modified') %>:</label>  <%= updated_at %>
             </li>
             <li class="collection-item d-flex flex-row-reverse">
-                <a href="<%= download_url %>" class="btn btn-primary text-white"><%= gettext('Download') %></a>
+                <a href="<%= download_url %>" class="btn btn-primary text-white btn-flat">
+                    <i class="fa fa-download"></i>
+                    <%= gettext('Download') %></a>
             </li>
         </ul>
       </div> 
