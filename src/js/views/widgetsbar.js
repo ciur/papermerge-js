@@ -145,7 +145,10 @@ export class WidgetsBarView extends View {
     }
 
     initialize() {
+        this.info_widget = undefined;
+
         mg_dispatcher.on(SELECTION_CHANGED, this.selection_changed, this);
+
     }
 
     selection_changed(selection) {
@@ -160,8 +163,7 @@ export class WidgetsBarView extends View {
             context,
             i,
             parts,
-            metadata,
-            info_widget;
+            metadata;
         
         context = {};
 
@@ -178,7 +180,11 @@ export class WidgetsBarView extends View {
         if (selection.length == 1) {
 
             node = selection[0];
-            info_widget = new SingleNodeInfoWidget(node);
+            if (this.info_widget) {
+                this.info_widget.undelegateEvents();
+                this.info_widget = undefined;
+            }
+            this.info_widget = new SingleNodeInfoWidget(node);
 
             parts = node.get('parts');
             metadata = node.get('metadata');
@@ -187,7 +193,7 @@ export class WidgetsBarView extends View {
                 'kvstore': new Collection(metadata),
             }));
 
-            compiled += info_widget.render();
+            compiled += this.info_widget.render();
             compiled += compiled_metadata();
 
             if (parts) {
@@ -201,8 +207,12 @@ export class WidgetsBarView extends View {
 
         } else if (selection.length > 1) { // selection.length > 1
 
-            info_widget = new MultiNodeInfoWidget(selection);
-            compiled += info_widget.render();
+            if (this.info_widget) {
+                this.info_widget.undelegateEvents();
+                this.info_widget = undefined;
+            }
+            this.info_widget = new MultiNodeInfoWidget(selection);
+            compiled += this.info_widget.render();
         }
 
 

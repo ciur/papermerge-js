@@ -575,7 +575,6 @@ export class BrowseView extends View {
 
       if (that.click < 2) {
         // this is single click
-        console.log("this is single click, go on!");
         $target = $(event.currentTarget);
         node = that.browse.nodes.get(data['cid']);
 
