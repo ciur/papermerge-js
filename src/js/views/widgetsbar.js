@@ -27,12 +27,27 @@ class SingleNodeInfoWidget extends View {
     }
 
     render() {
-        let context = {};
+        let context = {},
+            ctype,
+            _id,
+            title,
+            created_at,
+            updated_at,
+            download_url;
 
-        context['title'] = this.node.get('title');
-        context['ctype'] = this.node.get('ctype');
-        context['created_at'] = this.node.get('created_at');
-        context['updated_at'] = this.node.get('updated_at');
+        ctype = this.node.get('ctype');
+        _id = this.node.get('id');
+        title = this.node.get('title');
+        created_at = this.node.get('created_at');
+        updated_at = this.node.get('updated_at');
+        download_url = `/node/${_id}/download/`;
+
+        context['id'] = _id;
+        context['title'] = title;
+        context['ctype'] = ctype;
+        context['created_at'] = created_at;
+        context['updated_at'] = updated_at;
+        context['download_url'] = download_url;
 
         return this.template(context);
     }
