@@ -12,7 +12,18 @@ let PART_WIDGET_TPL = require('../templates/widgetsbar/part.html');
 let METADATA_WIDGET_TPL = require('../templates/widgetsbar/metadata.html');
 
 class SingleNodeInfoWidget extends View {
+    /**
+    Info widget for single node.
 
+    Displayed when user selects one node (folder or document).
+    Will display:
+
+        * icon -> folder/document
+        * title
+        * created_at
+        * modified_at
+        * download button
+    **/
     template(kwargs) {
         let compiled_tpl,
             file_tpl = require('../templates/widgetsbar/single_node_info.html');
@@ -53,6 +64,53 @@ class SingleNodeInfoWidget extends View {
     }
 }
 
+class MultiNodeInfoWidget extends View {
+    /**
+    Info widget for multiple nodes.
+
+    Displayed when user selects multiple nodes.
+    Will display:
+
+        * <X> items selected
+        * download button
+    **/
+    template(kwargs) {
+        let compiled_tpl,
+            file_tpl = require('../templates/widgetsbar/multi_node_info.html');
+
+        compiled_tpl = _.template(file_tpl(kwargs));
+
+        return compiled_tpl();
+    }
+
+    initialize(nodes) {
+        this.nodes = nodes;
+    }
+
+    render() {
+        let context = {},
+            message,
+            count,
+            formats;
+
+        count = this.nodes.length;
+        // ngettext comes from GET /jsi18n/
+        // thank you, Django!
+        formats = ngettext(
+            "%s item selected",
+            "%s items selected",
+            count
+        );
+
+        // similarely interpolate functions comes
+        // from GET /jsi18n/
+        // https://docs.djangoproject.com/en/3.1/topics/i18n/translation/#interpolate
+        context['message'] = interpolate(formats, [count]);
+
+        return this.template(context);
+    }
+}
+
 export class WidgetsBarView extends View {
 
     el() {
@@ -64,16 +122,13 @@ export class WidgetsBarView extends View {
     }
 
     selection_changed(selection) {
-        if (selection.length == 1) {
-            this.render(selection[0]);
-        } else {
-            this.render(undefined);
-        }
+        this.render(selection);
     }
 
-    render(node) {
+    render(selection) {
         let compiled = "",
             compiled_part,
+            node,
             compiled_metadata,
             context,
             i,
@@ -83,32 +138,46 @@ export class WidgetsBarView extends View {
         
         context = {};
 
-        if (!node) {
+        if (!selection) {
             this.$el.html("");
             return;
         }
 
-        info_widget = new SingleNodeInfoWidget(node);
-
-        parts = node.get('parts');
-        metadata = node.get('metadata');
-
-        compiled_metadata = _.template(METADATA_WIDGET_TPL({
-            'kvstore': new Collection(metadata),
-        }));
-
-        compiled += info_widget.render();
-        compiled += compiled_metadata();
-
-
-        if (parts) {
-            for (i=0; i < parts.length; i++) {
-                compiled_part = _.template(PART_WIDGET_TPL({
-                    'part': parts[i],
-                }));
-                compiled += compiled_part();
-            }
+        if (!selection.length) {
+            this.$el.html("");
+            return;
         }
+
+        if (selection.length == 1) {
+
+            node = selection[0];
+            info_widget = new SingleNodeInfoWidget(node);
+
+            parts = node.get('parts');
+            metadata = node.get('metadata');
+
+            compiled_metadata = _.template(METADATA_WIDGET_TPL({
+                'kvstore': new Collection(metadata),
+            }));
+
+            compiled += info_widget.render();
+            compiled += compiled_metadata();
+
+            if (parts) {
+                for (i=0; i < parts.length; i++) {
+                    compiled_part = _.template(PART_WIDGET_TPL({
+                        'part': parts[i],
+                    }));
+                    compiled += compiled_part();
+                }
+            }
+
+        } else if (selection.length > 1) { // selection.length > 1
+
+            info_widget = new MultiNodeInfoWidget(selection);
+            compiled += info_widget.render();
+        }
+
 
         this.$el.html(compiled);
     }
