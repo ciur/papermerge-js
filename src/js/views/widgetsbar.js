@@ -2,6 +2,7 @@ import $ from "jquery";
 import _ from "underscore";
 import { View, Collection } from 'backbone';
 import Backbone from 'backbone';
+import { Downloader } from "../models/downloader";
 
 import {
   mg_dispatcher,
@@ -74,6 +75,10 @@ class MultiNodeInfoWidget extends View {
         * <X> items selected
         * download button
     **/
+    el() {
+        return $("#widgetsbar");
+    }
+
     template(kwargs) {
         let compiled_tpl,
             file_tpl = require('../templates/widgetsbar/multi_node_info.html');
@@ -85,6 +90,28 @@ class MultiNodeInfoWidget extends View {
 
     initialize(nodes) {
         this.nodes = nodes;
+    }
+
+    events() {
+        let event_map = {
+            "click li.collection-item a.download": "download_selection"
+        }
+
+        return event_map;
+    }
+
+    download_selection(event) {
+        let node_ids = [], downloader;
+
+        event.preventDefault();
+
+        node_ids = this.nodes.map(
+            function(node) {
+                return node.get('id');
+            }
+        );
+        downloader = new Downloader('/nodes/download/', node_ids);
+        downloader.download();
     }
 
     render() {

@@ -307,7 +307,7 @@ export class NodeCollection extends Collection {
                 return model.get('id');
             }
         );
-        downloader = new Downloader('/download-nodes/', node_ids);
+        downloader = new Downloader('/nodes/download/', node_ids);
         downloader.download();
     }
 
