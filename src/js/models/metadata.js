@@ -20,11 +20,40 @@ export class Metadata extends Model {
       };
     }
 
-    initialize(doc_id) {
-        this.doc_id = doc_id;
+    initialize(node) {
+        let that = this,
+            kvstore,
+            metadata,
+            kv_types,
+            date_formats,
+            numeric_formats,
+            currency_formats;
 
-        // fetch data from server side
-        this.fetch();
+        this.doc_id = node.id;
+        this.node = node;
+
+        metadata = node.get('metadata');
+
+        if (metadata) {
+            kvstore = metadata.kvstore;
+            kv_types = metadata.kv_types;
+            numeric_formats = metadata.numeric_formats;
+            date_formats = metadata.date_formats;
+            currency_formats = metadata.currency_formats;
+
+            _.each(kvstore, function(item){
+                that.kvstore.add(
+                    new KVStore(item)
+                );
+            });
+
+            this.set({'kv_types': kv_types});
+            this.set({'numeric_formats': numeric_formats});
+            this.set({'date_formats': date_formats});
+            this.set({'currency_formats': currency_formats});
+
+            this.trigger('change');    
+        }
     }
 
     get kvstore() {
@@ -61,6 +90,10 @@ export class Metadata extends Model {
     }
 
     parse(response, options) {
+        // obsolete.
+        // Metadata Model is now initializaed in constructor
+        // as node info is fetched in node browser
+
         let kvstore = response.kvstore,
             kv_types = response.kv_types,
             date_formats = response.date_formats,

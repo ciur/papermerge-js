@@ -3,7 +3,6 @@ import { DgPageScroll } from "./document_form/page_scroll";
 import { BrowseView } from "./views/browse";
 import { BreadcrumbView } from "./views/breadcrumb";
 import { ActionsView } from "./views/actions";
-import { ControlSidebarView } from "./views/control_sidebar";
 import { DocumentView, DocumentActionsView } from "./views/document";
 import { TagPreviewView } from "./views/tag_preview";
 import { AdvancedSearchTagsView } from "./views/tags";
@@ -48,7 +47,6 @@ let App = function() {
     breadcrumb_view,
     document_view,
     document_actions_view,
-    control_sidebar,
     browse_router,
     tag_preview_view,
     pinned_tags_view,
@@ -60,7 +58,6 @@ let App = function() {
   browse_view = new BrowseView();
   actions_view = new ActionsView();
   breadcrumb_view = new BreadcrumbView();
-  control_sidebar = new ControlSidebarView();
   tag_preview_view = new TagPreviewView();
   pinned_tags_view = new PinnedTagsView();
   changelist_checkbox = new ChangelistCheckboxView();

@@ -13,7 +13,8 @@ import {
 
 
 export class ControlSidebarView extends View {
-
+    // Obsolete - will be removed soon
+    // now Widgetsbar.js is used instead
     el() {
         return $('.control-sidebar');
     }

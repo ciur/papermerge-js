@@ -3,6 +3,7 @@ import _ from "underscore";
 import { View, Collection } from 'backbone';
 import Backbone from 'backbone';
 import { Downloader } from "../models/downloader";
+import { Metadata } from "../models/metadata";
 
 import {
   mg_dispatcher,
@@ -138,6 +139,40 @@ class MultiNodeInfoWidget extends View {
     }
 }
 
+class MetadataWidget extends View {
+
+    initialize(node) {
+        this.node = node;
+        this.metadata = new Metadata(node);
+    }
+
+    template(kwargs) {
+        let compiled_tpl,
+            file_tpl = require('../templates/widgetsbar/metadata.html');
+
+        compiled_tpl = _.template(file_tpl(kwargs));
+
+        return compiled_tpl();
+    }
+
+    get _all_disabled() {
+        return this.metadata.all_disabled;
+    }
+
+    render() {
+        let context;
+
+        context = {
+            'kvstore': this.metadata.get('kvstore'),
+            'available_types': this.metadata.get('kv_types'),
+            'all_disabled': this._all_disabled
+        }
+
+        return this.template(context);
+    }
+}
+
+
 export class WidgetsBarView extends View {
 
     el() {
@@ -183,18 +218,18 @@ export class WidgetsBarView extends View {
             if (this.info_widget) {
                 this.info_widget.undelegateEvents();
                 this.info_widget = undefined;
+
+                this.metadata_widget.undelegateEvents();
+                this.metadata_widget = undefined;
             }
-            this.info_widget = new SingleNodeInfoWidget(node);
 
             parts = node.get('parts');
-            metadata = node.get('metadata');
 
-            compiled_metadata = _.template(METADATA_WIDGET_TPL({
-                'kvstore': new Collection(metadata),
-            }));
+            this.info_widget = new SingleNodeInfoWidget(node);
+            this.metadata_widget = new MetadataWidget(node);
 
             compiled += this.info_widget.render();
-            compiled += compiled_metadata();
+            compiled += this.metadata_widget.render();
 
             if (parts) {
                 for (i=0; i < parts.length; i++) {
@@ -210,6 +245,9 @@ export class WidgetsBarView extends View {
             if (this.info_widget) {
                 this.info_widget.undelegateEvents();
                 this.info_widget = undefined;
+
+                this.metadata_widget.undelegateEvents();
+                this.metadata_widget = undefined;
             }
             this.info_widget = new MultiNodeInfoWidget(selection);
             compiled += this.info_widget.render();
