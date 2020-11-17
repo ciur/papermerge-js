@@ -28,6 +28,9 @@
 @import "./views/tags.scss";
 @import "./views/preferences.scss";
 
+body {
+    overflow: hidden;
+}
 
 #pre-loader {
     position: absolute;
@@ -76,6 +79,10 @@ label:not(.form-check-label):not(.custom-file-label) {
     }
 }
 
+nav.navbar {
+    height: 10vh;
+}
+
 .navbar-expand {
     flex-flow: wrap;
 }
@@ -94,6 +101,26 @@ a:hover {
 
 .content-wrapper {
     background-color: #efefef;
+
+    .content {
+        height: 85vh;
+        min-height: 85vh;
+
+        .main-col {
+            min-height: 85vh;
+        }
+        .widgetsbar-col {
+            min-height: 85vh;
+            height: 85vh;
+            overflow: scroll;
+            margin: .5rem 0 1rem;
+            margin-bottom: 0;
+
+            & > .card:first-child {
+                margin-top: 0;
+            }
+        }
+    }
 }
 
 #breadcrumb, #search_breadcrumb {
