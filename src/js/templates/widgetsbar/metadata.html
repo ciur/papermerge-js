@@ -29,18 +29,15 @@
                                     </div>
                                     <div class="col-1 close"  data-id='<%= item.id %>' data-cid='<%= item.cid %>'>
                                         <% if (!item.get('kv_inherited')) {  %>
-                                            <button type='button' class='close key mx-1' aria-label='Close'>
+                                            <button type='button' class='close key mx-1 text-danger' aria-label='Close'>
                                                 <span aria-hidden='true'>&times;</span>
                                             </button>
                                         <% } %>
                                     </div>
                                 </div>
                                 <div class="row pt-2">
-                                    <div class="col-4">
-                                        <label><%= gettext('Type') %></label>
-                                    </div>
-                                    <div class="col-8">
-                                        <select <%= item.disabled %>  class="kv_type" name='kv_type' class="custom-select">
+                                    <div class="col-12">
+                                        <select <%= item.disabled %>  class="kv_type custom-select" name='kv_type' class="custom-select">
                                             <% for (k=0; k < kv_types.length; k++) { %>
                                                 <option 
                                                     <% if ( item.get('kv_type') == kv_types[k][0] ) { %> selected  <% }  %> 
@@ -51,23 +48,21 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row pt-2">
-                                    <div class="col-4">
-                                        <label><%= gettext('Format') %></label>
+                                <% if (current_formats.length) { %>
+                                    <div class="row pt-2">
+                                        <div class="col-12">
+                                            <select <%= item.disabled %> class="kv_format custom-select" name='kv_format' class="custom-select">
+                                                <% for (j=0; j < current_formats.length; j++) { %>
+                                                    <option 
+                                                         <% if ( item.get('kv_format') == current_formats[j][0] ) { %> selected  <% }  %> 
+                                                        value="<%= current_formats[j][0] %>">
+                                                        <%= current_formats[j][1] %>
+                                                    </option>
+                                                <% } %>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="col-8">
-                                        <select <%= item.disabled %> class="kv_format" name='kv_format' class="custom-select">
-                                            <% for (j=0; j < current_formats.length; j++) { %>
-                                                <option 
-                                                     <% if ( item.get('kv_format') == current_formats[j][0] ) { %> selected  <% }  %> 
-                                                    value="<%= current_formats[j][0] %>">
-                                                    <%= current_formats[j][1] %>
-                                                    
-                                                </option>
-                                            <% } %>
-                                        </select>
-                                    </div>
-                                </div>
+                                <% } %>
                                
                             </li>
                         <% } %>
