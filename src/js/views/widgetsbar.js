@@ -269,12 +269,18 @@ class MetadataWidget extends View {
     }
 
     render_to_string() {
-        let context;
+        let context,
+            show_save_button = false,
+            kvstore;
 
+        if (this.metadata.kvstore_changed && !this._all_disabled) {
+            show_save_button = true;
+        } 
+          
         context = {
             'kvstore': this.metadata.get('kvstore'),
             'available_types': this.metadata.get('kv_types'),
-            'all_disabled': this._all_disabled
+            'show_save_button': show_save_button
         }
 
         return this.template(context);

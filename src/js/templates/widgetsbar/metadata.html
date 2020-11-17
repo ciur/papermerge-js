@@ -10,8 +10,8 @@
                             <i class="fa fa-plus"></i>
                             <%= gettext("Add") %>
                         </button>
-                        <% if (kvstore.models.length > 0 && !all_disabled) { %>
-                             <button type='button' class='btn btn-primary btn-flat save key mx-1'>
+                        <% if (show_save_button) { %>
+                             <button type='button' class='btn btn-success btn-flat save key mx-1'>
                                 <i class="fa fa-save"></i>
                                 <%= gettext('Save') %>
                             </button>

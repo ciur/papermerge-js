@@ -20,6 +20,10 @@ export class Metadata extends Model {
       };
     }
 
+    urlRoot() {
+        return "/node/";
+    }
+
     initialize(node) {
         let that = this,
             kvstore,
@@ -75,10 +79,6 @@ export class Metadata extends Model {
         }
 
         return false;
-    }
-
-    urlRoot() {
-        return `/node/${this.doc_id}`;
     }
 
     toJSON() {
@@ -139,6 +139,19 @@ export class Metadata extends Model {
 
     remove_comp(cid) {
         this.kvstore_comp.remove({'cid': cid});
+    }
+
+    get kvstore_changed() {
+        /**
+        Returs true if kvstore has not yet saved items.
+        **/
+        let has_item_without_id;
+
+        has_item_without_id = this.kvstore.some(function(item) {
+            return !item.get('id');
+        });
+
+        return has_item_without_id;
     }
 
 };
