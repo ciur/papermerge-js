@@ -56,7 +56,7 @@ export class Metadata extends Model {
             this.set({'date_formats': date_formats});
             this.set({'currency_formats': currency_formats});
 
-            this.trigger('change');    
+            this.trigger('change');  
         }
     }
 
@@ -143,15 +143,27 @@ export class Metadata extends Model {
 
     get kvstore_changed() {
         /**
-        Returs true if kvstore has not yet saved items.
+        Returs true if kvstore one of following is true:
+
+            1. has unsaved items.
+            2. kv value changed
         **/
-        let has_item_without_id;
+        let has_item_without_id,
+            changed;
 
         has_item_without_id = this.kvstore.some(function(item) {
             return !item.get('id');
         });
 
-        return has_item_without_id;
+        changed = this.kvstore.some(function(item) {
+            let changed;
+            changed = item.changed;
+            // if changed contains attribute key ->
+            // key attr was changed
+            return changed.key;
+        });
+
+        return has_item_without_id || changed;
     }
 
 };

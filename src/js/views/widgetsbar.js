@@ -168,6 +168,8 @@ class MetadataWidget extends View {
     initialize(node) {
         this.node = node;
         this.metadata = new Metadata(node);
+
+        this.listenTo(this.metadata, 'change', this.render);
     }
 
     events() {
@@ -273,14 +275,9 @@ class MetadataWidget extends View {
             show_save_button = false,
             kvstore;
 
-        if (this.metadata.kvstore_changed && !this._all_disabled) {
-            show_save_button = true;
-        } 
-          
         context = {
             'kvstore': this.metadata.get('kvstore'),
             'available_types': this.metadata.get('kv_types'),
-            'show_save_button': show_save_button
         }
 
         return this.template(context);
@@ -341,7 +338,6 @@ export class WidgetsBarView extends View {
             if (this.info_widget) {
                 this.info_widget.undelegateEvents();
                 this.info_widget = undefined;
-
                 this.metadata_widget.undelegateEvents();
                 this.metadata_widget = undefined;
             }

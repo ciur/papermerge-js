@@ -10,12 +10,11 @@
                             <i class="fa fa-plus"></i>
                             <%= gettext("Add") %>
                         </button>
-                        <% if (show_save_button) { %>
-                             <button type='button' class='btn btn-success btn-flat save key mx-1'>
-                                <i class="fa fa-save"></i>
-                                <%= gettext('Save') %>
-                            </button>
-                        <% } %>
+                        
+                        <button type='button' class='btn btn-success btn-flat save key mx-1'>
+                            <i class="fa fa-save"></i>
+                            <%= gettext('Save') %>
+                        </button>
                     </li>
                     <ul id="simple_keys" class="collection">
                         <% for (i=0; i < kvstore.models.length; i++) { %>
