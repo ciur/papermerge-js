@@ -119,6 +119,12 @@ a:hover {
             & > .card:first-child {
                 margin-top: 0;
             }
+
+            #widgetsbar {
+                & > .card:last-child {
+                    margin-bottom: 1rem;
+                }
+            }
         }
     }
 }
