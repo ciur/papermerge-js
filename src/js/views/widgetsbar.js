@@ -338,6 +338,9 @@ export class WidgetsBarView extends View {
             if (this.info_widget) {
                 this.info_widget.undelegateEvents();
                 this.info_widget = undefined;
+            }
+
+            if (this.metadata_widget) {
                 this.metadata_widget.undelegateEvents();
                 this.metadata_widget = undefined;
             }
