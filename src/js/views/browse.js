@@ -509,18 +509,22 @@ export class BrowseView extends View {
           // if in DBLCLICK_TIMEOUT milliseconds
           // this.click == 1  -> single click
           // this.click > 1   -> double click
+
           setTimeout(function(){
+
+            new_state = that.select_node_by_cid(cid);
+
+            if (new_state) {
+              console.log(`Checked ${cid} added`);
+              $target.addClass('checked');
+            } else {
+              console.log(`Checked ${cid} removed`);
+              $target.removeClass('checked');
+            }
 
             if (that.click < 2) {
               // this is single click
-              new_state = that.select_node_by_cid(cid);
-
-              if (new_state) {
-                $target.addClass('checked');
-              } else {
-                $target.removeClass('checked');
-              }
-
+ 
               mg_dispatcher.trigger(
                 SELECTION_CHANGED,
                 that.get_selection()
