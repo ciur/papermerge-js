@@ -497,18 +497,42 @@ export class BrowseView extends View {
       selected: function(event, ui) {
         // event triggered only once at the end of
         // selection process
-        let cid, new_state;
+        let cid,
+          $target,
+          new_state;
 
-        cid = $(ui.selected).data('cid');
+        $target = $(ui.selected);
+        cid = $target.data('cid');
 
         if (cid) {
-          new_state = that.select_node_by_cid(cid);
+          that.click += 1;
+          // if in DBLCLICK_TIMEOUT milliseconds
+          // this.click == 1  -> single click
+          // this.click > 1   -> double click
+          setTimeout(function(){
 
-          if (new_state) {
-            $(ui.selected).addClass('checked');
-          } else {
-            $(ui.selected).removeClass('checked');
-          }
+            if (that.click < 2) {
+              // this is single click
+              new_state = that.select_node_by_cid(cid);
+
+              if (new_state) {
+                $target.addClass('checked');
+              } else {
+                $target.removeClass('checked');
+              }
+
+              mg_dispatcher.trigger(
+                SELECTION_CHANGED,
+                that.get_selection()
+              );
+
+            } else if (that.click == 2) { // if (this.click < 2)
+              that.open_node(cid);
+            } 
+
+            // reset click counter
+            that.click = 0;
+          }, DBLCLICK_TIMEOUT);
         }
       }, // selected
       stop: function(event, ui) {
@@ -516,17 +540,9 @@ export class BrowseView extends View {
           SELECTION_CHANGED,
           that.get_selection()
         );
-
+        return true;
       }
     });
-  }
-
-  events() {
-      let event_map = {
-        'dblclick .node': 'open_node',
-        'click .node': 'select_node_handler',
-      }
-      return event_map;
   }
 
   select_all() {
@@ -605,48 +621,6 @@ export class BrowseView extends View {
     } // if (node)
   }
 
-  select_node_handler(event) {
-    let data = $(event.currentTarget).data(),
-      node,
-      selected,
-      new_state,
-      $target,
-      checkbox,
-      that = this;
-
-    console.log("select node handler");
-    // wait DBLCLICK_TIMEOUT milliseconds to see if this is a single click
-    // or dblclick event
-    this.click += 1;
-    // if in DBLCLICK_TIMEOUT milliseconds
-    // this.click == 1  -> single click
-    // this.click > 1   -> double click
-    setTimeout(function(){
-
-      if (that.click < 2) {
-        // this is single click
-        $target = $(event.currentTarget);
-        
-        new_state = that.select_node_by_cid(data['cid']);
-
-        if (new_state) {
-          $target.addClass('checked');
-        } else {
-          $target.removeClass('checked');
-        }
-
-        mg_dispatcher.trigger(
-          SELECTION_CHANGED,
-          that.get_selection()
-        );
-
-      } // if (this.click < 2)
-
-      // reset click counter
-      that.click = 0;
-    }, DBLCLICK_TIMEOUT);
-  }
-
   get_selection() {
     let result;
     
@@ -659,12 +633,10 @@ export class BrowseView extends View {
     return result;
   }
 
-  open_node(event) {
-    let data = $(event.currentTarget).data(),
-      node;
+  open_node(cid) {
+    let node;
 
-    console.log("double click");
-    node = this.browse.nodes.get(data['cid']);
+    node = this.browse.nodes.get(cid);
 
     // folder is 'browsed' by triggering PARENT_CHANGED event
     if (node.is_folder()) { 
