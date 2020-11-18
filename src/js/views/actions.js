@@ -25,7 +25,7 @@ import {UploaderView} from "../views/uploader";
 export class ActionsView extends View {
   
   el() {
-      return $('#actions');
+      return $(document);
   } 
 
   initialize(parent_id) {

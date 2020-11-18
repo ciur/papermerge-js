@@ -108,18 +108,6 @@
     }
 }
 
-#display-mode {
-    .dropdown-submenu > .dropdown-menu {
-        left: -100%;
-    }
-    .dropdown {
-        button {
-            background-color: white;
-            border-color: white;
-        }
-    }
-}
-
 .content-wrapper.dragover {
     border: 3px dotted green;
 }

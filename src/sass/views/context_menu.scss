@@ -1,0 +1,18 @@
+#context-menu {
+    display: none;
+    z-index: 5000;
+    position: absolute;
+    white-space: nowrap;
+}
+
+#context-menu {
+    .dropdown-submenu > .dropdown-menu {
+        left: 100%;
+    }
+    .dropdown {
+        button {
+            background-color: white;
+            border-color: white;
+        }
+    }
+}

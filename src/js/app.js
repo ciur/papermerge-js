@@ -10,6 +10,7 @@ import { AutomateTagsView } from "./views/tags";
 import { WidgetsBarView } from "./views/widgetsbar";
 import { PinnedTagsView } from "./views/pinned_tags_view";
 import { ChangelistCheckboxView } from "./views/changelist_checkbox_view";
+import { ContextMenuView } from "./views/context_menu";
 
 import { BrowseRouter } from "./routers/browse";
 
@@ -53,7 +54,8 @@ let App = function() {
     changelist_checkbox,
     av_tags_view,
     automate_tags_view,
-    widgetsbar_view;
+    widgetsbar_view,
+    context_menu_view;
 
   browse_view = new BrowseView();
   actions_view = new ActionsView();
@@ -64,6 +66,7 @@ let App = function() {
   av_tags_view = new AdvancedSearchTagsView();
   automate_tags_view = new AutomateTagsView();
   widgetsbar_view = new WidgetsBarView();
+  context_menu_view = new ContextMenuView();
 
   if ($("#document").length == 1) {
     // we in document view. Document view and browser view
