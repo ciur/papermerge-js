@@ -5,6 +5,7 @@ import { DisplayModeView } from "./display_mode";
 import { DropzoneView } from "./dropzone";
 import { View } from 'backbone';
 import Backbone from 'backbone';
+import 'webpack-jquery-ui/selectable';
 import {
     mg_dispatcher,
     PARENT_CHANGED,
@@ -465,6 +466,8 @@ export class BrowseView extends View {
   } 
 
   initialize(parent_id) {
+    let that = this;
+
     this.browse = new Browse(parent_id);
     // UI used to switch between list and grid display modes
     this.display_mode = new DisplayModeView();
@@ -487,12 +490,41 @@ export class BrowseView extends View {
     mg_dispatcher.on(SELECT_DOCUMENTS, this.select_documents, this);
     mg_dispatcher.on(DESELECT, this.deselect, this);
     mg_dispatcher.on(INVERT_SELECTION, this.invert_selection, this);
+
+    // enable desktop like selection
+    this.$el.selectable({
+      filter: "li.node",
+      selected: function(event, ui) {
+        // event triggered only once at the end of
+        // selection process
+        let cid, new_state;
+
+        cid = $(ui.selected).data('cid');
+
+        if (cid) {
+          new_state = that.select_node_by_cid(cid);
+
+          if (new_state) {
+            $(ui.selected).addClass('checked');
+          } else {
+            $(ui.selected).removeClass('checked');
+          }
+        }
+      }, // selected
+      stop: function(event, ui) {
+        mg_dispatcher.trigger(
+          SELECTION_CHANGED,
+          that.get_selection()
+        );
+
+      }
+    });
   }
 
   events() {
       let event_map = {
         'dblclick .node': 'open_node',
-        'click .node': 'select_node'
+        'click .node': 'select_node_handler',
       }
       return event_map;
   }
@@ -556,7 +588,24 @@ export class BrowseView extends View {
     );
   }
 
-  select_node(event) {
+  select_node_by_cid(cid) {
+    let node,
+      selected,
+      new_state;
+
+
+    node = this.browse.nodes.get(cid);
+
+    if (node) {
+      selected = node.get('selected');
+      node.set({'selected': !selected});
+      new_state = !selected;
+      
+      return new_state;
+    } // if (node)
+  }
+
+  select_node_handler(event) {
     let data = $(event.currentTarget).data(),
       node,
       selected,
@@ -565,6 +614,7 @@ export class BrowseView extends View {
       checkbox,
       that = this;
 
+    console.log("select node handler");
     // wait DBLCLICK_TIMEOUT milliseconds to see if this is a single click
     // or dblclick event
     this.click += 1;
@@ -576,24 +626,19 @@ export class BrowseView extends View {
       if (that.click < 2) {
         // this is single click
         $target = $(event.currentTarget);
-        node = that.browse.nodes.get(data['cid']);
+        
+        new_state = that.select_node_by_cid(data['cid']);
 
-        if (node) {
-          selected = node.get('selected');
-          node.set({'selected': !selected});
-          new_state = !selected;
-          
-          if (new_state) {
-            $target.addClass('checked');
-          } else {
-            $target.removeClass('checked');
-          }
+        if (new_state) {
+          $target.addClass('checked');
+        } else {
+          $target.removeClass('checked');
+        }
 
-          mg_dispatcher.trigger(
-            SELECTION_CHANGED,
-            that.get_selection()
-          );
-        } // if (node)
+        mg_dispatcher.trigger(
+          SELECTION_CHANGED,
+          that.get_selection()
+        );
 
       } // if (this.click < 2)
 

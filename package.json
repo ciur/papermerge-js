@@ -32,6 +32,8 @@
     "underscore": "^1.10.2",
     "underscore-template-loader": "^1.1.0",
     "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
-  }
+    "webpack-cli": "^3.3.12",
+    "webpack-jquery-ui": "^2.0.1"
+  },
+  "dependencies": {}
 }
