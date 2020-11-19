@@ -439,7 +439,7 @@ class DataRetentionWidget extends View {
             }
 
             if (item.id == current_state_id) {
-                ret_dict['selected'] = 'selected';
+                ret_dict['selected'] = 'bg-light border';
             } else {
                 ret_dict['selected'] = '';
             }

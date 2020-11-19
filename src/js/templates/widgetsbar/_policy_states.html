@@ -1,19 +1,23 @@
 <ul class="collection">
     <% for (i=0; i < states.length; i++) { %>
         <% state = states[i]; %>
-        <li class="collection-item mt-2 <%= state['selected']  %>">
-            <span class="mr-2"><%= state['number'] + 1 %>.</span>
-            <% if (state['left'] == 'user') { %> 
-                <i class="fa fa-user text-success mr-2"></i>
-            <% } %>
-            
-            <i class="fa fa-arrow-right mr-2"></i>
-
-            <% if (state['right'] == 'trash') { %> 
-                <i class="fa fa-trash mr-2"></i>
-            <% } else if (state['right'] == 'purge') { %>
-                <i class="fa fa-times text-danger mr-2"></i>
-            <% } %>
+        <li class="collection-item mt-2 <%= state['selected']  %> d-flex justify-content-left p-2">
+            <div>
+                <span class="mr-1"><%= state['number'] + 1 %>.</span>
+                <% if (state['left'] == 'user') { %> 
+                    <i class="fa fa-user text-success mr-3"></i>
+                <% } %>
+            </div>
+            <div>
+                <i class="fa fa-arrow-right mr-3"></i>
+            </div>
+            <div>
+                <% if (state['right'] == 'trash') { %> 
+                    <i class="fa fa-trash mr-3"></i>
+                <% } else if (state['right'] == 'purge') { %>
+                    <i class="fa fa-times text-danger mr-2"></i>
+                <% } %>
+            </div>
         </li>
     <% } %>
 </ul>
