@@ -1,0 +1,8 @@
+<ul class="collection">
+    <% for (i=0; i < states.length; i++) { %>
+        <% state = states[i]; %>
+        <li class="collection-item">
+            <%= state['left'] %> <i class="fa fa-arrow-right"></i> <%= state['right'] %>
+        </li>
+    <% } %>
+</ul>

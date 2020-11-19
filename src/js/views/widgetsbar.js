@@ -383,7 +383,9 @@ class DataRetentionWidget extends View {
     }
 
     _get_current_policy_states(fields, policy_id) {
-        let current_policy_state_field, _id;
+        let current_policy_state_field,
+        _id,
+        that = this;
 
         current_policy_state_field = _.find(
             fields, function(item) { 
@@ -402,13 +404,32 @@ class DataRetentionWidget extends View {
                 if (data && data['states']) {
 
                     $("#current_policy_states").html(
-                        `id = ${data['states'][0]['id']}; number = ${data['states'][0]['number']}`
+                        that._render_states(data['states'], _id)
                     );    
                 }
                 
             });
-            return "Loading...";
+            return gettext("Loading...");
         }
+    }
+
+    _states_template(kwargs) {
+        let compiled_tpl,
+            file_tpl = require('../templates/widgetsbar/_policy_states.html');
+
+        compiled_tpl = _.template(file_tpl(kwargs));
+
+        return compiled_tpl();
+    }
+
+    _render_states(states, current_state_id) {
+        let context = {};
+
+        context['states'] = _.map(states, function(item) {
+            return {'left': item.number, 'right': item.number};
+        });
+
+        return this._states_template(context);
     }
 }
 
