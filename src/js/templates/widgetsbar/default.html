@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-body">
+      <div class="card-title"><%= part.verbose_name  %></div>
+      <div class="card-text">
+          <% for (let x=0; x < part.fields.length; x++ ) { %>
+            <% field = part.fields[x]; %>
+            <% if (field['class']== 'ForeignKey') { %>
+                <% choices = field['choices']; %>
+                <% value = field['value']; %>
+                <select class="custom-select">
+                    <% for (y=0; y < choices.length; y++) { %>
+                        <option 
+                            id="<%= choices[y][0] %>"
+                            <% if (choices[y][0] == value[0] ) { %> selected <% } %> >
+                            <%= choices[y][1] %>
+                        </option>
+                    <% } %>
+                </select
+            <% } %>
+          <% } %>
+        </div> 
+    </div>
+</div>

@@ -10,9 +10,6 @@ import {
   SELECTION_CHANGED,
 } from "../models/dispatcher";
 
-let PART_WIDGET_TPL = require('../templates/widgetsbar/part.html');
-let METADATA_WIDGET_TPL = require('../templates/widgetsbar/metadata.html');
-
 class SingleNodeInfoWidget extends View {
     /**
     Info widget for single node.
@@ -292,6 +289,45 @@ class MetadataWidget extends View {
     }
 }
 
+class DefaultWidget extends View {
+
+}
+
+class DataRetentionWidget extends View {
+
+    el() {
+        return $("#widgetsbar");
+    }
+
+    template(kwargs) {
+        let compiled_tpl,
+            file_tpl = require('../templates/widgetsbar/data_retention.html');
+
+        compiled_tpl = _.template(file_tpl(kwargs));
+
+        return compiled_tpl();
+    }
+
+    initialize(part) {
+        this.part = part;
+    }
+
+
+    render_to_string() {
+        let context = {};
+
+        context['part'] = this.part;
+
+        return this.template(context);
+    }
+
+    render() {
+        this.$el.html(this.render_to_string());
+    }
+}
+
+window.DataRetentionWidget = DataRetentionWidget;
+
 
 export class WidgetsBarView extends View {
 
@@ -318,7 +354,9 @@ export class WidgetsBarView extends View {
             context,
             i,
             parts,
-            metadata;
+            metadata,
+            f,
+            js_widget_class;
         
         context = {};
 
@@ -355,10 +393,11 @@ export class WidgetsBarView extends View {
 
             if (parts) {
                 for (i=0; i < parts.length; i++) {
-                    compiled_part = _.template(PART_WIDGET_TPL({
-                        'part': parts[i],
-                    }));
-                    compiled += compiled_part();
+                    if (parts[i].js_widget) {
+                        f = Function("p", `return new ${parts[i].js_widget}(p);`);
+                    }
+                    js_widget_class = f(parts[i]);
+                    compiled += js_widget_class.render_to_string();
                 }
             }
 
