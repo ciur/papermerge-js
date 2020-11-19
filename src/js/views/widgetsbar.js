@@ -347,6 +347,9 @@ class DataRetentionWidget extends View {
 
         if (policy_field && policy_field.choices) {
             for (x=0; x < policy_field.choices.length; x++) {
+                
+                selected = "";
+
                 if (policy_field.value[0] == policy_field.choices[x][0]) {
                     selected = "selected";
                 }
@@ -426,9 +429,13 @@ class DataRetentionWidget extends View {
         let context = {}, ret_states = [];
 
         ret_states = _.map(states, function(item) {
-            let ret_dict = {};
-            if (item.duration <= 0) {
+            let ret_dict = {},
+                is_number = parseInt(item.duration) == item.duration;
+
+            if (is_number && item.duration <= 0) {
                 ret_dict['left'] = 'user';
+            } else {
+                ret_dict['left'] = item.duration;
             }
             if (item.folder && item.folder['title'] == '.user_trash') {
                 ret_dict['right'] = 'trash';   
@@ -436,6 +443,8 @@ class DataRetentionWidget extends View {
             if (item.on_user_delete == 'purge') {
                 ret_dict['left'] = 'user';
                 ret_dict['right'] = 'purge';
+            } else if (item.on_user_delete == 'deny') {
+                ret_dict['right'] = 'deny';
             }
 
             if (item.id == current_state_id) {

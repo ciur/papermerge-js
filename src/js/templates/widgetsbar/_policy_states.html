@@ -6,6 +6,8 @@
                 <span class="mr-1"><%= state['number'] + 1 %>.</span>
                 <% if (state['left'] == 'user') { %> 
                     <i class="fa fa-user text-success mr-3"></i>
+                <% } else { %>
+                    <span class="mr-3"><%= state['left'] %></span>
                 <% } %>
             </div>
             <div>
@@ -16,6 +18,8 @@
                     <i class="fa fa-trash mr-3"></i>
                 <% } else if (state['right'] == 'purge') { %>
                     <i class="fa fa-times text-danger mr-2"></i>
+                <% } else if (state['right'] == 'deny') { %>
+                    <i class="fa fa-ban text-danger mr-2"></i>
                 <% } %>
             </div>
         </li>
