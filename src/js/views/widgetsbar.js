@@ -423,11 +423,36 @@ class DataRetentionWidget extends View {
     }
 
     _render_states(states, current_state_id) {
-        let context = {};
+        let context = {}, ret_states = [];
 
-        context['states'] = _.map(states, function(item) {
-            return {'left': item.number, 'right': item.number};
+        ret_states = _.map(states, function(item) {
+            let ret_dict = {};
+            if (item.duration <= 0) {
+                ret_dict['left'] = 'user';
+            }
+            if (item.folder && item.folder['title'] == '.user_trash') {
+                ret_dict['right'] = 'trash';   
+            }
+            if (item.on_user_delete == 'purge') {
+                ret_dict['left'] = 'user';
+                ret_dict['right'] = 'purge';
+            }
+
+            if (item.id == current_state_id) {
+                ret_dict['selected'] = 'selected';
+            } else {
+                ret_dict['selected'] = '';
+            }
+            
+            ret_dict['number'] = item.number;
+
+            return ret_dict;
         });
+
+        context['states'] = _.sortBy(
+            ret_states,
+            function(item) {return item.number;}
+        );
 
         return this._states_template(context);
     }

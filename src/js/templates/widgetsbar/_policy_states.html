@@ -1,8 +1,19 @@
 <ul class="collection">
     <% for (i=0; i < states.length; i++) { %>
         <% state = states[i]; %>
-        <li class="collection-item">
-            <%= state['left'] %> <i class="fa fa-arrow-right"></i> <%= state['right'] %>
+        <li class="collection-item mt-2 <%= state['selected']  %>">
+            <span class="mr-2"><%= state['number'] + 1 %>.</span>
+            <% if (state['left'] == 'user') { %> 
+                <i class="fa fa-user text-success mr-2"></i>
+            <% } %>
+            
+            <i class="fa fa-arrow-right mr-2"></i>
+
+            <% if (state['right'] == 'trash') { %> 
+                <i class="fa fa-trash mr-2"></i>
+            <% } else if (state['right'] == 'purge') { %>
+                <i class="fa fa-times text-danger mr-2"></i>
+            <% } %>
         </li>
     <% } %>
 </ul>
