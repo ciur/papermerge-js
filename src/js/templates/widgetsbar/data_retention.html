@@ -1,23 +1,16 @@
 <div class="card">
     <div class="card-body">
-      <div class="card-title"><%= part.verbose_name  %></div>
+      <div class="card-title">
+        <label><%= verbose_name  %></label>
+    </div>
       <div class="card-text">
-          <% for (let x=0; x < part.fields.length; x++ ) { %>
-            <% field = part.fields[x]; %>
-            <% if (field['class']== 'ForeignKey') { %>
-                <% choices = field['choices']; %>
-                <% value = field['value']; %>
-                <select class="custom-select">
-                    <% for (y=0; y < choices.length; y++) { %>
-                        <option 
-                            id="<%= choices[y][0] %>"
-                            <% if (choices[y][0] == value[0] ) { %> selected <% } %> >
-                            <%= choices[y][1] %>
-                        </option>
-                    <% } %>
-                </select
+        <select class="custom-select">
+            <% for (let x=0; x < policy_choices.length; x++ ) { %>
+                <% choice = policy_choices[x] %>
+                <option id="<%= choice[0] %>" <%= choice[2] %> >
+                    <%= choice[1] %>
+                </option>
             <% } %>
-          <% } %>
-        </div> 
+        </select>
     </div>
 </div>

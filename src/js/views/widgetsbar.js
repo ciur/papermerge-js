@@ -317,12 +317,52 @@ class DataRetentionWidget extends View {
         let context = {};
 
         context['part'] = this.part;
+        context['verbose_name'] = this.part.verbose_name;
+        context['policy_choices'] = this._get_policy_choices(this.part.fields);
+        context['current_policy_states'] =  this._get_current_policy_states(this.part.fields);
 
         return this.template(context);
     }
 
     render() {
         this.$el.html(this.render_to_string());
+    }
+
+    _get_policy_choices(fields) {
+        let policy_field, choices = [], x, selected = "";
+
+        policy_field = _.find(
+            fields, function(item) {
+                return item.field_name == 'policy';
+            }
+        )
+
+        if (policy_field && policy_field.choices) {
+            for (x=0; x < policy_field.choices.length; x++) {
+                if (policy_field.value[0] == policy_field.choices[x][0]) {
+                    selected = "selected";
+                }
+                choices.push([
+                    policy_field.choices[x][0],
+                    policy_field.choices[x][1],
+                    selected
+                ])
+            }
+        }
+
+        return choices;
+    }
+
+    _get_current_policy_states(fields) {
+        let current_policy_state_field;
+
+        current_policy_state_field = _.find(
+            fields, function(item) { 
+                return item.field_name == 'current_policy_state';
+            }
+        )
+
+        console.log(current_policy_state_field);
     }
 }
 
@@ -337,7 +377,6 @@ export class WidgetsBarView extends View {
 
     initialize() {
         this.info_widget = undefined;
-
         mg_dispatcher.on(SELECTION_CHANGED, this.selection_changed, this);
 
     }
