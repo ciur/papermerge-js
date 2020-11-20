@@ -19,7 +19,6 @@ import Backbone from 'backbone';
 import $ from "jquery";
 
 import 'bootstrap/js/dist/util';
-import 'bootstrap/js/dist/toast';
 import 'bootstrap/js/dist/tab';
 import 'bootstrap/js/dist/modal';
 
@@ -83,10 +82,6 @@ let App = function() {
 
    
     Backbone.history.start();
-    // Small notofication popups on top-right corner of the screen.
-    // They serve as widgets for django's messages
-    $('.toast').toast({'autohide': false});
-    $('.toast').toast('show');
   }
 
 };
