@@ -11,9 +11,12 @@
     }
 }
 
+.form-control {
+    border-radius: 0;
+}
+
 form.change_password, form.token, form.user, form.group, form.generic {
-    padding: 2rem;
-    border: 1px solid #ccc;
+    border: none;
 }
 
 #user_form {
