@@ -1,17 +1,19 @@
 .preferences {
     .card {
+        margin: 1rem;
         i {
             display: block;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
         box-shadow: none;
-        border-top: 3px solid #0dac00;
+        border-top: 3px solid #549eff;
         background-color: #f8f8f8;
         a {
-            color: #0c1f0b;
-            font-size: 1.4rem;
+            font-size: 1.1rem;
         }
-        a:hover {
-            text-decoration: none;
+        p {
+            font-size: 0.9rem;
         }
     }
 }
