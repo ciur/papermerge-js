@@ -1,7 +1,20 @@
 @import "../colors";
 
-#browse {
+.card-body.xmain {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 
+    .xmain-actions-row {
+
+    }
+    .xmain-browser-row {
+        // fills container with browser element
+        flex-grow: 1;
+    }
+}
+
+#browse {
     .checked {
          background-color: $result_list_hover_bg_color;
          outline: 1px solid $result_list_hover_border_color;
