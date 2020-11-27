@@ -1,5 +1,10 @@
 @import "../colors";
 
+#desktop-like-selection {
+    background-color: $result_list_hover_bg_color_transparent;
+    border: 1px solid $result_list_hover_border_color;
+}
+
 .card-body.xmain {
     display: flex;
     flex-direction: column;
@@ -142,11 +147,4 @@
 
 .content-wrapper.dragover {
     border: 3px dotted green;
-}
-
-// desktop like selection
-// lasso element
-.ui-selectable-helper {
-    background-color: $result_list_hover_bg_color_transparent;
-    border: 1px solid $result_list_hover_border_color;
 }
