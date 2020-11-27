@@ -20,6 +20,10 @@
 }
 
 #browse {
+    // don't display browser default select styling as we use own desktop
+    // like selection
+    user-select: none;
+
     .checked {
          background-color: $result_list_hover_bg_color;
          outline: 1px solid $result_list_hover_border_color;

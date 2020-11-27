@@ -26,6 +26,7 @@ let TEMPLATE_LIST = require('../templates/browse_list.html');
 let SORT_ASC = 'asc';
 let SORT_DESC = 'desc';
 let SORT_UNDEFINED = 0;
+let UI_SELECTION_NODE_SELECTED = 'ui-selection-node-selected';
 
 class UISelect {
   /**
@@ -52,6 +53,7 @@ class UISelect {
     this.width = 0;
     this.$parent = $(parent_selector);
     this.$select = undefined;
+    this.dispatcher = _.clone(Backbone.Events);
   }
 
   start() {
@@ -68,7 +70,7 @@ class UISelect {
   }
 
   update(x, y) {
-    let height, width, top, left;
+    let height, width, top, left, cid;
 
     this.current_x = x;
     this.current_y = y;
@@ -90,7 +92,22 @@ class UISelect {
       }
       this.$select.css('width', `${width}px`);
       this.$select.css('height', `${height}px`);
+
+      cid = this._get_node_under(x, y);
+      if (cid) {
+        this.dispatcher.trigger(UI_SELECTION_NODE_SELECTED, cid);  
+      }
     }
+  }
+
+  _get_node_under(x, y) {
+    let $elem = $(document.elementFromPoint(x, y));
+    
+    if ($elem) {
+      return $elem.data('cid');
+    }
+
+    return undefined;
   }
 
   _create_selection_div($parent, x, y) {
@@ -156,6 +173,10 @@ class UISelectView extends View {
     );
 
     this.ui_select.start();
+    this.ui_select.dispatcher.on(
+      UI_SELECTION_NODE_SELECTED,
+      this.node_selected
+    );
   }
 
   on_mouse_up(event) {
@@ -171,6 +192,10 @@ class UISelectView extends View {
     if (this.ui_select) {
       this.ui_select.update(event.clientX, event.clientY);
     }
+  }
+
+  node_selected(cid) {
+    console.log(`Node ${cid} selected`);
   }
 }
 
