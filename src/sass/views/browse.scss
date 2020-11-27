@@ -21,10 +21,6 @@
         }
     }
 
-    input[type=checkbox] {
-        display: none;
-    }
-
     .node:hover {
          background-color: $result_list_hover_bg_color;
          outline: 1px solid $result_list_hover_bg_color;
@@ -35,11 +31,35 @@
         flex-wrap: wrap;
         padding: 0;
 
+        .node:hover {
+            input[type=checkbox] {
+                display: block;
+            }
+        }
+
+        .node.checked {
+            input[type=checkbox] {
+                display: block;
+            }
+        }
+
+        .node {
+            input[type=checkbox] {
+                display: none;
+            }
+        }
+
         .node {
             position: relative;
-            margin: 0.25rem;
+            margin: 0.5rem;
             padding: 0.25rem 1rem;
             width: 10rem;
+
+            input[type=checkbox] {
+                position: absolute;
+                left: 0;
+                margin: 0.25rem;
+            }
 
             .icons {
                 position: absolute;
@@ -67,8 +87,8 @@
             .placeholder.document {
                 position: relative;
                 overflow: hidden;
-                width: 142px;
-                height: 200px;
+                width: 80%;
+                height: 150px;
                 @include respond(phone) {
                     width: 100px;
                     height: 142px;
@@ -80,7 +100,6 @@
                 }
                 background-repeat: no-repeat;
                 background-size: contain;
-                background-color: #eee;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -89,7 +108,7 @@
 
 
             .icon-folder {
-                 width: 8rem;
+                 width: 90%;
                  height: 8rem;
                  background-image: url(../img/folder.svg);
                  background-size:100% 100%;
