@@ -56,15 +56,17 @@ class UISelect {
     this.dispatcher = _.clone(Backbone.Events);
   }
 
-  start() {
-    this.$select = this._create_selection_div(
-      this.$parent,
-      this.start_x,
-      this.start_y
-    );
+  create_div() {
+    if (!this.$select) {
+      this.$select = this._create_selection_div(
+        this.$parent,
+        this.start_x,
+        this.start_y
+      );
+    }
   }
 
-  stop() {
+  remove_div() {
     this.$select.remove();
     this.$select = undefined;
   }
@@ -81,12 +83,12 @@ class UISelect {
     if (this.$select) {
       
       if (this.current_y <  this.start_y) {
-        this.$select.css('top', `${this.current_y}px`);  
+        this.$select.css('top', `${this.current_y + 7}px`);  
       } else {
         this.$select.css('top', `${this.start_y}px`);  
       }
       if (this.current_x <  this.start_x) {
-        this.$select.css('left', `${this.current_x}px`);  
+        this.$select.css('left', `${this.current_x + 7}px`);  
       } else {
         this.$select.css('left', `${this.start_x}px`);  
       }
@@ -133,15 +135,7 @@ class UISelectView extends View {
   Attached to parent element of #browse
   **/
   el() {
-    /* 
-        we need here .card-body.xmain element ONLY
-        in case #browse is there as well.
-     */
-      let $browse = $('#browse');
-
-      if ($browse.length > 0) {
-        return $browse.parent().parent();
-      }
+    return $(".document-browser");
   }
 
   initialize() {
@@ -151,18 +145,18 @@ class UISelectView extends View {
   events() {
 
       let events_map = {
-          "mousedown": "on_mouse_down",
-          "mouseup": "on_mouse_up",
-          "mousemove": "on_mouse_move"
+          "mousedown .xmain": "on_mouse_down",
+          "mouseup .xmain": "on_mouse_up",
+          "mousemove .xmain": "on_mouse_move",
       }
 
       return events_map;
   }
 
   on_mouse_down(event) {
-    
+
     if (this.ui_select) {
-      this.ui_select.stop();
+      this.ui_select.remove_div();
       this.ui_select = undefined;
     }
 
@@ -172,7 +166,7 @@ class UISelectView extends View {
       event.clientY
     );
 
-    this.ui_select.start();
+    this.ui_select.create_div();
     this.ui_select.dispatcher.on(
       UI_SELECTION_NODE_SELECTED,
       this.node_selected
@@ -180,15 +174,13 @@ class UISelectView extends View {
   }
 
   on_mouse_up(event) {
-    
     if (this.ui_select) {
-      this.ui_select.stop();
+      this.ui_select.remove_div();
       this.ui_select = undefined;
     };
   }
 
   on_mouse_move(event) {
-    
     if (this.ui_select) {
       this.ui_select.update(event.clientX, event.clientY);
     }

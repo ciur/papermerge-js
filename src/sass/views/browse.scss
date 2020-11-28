@@ -1,5 +1,13 @@
 @import "../colors";
 
+
+#new-folder, #id_btn_upload, #display-mode {
+    // without this, .document-browser view 'swallows'
+    // all click events (because of mouseup/mousedown)
+    position: relative;
+    z-index: 1000;
+}
+
 #desktop-like-selection {
     background-color: $result_list_hover_bg_color_transparent;
     border: 1px solid $result_list_hover_border_color;
@@ -76,6 +84,7 @@
             margin: 0.5rem;
             padding: 0.25rem 1rem;
             width: 10rem;
+            z-index: 900;
 
             input[type=checkbox] {
                 position: absolute;
