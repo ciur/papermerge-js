@@ -2,6 +2,7 @@ import $ from "jquery";
 import _ from "underscore";
 import { Tag, Tags, AllTags } from "../models/tags";
 import { Automate } from "../models/automate";
+import { filter_unsafe_characters } from "../utils";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
@@ -83,6 +84,8 @@ export class TagsView extends View {
         // whitespace. Make sure there is some non-white space
         // after comma removal.
         if (!_.isEmpty(value)) {
+
+          value = filter_unsafe_characters(value);
           model = this.get_tag(value);
 
           this.tags.add(model);
