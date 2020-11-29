@@ -1,7 +1,8 @@
 import _ from "underscore";
 import { Model, Collection } from 'backbone';
 import $ from "jquery";
-import {human_size} from "../utils";
+import {human_size, filter_unsafe_characters} from "../utils";
+
 
 export class UploaderItem extends Model {
     defaults() {
@@ -24,7 +25,7 @@ export class UploaderItem extends Model {
       }
 
       this.set({
-          'title': file.name,
+          'title': filter_unsafe_characters(file.name),
           'size': file.size,
           'file': file,
           'lang': lang,

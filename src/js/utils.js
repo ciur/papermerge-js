@@ -171,5 +171,5 @@ export function proxy_click(from_elem_id, to_elem_id) {
 }
 
 export function filter_unsafe_characters(value) {
-  return value.replace(/[\\\/<>:;'"()]/g,'');
+  return value.replace(/[\\\/<>:;'"]/g,'');
 }
