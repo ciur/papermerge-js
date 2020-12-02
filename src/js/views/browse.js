@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import { Browse } from "../models/browse";
+import { MgRect } from "../utils";
 import { DisplayModeView } from "./display_mode";
 import { DropzoneView } from "./dropzone";
 import { View } from 'backbone';
@@ -27,6 +28,7 @@ let SORT_ASC = 'asc';
 let SORT_DESC = 'desc';
 let SORT_UNDEFINED = 0;
 let UI_SELECTION_NODE_SELECTED = 'ui-selection-node-selected';
+let ui_selection_dispatcher = _.clone(Backbone.Events);
 
 class UISelect {
   /**
@@ -53,7 +55,6 @@ class UISelect {
     this.width = 0;
     this.$parent = $(parent_selector);
     this.$select = undefined;
-    this.dispatcher = _.clone(Backbone.Events);
   }
 
   create_div() {
@@ -72,7 +73,7 @@ class UISelect {
   }
 
   update(x, y) {
-    let height, width, top, left, cid;
+    let height, width, top, left, cids;
 
     this.current_x = x;
     this.current_y = y;
@@ -83,33 +84,50 @@ class UISelect {
     if (this.$select) {
       
       if (this.current_y <  this.start_y) {
-        this.$select.css('top', `${this.current_y + 7}px`);  
+        this.$select.css('top', `${this.current_y + 7}px`);
+        top = this.current_y + 7;
       } else {
         this.$select.css('top', `${this.start_y}px`);  
+        top = this.start_y;
       }
       if (this.current_x <  this.start_x) {
         this.$select.css('left', `${this.current_x + 7}px`);  
+        left = this.current_x + 7;
       } else {
         this.$select.css('left', `${this.start_x}px`);  
+        left = this.start_x;
       }
       this.$select.css('width', `${width}px`);
       this.$select.css('height', `${height}px`);
 
-      cid = this._get_node_under(x, y);
-      if (cid) {
-        this.dispatcher.trigger(UI_SELECTION_NODE_SELECTED, cid);  
+      cids = this._find_selected_nodes(new MgRect(left, top, width, height));
+      if (cids.length > 0) {
+        ui_selection_dispatcher.trigger(UI_SELECTION_NODE_SELECTED, cids);  
       }
     }
   }
 
-  _get_node_under(x, y) {
-    let $elem = $(document.elementFromPoint(x, y));
-    
-    if ($elem) {
-      return $elem.data('cid');
-    }
+  _find_selected_nodes(selection_rect) {
+    /**
+      selection_rect is instance of utils.MgRect
+    **/
+    let selected_cids = [];
 
-    return undefined;
+    $(".node").each(function(index) {
+        let $node = $(this), _r, rect, cid;
+
+        cid = $node.data("cid");
+
+        _r = this.getBoundingClientRect();
+        rect = new MgRect(_r.x, _r.y, _r.width, _r.height);
+
+        if (selection_rect.intersect(rect)) {
+          //console.log(`Intersect! ${$node.data("cid")}`);
+          selected_cids.push(cid);
+        }
+    });
+
+    return selected_cids;
   }
 
   _create_selection_div($parent, x, y) {
@@ -154,7 +172,17 @@ class UISelectView extends View {
   }
 
   on_mouse_down(event) {
+    /*
+    URL: https://api.jquery.com/event.which/
 
+    event.which also normalizes button presses (mousedown and mouseup events),
+    reporting 1 for left button, 2 for middle, and 3 for right.
+    */
+    if (event.which > 1) {
+      // not our concern
+      return;
+    }
+    
     if (this.ui_select) {
       this.ui_select.remove_div();
       this.ui_select = undefined;
@@ -167,10 +195,6 @@ class UISelectView extends View {
     );
 
     this.ui_select.create_div();
-    this.ui_select.dispatcher.on(
-      UI_SELECTION_NODE_SELECTED,
-      this.node_selected
-    );
   }
 
   on_mouse_up(event) {
@@ -184,10 +208,6 @@ class UISelectView extends View {
     if (this.ui_select) {
       this.ui_select.update(event.clientX, event.clientY);
     }
-  }
-
-  node_selected(cid) {
-    console.log(`Node ${cid} selected`);
   }
 }
 
@@ -644,6 +664,11 @@ export class BrowseView extends View {
     mg_dispatcher.on(SELECT_DOCUMENTS, this.select_documents, this);
     mg_dispatcher.on(DESELECT, this.deselect, this);
     mg_dispatcher.on(INVERT_SELECTION, this.invert_selection, this);
+    ui_selection_dispatcher.on(
+      UI_SELECTION_NODE_SELECTED,
+      this.on_mouse_selection,
+      this
+    )
 
     this.ui_select_view = new UISelectView();
     this._let_browse_fill_in_parent();
@@ -695,6 +720,11 @@ export class BrowseView extends View {
     } else {
       $target.removeClass('checked');
     }
+
+    mg_dispatcher.trigger(
+      SELECTION_CHANGED,
+      this.get_selection()
+    );
   }
 
   on_node_clicked(event) {
@@ -715,6 +745,10 @@ export class BrowseView extends View {
       $target.removeClass('checked');
     }
     this.open_node(cid);
+  }
+
+  on_mouse_selection(cids) {
+    console.log(cids);
   }
 
   select_all() {
@@ -877,7 +911,6 @@ export class BrowseView extends View {
       sort_field = this.display_mode.sort_field;
       sort_order = this.display_mode.sort_order;
 
-      console.log(`Dynamically sorting... by ${sort_field} ${sort_order}`);
       this.browse.nodes.dynamic_sort_by(
         sort_field,
         sort_order
