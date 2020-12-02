@@ -94,15 +94,23 @@ export class Node extends Model {
     }
 
     select() {
+        let $node;
+
         this.set({'selected': true});
         // mark checked actual DOM element.
-        $(`.node[data-cid=${this.cid}]`).addClass('checked');
+        $node = $(`.node[data-cid=${this.cid}]`);
+        $node.addClass('checked');
+        $node.find('input[type=checkbox]').prop('checked', true);
     }
 
     deselect() {
+        let $node;
+
         this.set({'selected': false});
         // mark checked actual DOM element.
-        $(`.node[data-cid=${this.cid}]`).removeClass('checked');
+        $node = $(`.node[data-cid=${this.cid}]`);
+        $node.removeClass('checked');
+        $node.find('input[type=checkbox]').prop('checked', false);
     }
 
     toggle_selection() {

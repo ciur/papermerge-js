@@ -27,7 +27,8 @@ let TEMPLATE_LIST = require('../templates/browse_list.html');
 let SORT_ASC = 'asc';
 let SORT_DESC = 'desc';
 let SORT_UNDEFINED = 0;
-let UI_SELECTION_NODE_SELECTED = 'ui-selection-node-selected';
+let UI_SELECTION_MOUSE_MOVE = 'ui-selection-mouse-move';
+let UI_SELECTION_MOUSE_UP = 'ui-selection-mouse-up'
 let ui_selection_dispatcher = _.clone(Backbone.Events);
 
 class UISelect {
@@ -73,7 +74,7 @@ class UISelect {
   }
 
   update(x, y) {
-    let height, width, top, left, cids;
+    let height, width, top, left, selected_nodes;
 
     this.current_x = x;
     this.current_y = y;
@@ -100,10 +101,11 @@ class UISelect {
       this.$select.css('width', `${width}px`);
       this.$select.css('height', `${height}px`);
 
-      cids = this._find_selected_nodes(new MgRect(left, top, width, height));
-      if (cids.length > 0) {
-        ui_selection_dispatcher.trigger(UI_SELECTION_NODE_SELECTED, cids);  
-      }
+      selected_nodes = this._find_selected_nodes(new MgRect(left, top, width, height));
+      ui_selection_dispatcher.trigger(
+        UI_SELECTION_MOUSE_MOVE,
+        selected_nodes
+      );  
     }
   }
 
@@ -111,7 +113,7 @@ class UISelect {
     /**
       selection_rect is instance of utils.MgRect
     **/
-    let selected_cids = [];
+    let selected_nodes = [];
 
     $(".node").each(function(index) {
         let $node = $(this), _r, rect, cid;
@@ -123,11 +125,11 @@ class UISelect {
 
         if (selection_rect.intersect(rect)) {
           //console.log(`Intersect! ${$node.data("cid")}`);
-          selected_cids.push(cid);
+          selected_nodes.push($node);
         }
     });
 
-    return selected_cids;
+    return selected_nodes;
   }
 
   _create_selection_div($parent, x, y) {
@@ -202,6 +204,9 @@ class UISelectView extends View {
       this.ui_select.remove_div();
       this.ui_select = undefined;
     };
+    ui_selection_dispatcher.trigger(
+      UI_SELECTION_MOUSE_UP
+    )
   }
 
   on_mouse_move(event) {
@@ -665,8 +670,13 @@ export class BrowseView extends View {
     mg_dispatcher.on(DESELECT, this.deselect, this);
     mg_dispatcher.on(INVERT_SELECTION, this.invert_selection, this);
     ui_selection_dispatcher.on(
-      UI_SELECTION_NODE_SELECTED,
-      this.on_mouse_selection,
+      UI_SELECTION_MOUSE_MOVE,
+      this.on_ui_selection_mouse_move,
+      this
+    );
+    ui_selection_dispatcher.on(
+      UI_SELECTION_MOUSE_UP,
+      this.on_ui_selection_mouse_up,
       this
     )
 
@@ -747,8 +757,40 @@ export class BrowseView extends View {
     this.open_node(cid);
   }
 
-  on_mouse_selection(cids) {
-    console.log(cids);
+  on_ui_selection_mouse_move(dom_nodes) {
+    /**
+    As mouse selection drags (moves), this events
+    receives selected nodes dom elements.
+    */
+    let that = this, node, cids;
+
+    cids = _.map(dom_nodes, function($node){
+      return $node.data('cid');
+    })
+    // select all nodes in dom_nodes 
+    _.each(dom_nodes, function($node){
+         node = that.browse.nodes.get(
+          $node.data('cid')
+        );
+         node.select();
+    });
+
+    // deselect all nodes which are not in dom_nodes
+    //console.log(`cids=${cids}`);
+    this.browse.nodes.each(function(node){
+
+      if (!_.contains(cids, node.cid)) {
+          node.deselect();
+      }
+    });
+  }
+
+  on_ui_selection_mouse_up() {
+    // inform other elements about current selection
+    mg_dispatcher.trigger(
+      SELECTION_CHANGED,
+      this.get_selection()
+    );
   }
 
   select_all() {
