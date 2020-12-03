@@ -26,6 +26,11 @@
                     margin-right: 0.75rem;
                 }
             }
+            li.collection-item.bordered {
+                border-top: 1px solid #ddd;
+                padding-top: 0.75rem;
+                margin-top: 0.75rem;
+            }
         }
     }
 }
