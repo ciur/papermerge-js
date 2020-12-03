@@ -13,6 +13,12 @@ export class Document extends Model {
       return {
         pages: [],
         doc_id: '',
+        parent_id: this.get('parent_id'),
+        title: this.get('title'),
+        created_at: this.get('created_at'),
+        tags: this.get('tags'),
+        parts: this.get('parts'),
+        metadata: this.get('metadata')
       };
     }
 
@@ -39,26 +45,5 @@ export class Document extends Model {
         }
 
         return dict;
-    }
-
-    parse(response, options) {
-
-        let pages = response.document.pages,
-            that=this;
-
-        that.pages.reset();
-
-        _.each(pages, function(item){
-            that.pages.add(new Page(item))
-        });
-
-        _.each(pages, function(item){
-            that.thumbnails.add(new Thumbnail(item))
-        });
-
-        this.set({'title': response.document.title});
-        this.set({'notes': response.document.notes});
-
-        this.trigger('change');
     }
 }

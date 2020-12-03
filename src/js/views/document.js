@@ -17,6 +17,7 @@ import {get_win_param} from "../document_form/common";
 import {DgMainSpinner} from "../spinner";
 import {MgChangeFormActions, MgChangeFormAction} from "../actions/changeform_actions";
 import {BreadcrumbView} from "../views/breadcrumb";
+import {WidgetsBarDocumentView} from "../views/widgetsbar";
 import {RenameView} from "../views/rename";
 import {Document} from "../models/document";
 import { MessageView } from '../views/message';
@@ -94,6 +95,7 @@ export class DocumentView extends View {
       this._spinner = new DgMainSpinner();
       this._actions = this.build_actions();
       this._breadcrumb_view = new BreadcrumbView(document_id);
+      this._widgetsbar = new WidgetsBarDocumentView(document_id);
 
       if (dom_actual_pages) {
           new DgPageScroll(dom_actual_pages);

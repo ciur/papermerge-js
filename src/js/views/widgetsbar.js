@@ -1,9 +1,10 @@
 import $ from "jquery";
 import _ from "underscore";
-import { View, Collection } from 'backbone';
+import { Model, View, Collection } from 'backbone';
 import Backbone from 'backbone';
 import { Downloader } from "../models/downloader";
 import { Metadata } from "../models/metadata";
+import { Document } from "../models/document";
 
 import {
   mg_dispatcher,
@@ -289,6 +290,26 @@ class MetadataWidget extends View {
     }
 }
 
+class MetadataDocumentWidget extends MetadataWidget {
+
+    /**
+        This must be set to widgetsbar element.
+
+        For sake of events delegation this element must exist 
+        BEFORE metadata widget is rendered.
+    **/
+    el() {
+        // sidebar container of all widgets
+        return $("#widgetsbar-document");
+    }
+
+    widget_el() {
+        // DOM element containing all metadata
+        return $(".metadata-widget");
+    }
+
+}
+
 class DefaultWidget extends View {
 
 }
@@ -556,6 +577,53 @@ export class WidgetsBarView extends View {
             compiled += this.info_widget.render_to_string();
         }
 
+
+        this.$el.html(compiled);
+    }
+}
+
+export class WidgetsBarDocumentView extends View {
+
+    el() {
+        return $("#widgetsbar-document");
+    }
+
+    initialize(document_id) {
+        this.document = new Document(document_id);
+        this.listenTo(this.document, 'change', this.render);
+        this.document.fetch();
+    }
+
+    render() {
+        let compiled = "",
+            compiled_part,
+            compiled_metadata,
+            context,
+            i,
+            parts,
+            metadata,
+            f,
+            js_widget_class;
+        
+        context = {};
+
+        parts = this.document.get('parts');
+
+        this.metadata_widget = new MetadataDocumentWidget(
+            new Model(this.document.get('document'))
+        );
+
+        compiled = this.metadata_widget.render_to_string();
+
+        if (parts) {
+            for (i=0; i < parts.length; i++) {
+                if (parts[i].js_widget) {
+                    f = Function("p", `return new ${parts[i].js_widget}(p);`);
+                }
+                js_widget_class = f(parts[i]);
+                compiled += js_widget_class.render_to_string();
+            }
+        }
 
         this.$el.html(compiled);
     }
