@@ -5,11 +5,14 @@ import Backbone from 'backbone';
 import { Downloader } from "../models/downloader";
 import { Metadata } from "../models/metadata";
 import { Document } from "../models/document";
+import { MetadataPage } from "../models/metadata_page";
 
 import {
   mg_dispatcher,
   SELECTION_CHANGED,
+  PAGE_SELECTION_CHANGED
 } from "../models/dispatcher";
+
 
 class SingleNodeInfoWidget extends View {
     /**
@@ -178,10 +181,26 @@ class MetadataWidget extends View {
           "change input": "_update_value",
           "change .kv_type": "_kv_type_update",
           "change .kv_format": "_kv_format_update",
-          "click button.save": "_on_save"
+          "click button.save": "_on_save",
+          "click .chevron.toggle": "toggle_details"
         }
 
         return event_map;
+    }
+
+    toggle_details(event) {
+      /**
+        Used by MetadataDocumentWidget
+      **/  
+      let $current = $(event.currentTarget);
+      let parent = $current.closest("li"), icon_tags;
+
+      parent.find(".details").toggleClass("d-none");
+      icon_tags = $current.find("i.fa");
+
+      icon_tags.toggleClass("fa-chevron-left");
+      icon_tags.toggleClass("fa-chevron-down");
+
     }
 
 
@@ -273,6 +292,10 @@ class MetadataWidget extends View {
             show_save_button = false,
             kvstore;
 
+        if (!this.metadata) {
+            return "";
+        }
+
         context = {
             'kvstore': this.metadata.get('kvstore'),
             'available_types': this.metadata.get('kv_types'),
@@ -303,9 +326,76 @@ class MetadataDocumentWidget extends MetadataWidget {
         return $("#widgetsbar-document");
     }
 
+    initialize() {
+        this.metadata = undefined;
+
+        mg_dispatcher.on(
+            PAGE_SELECTION_CHANGED,
+            this.page_selection_changed,
+            this
+        )
+    }
+
+    events() {
+        let event_map = {
+          "click .add-metadata-key": "_add_metadata_key",
+          "click .close.key": "_remove_metadata_key",
+          "keyup input[name=key]": "_updateK_value",
+          "keyup input[name=value]": "_updateV_value",
+          "change input[name=key]": "_updateK_value",
+          "change input[name=value]": "_updateV_value",
+          "change .kv_type": "_kv_type_update",
+          "change .kv_format": "_kv_format_update",
+          "click button.save": "_on_save",
+          "click .chevron.toggle": "toggle_details"
+        }
+
+        return event_map;
+    }
+
+    _updateK_value(event) {
+        let value = $(event.currentTarget).val();
+        let parent = $(event.currentTarget).closest("li");
+        let data = parent.data();
+
+        this.metadata.update_simple(data['cid'], 'key', value);
+    }
+
+    _updateV_value(event) {
+        let value = $(event.currentTarget).val();
+        let parent = $(event.currentTarget).closest("li");
+        let data = parent.data();
+
+        this.metadata.update_simple(data['cid'], 'value', value);
+    }
+
+
     widget_el() {
         // DOM element containing all metadata
         return $(".metadata-widget");
+    }
+
+    page_selection_changed(page_id, doc_id) {
+        /**
+        Triggered by thumbnails_list: 
+            * after thumbnail list is loaded, in this case
+              page_id of first thumb is passed).
+            * when user clicks on any thumb.
+        */
+        if (!page_id) {
+            return;
+        }
+        this.metadata = new MetadataPage(page_id);
+        this.listenTo(this.metadata, 'change', this.render);
+    }
+
+    template(kwargs) {
+        let compiled_tpl,
+            file_tpl = require('../templates/widgetsbar/metadata_document.html');
+
+        compiled_tpl = _.template(file_tpl(kwargs));
+
+        return compiled_tpl();
     }
 
 }
@@ -534,6 +624,7 @@ export class WidgetsBarView extends View {
         if (selection.length == 1) {
 
             node = selection[0];
+            
             if (this.info_widget) {
                 this.info_widget.undelegateEvents();
                 this.info_widget = undefined;
@@ -589,12 +680,11 @@ export class WidgetsBarDocumentView extends View {
     }
 
     initialize(document_id) {
-        this.document = new Document(document_id);
-        this.listenTo(this.document, 'change', this.render);
-        this.document.fetch();
+        this.metadata_widget = new MetadataDocumentWidget();
     }
 
     render() {
+ 
         let compiled = "",
             compiled_part,
             compiled_metadata,
@@ -608,10 +698,6 @@ export class WidgetsBarDocumentView extends View {
         context = {};
 
         parts = this.document.get('parts');
-
-        this.metadata_widget = new MetadataDocumentWidget(
-            new Model(this.document.get('document'))
-        );
 
         compiled = this.metadata_widget.render_to_string();
 

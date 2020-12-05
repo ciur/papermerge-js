@@ -1,0 +1,88 @@
+<div class="metadata-widget">
+
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title"><label><%= gettext('Metadata') %></label></div>
+            <div class="card-text">
+                <ul class="collection">
+                    <li class="collection-item d-flex flex-row-reverse">
+                        <button class="btn btn-primary btn-flat add-metadata-key" type="button" >
+                            <i class="fa fa-plus"></i>
+                            <%= gettext("Add") %>
+                        </button>
+                        
+                        <button type='button' class='btn btn-success btn-flat save key mx-1'>
+                            <i class="fa fa-save"></i>
+                            <%= gettext('Save') %>
+                        </button>
+                    </li>
+                    <ul id="simple_keys" class="collection">
+                        <% for (i=0; i < kvstore.models.length; i++) { %>
+                            <% item = kvstore.models[i]; %>
+                            <% current_formats = item.get('current_formats') || []; %>
+                            <% kv_types = item.get('kv_types') || available_types || []; %>
+                            <li class='collection-item' data-model='simple-key' data-id='<%= item.id %>' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
+                                <!-- KEY BEGIN -->
+                                <div class="row summary pt-2">
+                                    <div class="col-11 label">
+                                        <input class="widget-form" <%= item.disabled %> data-id='<%= item.id %>' data-cid='<%= item.cid %>' placeholder="<%= gettext('label name') %>..." name='key' type='text' value="<%= item.get('key') %>">
+                                    </div>
+                                    <div class="col-1 close"  data-id='<%= item.id %>' data-cid='<%= item.cid %>'>
+                                        <% if (!item.get('kv_inherited')) {  %>
+                                            <button type='button' class='close key mx-1 text-danger' aria-label='Close'>
+                                                <span aria-hidden='true'>&times;</span>
+                                            </button>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <!-- KEY END -->
+                                <!-- VALUE BEGIN -->
+                                    <div class="row summary pt-2">
+                                        <div class="col-11 label">
+                                            <input class="widget-form"  data-id='<%= item.id %>' data-cid='<%= item.cid %>' placeholder="<%= gettext('value') %>..." name='value' type='text' value="<%= item.get('value') %>">
+                                        </div>
+                                        <div class="col-1 chevron toggle"  data-id='<%= item.id %>' data-cid='<%= item.cid %>'>
+                                            <a>
+                                                <i class="fa fa-chevron-left"></i>
+                                            </a>
+                                        </div>
+                                    </div>                                
+                                <!-- VALUE END -->
+                                <div class="row details d-none pt-2">
+                                    <div class="col-12">
+                                        <select <%= item.disabled %>  class="kv_type custom-select" name='kv_type' class="custom-select">
+                                            <% for (k=0; k < kv_types.length; k++) { %>
+                                                <option 
+                                                    <% if ( item.get('kv_type') == kv_types[k][0] ) { %> selected  <% }  %> 
+                                                    value="<%= kv_types[k][0] %>">
+                                                    <%= kv_types[k][1] %>
+                                                </option>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <% if (current_formats.length) { %>
+                                    <div class="row details d-none pt-2">
+                                        <div class="col-12">
+                                            <select <%= item.disabled %> class="kv_format custom-select" name='kv_format' class="custom-select">
+                                                <% for (j=0; j < current_formats.length; j++) { %>
+                                                    <option 
+                                                         <% if ( item.get('kv_format') == current_formats[j][0] ) { %> selected  <% }  %> 
+                                                        value="<%= current_formats[j][0] %>">
+                                                        <%= current_formats[j][1] %>
+                                                    </option>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                <% } %>
+                               
+                            </li>
+                        <% } %>
+                     </ul>
+                </ul>
+            </div> <!-- card-text -->
+        </div> <!-- card-body -->
+    </div> <!-- card -->
+
+</div> <!-- metadata-widget -->

@@ -1,7 +1,7 @@
 import _ from "underscore";
 import { Model, Collection } from 'backbone';
 import { Node, NodeCollection } from "./node";
-import { KVStore, KVStoreCollection } from "./kvstore";
+import { KVStore } from "./kvstore";
 
 
 import {
@@ -21,7 +21,7 @@ export class Browse extends Model {
     initialize(parent_id) {
         this.parent_id = parent_id;
         this.nodes = new NodeCollection();
-        this.parent_kv = new KVStoreCollection();
+        this.parent_kv = new Collection();
     }
 
     urlRoot() {

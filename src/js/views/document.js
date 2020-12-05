@@ -86,6 +86,11 @@ export class DocumentView extends View {
       let dom_actual_pages = document.querySelector('.actual_pages'),
         document_id = $("input[name=document_id]").val();
 
+      // Widgets bar must be created before MgThumbnailList
+      // because latter sends an event of page selection.
+      // Page selection event triggers loading of metadata for correct
+      // page.
+      this._widgetsbar = new WidgetsBarDocumentView(document_id);
       this._thumbnail_list = new MgThumbnailList(); 
       this._zoom = new DgZoom();
       this._page_list = new MgPageList(this._zoom);
@@ -95,7 +100,6 @@ export class DocumentView extends View {
       this._spinner = new DgMainSpinner();
       this._actions = this.build_actions();
       this._breadcrumb_view = new BreadcrumbView(document_id);
-      this._widgetsbar = new WidgetsBarDocumentView(document_id);
 
       if (dom_actual_pages) {
           new DgPageScroll(dom_actual_pages);

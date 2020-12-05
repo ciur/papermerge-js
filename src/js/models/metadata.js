@@ -1,7 +1,6 @@
 import _ from "underscore";
-import { Model } from 'backbone';
+import { Model, Collection } from 'backbone';
 import { KVStore } from "./kvstore";
-import { KVStoreCollection, KVStoreCompCollection } from './kvstore';
 
 let CSRF_TOKEN = $("[name=csrfmiddlewaretoken]").val();
 
@@ -10,9 +9,19 @@ Backbone.$.ajaxSetup({
 });
 
 export class Metadata extends Model {
+    /**
+        This model is used to display metadata in widgetsbar
+        while browsing documents and folders.
+        It will change only Metadata keys.
+        Metadata values are not changed.
+
+        Metadata values are chaned in document viewer.
+        (using client side js.models.MetadataKV model)
+    **/
+
     defaults() {
       return {
-        kvstore: new KVStoreCollection(),
+        kvstore: new Collection(),
         kv_types: [],
         date_formats: [],
         currency_formats: [],
@@ -20,44 +29,37 @@ export class Metadata extends Model {
       };
     }
 
-    urlRoot() {
-        return "/node/";
+    url() {
+        return `/metadata/node/${this.node.id}`;
     }
 
     initialize(node) {
-        let that = this,
-            kvstore,
-            metadata,
-            kv_types,
-            date_formats,
-            numeric_formats,
-            currency_formats;
-
         this.doc_id = node.id;
         this.node = node;
 
-        metadata = node.get('metadata');
+        this.fetch();
+    }
 
-        if (metadata) {
-            kvstore = metadata.kvstore;
-            kv_types = metadata.kv_types;
-            numeric_formats = metadata.numeric_formats;
-            date_formats = metadata.date_formats;
-            currency_formats = metadata.currency_formats;
+    parse(response, options) {
+        let kvstore = response.kvstore,
+            kv_types = response.kv_types,
+            date_formats = response.date_formats,
+            numeric_formats = response.numeric_formats,
+            currency_formats = response.currency_formats,
+            that = this;
 
-            _.each(kvstore, function(item){
-                that.kvstore.add(
-                    new KVStore(item)
-                );
-            });
+        _.each(kvstore, function(item){
+            that.kvstore.add(
+                new KVStore(item)
+            );
+        });
 
-            this.set({'kv_types': kv_types});
-            this.set({'numeric_formats': numeric_formats});
-            this.set({'date_formats': date_formats});
-            this.set({'currency_formats': currency_formats});
+        this.set({'kv_types': kv_types});
+        this.set({'numeric_formats': numeric_formats});
+        this.set({'date_formats': date_formats});
+        this.set({'currency_formats': currency_formats});
 
-            this.trigger('change');  
-        }
+        this.trigger('change');
     }
 
     get kvstore() {
@@ -79,40 +81,6 @@ export class Metadata extends Model {
         }
 
         return false;
-    }
-
-    toJSON() {
-        let dict = {};
-        
-        dict['kvstore'] = this.kvstore.toJSON();
-
-        return dict;
-    }
-
-    parse(response, options) {
-        // obsolete.
-        // Metadata Model is now initializaed in constructor
-        // as node info is fetched in node browser
-
-        let kvstore = response.kvstore,
-            kv_types = response.kv_types,
-            date_formats = response.date_formats,
-            numeric_formats = response.numeric_formats,
-            currency_formats = response.currency_formats,
-            that = this;
-
-        _.each(kvstore, function(item){
-            that.kvstore.add(
-                new KVStore(item)
-            );
-        });
-
-        this.set({'kv_types': kv_types});
-        this.set({'numeric_formats': numeric_formats});
-        this.set({'date_formats': date_formats});
-        this.set({'currency_formats': currency_formats});
-
-        this.trigger('change');
     }
 
     update_simple(cid, attr, value) {

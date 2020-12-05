@@ -228,6 +228,7 @@ export class MgThumbnailList extends MgLister {
         if (this._list.length > 0) {
             // if there is at least one thumbnail
             first_thumb = this._list[0];
+            console.log("page selection triggered");
             mg_dispatcher.trigger(
                 PAGE_SELECTION_CHANGED,
                 first_thumb.page_id,

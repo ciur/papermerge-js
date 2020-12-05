@@ -10,7 +10,7 @@ export class MetadataPage extends Metadata {
         this.fetch();
     }
 
-    urlRoot() {
+    url() {
         return `/metadata/page/${this.page_id}`;
     }
 };
