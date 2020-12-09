@@ -30,6 +30,10 @@
 @import "./views/preferences.scss";
 @import "./views/context_menu.scss";
 
+body {
+    overflow: hidden;
+}
+
 #pre-loader {
     position: absolute;
     z-index: 3000;
