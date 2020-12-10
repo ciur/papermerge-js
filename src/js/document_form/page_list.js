@@ -3,6 +3,7 @@ import {DgPage} from "./page";
 import {MgLister} from "./lister";
 
 export class MgPageList extends MgLister {
+
     constructor(zoom) {
         super();
         this._container_selector = ".actual_pages";
