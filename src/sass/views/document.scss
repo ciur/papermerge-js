@@ -26,6 +26,36 @@ aside {
     display: none;
 }
 
+// set correct height
+#document {
+    // actual height of the document
+    // is set dynamically with js code
+    // (check js/views/document.js)
+    overflow: hidden;
+
+    #viewer {
+        height: inherit; 
+
+        #actual-pages {
+            height: inherit;
+            overflow: scroll;
+
+            .actual-pages {
+                height: inherit;
+            }
+        }
+
+        #page-thumbnails {
+            height: inherit;
+            overflow: scroll;
+
+            .page_thumbnails {
+                height: inherit;
+            }
+        }
+    }
+}
+
 #document {
 
     border-top: 1px solid #ccc;
@@ -41,8 +71,6 @@ aside {
     ul.page_thumbnails {
 
         width: 10rem;
-        height: 100vh;
-        overflow: auto;
         border-right: 1px solid #d7d7d7;
         padding: 0;
         border-right: 3px solid rgb(102, 102, 102);
@@ -141,7 +169,6 @@ aside {
 
     ul.actual_pages {
 
-        height: 100vh;
         overflow: auto;
         padding: 0;
 
@@ -216,7 +243,6 @@ aside {
 
 #actual-pages {
     flex: 1;
-    height: 100vh;
     overflow: hidden;
     background-color: $light_gray_bg;
 }

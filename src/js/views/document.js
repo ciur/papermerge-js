@@ -183,8 +183,9 @@ export class DocumentView extends View {
         $(window).resize(function(){
             let zoom_val = that.zoom.get_value();
 
-            console.log("window resized");
             that.page_list.on_zoom(zoom_val);
+            console.log("window resized");
+            that._adjust_viewer_height();
         });
     }
 
@@ -528,30 +529,25 @@ export class DocumentView extends View {
       */
 
       let vh_height,
-        footer_height,
-        header_height,
+        doc_actions,
         nav_height,
+        breadcrumb_height,
         viewer_height;
 
       vh_height = Math.max(
         document.documentElement.clientHeight, window.innerHeight || 0
       );
 
-      footer_height = $('footer').outerHeight(true);
-      header_height = $('#content-header').outerHeight(true);
-      nav_height = $('nav.main-header').outerHeight(true);
+      breadcrumb_height = $('#breadcrumb').outerHeight(true);
+      doc_actions = $('#document-actions').outerHeight(true);
+      nav_height = $('nav.main-header.navbar').outerHeight(true);
 
-      
-      //console.log(`vh_height=${vh_height}`);
-      //console.log(`footer_height=${footer_height}`);
-      //console.log(`header_height=${header_height}`);
-      //console.log(`nav_height=${nav_height}`);
+      console.log(`vh_height=${vh_height}px`);
+      console.log(`nav_height=${nav_height}px`);
+      console.log(`breadcrumb=${breadcrumb_height}px`);
 
-      viewer_height = vh_height - nav_height - footer_height - 2 * header_height;
+      viewer_height = vh_height - 2* nav_height - 2 * doc_actions;
 
-      $("ul.actual_pages").css('height', `${viewer_height}px`);
-      $("#actual-pages").css('height', `${viewer_height}px`);
-      $("ul.page_thumbnails").css('height', `${viewer_height}px`);
-      $('body').css("overflow", 'hidden');
+      $("#document").css('height', `${viewer_height}px`);
     }
 }
