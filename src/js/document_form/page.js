@@ -6,6 +6,7 @@ import imagesloaded from "imagesloaded";
 import {is_visible, build_elem, delete_elem_children} from "./common"; 
 import {DgTextOverlay} from "../text_overlay";
 import {DgRect} from "./rect";
+import { get_url_param } from "../utils";
 
 // https://github.com/desandro/imagesloaded#webpack
 // make imagesloaded as jquery plugin - this
@@ -169,7 +170,8 @@ export class DgPage {
     load_img(zoom_val) {
         let src, dynamic_width,
             arr = [50, 75, 100, 125, 150],
-            that = this;
+            that = this,
+            version;
 
         /*
             Dynamic width is the width of viewer. In will very depending on the
@@ -186,7 +188,14 @@ export class DgPage {
             Step(2) will correspond to 75% of Step(1)
             Step(3) will correspond to 50% of Step(1) => image with width=620px.
         */
-        src = `/document/${this._doc_id}/preview/1/page/${this._page_num}`;
+        version = parseInt(get_url_param('version'));
+        if (version >= 0) {
+            src = `/document/${this._doc_id}/preview/1/page/${this._page_num}?version=${version}`;
+        } else {
+            src = `/document/${this._doc_id}/preview/1/page/${this._page_num}`;
+        }
+
+        
         
         if (arr.includes(zoom_val)) {
             dynamic_width = zoom_val / 100 * 1240;
@@ -265,14 +274,21 @@ export class DgPage {
         let hocr_url,
             that = this,
             orig_img_width,
-            orig_img_height
+            orig_img_height,
+            version
             ;
 
         this._dom_hocr = build_elem('div', {'class': "page_hocr"});
         /**
             value 1 from below url corresponds to briolette.step.Step(1)
         **/
-        hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}`;
+
+        version = parseInt(get_url_param('version'));
+        if (version >= 0) {
+            hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}?version=${version}`;
+        } else {
+            hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}`;
+        }
 
         $.ajax({
             url: hocr_url

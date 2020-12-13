@@ -542,10 +542,6 @@ export class DocumentView extends View {
       doc_actions = $('#document-actions').outerHeight(true);
       nav_height = $('nav.main-header.navbar').outerHeight(true);
 
-      console.log(`vh_height=${vh_height}px`);
-      console.log(`nav_height=${nav_height}px`);
-      console.log(`breadcrumb=${breadcrumb_height}px`);
-
       viewer_height = vh_height - 2* nav_height - 2 * doc_actions;
 
       $("#document").css('height', `${viewer_height}px`);

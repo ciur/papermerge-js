@@ -226,3 +226,19 @@ export class MgRect {
       return x_is_within && y_is_within;
     }
 }
+
+
+export function get_url_param(param) {
+    var page_url = window.location.search.substring(1),
+        url_variables = page_url.split('&'),
+        param_name,
+        i;
+
+    for (i = 0; i < url_variables.length; i++) {
+        param_name = url_variables[i].split('=');
+
+        if (param_name[0] === param) {
+            return param_name[1] === undefined ? true : decodeURIComponent(param_name[1]);
+        }
+    }
+};

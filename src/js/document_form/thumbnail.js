@@ -1,6 +1,7 @@
 import $ from "jquery";
 import {DgEvents} from "../events";
 import {is_visible, build_elem} from "./common";
+import { get_url_param } from "../utils";
 
 export class MgThumbnail extends DgEvents {
     /**
@@ -230,9 +231,15 @@ export class MgThumbnail extends DgEvents {
     }
 
     load_img() {
-        let dom_img, src;
+        let dom_img, src, version;
 
-        src = `/document/${this._doc_id}/preview/${this._step}/page/${this._page_num}`;
+        version = parseInt(get_url_param('version'));
+        if ( version >=0 ) {
+            src = `/document/${this._doc_id}/preview/${this._step}/page/${this._page_num}?version=${version}`;
+        } else {
+            src = `/document/${this._doc_id}/preview/${this._step}/page/${this._page_num}`;
+        }
+        
         dom_img = build_elem('img', {'src': src})
         this._dom_ref.insertBefore(
             dom_img,
