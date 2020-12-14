@@ -21,6 +21,10 @@ import {WidgetsBarDocumentView, InfoWidgetDocumentView} from "../views/widgetsba
 import {RenameView} from "../views/rename";
 import {Document} from "../models/document";
 import { MessageView } from '../views/message';
+import { 
+  mg_dispatcher,
+  DOCUMENT_IMAGE_LOADED
+} from "../models/dispatcher";
 
 export class DocumentActionsView extends View {
   
@@ -101,6 +105,7 @@ export class DocumentView extends View {
       this._spinner = new DgMainSpinner();
       this._actions = this.build_actions();
       this._breadcrumb_view = new BreadcrumbView(document_id);
+      this._loaded_page_imgs = 0;
 
       if (dom_actual_pages) {
           new DgPageScroll(dom_actual_pages);
@@ -108,6 +113,12 @@ export class DocumentView extends View {
 
       this.configEvents();
       this._adjust_viewer_height()
+
+      mg_dispatcher.on(
+          DOCUMENT_IMAGE_LOADED,
+          this.on_document_image_loaded,
+          this
+      );
     }
 
     get actions() {
@@ -120,6 +131,15 @@ export class DocumentView extends View {
 
     get page_list() {
         return this._page_list;
+    }
+    on_document_image_loaded(page_num) {
+      
+      if (this.page_list.length > this._loaded_page_imgs) {
+          this._loaded_page_imgs += 1;
+      } else {
+        $("#document").css("visibility", "visible");
+        $("#pre-loader").hide();
+      }
     }
 
     scroll_to(page_num) {

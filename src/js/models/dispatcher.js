@@ -21,3 +21,4 @@ export let SELECT_FOLDERS = "select_folders";
 export let SELECT_DOCUMENTS = "select_documents";
 export let DESELECT = "deselect";
 export let INVERT_SELECTION = "invert_selection";
+export let DOCUMENT_IMAGE_LOADED = "document_image_loaded";

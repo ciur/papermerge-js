@@ -7,6 +7,11 @@ import {is_visible, build_elem, delete_elem_children} from "./common";
 import {DgTextOverlay} from "../text_overlay";
 import {DgRect} from "./rect";
 import { get_url_param } from "../utils";
+import { 
+  mg_dispatcher,
+  DOCUMENT_IMAGE_LOADED
+} from "../models/dispatcher";
+
 
 // https://github.com/desandro/imagesloaded#webpack
 // make imagesloaded as jquery plugin - this
@@ -223,6 +228,7 @@ export class DgPage {
         $(this._dom_img).imagesLoaded().done(
             function(instance){
                 that.load_hocr(zoom_val);
+                mg_dispatcher.trigger(DOCUMENT_IMAGE_LOADED, that.page_num);
             }
         );
 
@@ -231,8 +237,6 @@ export class DgPage {
     resize_img(zoom_val) {
         let arr = [50, 75, 100, 125, 150],
             new_width;
-
-        console.log(`resize_img zoom_val=${zoom_val}`);
 
         if (!this._orig_page_size) {
             // image might not yet be loaded, e.g.
@@ -399,7 +403,6 @@ export class DgPage {
 
     on_scroll(zoom_val) {
         if (!this.is_img_loaded()) {
-            console.log("Loading img...");
             this.load_img(zoom_val);
             // when load_img completes asyncroniously to load
             // image - it triggers load_hocr function.

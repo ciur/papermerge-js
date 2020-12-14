@@ -7,6 +7,15 @@ aside {
     }
 }
 
+#breadcrumb {
+    a.preload {
+        display: block;
+        width: 5rem;
+        height: 1rem;
+        background-color: #ccc;
+    }   
+}
+
 #document-actions {
     top: -0.5rem;
 }
@@ -32,6 +41,7 @@ aside {
     // is set dynamically with js code
     // (check js/views/document.js)
     overflow: hidden;
+    visibility: hidden;
 
     #viewer {
         height: inherit; 
