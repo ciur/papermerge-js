@@ -46,7 +46,7 @@ export class ActionsView extends View {
 
   events() {
       let event_map = {
-        'click #new-folder':  'new_folder',
+        'click .new-folder':  'new_folder',
         'click #download-nodes': 'download_nodes',
         'click #delete': 'delete_node',
         'click #cut': 'cut_node',
@@ -281,6 +281,17 @@ export class ActionsView extends View {
 
   _build_action_conditions() {
     let that = this, result = new Collection();
+
+    result.add({
+      'id': "#delete",
+      'cond': function(selection, clipboard, parent_id) {
+          if (selection.length > 0) {
+            return true;
+          }
+
+          return false;
+      }
+    });
 
     result.add({
       'id': "#delete",
