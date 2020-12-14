@@ -17,7 +17,7 @@ import {get_win_param} from "../document_form/common";
 import {DgMainSpinner} from "../spinner";
 import {MgChangeFormActions, MgChangeFormAction} from "../actions/changeform_actions";
 import {BreadcrumbView} from "../views/breadcrumb";
-import {WidgetsBarDocumentView} from "../views/widgetsbar";
+import {WidgetsBarDocumentView, InfoWidgetDocumentView} from "../views/widgetsbar";
 import {RenameView} from "../views/rename";
 import {Document} from "../models/document";
 import { MessageView } from '../views/message';
@@ -91,6 +91,7 @@ export class DocumentView extends View {
       // Page selection event triggers loading of metadata for correct
       // page.
       this._widgetsbar = new WidgetsBarDocumentView(document_id);
+      this._info_widget = new InfoWidgetDocumentView(document_id);
       this._thumbnail_list = new MgThumbnailList(); 
       this._zoom = new DgZoom();
       this._page_list = new MgPageList(this._zoom);

@@ -673,6 +673,29 @@ export class WidgetsBarView extends View {
     }
 }
 
+export class InfoWidgetDocumentView extends View {
+    el() {
+        return $("#info-widget-document");
+    }
+
+    initialize(document_id) {
+        this.document_id = document_id;
+    }
+
+    events() {
+        let event_map = {
+          'change #document-versions': 'on_document_version_selected',
+        }
+
+        return event_map;
+    }
+
+    on_document_version_selected(event) {
+        let version = $(event.currentTarget).val();
+        window.location.search = `?version=${version}`; 
+    }
+}
+
 export class WidgetsBarDocumentView extends View {
 
     el() {
