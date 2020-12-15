@@ -32,6 +32,16 @@ export class DocumentActionsView extends View {
     return $('#document-actions');
   }
 
+  initialize() {
+    let storage = window.localStorage;
+
+    if (storage.getItem('page-thumbnails') == 'visible') {
+      $("#page-thumbnails").show();
+    } else {
+      $("#page-thumbnails").hide();
+    }
+  }
+
   events() {
     let event_map = {
       "click #sw-left-panel": "toggle_thumbnails",
@@ -42,7 +52,8 @@ export class DocumentActionsView extends View {
 
   toggle_thumbnails(event) {
     let target_id = $(event.currentTarget).data("target-id"),
-        $target;
+        $target,
+        storage = window.localStorage;
 
     event.preventDefault();
 
@@ -53,6 +64,11 @@ export class DocumentActionsView extends View {
     }
 
     $target.toggle();
+    if ($target.is(':visible')) {
+      storage.setItem('page-thumbnails', 'visible');
+    } else {
+      storage.setItem('page-thumbnails', 'hidden');
+    }
   }
 }
 
