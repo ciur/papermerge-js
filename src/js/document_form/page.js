@@ -345,7 +345,9 @@ export class DgPage {
     }
 
     resize_hocr(zoom_val) {
-        let hocr_url, that = this;
+        let hocr_url,
+            version,
+            that = this;
 
         if (!this._dom_hocr) {
             return;
@@ -354,7 +356,12 @@ export class DgPage {
         //delete_elem_children(this._dom_hocr);
         $(this._dom_svg).remove();
 
-        hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}`;
+        version = parseInt(get_url_param('version'));
+        if (version >=0) {
+            hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}?version=${version}`;
+        } else {
+            hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}`;
+        }
     
         $.ajax({
             url: hocr_url
