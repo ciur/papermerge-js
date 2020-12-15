@@ -57,6 +57,10 @@ export class UploaderView extends View {
     
     context = {};
 
+    if (!this.uploader.length) {
+      return;
+    }
+
     compiled = _.template(TEMPLATE({
         'files': this.uploader,
     }));
