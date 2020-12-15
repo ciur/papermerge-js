@@ -182,6 +182,11 @@ class UISelectView extends View {
     */
     if (event.which > 1) {
       // not our concern
+      // remove selection and quit
+      if (this.ui_select) {
+        this.ui_select.remove_div();
+        this.ui_select = undefined;
+      }
       return;
     }
     
@@ -209,9 +214,11 @@ class UISelectView extends View {
     )
   }
 
-  on_mouse_move(event) {
-    if (this.ui_select) {
-      this.ui_select.update(event.clientX, event.clientY);
+  on_mouse_move(e) {
+    // draw a selection only if
+    // primary mouse button was pressed before and is pressed now
+    if (this.ui_select && e.which == 1 && e.buttons == 1) {
+      this.ui_select.update(e.clientX, e.clientY);
     }
   }
 }
@@ -688,9 +695,6 @@ export class BrowseView extends View {
       let events_map = {
           "click input[type=checkbox]": "on_checkbox_clicked",
           "click .node": "on_node_clicked",
-          "mousedown": "on_mouse_down",
-          "mouseup": "on_mouse_up",
-          "mousemove": "on_mouse_move"
       }
 
       return events_map;
