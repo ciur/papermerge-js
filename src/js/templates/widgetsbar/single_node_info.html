@@ -17,6 +17,20 @@
             <li class="collection-item">
                 <label><%= gettext('Modified') %>:</label>  <%= updated_at %>
             </li>
+            <% if (tags.length > 0) { %>
+                <li class="collection-item">
+                    <label for="tags"><%= gettext('Tags') %>:
+                    </label>
+                    <div class="document tags-container d-flex">
+                        <% for (i=0; i < tags.length; i++) { %>
+                            <% tag = tags[i]; %>
+                        <div style="background: <%= tag.bg_color %>; color: <%= tag.fg_color %>;  border: 1px solid <%= tag.bg_color %>; border-radius: 3px;" class="tag d-flex align-items-center">
+                            <span style="color: <%= tag.fg_color %>; margin-right: 0.5rem;"><%= tag.name %></span>
+                        </div>
+                        <% } %>
+                    </div>
+                </li>
+            <% } %>
             <li class="collection-item d-flex flex-row-reverse bordered">
                 <a href="<%= download_url %>" class="btn btn-primary text-white btn-flat">
                     <i class="fa fa-download"></i>
