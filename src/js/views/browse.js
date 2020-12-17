@@ -950,7 +950,9 @@ export class BrowseView extends View {
     
     context = {};
 
-    this.pagination_view.render(this.browse.pagination);
+    this.pagination_view.render(
+      this.browse.get('pagination')
+    );
 
     if (this.display_mode.is_list()) {
       this.browse_list_view.render(

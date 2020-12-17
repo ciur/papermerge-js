@@ -8,11 +8,24 @@ export class PaginationView extends View {
         return $('#pagination-view');
     }
 
-    template(kwargs) {
+    template(context={}) {
         let compiled_tpl,
+            default_context,
             file_tpl = require('../templates/pagination.html');
 
-        compiled_tpl = _.template(file_tpl(kwargs));
+        default_context = {
+            'page_number': 1,
+            'pages': [],
+            'num_pages': 0,
+            'page': {
+                'has_previous': false,
+                'has_next': false,
+                'previous_page_number': 1,
+                'next_page_number': 1,
+            }
+        }
+        Object.assign(default_context, context)
+        compiled_tpl = _.template(file_tpl(context));
 
         return compiled_tpl();
     }

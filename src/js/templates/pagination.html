@@ -10,7 +10,7 @@
           </li>
         <% } %>
         <% for(let i=0; i < pages.length; i++) { %>
-          <li class="page-item <% if (i == page_number) { %> active <% } %>"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+          <li class="page-item <% if (pages[i] == page_number) { %> active <% } %>"><a class="page-link" href="?page=<%= pages[i] %>"><%= pages[i] %></a></li>
         <% } %>
         <% if (page.has_next) { %>
           <li class="page-item">

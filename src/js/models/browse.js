@@ -2,6 +2,7 @@ import _ from "underscore";
 import { Model, Collection } from 'backbone';
 import { Node, NodeCollection } from "./node";
 import { KVStore } from "./kvstore";
+import { get_url_param } from "../utils";
 
 
 import {
@@ -27,18 +28,21 @@ export class Browse extends Model {
     urlRoot() {
         let parent_id = this.get('parent_id'),
             base_url,
-            tag;
+            tag,
+            page,
+            params;
 
         if (parent_id) {
             base_url = `/browse/${parent_id}/`;
         } else {
             base_url = '/browse/';    
         }
-        
+
+        page = get_url_param('page');
         tag = this.get('tag');
-        if (tag) {
-            base_url = base_url + `?tag=${tag}`;
-        }
+        params = $.param({'tag': tag, 'page': page})
+        
+        base_url = `${base_url}?${params}`;
 
         return base_url;
     }
