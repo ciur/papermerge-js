@@ -93,6 +93,8 @@ export class Browse extends Model {
             that.parent_kv.add(new KVStore(item))
         });
 
+        this.set({'pagination': response.pagination});
+
         this.set({'parent_id': parent_id});
 
         this.trigger('change');

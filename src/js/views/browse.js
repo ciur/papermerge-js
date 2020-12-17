@@ -4,6 +4,7 @@ import { Browse } from "../models/browse";
 import { MgRect } from "../utils";
 import { DisplayModeView } from "./display_mode";
 import { DropzoneView } from "./dropzone";
+import { PaginationView } from "./pagination";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 import 'webpack-jquery-ui/selectable';
@@ -660,6 +661,7 @@ export class BrowseView extends View {
     this.browse = new Browse(parent_id);
     // UI used to switch between list and grid display modes
     this.display_mode = new DisplayModeView();
+    this.pagination_view = new PaginationView();
 
     // there are to view modes - list and grid
     this.browse_list_view = new BrowseListView();
@@ -947,6 +949,8 @@ export class BrowseView extends View {
     let compiled, context, sort_order, sort_field;
     
     context = {};
+
+    this.pagination_view.render(this.browse.pagination);
 
     if (this.display_mode.is_list()) {
       this.browse_list_view.render(
