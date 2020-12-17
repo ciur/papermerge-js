@@ -10,13 +10,13 @@ export class PaginationView extends View {
 
     template(context={}) {
         let compiled_tpl,
-            default_context,
+            ctx,
             file_tpl = require('../templates/pagination.html');
 
-        default_context = {
-            'page_number': 1,
-            'pages': [],
-            'num_pages': 0,
+        ctx = {
+            'page_number': context['page_number'] || 1,
+            'pages': context['pages'] || [],
+            'num_pages': context['num_pages'] || 0,
             'page': {
                 'has_previous': false,
                 'has_next': false,
@@ -24,8 +24,7 @@ export class PaginationView extends View {
                 'next_page_number': 1,
             }
         }
-        Object.assign(default_context, context)
-        compiled_tpl = _.template(file_tpl(context));
+        compiled_tpl = _.template(file_tpl(ctx));
 
         return compiled_tpl();
     }
