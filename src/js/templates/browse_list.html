@@ -1,3 +1,5 @@
+<% if (table.rows.length > 0 ) { %>
+
 <table class="table">
   <thead>
     <tr>
@@ -64,3 +66,13 @@
     <% } %>
   </tbody>
 </table>
+
+<% } else { %>
+<ul id="empty-folder">
+    <div class="d-flex flex-column align-items-center">
+        <i class="fa fa-folder">
+        </i>
+        <strong class="text-muted"><%=  gettext("This folder is empty") %></strong>
+    </div>
+</ul>
+<% } %>

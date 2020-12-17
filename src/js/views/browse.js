@@ -645,7 +645,7 @@ class BrowseGridView extends View {
         'nodes': nodes,
     }));
 
-    this.$el.html(compiled);
+    this.$el.html(compiled);  
   }
 }
 

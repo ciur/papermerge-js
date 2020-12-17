@@ -34,7 +34,7 @@
 #pagination-view {
     position: absolute;
     right: 0;
-    z-index: 2000;
+    z-index: 1000;
     bottom: 0rem;
 }
 
@@ -43,6 +43,22 @@
     // like selection
     user-select: none;
     overflow: scroll;
+
+    #empty-folder {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        i {
+            font-size: 5rem;
+            color: #aaa;
+        }
+        strong {
+            font-size: 1rem;
+            margin: 1.5rem;
+        }
+    }
 
     .checked {
          background-color: $result_list_hover_bg_color;
