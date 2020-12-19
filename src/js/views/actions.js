@@ -47,7 +47,6 @@ export class ActionsView extends View {
   events() {
       let event_map = {
         'click .new-folder':  'new_folder',
-        'click #new-folder':  'new_folder',
         'click #download-nodes': 'download_nodes',
         'click #delete': 'delete_node',
         'click #cut': 'cut_node',
@@ -265,7 +264,7 @@ export class ActionsView extends View {
   }
 
   new_folder(event) {
-    console.log("New folder");
+    console.log(`New folder ${event.currentTarget}`);
     let new_folder_view, parent_id;
 
     parent_id = this.parent_id;
