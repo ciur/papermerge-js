@@ -61,7 +61,7 @@ module.exports = function (env, argv) {
         mode: argv.mode === 'development' ? 'development' : 'production',
         output: {
             filename:  argv.mode === 'development' ? '[name].debug.js' : '[name].js',
-            path: '/home/eugen/GitHub/PapermergeDMS/papermerge/contrib/admin/static/admin/js/'
+            path: '/home/eugen/GitHub/PapermergeCore/papermerge/contrib/admin/static/admin/js/'
         },
         entry: {
             papermerge: [
