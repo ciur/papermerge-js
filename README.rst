@@ -10,7 +10,7 @@ Requirements
 This project depends on `nodejs <https://nodejs.org/en/>`_ and `npm <https://github.com/npm/cli>`_.
 
 
-1. Make sure you have `node.js <https://nodejs.org/en/> `_ installed. On Ubuntu Linux::
+1. Make sure you have `node.js <https://nodejs.org/en/>`_ installed. On Ubuntu Linux::
 
 	sudo apt install nodejs npm
 
