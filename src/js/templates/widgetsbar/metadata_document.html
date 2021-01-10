@@ -17,8 +17,8 @@
                         </button>
                     </li>
                     <ul id="simple_keys" class="collection">
-                        <% for (i=0; i < tags.models.length; i++) { %>
-                            <% tag = tags.models[i]; %>
+                        <% for (i=0; i < kvstore.models.length; i++) { %>
+                            <% item = kvstore.models[i]; %>
                             <li class='collection-item' data-model='simple-key' data-id='<%= item.id %>' data-cid='<%= item.cid %>' data-value="<%= item.get('key') %>">
                                 <!-- KEY BEGIN -->
                                 <div class="row summary pt-2">

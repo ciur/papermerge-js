@@ -149,12 +149,22 @@ export class DocumentView extends View {
         return this._page_list;
     }
     on_document_image_loaded(page_num) {
-      
       if (this.page_list.length > this._loaded_page_imgs) {
           this._loaded_page_imgs += 1;
       } else {
-        $("#document").css("visibility", "visible");
-        $("#pre-loader").hide();
+        // beautiful refresh feature BEGIN
+        /**
+        See detailed comment in beatuful refresh comment found in src/js/views/browse.js
+        **/
+        $('aside.main-sidebar.animated-opacity').animate({opacity: 1.0}, 200, function(){
+            $('.main-header.animated-opacity').animate({opacity: 1.0}, 200, function(){
+                $("#pre-loader").hide();
+                $('.content-wrapper.animated-opacity').animate({opacity: 1.0}, 200, function() {
+                    $('#document').animate({opacity: 1.0}, 200);
+                });
+            });
+        });
+        // beatiful refresh feature END
       }
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "papermerge",
-  "version": "1.4.0",
+  "version": "2.0.0.rc5",
   "description": "Papermerge DMS Frontend (js, sass)",
   "main": "index.js",
   "scripts": {

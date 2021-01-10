@@ -34,6 +34,20 @@ body {
     overflow: hidden;
 }
 
+// beautiful refresh feature BEGIN
+.main-header.animated-opacity {
+    opacity: 0;
+}
+
+aside.main-sidebar.animated-opacity {
+    opacity: 0;
+}
+
+.content-wrapper.animated-opacity {
+    opacity: 0;
+}
+// beautiful refresh feature END
+
 #pre-loader {
     position: absolute;
     z-index: 3000;

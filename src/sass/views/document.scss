@@ -41,7 +41,7 @@ aside {
     // is set dynamically with js code
     // (check js/views/document.js)
     overflow: hidden;
-    visibility: hidden;
+    opacity: 0;
 
     #viewer {
         height: inherit; 

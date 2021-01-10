@@ -972,9 +972,42 @@ export class BrowseView extends View {
         this.browse.nodes
       );
     }
+    // beautiful refresh feature BEGIN
+    /**
+      Context
+      ========
 
-    $("#pre-loader").hide();
-    
+      Document browser loads part of its elements via ajax calls. When ajax
+      responses are available, backbone views are triggered to render those
+      elements. Overall this mix of ajax + backbone views + part of document
+      displayed as standard html page results in a flickery (annoying) rendering
+      experience.
+
+      Solution
+      ========
+
+      Main page parts aside.main-sidebar, .main-header, .content-wrapper have
+      their initial css opacity set to 0 i.e those elements are not visible.
+
+      When page load complets (which is signaled by change event in browser view)
+      those 3 page parts (aside.main-sidebar, .main-header, content-wrapper)
+      are progresively made visible via animated css opactity transition to 1.
+
+      Because aside.main-sidebar, .main-header, content-wrapper elements are
+      part of main layout (i.e. rendered in all application views) it is necessary
+      to avoid the progressive animated load for the rest of pages. The thing
+      is that the problem of annoying rendering experience is ONLY (and I repeat ONLY)
+      for document browser and document viewer. To restrict solution only for
+      document viewer and documents browser the .animated-opacity css class is used.
+      The ``.animated-opacity`` css class is rendered only for index.html view and document.html
+      view.
+    */
+    $('aside.main-sidebar.animated-opacity').animate({opacity: 1.0}, 500, function(){
+        $('.main-header.animated-opacity').animate({opacity: 1.0}, 300, function(){
+            $("#pre-loader").hide();
+            $('.content-wrapper.animated-opacity').animate({opacity: 1.0}, 200);
+        });
+    });
+    // beautiful refresh feature END
   }
-
 }
