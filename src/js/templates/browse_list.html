@@ -1,9 +1,9 @@
 <% if (table.rows.length > 0 ) { %>
 
-<table class="table">
+<table class="table table-striped">
   <thead>
-    <tr>
-      <th scope="col">
+    <tr class="text-uppercase">
+      <th class="border-top-0 border-right-0 border-left-0" scope="col">
         <a 
           href="#"
           class="header sort d-flex justify-content-between align-items-center"
@@ -13,7 +13,7 @@
           <i class="fa <%= table.cols[0].sort_icon_name %>"></i>
         </a>
       </th>
-      <th scope="col">
+      <th class="border-top-0 border-right-0 border-left-0" scope="col">
         <a
           href="#"
           class="header sort d-flex justify-content-between align-items-center"
@@ -26,7 +26,7 @@
       <% for (i=0; i < table.key_cols.length; i++) { %>
         <% column = table.key_cols[i] %>
         <% if (column) { %>
-          <th scope="col">
+          <th class="border-top-0 border-right-0 border-left-0" scope="col">
             <a 
               href="#"
               class="header sort d-flex justify-content-between align-items-center"
@@ -38,7 +38,7 @@
           </th>
         <% } %>
       <% } %>
-      <th scope="col">
+      <th class="border-top-0 border-right-0 border-left-0" scope="col">
         <a
           href="#"
           class="header sort d-flex justify-content-between align-items-center"
