@@ -564,7 +564,7 @@ class BrowseListView extends View {
 
   events() {
     let event_map = {
-      "click .header.sort": "col_sort"
+      "click .header.sort": "col_sort",
     }
     return event_map;
   }
@@ -689,7 +689,11 @@ export class BrowseView extends View {
       this
     )
 
-    this.ui_select_view = new UISelectView();
+    if (this.display_mode.is_grid()) {
+      // desktop like selection is enabled only in grid view mode
+      this.ui_select_view = new UISelectView();
+    }
+    // adjusts height of document browsers
     this._let_browse_fill_in_parent();
   }
 
@@ -726,15 +730,34 @@ export class BrowseView extends View {
     event.stopPropagation();
     // checkbox was clicked, thus, node (what we target)
     // is parent of what was clicked
+
     $target = $(event.currentTarget).parent();
     cid = $target.data('cid');
+    // data may be attached differently
+    // depending on list/grid view:
+    if (!cid) {
+      cid = $target.parent().data('cid');
+      if (!cid) {
+        console.log("node data still not available");
+      }
+    }
 
     new_state = this.select_node_by_cid(cid);
     
     if (new_state) {
       $target.addClass('checked');
+      // again, depending on list mode (grid/view)
+      // DOM structure differs little bit
+      if ($target.parent().hasClass("node")) {
+        $target.parent().addClass('checked');
+      }
     } else {
       $target.removeClass('checked');
+      // again, depending on list mode (grid/view)
+      // DOM structure differs little bit
+      if ($target.parent().hasClass("node")) {
+        $target.parent().removeClass('checked');
+      }
     }
 
     mg_dispatcher.trigger(
@@ -750,6 +773,7 @@ export class BrowseView extends View {
 
     // node was clicked, thus, node is actually
     // what we target
+    console.log('Browse list: on node clicked');
     $target = $(event.currentTarget);
     cid = $target.data('cid');
 
@@ -955,6 +979,13 @@ export class BrowseView extends View {
     );
 
     if (this.display_mode.is_list()) {
+      // desktop like selection was enabled.
+      // disable it as it makes sense only in grid view
+      if ( this.ui_select_view ) {
+        this.ui_select_view.undelegateEvents();
+        this.ui_select_view = undefined;
+      }
+
       this.browse_list_view.render(
         this.browse.nodes,
         this.browse.parent_kv
@@ -962,6 +993,11 @@ export class BrowseView extends View {
     } else {
       sort_field = this.display_mode.sort_field;
       sort_order = this.display_mode.sort_order;
+
+      if (!this.ui_select_view) {
+        // desktop like selection is enabled only in grid view mode
+        this.ui_select_view = new UISelectView();
+      }
 
       this.browse.nodes.dynamic_sort_by(
         sort_field,

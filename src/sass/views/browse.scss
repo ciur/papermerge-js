@@ -61,8 +61,8 @@
     }
 
     .checked {
-         background-color: $result_list_hover_bg_color;
-         outline: 1px solid $result_list_hover_border_color;
+        background-color: $result_list_hover_bg_color;
+        outline: 1px solid $result_list_hover_border_color;
     }
 
     .fa.fa-folder, .fa.fa-file {
@@ -77,11 +77,16 @@
             border-left: 1px solid #cecece;
             border-right: 1px solid #cecece;
         }
+        tr {
+            td.checked {
+                outline: none;
+            }
+        }
     }
 
     .node:hover {
-         background-color: #8ed2fe66;
-         outline: 1px solid #6fc5ff;
+        background-color: #8ed2fe66;
+        outline: 1px solid #6fc5ff;
          //border: 1px solid $result_list_hover_border_color;
     }
 

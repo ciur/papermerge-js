@@ -54,7 +54,22 @@
     <% for (i=0; i < table.rows.length; i++) { %>
         <% row = table.rows[i] %>
     <tr class="node" data-id="<%= row[0].id %>" data-cid="<%= row[0].cid %>" data-url="<%= row[0].url %>">
-        <% for (j=0; j < row.length; j++) { %>
+        <td>
+          <!-- type + checkbox column -->
+          <input type="checkbox" name="_selected_action" value="<%= row[0].id %>" class="action-select mr-1" />
+            <a href="<%= row[1].url %>">
+            <% if (row[0].is_readonly) { %>
+              <i class="fa fa-lock text-danger"></i>
+            <% } %>
+          <%= row[0].value %>
+          </a>
+        </td>
+        <td>
+          <!-- title column -->
+          <a href="<%= row[1].url %>"><%= row[1].value %>
+        </td>
+        <!-- the rest of columns -->
+        <% for (j=2; j < row.length; j++) { %>
           <td>
             <% if (row[j].is_readonly) { %>
                 <i class="fa fa-lock text-danger"></i>
