@@ -475,7 +475,12 @@ class Table {
 
         for (let j=0; j < parent_kv.length; j++) {
           kvstore = parent_kv.at(j)
-          if (kvstore) {
+          /*
+            If we don't filter out inherited keys
+            nested folders will create duplicates of meta-columns.
+            Because inherited keys will accumulate for each nested folder.
+          */
+          if (kvstore && !kvstore.get('kv_inherited')) {
             key = kvstore.get('key');
             value = node.get_page_value_for(key);
             virtual_value = node.get_page_virtual_value_for(kvstore.get('key'));
@@ -522,8 +527,15 @@ class Table {
 
     for (i=0; i < parent_kv.length; i++) {
       kvstore = parent_kv.at(i);
-      key = kvstore.get('key');
-      result.push(new Column(key, key, undefined));
+      /*
+        If we don't filter out inherited keys
+        nested folders will create duplicates of meta-columns.
+        Because inherited keys will accumulate for each nested folder.
+      */
+      if (kvstore && !kvstore.get('kv_inherited')) {
+        key = kvstore.get('key');
+        result.push(new Column(key, key, undefined));  
+      }
     }
 
     result.push(
