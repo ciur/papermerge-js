@@ -80,6 +80,10 @@
         tr {
             td.checked {
                 outline: none;
+                background-color: #8ed2fe00;
+            }
+            td.checked:hover {
+                background-color: #8ed2fe00;
             }
         }
     }
