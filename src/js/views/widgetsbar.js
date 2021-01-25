@@ -329,8 +329,23 @@ class MetadataDocumentWidget extends MetadataWidget {
         return $("#widgetsbar-document");
     }
 
-    initialize() {
-        this.metadata = undefined;
+    initialize(node) {
+        /** node will be:
+            1) != undefined when user selects the document in doc browser.
+            In this case MetadataDocument view is (re)used in doc browser.
+            2) == undefined when MetadataDocument shows metadata in
+            document viewer
+        **/
+        if (node) {
+            // we are in doc browser
+            this.node = node;
+            this.metadata = new Metadata(node);
+        } else {
+            // we are in doc viewer
+            this.metadata = undefined;
+        }
+
+        this.listenTo(this.metadata, 'change', this.render);
 
         mg_dispatcher.on(
             PAGE_SELECTION_CHANGED,
@@ -641,7 +656,15 @@ export class WidgetsBarView extends View {
             parts = node.get('parts');
 
             this.info_widget = new SingleNodeInfoWidget(node);
-            this.metadata_widget = new MetadataWidget(node);
+            // if selected node is a document
+            // use MetadataDocument widget
+            if (node.is_document()) {
+                // ``MetadataDocumentWidget`` shows metadata keys AND values
+                this.metadata_widget = new MetadataDocumentWidget(node);
+            } else {
+                // ``MetadataWidget`` does not show metadata values
+                this.metadata_widget = new MetadataWidget(node);
+            }
 
             compiled += this.info_widget.render_to_string();
             compiled += this.metadata_widget.render_to_string();
