@@ -172,7 +172,6 @@ class MetadataWidget extends View {
     initialize(node) {
         this.node = node;
         this.metadata = new Metadata(node);
-
         this.listenTo(this.metadata, 'change', this.render);
     }
 
@@ -191,6 +190,18 @@ class MetadataWidget extends View {
         return event_map;
     }
 
+    reset_element() {
+        /**
+            Metadata Widgets are created/destroyed
+            as user selects/deselects nodes. As widget is destroyed
+            events are detached from the DOM (undelegated). When it
+            is created again - events MUST be reattached to the dom element.
+            This method uses Backbone's view.setElement(...) to reattach
+            view's events back to the DOM.
+        **/
+        this.setElement(this.widget_el());
+    }
+
     toggle_details(event) {
       /**
         Used by MetadataDocumentWidget
@@ -203,7 +214,6 @@ class MetadataWidget extends View {
 
       icon_tags.toggleClass("fa-chevron-left");
       icon_tags.toggleClass("fa-chevron-down");
-
     }
 
 
@@ -317,8 +327,10 @@ class MetadataWidget extends View {
 }
 
 class MetadataDocumentWidget extends MetadataWidget {
-
     /**
+        Metadata Widget displayed used in document viewer AND
+        in document browser when user selects a node which is a document.
+
         This must be set to widgetsbar element.
 
         For sake of events delegation this element must exist 
@@ -327,6 +339,11 @@ class MetadataDocumentWidget extends MetadataWidget {
     el() {
         // sidebar container of all widgets
         return $("#widgetsbar-document");
+    }
+
+    widget_el() {
+        // DOM element containing all metadata
+        return $(".metadata-widget");
     }
 
     initialize(node) {
@@ -385,12 +402,6 @@ class MetadataDocumentWidget extends MetadataWidget {
         let data = parent.data();
 
         this.metadata.update_simple(data['cid'], 'value', value);
-    }
-
-
-    widget_el() {
-        // DOM element containing all metadata
-        return $(".metadata-widget");
     }
 
     page_selection_changed(page_id, doc_id) {
@@ -696,6 +707,10 @@ export class WidgetsBarView extends View {
 
 
         this.$el.html(compiled);
+
+        if (this.metadata_widget) {
+            this.metadata_widget.reset_element();
+        }
     }
 }
 
