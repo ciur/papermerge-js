@@ -5,6 +5,7 @@ import Backbone from 'backbone';
 import { Downloader } from "../models/downloader";
 import { Metadata } from "../models/metadata";
 import { Document } from "../models/document";
+import { MessageView } from "../views/message";
 import { MetadataPage } from "../models/metadata_page";
 
 import {
@@ -284,7 +285,12 @@ class MetadataWidget extends View {
     }
 
     _on_save() {
-        this.metadata.save();
+        this.metadata.save({}, {'success': function(){
+            new MessageView(
+                "success",
+                gettext("Metadata successfully saved"),
+            );
+        }});
     }
 
     template(kwargs) {

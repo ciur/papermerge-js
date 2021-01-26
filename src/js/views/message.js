@@ -7,29 +7,17 @@ let TEMPLATE = require('../templates/message.html');
 
 export class MessageView extends View {
   el() {
-      // this element is defined in admin/_forms.js.html
-      return $('#message-modal');
+      return $('#messages');
   } 
 
   initialize(title, message) {
+      // title is one of following lowercase strings:
+      // success, error, warning
       this.title = title;
+      // any free form string
       this.message = message;
       this.render();
   }
-
-
-  events() {
-    let event_map = {
-      'click .btn.ok': 'close',
-    }
-
-    return event_map;
-  }
-
-  close() {
-    this.$el.modal("hide");
-  }
-
 
   render() {
     let compiled, context;
@@ -42,6 +30,5 @@ export class MessageView extends View {
     }));
 
     this.$el.html(compiled);
-    this.$el.modal("show");
   }
 }
