@@ -47,6 +47,7 @@ class SingleNodeInfoWidget extends View {
             _id,
             title,
             tags,
+            owner,
             created_at,
             updated_at,
             download_url;
@@ -56,12 +57,14 @@ class SingleNodeInfoWidget extends View {
         title = this.node.get('title');
         created_at = this.node.get('created_at');
         updated_at = this.node.get('updated_at');
+        owner = this.node.get('owner');
         tags = this.node.get('tags');
         download_url = `/node/${_id}/download/`;
 
         context['id'] = _id;
         context['title'] = title;
         context['ctype'] = ctype;
+        context['owner'] = owner;
         context['created_at'] = created_at;
         context['updated_at'] = updated_at;
         context['tags'] = tags;
