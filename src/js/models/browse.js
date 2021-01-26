@@ -88,6 +88,7 @@ export class Browse extends Model {
             parent_id = response.parent_id;
 
         that.nodes.reset();
+        that.parent_kv.reset();
 
         _.each(nodes, function(item){
             that.nodes.add(new Node(item))
