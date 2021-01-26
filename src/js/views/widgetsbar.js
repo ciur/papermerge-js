@@ -285,12 +285,20 @@ class MetadataWidget extends View {
     }
 
     _on_save() {
-        this.metadata.save({}, {'success': function(){
-            new MessageView(
-                "success",
-                gettext("Metadata successfully saved"),
-            );
-        }});
+        this.metadata.save({}, {
+            'success': function(){
+                new MessageView(
+                    "success",
+                    gettext("Metadata successfully saved"),
+                );
+            },
+            'error': function() {
+                new MessageView(
+                    "error",
+                    gettext("There was an error while saving metadata")
+                );
+            }
+        });
     }
 
     template(kwargs) {
