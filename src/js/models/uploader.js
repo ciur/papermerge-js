@@ -2,6 +2,7 @@ import _ from "underscore";
 import { Model, Collection } from 'backbone';
 import $ from "jquery";
 import {human_size} from "../utils";
+import { MessageView } from "../views/message";
 
 export class UploaderItem extends Model {
     defaults() {
@@ -104,11 +105,27 @@ export class UploaderItem extends Model {
 
       xhr = new XMLHttpRequest();
       xhr.addEventListener('progress', function(e){
-         if (e.lengthComputable) {
-             percent = Math.round((e.loaded * 100) / e.total);
-             // notify subscribers of "upload_progress" event
-            that.set_progress(percent);
-         }
+        let response = JSON.parse(e.currentTarget.response);
+        
+        if (e.currentTarget.status == 403) {
+          // this is reponse when e.g. maximum number of nodes is reached
+
+          that.set({
+            'status': UploaderItem.UPLOAD_ERROR
+          });
+
+          if (response && response.msg) {
+            that.set({
+              'msg': response.msg
+            });
+            // display error message outside uploader as well
+            new MessageView("danger", response.msg);
+          }
+        } else if (e.lengthComputable) {
+            percent = Math.round((e.loaded * 100) / e.total);
+            // notify subscribers of "upload_progress" event
+           that.set_progress(percent);
+        }
       });
 
       function transferFailed(e) {
@@ -124,6 +141,8 @@ export class UploaderItem extends Model {
           that.set({
             'msg': response.msg
           });
+          // display error message outside uploader as well
+          new MessageView("danger", response.msg);
         }
       }
 

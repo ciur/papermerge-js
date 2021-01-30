@@ -47,7 +47,7 @@ export class NewFolderView extends View {
     options['error'] = function(model, response, options) {
       let title, message, error_view;
 
-      message = response.responseJSON['message'];
+      message = response.responseJSON['msg'];
 
       // danger => style error message in red color
       error_view = new MessageView("danger", message);
