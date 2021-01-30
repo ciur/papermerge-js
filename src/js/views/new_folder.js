@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import { NewFolder } from "../models/new_folder";
+import { MessageView } from "./message";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
@@ -41,6 +42,15 @@ export class NewFolderView extends View {
 
     options['success'] = function() {
       mg_dispatcher.trigger(BROWSER_REFRESH);
+    }
+
+    options['error'] = function(model, response, options) {
+      let title, message, error_view;
+
+      message = response.responseJSON['message'];
+
+      // danger => style error message in red color
+      error_view = new MessageView("danger", message);
     }
 
     folder_title = this.$el.find("[name=title]").val();
