@@ -2,14 +2,27 @@
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title">
-          About
+          <%= gettext('About') %>
       </h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
       <div class="modal-body">
-        Version 2.0
+        <h3 class="text-center m-3">
+          Papermerge <%= version %>
+        </h3>
+        <p class="text-center mb-3">License <a href="https://github.com/ciur/papermerge/blob/master/LICENSE">Apache 2.0</a></p>
+        <p>Papermerge is a document management system designed for scanned documents, digital archives and electronic records.</p>
+        <h5 class="text-center m-3">Resources</h5>
+        <ul class="d-flex flex-column align-items-center p-0">
+          <li><a href="https://www.papermerge.com">www.papermerge.com</a></li>
+          <li><a href="https://www.papermerge.com/blog">Blog</a></li>
+          <li><a href="https://www.youtube.com/channel/UC8KjEsDexEERBw_-VyDbWDg">Youtube Channel</a></li>
+          <li><a href="https://github.com/ciur/papermerge">Source Code</a></li>
+          <li><a href="https://twitter.com/papermerge">Twitter</a></li>
+        </ul>
+        
       </div>
       <div class="modal-footer">
             <button type="submit" class="btn btn-success action margin-xs ok" >OK</button>

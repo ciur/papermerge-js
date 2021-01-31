@@ -1,5 +1,6 @@
 import $ from "jquery";
 import _ from "underscore";
+import { Version } from "../models/version";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
@@ -14,7 +15,9 @@ class AboutView extends View {
   }
 
   initialize() {
-    this.render();
+    this.version = new Version();
+    this.version.fetch();
+    this.listenTo(this.version, 'change', this.render);
   }
 
   events() {
@@ -35,7 +38,7 @@ class AboutView extends View {
     context = {};
 
     compiled = _.template(TEMPLATE({
-        'version': this.version,
+        'version': this.version.get('msg'),
     }));
 
     this.$el.html(compiled);
