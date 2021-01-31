@@ -12,6 +12,7 @@ import { PinnedTagsView } from "./views/pinned_tags_view";
 import { ChangelistCheckboxView } from "./views/changelist_checkbox_view";
 import { ContextMenuView } from "./views/context_menu";
 import { RoleMultiToggleView } from "./views/roles";
+import { UserMenuView } from "./views/user_menu";
 
 import { BrowseRouter } from "./routers/browse";
 
@@ -56,7 +57,8 @@ let App = function() {
     automate_tags_view,
     widgetsbar_view,
     context_menu_view,
-    role_multi_toggle_view;
+    role_multi_toggle_view,
+    user_menu_view;
 
   browse_view = new BrowseView();
   actions_view = new ActionsView();
@@ -69,6 +71,7 @@ let App = function() {
   widgetsbar_view = new WidgetsBarView();
   context_menu_view = new ContextMenuView();
   role_multi_toggle_view = new RoleMultiToggleView();
+  user_menu_view = new UserMenuView();
 
   if ($("#document").length == 1) {
     // we in document view. Document view and browser view
