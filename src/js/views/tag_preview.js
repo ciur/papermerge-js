@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import { Tag, Tags } from "../models/tags";
+import { sanitize } from '../utils';
 import { View } from 'backbone';
 import Backbone from 'backbone';
 
@@ -55,7 +56,7 @@ export class TagPreviewView extends View {
   _set_name_change() {
      let el = document.getElementById("id_name");
      if (el) {
-       this.name = el.value;  
+       this.name = sanitize(el.value);  
      } 
   }
 
