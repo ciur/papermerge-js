@@ -4,6 +4,17 @@ export function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+export function sanitize(str) {
+  return str.replace(/[&<>'"]/g, 
+    tag => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;'
+    }[tag]));
+}
+
 String.prototype.format = function () {
   var i = 0, args = arguments;
   return this.replace(/{}/g, function () {
