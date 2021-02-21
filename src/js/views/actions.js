@@ -54,6 +54,7 @@ export class ActionsView extends View {
         'click #access': 'click_access',
         'click #paste_pages': 'paste_pages',
         'click #rename': 'rename_node',
+        'click #run-ocr': 'run_ocr',
         'click #tags-menu-item': 'tag_node',
         // will proxy event to #id_file_name
         'click #id_btn_upload': 'upload_clicked',
@@ -230,6 +231,12 @@ export class ActionsView extends View {
     }
   }
 
+  run_ocr(event) {
+    let options = {};
+
+    this.selection.run_ocr(options);
+  }
+
   tag_node(event) {
     let models = this.selection.models,
       tags_view,
@@ -345,6 +352,16 @@ export class ActionsView extends View {
           return false;
       }
     });
+
+    result.add({
+      'id': "#run-ocr",
+      'cond': function(selection, clipboard, parent_id) {
+          if (selection.length > 0) {
+            return true;
+          }
+          return false;
+      }
+    });    
 
     result.add({
       'id': "#access",

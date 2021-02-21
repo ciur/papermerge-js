@@ -326,6 +326,47 @@ export class NodeCollection extends Collection {
         );
     }
 
+    run_ocr(options) {
+        let token,
+            post_data = {},
+            request,
+            document_ids,
+            lang;
+
+        token = $("[name=csrfmiddlewaretoken]").val();
+        
+        document_ids =  this.models.map(
+            function(model) {
+                return model.get('id');
+            }
+        );
+
+        lang = $('#lang').val()
+
+        post_data['document_ids'] = document_ids;
+        post_data['lang'] = lang;
+
+        $.ajaxSetup({
+            headers: { 'X-CSRFToken': token}
+        });
+
+        request = $.ajax({
+            method: "POST",
+            url: '/run-ocr/',
+            data: JSON.stringify(post_data),
+            contentType: "application/json",
+            dataType: 'json',
+            error: function(xhr, text, error) {
+                new MessageView(
+                    "Error",
+                    xhr.responseJSON['msg'], 
+                );
+            }
+        });
+
+        request.done(options['success']);
+    }
+
     _paste(url, options, parent_id) {
         let token, request;
 
