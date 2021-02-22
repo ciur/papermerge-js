@@ -356,15 +356,20 @@ export class NodeCollection extends Collection {
             data: JSON.stringify(post_data),
             contentType: "application/json",
             dataType: 'json',
-            error: function(xhr, text, error) {
-                new MessageView(
-                    "Error",
-                    xhr.responseJSON['msg'], 
-                );
-            }
         });
 
-        request.done(options['success']);
+        request.done(function(xhr, text, error) {
+            new MessageView(
+                "success",
+                xhr['msg'],
+            );
+        });
+        request.fail(function(xhr, text, error) {
+            new MessageView(
+                "error",
+                xhr['msg'] || gettext("Error while starting OCR process."),
+            );
+        });
     }
 
     _paste(url, options, parent_id) {
