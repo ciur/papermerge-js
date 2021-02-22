@@ -21,6 +21,7 @@ import {WidgetsBarDocumentView, InfoWidgetDocumentView} from "../views/widgetsba
 import {RenameView} from "../views/rename";
 import {Document} from "../models/document";
 import { MessageView } from '../views/message';
+import { PageOcredTextView } from "../views/page_ocred_text_view";
 import { 
   mg_dispatcher,
   DOCUMENT_IMAGE_LOADED
@@ -251,6 +252,7 @@ export class DocumentView extends View {
         paste_page_before_action,
         paste_page_after_action,
         tags_action,
+        view_ocr_action,
         apply_reorder_changes,
         that = this;
 
@@ -491,6 +493,38 @@ export class DocumentView extends View {
         }
       });
 
+      view_ocr_action = new MgChangeFormAction({
+        id: "#view-ocr",
+        enabled: function(selection, clipboard) {
+          return true;
+        },
+        action: function(selection, clipboard, current_node) {
+          let tags_view,
+            page,
+            that = this,
+            success;
+
+            if (selection.length <= 0) {
+              new MessageView(
+                "warning",
+                gettext("Select one page (from the thumbnails) to view its OCRed text")
+              );
+            } else if (selection.length > 1) {
+              new MessageView(
+                "warning",
+                gettext("Select <strong>exactly one</strong> page to view its OCRed text")
+              );
+            } else { // i.e. selection.length == 1
+              page = selection.first();
+              new PageOcredTextView(
+                page._doc_id,
+                page._page_num,
+                $("#document-versions").val()
+              );
+            }
+        }
+      });
+
       apply_reorder_changes = new MgChangeFormAction({
         id: "#apply-reorder-changes",
         enabled: function(
@@ -559,6 +593,7 @@ export class DocumentView extends View {
       actions.add(paste_page_after_action);
       actions.add(apply_reorder_changes);
       actions.add(tags_action);
+      actions.add(view_ocr_action);
 
       return actions;
     }
