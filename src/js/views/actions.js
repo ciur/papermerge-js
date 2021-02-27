@@ -271,7 +271,6 @@ export class ActionsView extends View {
   }
 
   new_folder(event) {
-    console.log(`New folder ${event.currentTarget}`);
     let new_folder_view, parent_id;
 
     parent_id = this.parent_id;

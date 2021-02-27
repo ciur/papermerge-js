@@ -51,6 +51,7 @@ export class NewFolderView extends View {
 
       // danger => style error message in red color
       error_view = new MessageView("danger", message);
+
     }
 
     folder_title = this.$el.find("[name=title]").val();
@@ -63,9 +64,9 @@ export class NewFolderView extends View {
     this.folder.set({
       'title': folder_title,
     });
-
-    this.$el.modal('hide');
     this.folder.save({}, options);
+    this.$el.modal('hide');
+    this.undelegateEvents();
   }
 
   render() {
