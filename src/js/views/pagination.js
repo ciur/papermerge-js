@@ -11,7 +11,12 @@ export class PaginationView extends View {
     template(context={}) {
         let compiled_tpl,
             ctx,
-            file_tpl = require('../templates/pagination.html');
+            file_tpl = require('../templates/pagination.html'),
+            parent_node = '';
+
+        if (context['parent_id']) {
+            parent_node = `#${context['parent_id']}`;
+        }
 
         ctx = {
             'page_number': context['page_number'] || 1,
@@ -22,7 +27,8 @@ export class PaginationView extends View {
                 'has_next': false,
                 'previous_page_number': 1,
                 'next_page_number': 1,
-            }
+            },
+            'parent_node': parent_node
         }
         compiled_tpl = _.template(file_tpl(ctx));
 

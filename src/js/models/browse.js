@@ -2,7 +2,7 @@ import _ from "underscore";
 import { Model, Collection } from 'backbone';
 import { Node, NodeCollection } from "./node";
 import { KVStore } from "./kvstore";
-import { get_url_param } from "../utils";
+import { get_url_param, get_hash_param } from "../utils";
 
 
 import {
@@ -38,7 +38,8 @@ export class Browse extends Model {
             base_url = '/browse/';    
         }
 
-        page = get_url_param('page');
+        page = get_url_param('page') || get_hash_param('page');
+
         tag = this.get('tag');
         params = $.param({'tag': tag, 'page': page})
         

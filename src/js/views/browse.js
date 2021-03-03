@@ -938,7 +938,7 @@ export class BrowseView extends View {
     
     this.browse.set({
       'parent_id': node_id,
-      'tag': tagname
+      'tag': tagname,
     });
     
     this.browse.fetch();
@@ -965,20 +965,27 @@ export class BrowseView extends View {
   }
 
   refresh() {
-    let parent_id = this.browse.get('parent_id'), tagname;
+    let parent_id = this.browse.get('parent_id'),tagname;
 
     tagname = this._get_tagname_from_location();
     this.open(parent_id, tagname);
   }
 
   render() {
-    let compiled, context, sort_order, sort_field;
+    let compiled,
+      context,
+      sort_order,
+      sort_field,
+      pagination_ctx = {};
     
     context = {};
+    pagination_ctx = this.browse.get('pagination') || {};
+    // Pagination needs to know parent id i.e. id of the node
+    // which is parent of all currently displayed.
+    // That parent node id is rendered in urls.
+    pagination_ctx['parent_id'] = this.browse.get('parent_id');
 
-    this.pagination_view.render(
-      this.browse.get('pagination')
-    );
+    this.pagination_view.render(pagination_ctx);
 
     if (this.display_mode.is_list()) {
       // desktop like selection was enabled.

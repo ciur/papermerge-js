@@ -253,3 +253,39 @@ export function get_url_param(param) {
         }
     }
 };
+
+export function get_hash_param(param) {
+  /**
+  Used to extract parameters after hash character.
+
+  For example for window.location:
+
+    http://dms.domain#30?page=3
+
+  location.hash will be #30?page=3
+  and get_hash_param('page') will return 3.
+
+  It is used for pagination of items within a folder.
+  **/
+    var location_hash = window.location.hash,
+        search_str,
+        url_variables,
+        param_name,
+        i;
+
+    if (location_hash && location_hash.split('?').length > 1) {
+
+      search_str = location_hash.split('?')[1];
+      url_variables = search_str.split('&');
+
+      for (i = 0; i < url_variables.length; i++) {
+          param_name = url_variables[i].split('=');
+
+          if (param_name[0] === param) {
+              return param_name[1] === undefined ? true : decodeURIComponent(param_name[1]);
+          }
+      }
+    }
+
+
+};
