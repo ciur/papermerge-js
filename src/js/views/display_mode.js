@@ -45,7 +45,6 @@ export class DisplayModeView extends View {
             "click .sort.date.desc": "sort_by_date_desc",
             "click .sort.type.asc": "sort_by_type_asc",
             "click .sort.type.desc": "sort_by_type_desc",
-
         }
 
         return events_map;
@@ -150,6 +149,19 @@ export class DisplayModeView extends View {
         this.display = GRID;
         this.set_local(DISPLAY_MODE, GRID);
         this.trigger('change');
+    }
+
+    get_order_by() {
+      /*
+      * Returens field name with or without dash
+      * character in front (dash character = minus character).
+      * Dash in front indicates 'descending order'.
+      */
+      if (this.sort_order == ASC) {
+        return this.sort_field;
+      }
+
+      return `-${this.sort_field}`;
     }
 
     render() {

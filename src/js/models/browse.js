@@ -30,7 +30,8 @@ export class Browse extends Model {
             base_url,
             tag,
             page,
-            params;
+            params,
+            order_by;
 
         if (parent_id) {
             base_url = `/browse/${parent_id}/`;
@@ -41,7 +42,8 @@ export class Browse extends Model {
         page = get_url_param('page') || get_hash_param('page');
 
         tag = this.get('tag');
-        params = $.param({'tag': tag, 'page': page})
+        order_by = this.get('order_by')
+        params = $.param({'tag': tag, 'page': page, 'order-by': order_by})
         
         base_url = `${base_url}?${params}`;
 

@@ -671,7 +671,7 @@ export class BrowseView extends View {
     this.dropzone = new DropzoneView(this.browse);
 
     this.listenTo(this.browse, 'change', this.render);
-    this.listenTo(this.display_mode, 'change', this.render);
+    this.listenTo(this.display_mode, 'change', this.refresh);
     this.listenTo(this.browse_list_view, 'change', this.render);
 
     mg_dispatcher.on(BROWSER_REFRESH, this.refresh, this);
@@ -968,6 +968,9 @@ export class BrowseView extends View {
     let parent_id = this.browse.get('parent_id'),tagname;
 
     tagname = this._get_tagname_from_location();
+    this.browse.set({
+      'order_by': this.display_mode.get_order_by()
+    });
     this.open(parent_id, tagname);
   }
 
