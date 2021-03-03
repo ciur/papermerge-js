@@ -2,8 +2,8 @@ import $ from "jquery";
 import _ from "underscore";
 import { Tag, Tags, AllTags } from "../models/tags";
 import { Automate } from "../models/automate";
-import { View } from 'backbone';
-import Backbone from 'backbone';
+import { sanitize } from "../utils";
+import { View, Backbone } from 'backbone';
 
 let TEMPLATE = require('../templates/tags.html');
 let AV_TEMPLATE = require('../templates/av_tags.html');
@@ -74,7 +74,7 @@ export class TagsView extends View {
     let value, model;
 
     if (event.which == ENTER_KEY || event.key == ',') {
-      value = $(event.target).val();
+      value = sanitize($(event.target).val());
 
       if (!_.isEmpty(value)) { // whitespace is not a tag!
         value = value.replace(',','');
