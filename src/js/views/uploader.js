@@ -21,9 +21,9 @@ export class UploaderView extends View {
   initialize(files, lang, parent_id) {
       this.uploader = new Uploader();
 
-      for(let sanitize(file) of files) {
+      for(let file of files) {
           this.uploader.add(
-            new UploaderItem(file, lang, parent_id)
+            new UploaderItem(sanitize(file), lang, parent_id)
           );
       }
 
