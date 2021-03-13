@@ -15,7 +15,7 @@ import { RoleMultiToggleView } from "./views/roles";
 import { UserMenuView } from "./views/user_menu";
 
 import { BrowseRouter } from "./routers/browse";
-import { WFeedback } from "wfeedback";
+import { WFeedback } from "./wfeedback";
 
 import Backbone from 'backbone';
 
