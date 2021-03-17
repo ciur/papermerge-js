@@ -5,6 +5,7 @@ import { MgRect } from "../utils";
 import { DisplayModeView } from "./display_mode";
 import { DropzoneView } from "./dropzone";
 import { PaginationView } from "./pagination";
+import { LEDDocumentStatus } from "led_status/src/js/led_status";
 import { View } from 'backbone';
 import Backbone from 'backbone';
 import 'webpack-jquery-ui/selectable';
@@ -664,6 +665,7 @@ export class BrowseView extends View {
     // UI used to switch between list and grid display modes
     this.display_mode = new DisplayModeView();
     this.pagination_view = new PaginationView();
+    this.led_status = new LEDDocumentStatus();
 
     // there are to view modes - list and grid
     this.browse_list_view = new BrowseListView();

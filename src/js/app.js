@@ -15,7 +15,6 @@ import { RoleMultiToggleView } from "./views/roles";
 import { UserMenuView } from "./views/user_menu";
 
 import { BrowseRouter } from "./routers/browse";
-import { WFeedback } from "./wfeedback";
 
 import Backbone from 'backbone';
 
@@ -74,7 +73,6 @@ let App = function() {
   context_menu_view = new ContextMenuView();
   role_multi_toggle_view = new RoleMultiToggleView();
   user_menu_view = new UserMenuView();
-  wfeedback = new WFeedback();
 
   if ($("#document").length == 1) {
     // we in document view. Document view and browser view
