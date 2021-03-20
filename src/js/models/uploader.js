@@ -3,6 +3,7 @@ import { Model, Collection } from 'backbone';
 import $ from "jquery";
 import {human_size} from "../utils";
 import { MessageView } from "../views/message";
+import { sanitize } from "../utils";
 
 export class UploaderItem extends Model {
     defaults() {
@@ -25,7 +26,7 @@ export class UploaderItem extends Model {
       }
 
       this.set({
-          'title': file.name,
+          'title': sanitize(file.name),
           'size': file.size,
           'file': file,
           'lang': lang,
