@@ -3,6 +3,7 @@ import _ from "underscore";
 import { Uploader, UploaderItem } from "../models/uploader";
 import { View } from 'backbone';
 import Backbone from 'backbone';
+import { sanitize } from '../utils';
 
 import {
   mg_dispatcher,
@@ -22,7 +23,7 @@ export class UploaderView extends View {
 
       for(let file of files) {
           this.uploader.add(
-            new UploaderItem(file, lang, parent_id)
+            new UploaderItem(sanitize(file), lang, parent_id)
           );
       }
 
