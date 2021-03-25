@@ -6,6 +6,10 @@
 }
 
 #search_results {
+
+    overflow: scroll;
+    height: 85vh;
+
     h4 {
         font-weight: 400;
         a {
