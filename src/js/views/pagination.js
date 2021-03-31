@@ -11,11 +11,18 @@ export class PaginationView extends View {
     template(context={}) {
         let compiled_tpl,
             ctx,
-            file_tpl = require('../templates/pagination.html'),
-            parent_node = '';
+            prefix = '',
+            file_tpl = require('../templates/pagination.html');
 
         if (context['parent_id']) {
-            parent_node = `#${context['parent_id']}`;
+            prefix = `#${context['parent_id']}`;
+        } else {
+            // Preserve correct pagination during pinned
+            // tags.
+            // In case there is no hash window.location.hash will be
+            // an empty string '' in which case ''.split('?')[0]
+            // is OK as well.
+            prefix = window.location.hash.split('?')[0];
         }
 
         ctx = {
@@ -28,7 +35,7 @@ export class PaginationView extends View {
                 'previous_page_number': 1,
                 'next_page_number': 1,
             },
-            'parent_node': parent_node
+            'prefix': prefix
         }
         compiled_tpl = _.template(file_tpl(ctx));
 

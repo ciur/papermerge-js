@@ -4,17 +4,17 @@
       <ul class="pagination pagination-sm justify-content-end">
         <% if (page.has_previous) { %>
           <li class="page-item">
-            <a class="page-link" href="<%= parent_node %>?page=<%= page.previous_page_number %>" aria-label="Previous">
+            <a class="page-link" href="<%= prefix %>?page=<%= page.previous_page_number %>" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
         <% } %>
         <% for(let i=0; i < pages.length; i++) { %>
-          <li class="page-item <% if (pages[i] == page_number) { %> active <% } %>"><a class="page-link" href="<%= parent_node %>?page=<%= pages[i] %>"><%= pages[i] %></a></li>
+          <li class="page-item <% if (pages[i] == page_number) { %> active <% } %>"><a class="page-link" href="<%= prefix %>?page=<%= pages[i] %>"><%= pages[i] %></a></li>
         <% } %>
         <% if (page.has_next) { %>
           <li class="page-item">
-            <a class="page-link" href="<%= parent_node %>?page=<%= page.next_page_number %>" aria-label="Next">
+            <a class="page-link" href="<%= prefix %>?page=<%= page.next_page_number %>" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
