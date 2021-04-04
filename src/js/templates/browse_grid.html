@@ -32,6 +32,11 @@
                 <input type="checkbox" name="_selected_action" value="<%= node.get('id') %>" class="action-select" />
                 <div class="title tooltip">
                     <div class="led">
+                        <% if ( node.get('ocr_status') == 'succeeded' ) { %>
+                            <%= led_succeeded_svg %>
+                        <% } else { %>
+                            <%= led_unknown_svg %>
+                        <% } %>
                     </div>
                     <a href="<%= node.url %>" class="<%= node.get('ctype') %>" data-id="<%= node.get('id') %>" alt="<%=  node.full_title() %>"><%= node.short_title(20) %></a>
                     <span class="tooltiptext"><%= node.full_title()  %></span>

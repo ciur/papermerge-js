@@ -22,6 +22,8 @@ import {
     INVERT_SELECTION,
 } from "../models/dispatcher";
 import { mg_browse_router } from "../routers/browse";
+import led_unknown_svg from 'led_status/src/assets/led-unknown.svg';
+import led_success_svg from 'led_status/src/assets/led-success.svg';
 
 
 let TEMPLATE_GRID = require('../templates/browse_grid.html');
@@ -647,6 +649,8 @@ class BrowseGridView extends View {
 
     compiled = _.template(TEMPLATE_GRID({
         'nodes': nodes,
+        'led_succeeded_svg': led_success_svg,
+        'led_unknown_svg': led_unknown_svg 
     }));
 
     this.$el.html(compiled);  
