@@ -6,6 +6,10 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let mod = {
     rules: [
         {
+            test: /\.svg/,
+            type: 'asset/source',
+        },
+        {
           test: /\.(sa|sc|c)ss$/,
           use:  [
             MiniCssExtractPlugin.loader,

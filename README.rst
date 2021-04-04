@@ -35,3 +35,26 @@ Build static files for development mode (i.e debug version)::
 Build static files for production (i.e. minified version)::
 
     npm run prod
+
+
+Configuration
+==============
+
+Note that module['rules'] must contain following rule for .svg files:
+
+
+    module.exports = {
+      mode: '...',
+      entry: '...',
+      output: {
+        ...
+      },
+      module: {
+        rules: [
+            {
+                test: /\.svg/,
+                type: 'asset/source',
+            }
+        ]
+      }
+    };
