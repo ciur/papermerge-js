@@ -3,6 +3,7 @@ import { Model, Collection } from 'backbone';
 import { Node, NodeCollection } from "./node";
 import { KVStore } from "./kvstore";
 import { get_url_param, get_hash_param } from "../utils";
+import { LEDDocumentStatus } from "led_status/src/js/led_status";
 
 
 import {
@@ -87,6 +88,8 @@ export class Browse extends Model {
 
         let nodes = response.nodes,
             that=this,
+            node,
+            led_status,
             parent_kv = response.parent_kv,
             parent_id = response.parent_id;
 
@@ -94,7 +97,8 @@ export class Browse extends Model {
         that.parent_kv.reset();
 
         _.each(nodes, function(item){
-            that.nodes.add(new Node(item))
+            node = new Node(item);
+            that.nodes.add(node);
         });
 
         _.each(parent_kv, function(item){

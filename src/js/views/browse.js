@@ -5,7 +5,6 @@ import { MgRect } from "../utils";
 import { DisplayModeView } from "./display_mode";
 import { DropzoneView } from "./dropzone";
 import { PaginationView } from "./pagination";
-import { LEDDocumentStatus } from "led_status/src/js/led_status";
 import { LEDPageStatus } from "led_status/src/js/led_status";
 import { View } from 'backbone';
 import Backbone from 'backbone';
@@ -21,10 +20,11 @@ import {
     DESELECT,
     INVERT_SELECTION,
 } from "../models/dispatcher";
+
 import { mg_browse_router } from "../routers/browse";
 import led_unknown_svg from 'led_status/src/assets/led-unknown.svg';
 import led_success_svg from 'led_status/src/assets/led-success.svg';
-
+import { LEDDocumentStatus } from 'led_status/src/js/led_status';
 
 let TEMPLATE_GRID = require('../templates/browse_grid.html');
 let TEMPLATE_LIST = require('../templates/browse_list.html');
@@ -643,7 +643,7 @@ class BrowseGridView extends View {
   }
 
   render(nodes, sort_field, sort_order) {
-    let compiled, context;
+    let compiled, context, node, led_status;
     
     context = {};
 
@@ -653,7 +653,15 @@ class BrowseGridView extends View {
         'led_unknown_svg': led_unknown_svg 
     }));
 
-    this.$el.html(compiled);  
+    this.$el.html(compiled);
+
+    for(let i=0; i < nodes.models.length; i++) {
+      node = nodes.models[i];
+      if (node && node.is_document() && node.get('ocr_status') == 'unknown') {
+        led_status = new LEDDocumentStatus();
+        led_status.pull(node['id']);
+      }
+    }
   }
 }
 
