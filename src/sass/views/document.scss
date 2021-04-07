@@ -61,6 +61,12 @@ aside {
 
             .page_thumbnails {
                 height: inherit;
+                .page_number {
+                    display: flex;
+                    .number {
+                        margin: 0 0.5rem;
+                    }
+                }
             }
         }
     }
