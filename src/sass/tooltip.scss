@@ -1,8 +1,14 @@
 /* Tooltip container */
 .tooltip {
   position: relative;
-  display: inline-block;
-
+  display: flex;
+  margin: 0.5rem;
+  flex-direction: row;
+  align-items: center;
+  .led {
+    padding: 0 0.25rem 0 0;
+    font-size: 1.6rem;
+  }
 /* Tooltip text */
   .tooltiptext {
     visibility: hidden;
@@ -15,8 +21,9 @@
 
     /* Position the tooltip text - see examples below! */
     position: absolute;
-    top: 1rem;
-    z-index: 1;
+    top: 3rem;
+    left: 2rem;
+    z-index: 4000;
     opacity: 0;
     transition: opacity 1s;
   }
@@ -26,5 +33,5 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
-  z-index: 2100;
+  z-index: 4000;
 }
