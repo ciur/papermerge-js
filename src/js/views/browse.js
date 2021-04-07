@@ -642,6 +642,11 @@ class BrowseGridView extends View {
       return $('#browse');
   }
 
+  constructor(led_doc_status) {
+    super();
+    this.led_doc_status = led_doc_status;
+  }
+
   render(nodes, sort_field, sort_order) {
     let compiled, context, node, led_status;
     
@@ -657,9 +662,8 @@ class BrowseGridView extends View {
 
     for(let i=0; i < nodes.models.length; i++) {
       node = nodes.models[i];
-      if (node && node.is_document() && node.get('ocr_status') == 'unknown') {
-        led_status = new LEDDocumentStatus();
-        led_status.pull(node['id']);
+      if (node && node.is_document()) {
+        this.led_doc_status.pull(node['id']);
       }
     }
   }
@@ -684,8 +688,8 @@ export class BrowseView extends View {
     this.led_page_status = new LEDPageStatus();
 
     // there are to view modes - list and grid
-    this.browse_list_view = new BrowseListView();
-    this.browse_grid_view = new BrowseGridView();
+    this.browse_list_view = new BrowseListView(this.led_doc_status);
+    this.browse_grid_view = new BrowseGridView(this.led_doc_status);
     this.dropzone = new DropzoneView(this.browse);
 
     this.listenTo(this.browse, 'change', this.render);
