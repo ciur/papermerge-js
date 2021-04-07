@@ -6,8 +6,10 @@
   flex-direction: row;
   align-items: center;
   .led {
-    padding: 0 0.25rem 0 0;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
+  }
+  a.document {
+    margin-left: 0.5rem;
   }
 /* Tooltip text */
   .tooltiptext {
