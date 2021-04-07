@@ -24,6 +24,7 @@ import { mg_browse_router } from "../routers/browse";
 import led_unknown_svg from 'led_status/src/assets/led-unknown.svg';
 import led_success_svg from 'led_status/src/assets/led-success.svg';
 import { LEDDocumentStatus } from 'led_status/src/js/led_status';
+import { LEDPageStatus } from 'led_status/src/js/led_status';
 
 let TEMPLATE_GRID = require('../templates/browse_grid.html');
 let TEMPLATE_LIST = require('../templates/browse_list.html');
@@ -678,6 +679,9 @@ export class BrowseView extends View {
     this.display_mode = new DisplayModeView();
     this.pagination_view = new PaginationView();
     this.led_doc_status = new LEDDocumentStatus();
+    // this creates ws connection which is necessary
+    // for joining the channel
+    this.led_page_status = new LEDPageStatus();
 
     // there are to view modes - list and grid
     this.browse_list_view = new BrowseListView();
