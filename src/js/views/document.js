@@ -22,6 +22,9 @@ import {RenameView} from "../views/rename";
 import {Document} from "../models/document";
 import { MessageView } from '../views/message';
 import { PageOcredTextView } from "../views/page_ocred_text_view";
+
+import { LEDPageStatus } from "led_status/src/js/led_status";
+
 import { 
   mg_dispatcher,
   DOCUMENT_IMAGE_LOADED
@@ -123,6 +126,7 @@ export class DocumentView extends View {
       this._actions = this.build_actions();
       this._breadcrumb_view = new BreadcrumbView(document_id);
       this._loaded_page_imgs = 0;
+      this.led_page_status = new LEDPageStatus();
 
       if (dom_actual_pages) {
           new DgPageScroll(dom_actual_pages);
