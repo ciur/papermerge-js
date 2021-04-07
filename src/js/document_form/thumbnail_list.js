@@ -1,6 +1,7 @@
 import $ from "jquery";
-import {MgThumbnail} from "./thumbnail";
-import {MgLister} from "./lister";
+import { MgThumbnail } from "./thumbnail";
+import { MgLister } from "./lister";
+import { LEDPageStatus } from "led_status/src/js/led_status";
 
 import {
     mg_dispatcher,
@@ -15,6 +16,14 @@ export class MgThumbnailList extends MgLister {
         this._container_selector = ".page_thumbnails";
         this._selector = ".page_thumbnails .page_thumbnail";
         this._list = [];
+        this.led_page_status = new LEDPageStatus(
+          {},
+          {
+            'node_selector': '.page_number',
+            'led_selector': '.led',
+            'use_sockets': true
+          }
+        );
         this._config_events();
     }
 
@@ -176,7 +185,7 @@ export class MgThumbnailList extends MgLister {
         let dom_arr = Array.from(
             document.querySelectorAll(this._selector)
         );
-        let that = this, thumb;
+        let that = this, thumb, page_ocr_unknown_statuses = [];
         
         dom_arr.forEach(function(dom_page_item, index, arr){
             let dom_data, dom_data_ref;
@@ -189,6 +198,12 @@ export class MgThumbnailList extends MgLister {
             if (!dom_data) {
                 console.log("thumb dom data not found");
                 return;
+            }
+
+            if (dom_data['ocr_status'] == 'unknown') {
+                page_ocr_unknown_statuses.push(
+                    dom_data['page_id']
+                );
             }
 
             thumb = new MgThumbnail(
@@ -210,6 +225,8 @@ export class MgThumbnailList extends MgLister {
             );
             that._list.push(thumb); 
         });
+
+        this.led_page_status.pull(page_ocr_unknown_statuses);
     }
 
     _config_events() {
