@@ -50,7 +50,8 @@ class SingleNodeInfoWidget extends View {
             owner,
             created_at,
             updated_at,
-            download_url;
+            download_v0_url,
+            download_v1_url;
 
         ctype = this.node.get('ctype');
         _id = this.node.get('id');
@@ -59,7 +60,8 @@ class SingleNodeInfoWidget extends View {
         updated_at = this.node.get('updated_at');
         owner = this.node.get('owner');
         tags = this.node.get('tags');
-        download_url = `/node/${_id}/download/`;
+        download_v0_url = `/node/v0/${_id}/download/`;
+        download_v1_url = `/node/v1/${_id}/download/`;
 
         context['id'] = _id;
         context['title'] = title;
@@ -68,7 +70,8 @@ class SingleNodeInfoWidget extends View {
         context['created_at'] = created_at;
         context['updated_at'] = updated_at;
         context['tags'] = tags;
-        context['download_url'] = download_url;
+        context['download_v0_url'] = download_v0_url;
+        content['download_v1_url'] = download_v1_url
 
         return this.template(context);
     }

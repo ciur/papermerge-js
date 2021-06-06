@@ -35,9 +35,22 @@
                 </li>
             <% } %>
             <li class="collection-item d-flex flex-row-reverse bordered">
-                <a href="<%= download_url %>" class="btn btn-primary text-white btn-flat">
-                    <i class="fa fa-download"></i>
-                    <%= gettext('Download') %></a>
+                <div class="dropdown">
+                    <button class="btn btn-flat btn-primary text-white download dropdown-toggle" type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-expanded="false">
+                       <i class="fa fa-download mx-1"></i><%= gettext("Download") %>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<%= download_v0_url %>" class="dropdown-item">
+                                <%= gettext('v0 - Original') %></a>
+                        </li>
+                        <li>
+                            <a href="<%= download_v1_url %>" class="dropdown-item">
+                                <%= gettext('v1 - Searchable PDF') %></a>
+                        </li>
+
+                    </ul>
+                </div>
             </li>
         </ul>
       </div> 

@@ -22,7 +22,6 @@ export class BreadcrumbView extends View {
     this.breadcrumb = new Breadcrumb(parent_id);
     this.breadcrumb.fetch();
     this.listenTo(this.breadcrumb, 'change', this.render);
-
   }
 
   events() {
